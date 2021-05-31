@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Idol {
 
+	//git test
 	private int idolNo;
 	private int fanNo;
 	private String idolName;
