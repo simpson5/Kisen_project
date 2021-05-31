@@ -19,6 +19,6 @@ public class Payment {
 	private int point;
 	private String waybill;
 	
-	
+	// new git repository  test
 	
 }

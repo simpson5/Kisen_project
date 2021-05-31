@@ -11,13 +11,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
-	private int pdNo; // �긽�뭹踰덊샇
-	private int idolNo; // �븘�씠�룎 踰덊샇
- 	private String pdCategory; // �긽�뭹遺꾨쪟
-	private String pdName; // �긽�뭹�씠由�
-	private String pdImg; // �긽�뭹�씠誘몄�
-	private String pdContent; // �긽�뭹 �꽕紐�
-	private int price; // �긽�뭹 媛�寃�
-	private int pdStock; // �옱怨좊웾
-	private int pdSale;  // �뙋留ㅻ웾 // 이게 머시여 왜 글씨 다 깨져서 나올까용
+	private int pdNo; // 상품번호
+	private int idolNo; // 아이돌 번호
+ 	private String pdCategory; // 상품분류
+	private String pdName; // 상품이름
+	private String pdImg; // 상품이미지
+	private String pdContent; // 상품 설명
+	private int price; // 상품 가격
+	private int pdStock; // 재고량
+	private int pdSale;  // 판매량
+	
+	//git test
 }
