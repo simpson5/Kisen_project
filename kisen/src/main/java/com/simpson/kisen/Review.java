@@ -21,6 +21,7 @@ public class Review {
 	private int Reco_Cnt; //추천 수	
 	
 	
+	
 	//전유진
 	
 	
