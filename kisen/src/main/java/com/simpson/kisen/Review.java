@@ -22,4 +22,5 @@ public class Review {
 	
 	//전유진
 	
+	
 }
