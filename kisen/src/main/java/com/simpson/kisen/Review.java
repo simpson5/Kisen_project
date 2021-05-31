@@ -20,4 +20,10 @@ public class Review {
 	private int Read_Cnt; //읽은 수
 	private int Reco_Cnt; //추천 수	
 	
+	
+	
+	
+	//전유진
+	
+	
 }
