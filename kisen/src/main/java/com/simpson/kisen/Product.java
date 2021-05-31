@@ -2,11 +2,14 @@ package com.simpson.kisen;
 
 import org.springframework.stereotype.Repository;
 
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Repository
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 	private int pdNo; // 상품번호
 	private int idolNo; // 아이돌 번호
