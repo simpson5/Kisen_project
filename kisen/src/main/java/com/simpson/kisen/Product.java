@@ -17,4 +17,6 @@ public class Product {
 	private int price; // 상품 가격
 	private int pdStock; // 재고량
 	private int pdSale;  // 판매량
+	
+	//git test
 }
