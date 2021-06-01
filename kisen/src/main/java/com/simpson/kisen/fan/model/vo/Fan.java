@@ -1,4 +1,4 @@
-package com.simpson.kisen.Fan.model.vo;
+package com.simpson.kisen.fan.model.vo;
 
 import java.sql.Date;
 import java.sql.Timestamp;

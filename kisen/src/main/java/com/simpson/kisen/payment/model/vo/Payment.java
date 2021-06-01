@@ -1,4 +1,4 @@
-package com.simpson.kisen;
+package com.simpson.kisen.payment.model.vo;
 
 
 import java.util.Date;

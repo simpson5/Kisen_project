@@ -1,4 +1,4 @@
-package com.simpson.kisen;
+package com.simpson.kisen.idol.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
