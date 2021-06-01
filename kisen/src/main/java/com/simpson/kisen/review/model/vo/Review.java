@@ -1,4 +1,4 @@
-package com.simpson.kisen;
+package com.simpson.kisen.review.model.vo;
 
 import java.sql.Timestamp;
 
