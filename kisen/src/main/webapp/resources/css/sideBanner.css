@@ -1,0 +1,17 @@
+.sideBanner {
+    position: absolute;
+    z-index: 3;
+    width: 55px;
+    height: 170px;
+    top: 50px;
+    background-color: #C8A9C8;
+    color: #ffffff;
+    margin: 1.5rem;
+}
+.floating-img{
+    width: 55px;
+    padding: 0.7rem;
+}
+.floating-img:hover{
+    cursor: pointer;
+}

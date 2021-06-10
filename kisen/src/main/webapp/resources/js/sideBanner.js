@@ -1,0 +1,26 @@
+
+// 기본 위치(top)값
+var floatPosition = parseInt($(".sideBanner").css('bottom'))
+// scroll 인식
+$(window).scroll(function() {
+
+    // 현재 스크롤 위치
+    var currentTop = $(window).scrollTop();
+    var bannerTop = currentTop + floatPosition + "px";
+
+    //사이드바 고정
+    // $(".sideBanner").css('top', bannerTop);
+    
+    //이동 애니메이션
+    $(".sideBanner").stop().animate({
+        "top" : bannerTop
+    }, 50);
+}).scroll();
+
+$("#heart").click(e =>{
+    if(confirm("My 아티스트에 추가하시겠습니까?")){
+        let img = document.querySelector("#heart");
+        console.log(e.target.src);
+        img.setAttribute('src','data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDUxMS42MjYgNTExLjYyNyIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEyIDUxMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgY2xhc3M9IiI+PGc+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+Cgk8cGF0aCBkPSJNNDc1LjM2Niw3MS45NTFjLTI0LjE3NS0yMy42MDYtNTcuNTc1LTM1LjQwNC0xMDAuMjE1LTM1LjQwNGMtMTEuOCwwLTIzLjg0MywyLjA0Ni0zNi4xMTcsNi4xMzYgICBjLTEyLjI3OSw0LjA5My0yMy43MDIsOS42MTUtMzQuMjU2LDE2LjU2MmMtMTAuNTY4LDYuOTQ1LTE5LjY1LDEzLjQ2Ny0yNy4yNjksMTkuNTU2Yy03LjYxLDYuMDkxLTE0Ljg0NSwxMi41NjQtMjEuNjk2LDE5LjQxNCAgIGMtNi44NTQtNi44NS0xNC4wODctMTMuMzIzLTIxLjY5OC0xOS40MTRjLTcuNjE2LTYuMDg5LTE2LjcwMi0xMi42MDctMjcuMjY4LTE5LjU1NmMtMTAuNTY0LTYuOTUtMjEuOTg1LTEyLjQ2OC0zNC4yNjEtMTYuNTYyICAgYy0xMi4yNzUtNC4wODktMjQuMzE2LTYuMTM2LTM2LjExNi02LjEzNmMtNDIuNjM3LDAtNzYuMDM5LDExLjgwMS0xMDAuMjExLDM1LjQwNEMxMi4wODcsOTUuNTUyLDAsMTI4LjI4OCwwLDE3MC4xNjIgICBjMCwxMi43NTMsMi4yNCwyNS44ODksNi43MTEsMzkuMzk4YzQuNDcxLDEzLjUxNCw5LjU2NiwyNS4wMzEsMTUuMjc1LDM0LjU0NmM1LjcwOCw5LjUxNCwxMi4xODEsMTguNzk2LDE5LjQxNCwyNy44MzcgICBjNy4yMzMsOS4wNDIsMTIuNTE5LDE1LjI3LDE1Ljg0NiwxOC42OTljMy4zMywzLjQyMiw1Ljk0OCw1Ljg5OSw3Ljg1MSw3LjQxOUwyNDMuMjUsNDY5LjkzN2MzLjQyNywzLjQyOSw3LjYxNCw1LjE0NCwxMi41NjIsNS4xNDQgICBzOS4xMzgtMS43MTUsMTIuNTYzLTUuMTM3bDE3Ny44Ny0xNzEuMzA3YzQzLjU4OC00My41ODMsNjUuMzgtODYuNDEsNjUuMzgtMTI4LjQ3NUM1MTEuNjI2LDEyOC4yODgsNDk5LjUzNyw5NS41NTIsNDc1LjM2Niw3MS45NTEgICB6IiBmaWxsPSIjZmYwMDAwIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIiBjbGFzcz0iIj48L3BhdGg+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPC9nPgo8ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8L2c+CjxnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjwvZz4KPC9nPjwvc3ZnPg==');
+    }
+})
