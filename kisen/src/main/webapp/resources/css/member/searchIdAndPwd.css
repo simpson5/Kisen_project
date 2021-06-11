@@ -1,0 +1,132 @@
+.nav-tabs {
+    margin : 10px auto 0;
+    width: 450px;
+}
+/* >> frm-container start */
+.frm-container {
+    width: 550px;
+    margin: auto;
+    margin-top: 50px;
+    border: 1px solid rgb(231, 212, 231);
+    padding: 10px;
+    border-radius: 10px;
+}
+/* << frm-container end */
+
+.search-radio-container {
+    text-align: center;
+    padding-top: 40px;
+}
+
+.radio-container {
+    display: inline;
+    margin: 10px;
+}
+
+.search-area-container {
+    margin: 10px;
+}
+
+.search-area {
+    margin: 10px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1.9px solid rgb(180, 144, 180);
+    width: 400px;
+    height: 40px;
+}
+
+input:hover {
+    border-bottom: 1.9px solid rgb(128, 25, 128);
+}
+
+input:focus {
+    outline: none;
+    border-bottom: 1.9px solid rgb(128, 25, 128);
+}
+
+select:focus {
+    outline: none;
+    border-bottom: 1.9px solid rgb(128, 25, 128);
+}
+
+.search-btn {
+    background-color: rgb(146, 105, 146);
+    width: 80%;
+    height: 45px;
+    margin: 15px auto 40px;
+    color: snow;
+}
+
+.search-btn:hover {
+    background-color: rgb(180, 126, 180);
+}
+
+.inactive {
+    color: rgb(172, 128, 172);
+}
+
+.inactive:hover {
+    color: rgb(112, 64, 112);
+}
+
+.search-area-container {
+    text-align: center;
+}
+
+.email-authentication {
+    width: 59.3%;
+    transform: translateX(-8px);
+}
+
+.add-btn {
+    background-color: rgb(146, 105, 146);
+    width: 17%;
+    height: 40px;
+    color: snow;
+    border: none;
+    font-size: smaller;
+    transform: translateX(-7px);
+}
+.add-btn:hover {
+    background-color: rgb(202, 171, 202);
+    color: rgb(117, 59, 93);
+    font-weight: bolder;
+}
+
+.searchPhone {
+    width: 22.4%;
+    transform: translateX(-1px);
+    text-align: center;
+  }
+[name="email"]{
+    width: 54.4% !important;
+}
+[name="selectEmail"] {
+    width: 23%;
+    height: 37.3px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1.9px solid rgb(180, 144, 180);
+    font-size: smaller;
+    transform: translateX(-11px);
+}
+
+label {
+	width: 23%;
+}
+
+[name="selectEmail"]:focus{
+    border-bottom: 1.9px solid rgb(128, 25, 128);
+}
+
+.fill-in-type {
+    font-weight: 600;
+    color: rgb(83, 83, 83);
+    width: 79%;
+    text-align: left;
+    margin: 5px auto 0;
+    transform: translateY(12px);
+}
