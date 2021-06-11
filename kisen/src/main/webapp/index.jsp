@@ -7,6 +7,8 @@
 	<jsp:param value="Main" name="title"/>
 </jsp:include>
 
+<a href="${pageContext.request.contextPath}/admin/adminMain.do">관리자</a>
+<a href="${pageContext.request.contextPath}/agency/agencyMain.do">기획사</a>
 <div class="container">
   <!-- 슬라이드 이미지 -->
   <div id="carouselExampleControls" class="carousel slide slide-img" data-ride="carousel">
