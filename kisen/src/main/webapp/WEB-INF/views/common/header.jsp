@@ -38,11 +38,11 @@
                     </li>
                     <span class="divide">|</span>
                     <li >
-                        <a href="${pageContext.request.contextPath}/mypage">MYPAGE</a>
+                        <a href="${pageContext.request.contextPath}/mypage/mypage_pay.do">MYPAGE</a>
                     </li>
                     <span class="divide">|</span>
                     <li>
-                        <a href="${pageContext.request.contextPath}/basket">장바구니</a>
+                        <a href="${pageContext.request.contextPath}/basket/cart.do">장바구니</a>
                     </li>
                 </ul>
             </div>
