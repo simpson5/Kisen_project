@@ -11,7 +11,6 @@
 div#demo-container{
 	width:600px;
 }
-
 a#payNav{
 	color :#a52bb3;
 	 text-align: center;
@@ -26,7 +25,6 @@ a#payNav:hover{
     border-color: #dee2e6 #dee2e6 #fff;
     text-align: center;
 }
-
 .btn-outline-warning {
     color:  #9033b5;
     background-color: transparent;
@@ -34,8 +32,6 @@ a#payNav:hover{
     border-color: #9033b5;
  
 }
-
-
 .btn-outline-warning:hover{
     color:  white;
     background-color: #c7a2e0;
@@ -46,7 +42,6 @@ div#mypageContainer{
 	background-color: #c7a2e0;
 	width:800px;
 	height: 300px;
-
 }
 .border-secondary {
     border-color:  #9033b5!important;
@@ -59,14 +54,11 @@ div#mypage1{
 	height: 150px;
 	 text-align: center;	
 }
-
 div#payContainer{
 	width:800px;
 	border: 2px solid #bc73d6!important;
 	
 }
-
-
 #paymentHistory{
 	width:1000px;
 }
@@ -80,7 +72,6 @@ div#payContainer{
     border-color:  #9033b5;
  
 }
-
 .btn-outline-warning:hover{
     color:  white;
     background-color: #c7a2e0;
@@ -92,7 +83,6 @@ div#payContainer{
 	text-align: center;	
 	font-size: 12px;
 	
-
 }
 .border-dark{
  	border-color: #d8d8d8!important;
@@ -102,14 +92,12 @@ div#payContainer{
     background-color: #c8aad2;
     border-color: #c8aad2;
 }
-
 .btn-danger.focus, .btn-danger:focus {
     box-shadow: 0 0 0 0.2rem rgb(100 0 165 / 50%);
 }
 .btn-danger:not(:disabled):not(.disabled).active:focus, .btn-danger:not(:disabled):not(.disabled):active:focus, .show>.btn-danger.dropdown-toggle:focus {
     box-shadow: 0 0 0 0.2rem rgb(100 0 165 / 50%);
 }
-
 img#productImg{
 	width: 100px;
 	height: 80px;
@@ -146,25 +134,25 @@ div#heart img:hover{
 	    <h5 class="mt-0">{$id}님, 안녕하세요! </h5><span class="badge badge-warning mx-1">Lv.1</span>
 	</div>
 	</div>
-	
+
 	 <div class="row align-items-end p-5" id="coupon">
     <div class="col-4">
      보유쿠폰
     </div>
     <div class="col-4">
-     
+
     </div>
     <div class="col-4">
       마일리지
     </div>
- 
+
   </div>
   </div>
 
 
 	<br /><br />
-	
-	
+
+
 	  <!-- 내부 네브바  -->
 		    <ul class="nav nav-tabs justify-content-center">
 		  <li class="nav-item col-md-2 p-0">
@@ -180,9 +168,9 @@ div#heart img:hover{
 		    <a class="nav-link disabled" href="#">Disabled</a>
 		  </li> -->
 		</ul>
-	
+
 	<br /><br /><br />
-	
+
 <!--내가 찜한 아티스트 -->
 <div class="border border-0 mx-auto p-3 ">
 	<div class="row">
@@ -190,7 +178,7 @@ div#heart img:hover{
 	  <div class="col-4 mb-3 text-center"><h5 class="mx-auto"> My Artist </h5></div>
 	  <div class="col-4"></div>
 	</div>
-	
+
 <!-- 아티스트 사진 부분 -->
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
@@ -339,13 +327,13 @@ div#heart img:hover{
     <span class="sr-only">Next</span>
   </a>
 </div>
-	
-	
+
+
 </div>
  <br />
  <hr />
 <!-- 다른 아티스트 -->
- 
+
 <div class="border border-0 mx-auto p-3 ">
 	<div class="row">
 	  <div class="col-4"></div>
@@ -363,8 +351,8 @@ div#heart img:hover{
 	   </div>
 	  <div class="col-4"></div>
 	</div>
-	
-<!-- 아티스트 사진 부분 -->
+
+<!-- 아티스트 사진 부분 이것도 조금이라도 수정-->
 <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
@@ -512,8 +500,8 @@ div#heart img:hover{
     <span class="sr-only">Next</span>
   </a>
 </div>
-	
+
 </div>
 
- 
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

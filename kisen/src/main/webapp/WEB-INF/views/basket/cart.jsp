@@ -8,8 +8,6 @@
 	<jsp:param value="결제페이지" name="title"/>
 </jsp:include>
 <style>
-
-/* cart css */
 div#cartContainer{
 	border: 2px solid #bc73d6!important;
 	width:900px;
@@ -21,8 +19,6 @@ div#cartHistory{
 .border-secondary {
     border-color:  #9033b5!important;
 }
-
-
 #thead{
  background-color:#c8a9c8;
 }
@@ -31,20 +27,15 @@ div#payContainer{
 	border: 2px solid #bc73d6!important;
 	
 }
-
-
 #innerContent{
 	width: 140px;
 	text-align: center;	
 	font-size: 12px;
 	
-
 }
 .border-dark{
  	border-color: #d8d8d8!important;
 }
-
-
 img#productImg{
 	width: 100px;
 	height: 80px;
@@ -53,7 +44,6 @@ img#plus{
 	width:20px;
 	height: 20px;
 }
-
 #marks{
 	background-color: #c8a9c8;
 }
@@ -74,7 +64,6 @@ img#plus{
 td{
  	height: 120px;
 }
-
 .table td, .table th {
     vertical-align: middle;
 	text-align: center;
@@ -92,9 +81,7 @@ td{
     height: 30px;
     font-size: 10px;
     text-align: center;
-
 }
-
 #btnOrder:hover{
     color:  white;
     background-color: #c7a2e0;
@@ -111,7 +98,6 @@ td{
     font-size: 10px;
     text-align: center;
 }
-
 #delivery:hover {
 	cursor: default;
 }
@@ -120,7 +106,6 @@ color:  #9033b5;
     background-color: transparent;
     background-image: none;
     border-color:  #9033b5;
-
     text-align: center;
 }
 #cartAgain{
@@ -136,14 +121,14 @@ color:  #9033b5;
     border-color:  #c7a2e0;
 }
 </style>
-		
+
 <br /><br />
 <!-- 타이틀 -->
 <div class="row">
 	<div class="col-md-1" ></div>
 	<div class="col-md-7 " id="cartTitle">
 	<h2 class="font-weight-bold" id="cartImg">장바구니<img class="mx-2 mb-2"src="${pageContext.request.contextPath}/resources/images/moonju/cart.png"/></h2>
-	
+
 	</div>
 	<div class="col-md-4 float-left">
 	 <ul id="cartinfo">
@@ -156,10 +141,10 @@ color:  #9033b5;
 	</div>
 </div>
 <br /><br />
-	
+
 <!-- 주의 사항  -->
 <div id="cartContainer" class="border border-2 mx-auto p-3 rounded ">
-	
+
 		<ul class="my-3">
 			<li class="my-2 font-weight-bold">
 				<span>- 장바구니 상품은 <mark id="marks">최대 30일간</mark> 저장됩니다.</span>
@@ -176,7 +161,7 @@ color:  #9033b5;
 <br /><br /><br />
  <hr />
 
-<!-- 장바구니 내역 -->
+<!-- 장바구니 내역  혹시 몰라 복붙 했습니당-->
 <div class="border border-0 mx-auto p-3 rounded " id="cartHistory">
 	<table class="table">
   <thead class="thead " id="thead">
@@ -227,7 +212,7 @@ color:  #9033b5;
 		 </div>
       </td>
     </tr>
-    
+
     <tr>
       <th scope="row" class="border border-left-0 border-top-0 border-right-0 ">
       	<input type="checkbox" id="checkboxs"/>
@@ -266,7 +251,7 @@ color:  #9033b5;
 		 </div>
       </td>
     </tr>
-    
+
     <tr>
        <th scope="row" class="border border-left-0 border-top-0 border-right-0 ">
        	<input type="checkbox" id="checkboxs"/>
@@ -305,7 +290,7 @@ color:  #9033b5;
 		 </div>
       </td>
     </tr>
-    
+
     <tr>
        <th scope="row" class="border border-left-0 border-top-0 border-right-0 ">
        	<input type="checkbox" id="checkboxs"/>
@@ -317,7 +302,7 @@ color:  #9033b5;
 		  </div>
       </td>
     </tr>
-    
+
       <tr>
       <th scope="row" class="border border-left-0 border-top-0 border-right-0"></th>
       <td class="border border-left-0 border-top-0 " colspan="2">
@@ -328,21 +313,21 @@ color:  #9033b5;
       				<span>84,000</span>원
       			</dd>
       		</dl>
-      		
+
       		<dl class="py-3 px-3 mb-0">
       			<dt></dt>
       			<dd>
       				<img src="${pageContext.request.contextPath}/resources/images/moonju/plus.png"  id="plus"/>
       			</dd>
       		</dl>
-      		
+
       		<dl class="py-2 px-3 mb-0">
       			<dt>배송비</dt>
       			<dd>
       				<span>0</span>원
       			</dd>
       		</dl>
-      		
+
       		<dl class="py-3 px-3 mb-0">
       			<dt></dt>
       			<dd>
@@ -368,11 +353,9 @@ color:  #9033b5;
 		  	<button class="btn btn-outline py-2" id="cartAgain">쇼핑 계속하기</button>
 		  	<a href="${pageContext.request.contextPath}/basket/payment.do"><button class="btn btn-outline py-2 " id="cartOder">주문하기</button></a>
 		  </div>
-	
+
 </div>
 <script>
-
-
 </script>		
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
