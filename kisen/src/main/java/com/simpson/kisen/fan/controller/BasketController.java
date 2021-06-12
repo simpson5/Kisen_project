@@ -8,7 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 
 
 /**
- * ìž¥ë°”êµ¬ë‹ˆ ì»¨íŠ¸ë¡¤ëŸ¬
+ * ÇÑ±Û Àß ³ª¿Ã±î¿ä?
+ * @author moon ju¿¡¼­ º¸³À´Ï´ç
+ *
  */
 @Controller
 @Slf4j
