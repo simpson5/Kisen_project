@@ -9,7 +9,7 @@
 </jsp:include>
 <style>
 
-
+/* cart css */
 div#cartContainer{
 	border: 2px solid #bc73d6!important;
 	width:900px;
