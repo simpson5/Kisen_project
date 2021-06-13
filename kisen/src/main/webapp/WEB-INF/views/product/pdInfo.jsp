@@ -254,7 +254,7 @@ div#pd-slide img{
 		<div class="detail row">
 			<div class="media  product_img">
 				<img
-					src="${pageContext.request.contextPath}/resources/images/kisen_logo.png"
+					src="${pageContext.request.contextPath}/resources/images/one0/kisen_logo.png"
 					class="img-thumbnail" alt="...">
 			</div>
 			<div class="media-body col-5 ">
@@ -322,7 +322,7 @@ div#pd-slide img{
 		</div>
 		
 		<div class="pd-detail">
-			<img src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" class="col-9"/>
+			<img src="${pageContext.request.contextPath}/resources/images/one0/kisen_logo.png" class="col-9"/>
 		</div>
 		<div class="pd-review mx-auto" style="display:none;">
 			<p class="h5" 
@@ -399,7 +399,7 @@ div#pd-slide img{
 						<c:forEach var="i" begin="1" end="5" step="1">
 				    	<div class="p-2 my-3 col-xs-1">
 					        <div class=" mx-auto font-weight-bold text-center">
-					        	<img src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
+					        	<img src="${pageContext.request.contextPath}/resources/images/one0/kisen_logo.png" />
 					        </div>
 					        <div class=" mx-auto font-weight-bold text-center"><p class="another-pd-name">상품명</p><span class="another-pd-price">상품가격</span></div>
 				     	</div>    	
@@ -412,7 +412,7 @@ div#pd-slide img{
 				    	<c:forEach var="i" begin="1" end="5" step="1">
 				    	<div class="p-2 my-3 col-xs-1">
 					        <div class=" mx-auto font-weight-bold text-center">
-					        	<img src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
+					        	<img src="${pageContext.request.contextPath}/resources/images/one0/kisen_logo.png" />
 					        </div>
 					        <div class=" mx-auto font-weight-bold text-center"><p class="another-pd-name">상품명</p><span class="another-pd-price">상품가격</span></div>
 				     	</div>    	
