@@ -28,7 +28,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import com.simpson.kisen.common.util.HelloSpringUtils;
+import com.simpson.kisen.review.model.service.ReviewService;
+import com.simpson.kisen.review.model.vo.Review;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,14 +44,49 @@ public class ReviewController {
 	@Autowired
 	private ResourceLoader resourceLoader;
 	
+	@Autowired
+	private ReviewService reviewService;
+	
+	@GetMapping("/reviewList.do")
+	public String reviewList(
+				@RequestParam(required = true, defaultValue = "1") int cpage,
+				HttpServletRequest request,
+				Model model
+			) {
+		try {
+			log.debug("cpage = {}", cpage);
+			final int limit = 10;
+			final int offset = (cpage - 1) * limit;
+			Map<String, Object> param = new HashMap<>();
+			param.put("limit", limit);
+			param.put("offset", offset);
+			//1.업무로직 : content영역 - Rowbounds
+			List<Review> list = reviewService.selectReviewList(param);
+			int totalContents = reviewService.selectReviewTotalContents();
+			String url = request.getRequestURI();
+			log.debug("totalContents = {}, url = {}", totalContents, url);
+			String pageBar = HelloSpringUtils.getPageBar(totalContents, cpage, limit, url);
+			
+			//2. jsp에 위임
+			model.addAttribute("list", list);
+			model.addAttribute("pageBar", pageBar);
+		} catch(Exception e) {
+			log.error("리뷰 조회 오류!", e);
+			throw e;
+		}
+		return "review/reviewList";
+	}
+	
+
 	
 	
 	
 	
 	
 	
-	@GetMapping("/reviewboard.do")
-	public void reviewboard() {}
+	
+	
+
 
 	
 	@GetMapping("/reviewForm.do")
