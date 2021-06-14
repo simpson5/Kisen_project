@@ -91,7 +91,7 @@ span.font-color{
 				</div>
 	        </div>
 	    </div>
-	    <div class="row about" style="text-align: center;">
+	    <div class="row about" style="text-align: center; display:none">
 	    	<div class="col-xs-12 mx-auto" style="width:100%;">
 	    		<h2>공식 굿즈와 비공식 굿즈의 종합 쇼핑몰</h2>
 	    		<h4><span class="font-color">K</span>-pop의 <span class="font-color">I</span>dentity를 <span class="font-color">Sen</span>se있게 실현하다</h4>
@@ -99,12 +99,37 @@ span.font-color{
 	    		<p><img style="width:100%;" src="${pageContext.request.contextPath}/resources/images/one0/identity4.png" alt="" /></p>
 	    	</div>
 	    </div>
-	    <div class="row map" style="text-align: center; display:none;">
+	    <div class="row map" style="text-align: center;">
 	    	<div class="col-xs-12 mx-auto" style="width:100%;">
-	    		<h2>공식 굿즈와 비공식 굿즈의 종합 쇼핑몰</h2>
-	    		<h4><span class="font-color">K</span>-pop의 <span class="font-color">I</span>dentity를 <span class="font-color">Sen</span>se있게 실현하다</h4>
-	    		<p><img style="width:100%;" src="${pageContext.request.contextPath}/resources/images/one0/identy.png"/></p>
-	    		<p><img style="width:100%;" src="${pageContext.request.contextPath}/resources/images/one0/identity4.png" alt="" /></p>
+	    		<div id="map" style="width:600px; height : 300px; margin:0 auto; text-align:center; disableAutoPan: true; ">
+	    			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6b7f33ed5517285d15a818940fe8f0fe"></script>
+					<script>
+					var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				    mapOption = { 
+				        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+				        level: 3 // 지도의 확대 레벨
+				    };
+
+					var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+	
+					// 지도를 표시하는 div 크기를 변경하는 함수입니다
+					function resizeMap() {
+					    var mapContainer = document.getElementById('map');
+					    mapContainer.style.width = '650px';
+					    mapContainer.style.height = '300px'; 
+					}
+	
+					function relayout() {    
+					    
+					    // 지도를 표시하는 div 크기를 변경한 이후 지도가 정상적으로 표출되지 않을 수도 있습니다
+					    // 크기를 변경한 이후에는 반드시  map.relayout 함수를 호출해야 합니다 
+					    // window의 resize 이벤트에 의한 크기변경은 map.relayout 함수가 자동으로 호출됩니다
+					    map.relayout();
+					}
+					resizeMap();
+					relayout();
+					</script>
+	    		</div>
 	    	</div>
 	    </div>
 	</div>
@@ -125,5 +150,7 @@ $(".pd-nav").click(function(e){
 		$('.map').show();
 	}
 });
+
 </script>
+
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
