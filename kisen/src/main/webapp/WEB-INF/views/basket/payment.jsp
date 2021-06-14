@@ -95,7 +95,7 @@ td{
     text-align: center;
 }
 #selectProduct{
-color:  #9033b5;
+	color:  #9033b5;
     background-color: transparent;
     background-image: none;
     border-color:  #9033b5;
@@ -109,6 +109,7 @@ color:  #9033b5;
 }
 #deliveryInfo{
 	width:1000px;
+	height:1600px;
 	border: 4px solid #bc73d6!important;
 	
 }
@@ -140,7 +141,18 @@ color:  #9033b5;
 	height: 0px;
 	overflow: hidden;
 }
-
+.hiddenCardPay{
+	height: 0px;
+	overflow: hidden;
+}
+.hiddenCashPay{
+	height: 0px;
+	overflow: hidden;
+}
+.hiddenKakaoPay{
+	height: 0px;
+	overflow: hidden;
+}
 </style>
 
 
@@ -283,10 +295,10 @@ color:  #9033b5;
  	 <div class="p-2 d-flex flex-row">
  	 	<h5 class="font-weight-bold"><mark id="marks">배송지 선택</mark> </h5>	
  	 	<div class="mx-3"> 
- 	 	<input type="radio" id ="address" onclick="chageAddress(this);" name="chageAd" checked>
- 	 	<label for="address">기본배송지</label>
- 	 	<input  type="radio" id ="newAddress" onclick="chageAddress(this);" name="chageAd">
- 	 	<label for="newAddress">신규배송지</label>
+	 	 	<input type="radio" id ="address" onclick="chageAddress(this);" name="chageAd" checked>
+	 	 	<label for="address">기본배송지</label>
+	 	 	<input  type="radio" id ="newAddress" onclick="chageAddress(this);" name="chageAd">
+	 	 	<label for="newAddress">신규배송지</label>
  	 	</div>
  	 </div>
  	 <hr />
@@ -391,38 +403,38 @@ color:  #9033b5;
  	 <!-- 결제 수단 -->
  	  <div class="p-2 " id="pointBox">
  	 	<h5 class="font-weight-bold my-3"><mark id="marks">결제 수단</mark> </h5>	
- 	 	<div class="p-2 d-flex flex-column" id="nowAddress">
 	 	 	<div class="p-2">
-	 	 	<input type="radio" id ="pay">
-	 	 	<label for="pay">카드결제</label>
-	 	 	<hr />
-	 	 		<div class="p-2">
+		 	 	<input type="radio" id ="cardPay" name="selectPay" onclick="selectPay(this);">
+		 	 	<label for="cardPay">카드결제</label>
+		 	 	<hr />
+		 	 	<div class= "hiddenCardPay"  id="hiddenCard">
+		 	 	<div class="p-2">
 			 	 	<mark id="marks" style="font-size:12px; ">카드구분</mark>
 			 	 	<input type="radio" class="ml-3 " name="chageCard" onclick="cardType(this);" id="card" checked/>
 			 	 	<label for="card" >개인카드</label>
 			 	 	<input type="radio" id="cardtype" class="ml-3 " name="chageCard" onclick="cardType(this);"/>
 			 	 	<label for="cardtype">법인카드</label>
-		 	 	</div>
-			 	<div class="p-2">
-			 	 	<label for="cardselect"><mark id="marks" style="font-size:12px; ">카드선택</mark></label>
-			 	 	<select name="cardselect" id="cardselect" class="ml-3">
-			 	 	<option value="선택해주세요." selected disabled hidden>
-            			선택해주세요.</option>
-			 	 		<option value="">국민</option>	
-			 	 		<option value="">신한</option>	
-			 	 		<option value="">기업</option>	
-			 	 		<option value="">비씨</option>	
-			 	 		<option value="">삼성</option>	
-			 	 		<option value="">롯데</option>	
-			 	 		<option value="">하나</option>	
-			 	 		<option value="">외환</option>	
-			 	 		<option value="">우리</option>	
-			 	 		<option value="">수협</option>	
-			 	 		<option value="">씨티</option>	
-			 	 	</select>
+		 		 </div>
+				 <div class="p-2 ">
+				 	 	<label for="cardselect"><mark id="marks" style="font-size:12px; ">카드선택</mark></label>
+				 	 	<select name="cardselect" id="cardselect" class="ml-3">
+				 	 	<option value="선택해주세요." selected disabled hidden>
+	            			선택해주세요.</option>
+				 	 		<option value="">국민</option>	
+				 	 		<option value="">신한</option>	
+				 	 		<option value="">기업</option>	
+				 	 		<option value="">비씨</option>	
+				 	 		<option value="">삼성</option>	
+				 	 		<option value="">롯데</option>	
+				 	 		<option value="">하나</option>	
+				 	 		<option value="">외환</option>	
+				 	 		<option value="">우리</option>	
+				 	 		<option value="">수협</option>	
+				 	 		<option value="">씨티</option>	
+				 	 	</select>
  	 			</div>	
-			 	<div class="p-2 " id="selectAllBox" >
-			 	 	<label for="cardselect"><mark id="marks" style="font-size:12px;" >할부기간</mark></label>
+			 	<div class="p-2" id="selectNum" >
+			 	 	<label for="selectNum"><mark id="marks" style="font-size:12px;" >할부기간</mark></label>
 			 	 	<select name="selectMonth" id="selectMonth" class="ml-3 selectMonth">
 			 	 		<option value="">일시불</option>	
 			 	 		<option value="">1개월</option>	
@@ -439,44 +451,44 @@ color:  #9033b5;
 			 	 		<option value="">12개월</option>			
 			 	 	</select>
  	 			</div>	
-	 	 	</div>
-	 	 	<hr />
-	 	 	<div class="p-2">
-	 	 	<input type="radio" id ="pay">
-	 	 	<label for="pay">카카오페이결제</label>
-	 	 	</div>
-	 	 	<hr />
-	 	 	<div class="p-2">
-	 	 	<input type="radio" id ="pay">
-	 	 	<label for="pay">가상계좌(계좌이체)</label>
-	 	 	<hr />
-	 	 	<div class="p-2">
-			 	 	<label for="cardselect"><mark id="marks" style="font-size:12px; ">입금은행</mark></label>
-			 	 	<select name="cardselect" id="cardselect" class="ml-3">
-			 	 	<option value="선택해주세요." selected disabled hidden>
-            			선택해주세요.</option>
-			 	 		<option value="">국민</option>	
-			 	 		<option value="">신한</option>	
-			 	 		<option value="">기업</option>	
-			 	 		<option value="">비씨</option>	
-			 	 		<option value="">삼성</option>	
-			 	 		<option value="">롯데</option>	
-			 	 		<option value="">하나</option>	
-			 	 		<option value="">외환</option>	
-			 	 		<option value="">우리</option>	
-			 	 		<option value="">수협</option>	
-			 	 		<option value="">씨티</option>	
-			 	 	</select>
- 	 			</div>
- 	 			<div class="p-2">
-			 	 	<mark id="marks" style="font-size:12px; ">환불계좌</mark>
-			 	 	<input type="tel" class="ml-3" placeholder=" (-없이)" name="payback" id="payback"  />
+ 	 			</div>	
+	 	 		
+		 	 	<input type="radio" id ="kakaopay" name="selectPay" onclick="selectPay(this);">
+		 	 	<label for="kakaopay">카카오페이결제</label>
+		 	 	<hr/>
+		 	 	<div class="hiddenKakaoPay" id="hiddenKakao">
+	 	 	
 		 	 	</div>
-	 	 	</div>
-
- 	 	</div>
+		 	 
+		 	 	<input type="radio" id ="cashPay" name="selectPay" onclick="selectPay(this);">
+		 	 	<label for="cashPay">가상계좌(계좌이체)</label>
+		 	 	<hr />
+		 	 	<div class="hiddenCashPay" id="hiddenCash"> 
+		 	 	<div class="p-2" >
+				 	 	<label for="cardselect"><mark id="marks" style="font-size:12px; ">입금은행</mark></label>
+				 	 	<select name="cardselect" id="cardselect" class="ml-3">
+				 	 	<option value="선택해주세요." selected disabled hidden>
+	            			선택해주세요.</option>
+				 	 		<option value="">국민</option>	
+				 	 		<option value="">신한</option>	
+				 	 		<option value="">기업</option>	
+				 	 		<option value="">비씨</option>	
+				 	 		<option value="">삼성</option>	
+				 	 		<option value="">롯데</option>	
+				 	 		<option value="">하나</option>	
+				 	 		<option value="">외환</option>	
+				 	 		<option value="">우리</option>	
+				 	 		<option value="">수협</option>	
+				 	 		<option value="">씨티</option>	
+				 	 	</select>
+				 	 	<div class="p-2">
+					 	 	<mark id="marks" style="font-size:12px; ">환불계좌</mark>
+					 	 	<input type="tel" class="ml-3" placeholder=" (-없이)" name="payback" id="payback"  />
+			 	 		</div>
+	 	 			</div>
+	 	 		</div>	
+	 	 	</div>			
  	 </div>
- 	 <hr />
  	 <!-- 전체 동의 -->
 	 	 	<div class="p-2">
 		 	 	<input type="checkbox" id="agreed" required="required" style="width: 20px; height: 20px;">
@@ -492,8 +504,6 @@ color:  #9033b5;
 
 				</div>
 			</div>
-
-
  </div>
  	<!-- 중간 절취선 -->
 	<div class="col-1 "> 
@@ -552,9 +562,7 @@ color:  #9033b5;
 
 
 function chageAddress(obj){
-	console.log(obj);
  	const $obj = $(obj);
-	
 	console.log($obj.attr('id'));
 	if($obj.attr('id') == "address"){
 		$("#nowAddress").removeClass("hiddenPm");
@@ -568,7 +576,6 @@ function chageAddress(obj){
 };
 
 function cardType(obj){
-	console.log(obj);
 	const $obj = $(obj);
 	console.log($obj.attr('id'));
 	
@@ -578,6 +585,27 @@ function cardType(obj){
 		
 }
 
+function selectPay(obj){
+	console.log(obj);
+	const $obj = $(obj);
+	console.log($obj.attr('id'));
+
+	if($obj.attr('id') == "cardPay"){
+		$("#hiddenCash").removeClass("hiddenCashPay");
+		$("#hiddenKakao").removeClass("hiddenKakao");
+		$("#hiddenCard").addClass("hiddenCardPay");
+	}
+	else if ($obj.attr('id') == "kakaopay"){
+		$("#hiddenCash").removeClass("hiddenCashPay");
+		$("#hiddenCard").removeClass("hiddenCardPay");
+		$("#hiddenKakao").addClass("hiddenKakao");
+	}
+	else if($obj.attr('id') == "cashpay"){
+		$("#hiddenCard").removeClass("hiddenCardPay");
+		$("#hiddenKakao").removeClass("hiddenKakao");
+		$("#hiddenCash").addClass("hiddenCashPay");
+	}
+}
 
 </script>
 
