@@ -28,8 +28,8 @@
     
         <ul class="footer-ul">
             <li><h6> <span class="span-color-h">회사소개</span></h6></li>
-            <li> <a href="${pageContext.request.contextPath}/aboutus"> 회사소개</a></li>
-            <li> <a href="${pageContext.request.contextPath}/location"> 오시는길</a></li>
+            <li> <a href="${pageContext.request.contextPath}/about/aboutus.do"> 회사소개</a></li>
+            <li> <a href="${pageContext.request.contextPath}/about/location.do"> 오시는길</a></li>
             <li> <a href="${pageContext.request.contextPath}/notice"> 공지사항</a></li>
         </ul>
         
