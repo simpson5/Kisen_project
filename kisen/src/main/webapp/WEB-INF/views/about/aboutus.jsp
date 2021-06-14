@@ -76,7 +76,7 @@ span.font-color{
 	<div class="container mx-auto">
 	    <div class="row pt-5 pb-5" style="text-align: center;">
 	        <div class="col-xs-12 mx-auto">
-	        	<img class="center-block col-8" src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" alt="" />
+	        	<img class="center-block col-8" src="${pageContext.request.contextPath}/resources/images/one0/kisen_logo.png" alt="" />
 	        </div>
 	    </div>
 	    <div class="row" style="text-align: center;">
@@ -95,16 +95,16 @@ span.font-color{
 	    	<div class="col-xs-12 mx-auto" style="width:100%;">
 	    		<h2>공식 굿즈와 비공식 굿즈의 종합 쇼핑몰</h2>
 	    		<h4><span class="font-color">K</span>-pop의 <span class="font-color">I</span>dentity를 <span class="font-color">Sen</span>se있게 실현하다</h4>
-	    		<p><img style="width:100%;" src="${pageContext.request.contextPath}/resources/images/identy.png"/></p>
-	    		<p><img style="width:100%;" src="${pageContext.request.contextPath}/resources/images/identity4.png" alt="" /></p>
+	    		<p><img style="width:100%;" src="${pageContext.request.contextPath}/resources/images/one0/identy.png"/></p>
+	    		<p><img style="width:100%;" src="${pageContext.request.contextPath}/resources/images/one0/identity4.png" alt="" /></p>
 	    	</div>
 	    </div>
 	    <div class="row map" style="text-align: center; display:none;">
 	    	<div class="col-xs-12 mx-auto" style="width:100%;">
 	    		<h2>공식 굿즈와 비공식 굿즈의 종합 쇼핑몰</h2>
 	    		<h4><span class="font-color">K</span>-pop의 <span class="font-color">I</span>dentity를 <span class="font-color">Sen</span>se있게 실현하다</h4>
-	    		<p><img style="width:100%;" src="${pageContext.request.contextPath}/resources/images/identy.png"/></p>
-	    		<p><img style="width:100%;" src="${pageContext.request.contextPath}/resources/images/identity4.png" alt="" /></p>
+	    		<p><img style="width:100%;" src="${pageContext.request.contextPath}/resources/images/one0/identy.png"/></p>
+	    		<p><img style="width:100%;" src="${pageContext.request.contextPath}/resources/images/one0/identity4.png" alt="" /></p>
 	    	</div>
 	    </div>
 	</div>

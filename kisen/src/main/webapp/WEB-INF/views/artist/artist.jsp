@@ -42,7 +42,7 @@ div.artist{
 					<c:forEach var="i" begin="1" end="4" step="1">
 			        <div class="col-sm-3">
 			        	<div class=" mx-auto font-weight-bold text-center">
-					    	<img style="width:100%;"src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
+					    	<img style="width:100%;"src="${pageContext.request.contextPath}/resources/images/one0/kisen_logo.png" />
 						</div>
 			        </div>
 			        </c:forEach>
@@ -51,7 +51,7 @@ div.artist{
 					<c:forEach var="i" begin="1" end="4" step="1">
 			        <div class="col-sm-3">
 			        	<div class=" mx-auto font-weight-bold text-center">
-					    	<img style="width:100%;"src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
+					    	<img style="width:100%;"src="${pageContext.request.contextPath}/resources/images/one0/kisen_logo.png" />
 						</div>
 			        </div>
 			        </c:forEach>
@@ -63,7 +63,7 @@ div.artist{
 					<c:forEach var="i" begin="1" end="4" step="1">
 			        <div class="col-sm-3">
 			        	<div class=" mx-auto font-weight-bold text-center">
-					    	<img style="width:100%;"src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
+					    	<img style="width:100%;"src="${pageContext.request.contextPath}/resources/images/one0/kisen_logo.png" />
 						</div>
 			        </div>
 			        </c:forEach>
@@ -72,7 +72,7 @@ div.artist{
 					<c:forEach var="i" begin="1" end="4" step="1">
 			        <div class="col-sm-3">
 			        	<div class=" mx-auto font-weight-bold text-center">
-					    	<img style="width:100%;"src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
+					    	<img style="width:100%;"src="${pageContext.request.contextPath}/resources/images/one0/kisen_logo.png" />
 						</div>
 			        </div>
 			        </c:forEach>
