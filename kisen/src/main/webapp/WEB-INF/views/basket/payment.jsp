@@ -136,7 +136,13 @@ color:  #9033b5;
 	height: 60px;
 	font-size: 20px;
 }
+.hiddenPm{
+	height: 0px;
+	overflow: hidden;
+}
+
 </style>
+
 
 <br /><br />
 <!-- 타이틀 -->
@@ -277,17 +283,15 @@ color:  #9033b5;
  	 <div class="p-2 d-flex flex-row">
  	 	<h5 class="font-weight-bold"><mark id="marks">배송지 선택</mark> </h5>	
  	 	<div class="mx-3"> 
- 	 	<input type="radio" id ="address">
+ 	 	<input type="radio" id ="address" onclick="chageAddress(this);" name="chageAd" checked>
  	 	<label for="address">기본배송지</label>
- 	 	</div>
- 	 	<div class="mx3"> 
- 	 	<input  type="radio" id ="newAddress">
+ 	 	<input  type="radio" id ="newAddress" onclick="chageAddress(this);" name="chageAd">
  	 	<label for="newAddress">신규배송지</label>
  	 	</div>
  	 </div>
  	 <hr />
  	 <!-- 기본 배송지 -->
- 	 <div class="p-2 d-flex flex-column" id="nowAddress">
+ 	 <div class="p-2 d-flex flex-column " id="nowAddress">
  	 	<div class="p-2">고길동</div>
  	 	<div class="p-2">010-3333-2222</div>
  	 	<div class="p-2">
@@ -299,7 +303,7 @@ color:  #9033b5;
  	 	</div>
  	 </div>
  	 <!-- 신규 배송지 -->
- 	 <div class="p-2 d-flex flex-column" id="newsAddress">
+ 	 <div class="p-2 d-flex flex-column hiddenPm" id="newsAddress" >
  	 	<div class="p-2">
  	 	<mark id="marks">수령인</mark>
  	 	<input type="text" name="" id="memberName" class="ml-3"/>
@@ -394,9 +398,9 @@ color:  #9033b5;
 	 	 	<hr />
 	 	 		<div class="p-2">
 			 	 	<mark id="marks" style="font-size:12px; ">카드구분</mark>
-			 	 	<input type="radio" name="" id="cardtype" class="ml-3"/>
-			 	 	<label for="cardtype">개인카드</label>
-			 	 	<input type="radio" name="" id="cardtype" class="ml-3"/>
+			 	 	<input type="radio" class="ml-3 " name="chageCard" onclick="cardType(this);" id="card" checked/>
+			 	 	<label for="card" >개인카드</label>
+			 	 	<input type="radio" id="cardtype" class="ml-3 " name="chageCard" onclick="cardType(this);"/>
 			 	 	<label for="cardtype">법인카드</label>
 		 	 	</div>
 			 	<div class="p-2">
@@ -417,9 +421,9 @@ color:  #9033b5;
 			 	 		<option value="">씨티</option>	
 			 	 	</select>
  	 			</div>	
-			 	<div class="p-2">
-			 	 	<label for="cardselect"><mark id="marks" style="font-size:12px; ">할부기간</mark></label>
-			 	 	<select name="cardselect" id="cardselect" class="ml-3">
+			 	<div class="p-2 " id="selectAllBox" >
+			 	 	<label for="cardselect"><mark id="marks" style="font-size:12px;" >할부기간</mark></label>
+			 	 	<select name="selectMonth" id="selectMonth" class="ml-3 selectMonth">
 			 	 		<option value="">일시불</option>	
 			 	 		<option value="">1개월</option>	
 			 	 		<option value="">2개월</option>	
@@ -544,6 +548,38 @@ color:  #9033b5;
 <div class="border border-0 mx-auto p-3 rounded d-flex justify-content-center" >
 	 <a href="${pageContext.request.contextPath}/basket/payComplet.do">	<button type="button" class="btn btn-warning " id="payNow">결제하기</button></a>	
 </div>
+<script>
+
+
+function chageAddress(obj){
+	console.log(obj);
+ 	const $obj = $(obj);
+	
+	console.log($obj.attr('id'));
+	if($obj.attr('id') == "address"){
+		$("#nowAddress").removeClass("hiddenPm");
+		$("#newsAddress").addClass("hiddenPm");
+	}
+	else {
+		$("#nowAddress").addClass("hiddenPm");
+		$("#newsAddress").removeClass("hiddenPm");
+	}
+	
+};
+
+function cardType(obj){
+	console.log(obj);
+	const $obj = $(obj);
+	console.log($obj.attr('id'));
+	
+	 if($obj.attr('id') == "cardtype"){
+			$("#selectMonth").attr('disabled',true);
+		}
+		
+}
+
+
+</script>
 
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
