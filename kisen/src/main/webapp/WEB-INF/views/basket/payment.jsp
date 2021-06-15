@@ -109,13 +109,13 @@ td{
 }
 #deliveryInfo{
 	width:1000px;
-	height:1600px;
+
 	border: 4px solid #bc73d6!important;
 	
 }
 #line{
 	width: 3px;
-	height: 1740px;
+	height: 1500px;
 	align-content: center;
 }
 #couponBox{
@@ -403,106 +403,111 @@ td{
  	 <!-- 결제 수단 -->
  	  <div class="p-2 " id="pointBox">
  	 	<h5 class="font-weight-bold my-3"><mark id="marks">결제 수단</mark> </h5>	
-	 	 	<div class="p-2">
+	 	 	
 		 	 	<input type="radio" id ="cardPay" name="selectPay" onclick="selectPay(this);">
-		 	 	<label for="cardPay">카드결제</label>
+		 	 	<label for="cardPay">카드 결제</label>
 		 	 	<hr />
+		 	 	
 		 	 	<div class= "hiddenCardPay"  id="hiddenCard">
-		 	 	<div class="p-2">
-			 	 	<mark id="marks" style="font-size:12px; ">카드구분</mark>
-			 	 	<input type="radio" class="ml-3 " name="chageCard" onclick="cardType(this);" id="card" checked/>
-			 	 	<label for="card" >개인카드</label>
-			 	 	<input type="radio" id="cardtype" class="ml-3 " name="chageCard" onclick="cardType(this);"/>
-			 	 	<label for="cardtype">법인카드</label>
-		 		 </div>
-				 <div class="p-2 ">
-				 	 	<label for="cardselect"><mark id="marks" style="font-size:12px; ">카드선택</mark></label>
-				 	 	<select name="cardselect" id="cardselect" class="ml-3">
-				 	 	<option value="선택해주세요." selected disabled hidden>
-	            			선택해주세요.</option>
-				 	 		<option value="">국민</option>	
-				 	 		<option value="">신한</option>	
-				 	 		<option value="">기업</option>	
-				 	 		<option value="">비씨</option>	
-				 	 		<option value="">삼성</option>	
-				 	 		<option value="">롯데</option>	
-				 	 		<option value="">하나</option>	
-				 	 		<option value="">외환</option>	
-				 	 		<option value="">우리</option>	
-				 	 		<option value="">수협</option>	
-				 	 		<option value="">씨티</option>	
+			 	 	<div class="p-2">
+				 	 	<mark id="marks" style="font-size:12px; ">카드구분</mark>
+				 	 	<input type="radio" class="ml-3 " name="chageCard" onclick="cardType(this);" id="card" checked/>
+				 	 	<label for="card" >개인카드</label>
+				 	 	<input type="radio" id="cardtype" class="ml-3 " name="chageCard" onclick="cardType(this);"/>
+				 	 	<label for="cardtype">법인카드</label>
+			 		 </div>
+					 <div class="p-2 ">
+					 	 	<label for="cardselect"><mark id="marks" style="font-size:12px; ">카드선택</mark></label>
+					 	 	<select name="cardselect" id="cardselect" class="ml-3">
+					 	 	<option value="선택해주세요." selected disabled hidden>
+		            			선택해주세요.</option>
+					 	 		<option value="">국민</option>	
+					 	 		<option value="">신한</option>	
+					 	 		<option value="">기업</option>	
+					 	 		<option value="">비씨</option>	
+					 	 		<option value="">삼성</option>	
+					 	 		<option value="">롯데</option>	
+					 	 		<option value="">하나</option>	
+					 	 		<option value="">외환</option>	
+					 	 		<option value="">우리</option>	
+					 	 		<option value="">수협</option>	
+					 	 		<option value="">씨티</option>	
+					 	 	</select>
+	 	 			</div>	
+				 	<div class="p-2" id="selectNum" >
+				 	 	<label for="selectNum"><mark id="marks" style="font-size:12px;" >할부기간</mark></label>
+				 	 	<select name="selectMonth" id="selectMonth" class="ml-3 selectMonth">
+				 	 		<option value="">일시불</option>	
+				 	 		<option value="">1개월</option>	
+				 	 		<option value="">2개월</option>	
+				 	 		<option value="">3개월</option>	
+				 	 		<option value="">4개월</option>	
+				 	 		<option value="">5개월</option>	
+				 	 		<option value="">6개월</option>	
+				 	 		<option value="">7개월</option>	
+				 	 		<option value="">8개월</option>	
+				 	 		<option value="">9개월</option>	
+				 	 		<option value="">10개월</option>	
+				 	 		<option value="">11개월</option>	
+				 	 		<option value="">12개월</option>			
 				 	 	</select>
- 	 			</div>	
-			 	<div class="p-2" id="selectNum" >
-			 	 	<label for="selectNum"><mark id="marks" style="font-size:12px;" >할부기간</mark></label>
-			 	 	<select name="selectMonth" id="selectMonth" class="ml-3 selectMonth">
-			 	 		<option value="">일시불</option>	
-			 	 		<option value="">1개월</option>	
-			 	 		<option value="">2개월</option>	
-			 	 		<option value="">3개월</option>	
-			 	 		<option value="">4개월</option>	
-			 	 		<option value="">5개월</option>	
-			 	 		<option value="">6개월</option>	
-			 	 		<option value="">7개월</option>	
-			 	 		<option value="">8개월</option>	
-			 	 		<option value="">9개월</option>	
-			 	 		<option value="">10개월</option>	
-			 	 		<option value="">11개월</option>	
-			 	 		<option value="">12개월</option>			
-			 	 	</select>
- 	 			</div>	
- 	 			</div>	
-	 	 		
+	 	 			</div>
+	 	 			<hr/>	
+ 	 		</div>	
+	 	
 		 	 	<input type="radio" id ="kakaopay" name="selectPay" onclick="selectPay(this);">
-		 	 	<label for="kakaopay">카카오페이결제</label>
+		 	 	<label for="kakaopay">카카오페이 결제</label>
 		 	 	<hr/>
 		 	 	<div class="hiddenKakaoPay" id="hiddenKakao">
-	 	 	
+	 	 			<span>카카오페이 결제창으로 이동</span>
+	 	 			<hr/>
 		 	 	</div>
 		 	 
 		 	 	<input type="radio" id ="cashPay" name="selectPay" onclick="selectPay(this);">
-		 	 	<label for="cashPay">가상계좌(계좌이체)</label>
+		 	 	<label for="cashPay">가상 계좌(계좌이체)</label>
 		 	 	<hr />
+		 	 	
 		 	 	<div class="hiddenCashPay" id="hiddenCash"> 
-		 	 	<div class="p-2" >
-				 	 	<label for="cardselect"><mark id="marks" style="font-size:12px; ">입금은행</mark></label>
-				 	 	<select name="cardselect" id="cardselect" class="ml-3">
-				 	 	<option value="선택해주세요." selected disabled hidden>
-	            			선택해주세요.</option>
-				 	 		<option value="">국민</option>	
-				 	 		<option value="">신한</option>	
-				 	 		<option value="">기업</option>	
-				 	 		<option value="">비씨</option>	
-				 	 		<option value="">삼성</option>	
-				 	 		<option value="">롯데</option>	
-				 	 		<option value="">하나</option>	
-				 	 		<option value="">외환</option>	
-				 	 		<option value="">우리</option>	
-				 	 		<option value="">수협</option>	
-				 	 		<option value="">씨티</option>	
-				 	 	</select>
-				 	 	<div class="p-2">
+			 	 	<div class="p-2 " >
+					 	 	<label for="cardselect"><mark id="marks" style="font-size:12px; ">입금은행</mark></label>
+					 	 	<select name="cardselect" id="cardselect" class="ml-3">
+					 	 	<option value="선택해주세요." selected disabled hidden>
+		            			선택해주세요.</option>
+					 	 		<option value="">국민</option>	
+					 	 		<option value="">신한</option>	
+					 	 		<option value="">기업</option>	
+					 	 		<option value="">비씨</option>	
+					 	 		<option value="">삼성</option>	
+					 	 		<option value="">롯데</option>	
+					 	 		<option value="">하나</option>	
+					 	 		<option value="">외환</option>	
+					 	 		<option value="">우리</option>	
+					 	 		<option value="">수협</option>	
+					 	 		<option value="">씨티</option>	
+					 	 	</select>
+		 	 		</div>
+				 	 	<div class="p-2 ">
 					 	 	<mark id="marks" style="font-size:12px; ">환불계좌</mark>
 					 	 	<input type="tel" class="ml-3" placeholder=" (-없이)" name="payback" id="payback"  />
 			 	 		</div>
-	 	 			</div>
+			 	 		<hr/>
 	 	 		</div>	
-	 	 	</div>			
+	 	 				
  	 </div>
  	 <!-- 전체 동의 -->
 	 	 	<div class="p-2">
-		 	 	<input type="checkbox" id="agreed" required="required" style="width: 20px; height: 20px;">
-		 	 	<label for="agreed">
+		 	 	<input type="checkbox" id="agreedAll" name="agreed" style="width: 20px; height: 20px;">
+		 	 	<label for="agreedAll">
 		 	 	<h5 class="font-weight-bold my-3"><mark id="marks">전체 동의하기</mark></h5>
 		 	 	</label>
 		 	 	<div class="p-1">
 		 	 	 	<span class="ml-3 ">└</span>
-			 	 	<input type="checkbox" id="agreedInfo" required="required">
+			 	 	<input type="checkbox" id="agreedInfo" name="agreed" >
 			 	 	<label for="agreedInfo">
 					 위 상품의 구매조건 확인 및 결제진행 동의
 			 	 	</label>
 
-				</div>
+				</div> 
 			</div>
  </div>
  	<!-- 중간 절취선 -->
@@ -558,6 +563,7 @@ td{
 <div class="border border-0 mx-auto p-3 rounded d-flex justify-content-center" >
 	 <a href="${pageContext.request.contextPath}/basket/payComplet.do">	<button type="button" class="btn btn-warning " id="payNow">결제하기</button></a>	
 </div>
+
 <script>
 
 
@@ -582,30 +588,39 @@ function cardType(obj){
 	 if($obj.attr('id') == "cardtype"){
 			$("#selectMonth").attr('disabled',true);
 		}
-		
-}
 
+}
+//라이오 체크시 목록 볼 수 있게 하는 설정
 function selectPay(obj){
 	console.log(obj);
 	const $obj = $(obj);
 	console.log($obj.attr('id'));
 
 	if($obj.attr('id') == "cardPay"){
-		$("#hiddenCash").removeClass("hiddenCashPay");
-		$("#hiddenKakao").removeClass("hiddenKakao");
-		$("#hiddenCard").addClass("hiddenCardPay");
-	}
-	else if ($obj.attr('id') == "kakaopay"){
-		$("#hiddenCash").removeClass("hiddenCashPay");
-		$("#hiddenCard").removeClass("hiddenCardPay");
-		$("#hiddenKakao").addClass("hiddenKakao");
-	}
-	else if($obj.attr('id') == "cashpay"){
-		$("#hiddenCard").removeClass("hiddenCardPay");
-		$("#hiddenKakao").removeClass("hiddenKakao");
 		$("#hiddenCash").addClass("hiddenCashPay");
+		$("#hiddenKakao").addClass("hiddenKakaoPay");
+		$("#hiddenCard").removeClass("hiddenCardPay");
+			
 	}
+	else if($obj.attr('id') == "kakaopay") {
+		$("#hiddenCash").addClass("hiddenCashPay");
+		$("#hiddenCard").addClass("hiddenCardPay");
+		$("#hiddenKakao").removeClass("hiddenKakaoPay");
+	}
+	else if($obj.attr('id') == "cashPay") {
+		$("#hiddenCard").addClass("hiddenCardPay");
+		$("#hiddenKakao").addClass("hiddenKakaoPay");
+		$("#hiddenCash").removeClass("hiddenCashPay");
+	}
+
 }
+//전체선택 설정
+	$("#agreedAll").change(function(e){
+		
+		$("[name=agreed]").prop("checked", this.checked);
+		
+		
+	});
 
 </script>
 
