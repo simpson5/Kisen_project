@@ -30,11 +30,11 @@
             <div class="d-none d-sm-block">  
                 <ul class=" search-ul d-flex justify-content-end">
                     <li>
-                        <a href="${pageContext.request.contextPath}/login">LOGIN </span></a>
+                        <a href="${pageContext.request.contextPath}/member/login.do">LOGIN </span></a>
                     </li>
                     <span class="divide">|</span>
                     <li>
-                        <a href="${pageContext.request.contextPath}/enroll">JOIN</a>
+                        <a href="${pageContext.request.contextPath}/member/signupTerm.do">JOIN</a>
                     </li>
                     <span class="divide">|</span>
                     <li >
