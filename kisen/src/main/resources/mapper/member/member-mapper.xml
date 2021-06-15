@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+
+<!-- =========================== [ 회원가입 - 회원조회 ] =========================== -->
+<!-- enabled는 db에서는 1/0 -> true/false로 자동형변환되어 들어옴 -->
+	<select id="selectOneMember" resultType="fan">
+		select
+			*
+		from
+			"fan"
+		where "fan_id" = #{id}
+	</select>
+<!-- =========================== [ 회원가입 - 회원등록 ] =========================== -->
+<insert id="insertMember">
+	insert into
+		"fan"
+	values (
+		seq_fan_no.nextval,
+		#{fanId},
+		#{password},
+		#{phone},
+		#{address},
+		#{email},
+		#{birthday},
+		'M',
+		null,
+		null,
+		null,
+		'N',
+		default,
+		#{fanName}
+	)
+</insert>
+</mapper>

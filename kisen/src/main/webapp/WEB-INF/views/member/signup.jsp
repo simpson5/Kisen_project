@@ -83,12 +83,12 @@
 <form 
 	action="${pageContext.request.contextPath}/member/signup.do"
 	name="signupFrm"
+	method="post"
 >
     <div>
         <label for="id">아이디<span class="required-mark"> *</span></label>
-        <input type="text" class="fill-in-area" name="id" id="id" placeholder="5자~11자">
-		<p class="guide ok">이 아이디는 사용가능합니다.</p>
-        <p class="guide error">이 아이디는 사용할 수 없습니다.</p>
+        <input type="text" class="fill-in-area" name="fanId" id="id" placeholder="5자~11자">
+        <p id="chkNoticeIdDuplicate" class="chkNotice"></p>
         <input type="hidden" id="idValid" value="0"/> <!-- 이걸 보고 memberForm을 submit하는지 마는지의 여부를 결정 -->
     </div>
     <div>
@@ -100,6 +100,11 @@
         <label for="password">패스워드 재확인<span class="required-mark"> *</span></label>
         <input type="password" class="fill-in-area" name="passwordCheck" id="passwordCheck">
         <p id="chkNoticePwd2" class="chkNotice"></p>
+    </div>
+    <div>
+        <label for="name">이름<span class="required-mark"> *</span></label>
+        <input type="text" class="fill-in-area" name="fanName" id="name">
+        <p id="chkNoticeName" class="chkNotice"></p>
     </div>
     <div>
         <div>
@@ -136,19 +141,19 @@
         <label for="sample6_postcode">주소<span class="required-mark"> *</span></label>
         <!-- 우편번호 검색 -->
         <div id="zip-code">
-            <input type="text" class="fill-in-area add1" id="sample6_postcode" readonly placeholder="우편번호">
+            <input type="text" class="fill-in-area add1" id="sample6_postcode" name="address" readonly placeholder="우편번호">
             <input type="button" class="add-btn" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
         </div>
         <!-- 검색에 의한 주소 -->
         <div>
             <label for="sample6_address"></label>
-            <input type="text" class="fill-in-area add2" name="address-zipcode" id="sample6_address" readonly placeholder="주소"><br>
+            <input type="text" class="fill-in-area add2" name="addressExt1" id="sample6_address" readonly placeholder="주소"><br>
         </div>
         <!-- 참고항목 및 상세주소 -->
         <div>
             <label for="sample6_extraAddress"></label>
-            <input type="text" class="fill-in-area add3" id="sample6_extraAddress" readonly placeholder="참고항목">
-            <input type="text" class="fill-in-area add4" name="address-detail" id="sample6_detailAddress" placeholder="상세주소">
+            <input type="text" class="fill-in-area add3" name="addressExt2" id="sample6_extraAddress" readonly placeholder="참고항목">
+            <input type="text" class="fill-in-area add4" name="addressExt3" id="sample6_detailAddress" placeholder="상세주소">
         </div>
         <p id="chkNoticeAddress" class="chkNotice"></p>
     </div>
@@ -177,6 +182,44 @@
 
 
 <script>
+$("#id").keyup(e => {
+	const id = $(e.target).val();
+	const $chkNoticeDupl = $("#chkNoticeIdDuplicate");
+	const $idValid = $("#idValid"); // 0 -> 1 (중복검사 성공시)
+    
+	if(id.length < 5) {
+		// 4글자 이상을 썼다가 지우는 경우를 대비해서
+		$chkNoticeDupl.html('');
+		$idValid.val(0); // 다시 작성하는 경우를 대비, idValid를 다시 0으로 만들기
+		return; // 네글자 이상일 때만 검사할 수 있도록 return
+	}
+	// {id:id} -> {id}로 줄여쓸 수 있음 -> {id : "abcde"}
+	$.ajax({
+		url : "${pageContext.request.contextPath}/member/checkIdDuplicate.do",
+		data : {id},
+		success : data => {
+		// success : ({available}) => {
+			console.log(data); // {"available" : true} 이런식으로 json으로 넘어올 것
+			const {available} = data;
+		    
+			// 사용가능한 경우
+			// if(data.available){
+			if(available) {
+				$chkNoticeDupl.html('이 아이디는 사용가능합니다.').css("color","rgb(117, 59, 93)");
+				$idValid.val(1);
+			}
+			// 사용불가한 경우
+			else {
+				$chkNoticeDupl.html('이 아이디는 사용하실 수 없습니다..').css("color","red");
+				$idValid.val(0);
+			}
+		},
+		error : (xhr, stautsText, err) => {
+			console.log(xhr, statusText, err);
+		}
+	});
+});
+
 
 // 인증번호 요청 클릭 이벤트
 function requestEmail(){
@@ -184,7 +227,7 @@ function requestEmail(){
 }
 
 $(function(){
-    $('#password').keyup(function(){
+    $('#password').blur(function(){
         if($('#password').val().length < 6){
             $('#chkNoticePwd1').html('비밀번호는 6자리 이상이어야 합니다.').css("color","red");
         } else {
@@ -193,11 +236,26 @@ $(function(){
     });
 
     $('#passwordCheck').keyup(function(){
-        if($('#passwordCheck').val().length > 5){
+        if($('#password').val() == ''){
+            $('#chkNoticePwd1').html('패스워드부터 입력해주세요.').css("color","red");
+            $('#password').select();
+            $('#password').keyup(function(){
+            	$('#chkNoticePwd1').html('');
+            });
+            $('#password').blur(function(){
+                if($('#password').val().length < 6){
+                    $('#chkNoticePwd1').html('비밀번호는 6자리 이상이어야 합니다.').css("color","red");
+                } else {
+                    $('#chkNoticePwd1').html('');        
+                }
+            });
+        }
+        
+        if($('#passwordCheck').val().length > 3){
         if($('#password').val() != $('#passwordCheck').val()){
-          $('#chkNoticePwd2').html('패스워드 불일치').css("color","red");
+          $('#chkNoticePwd2').html('패스워드가 일치하지 않습니다.').css("color","red");
         } else{
-          $('#chkNoticePwd2').html('패스워드 일치').css("color","rgb(117, 59, 93)");
+          $('#chkNoticePwd2').html('패스워드가 일치합니다.').css("color","rgb(117, 59, 93)");
         }
     }
     });
@@ -206,9 +264,6 @@ $(function(){
 
 
 $("[name=signupFrm]").submit(function(){
-
-    // 아이디 유효성검사
-
     // 패스워드 유효성검사
 	var $password = $("#password"), $passwordCheck = $("#passwordCheck");
 	if($password.val() != $passwordCheck.val()){
@@ -231,8 +286,8 @@ $("[name=signupFrm]").submit(function(){
     }
 
     // 주소 유효성검사
-    var $zipcode = $("[name='address-zipcode']");
-    var $detail = $("[name='address-detail']");
+    var $zipcode = $("[name='addressExt1']");
+    var $detail = $("[name='addressExt3']");
 
     if($zipcode.val() == '' || $detail.val() == '') {
         $('#chkNoticeAddress').html('주소를 모두 입력해주세요.').css("color","red");

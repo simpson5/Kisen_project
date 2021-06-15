@@ -91,12 +91,6 @@ label {
     display: inline;
 }
 
-/* 중복아이디체크관련 */
-p.guide { display:none; font-size:12px; position:absolute; top:12px; right:10px; }
-p.ok { color:green; }
-p.error { color:red; }
-
-
 /* date타입 placeholder 색상 변경 */
 input[type=date]::-webkit-datetime-edit-text { color : gray; } 
 input[type=date]::-webkit-datetime-edit-month-field{ color : gray; } 
