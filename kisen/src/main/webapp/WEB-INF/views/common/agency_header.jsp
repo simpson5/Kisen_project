@@ -25,28 +25,25 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sideBanner.css">
 </head>
 <body>
-	
     <header>
         <div class="box  ">
             <div class="d-none d-sm-block">  
                 <ul class=" search-ul d-flex justify-content-end">
                     <li>
-                        <a href="#">  <strong>관리자</strong> 님</span></a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}">  <strong>SITE</strong></span></a>
+                        <a href="#">  <strong>기획사</strong> 님</span></a>
                     </li>
                 </ul>
             </div>
+          
         </div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light  justify-content-center main-navbar">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/admin/adminMain.do"><img src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" alt="logo" id="logo"/></a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/agency/agencyMain.do"><img src="${pageContext.request.contextPath }/resources/images/kisen_logo.png" alt="logo" id="logo"/></a>
             <span id="name">KI-SEN</span>
         
             <div class="d-none d-sm-block" > 
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn my-2 my-sm-0" type="submit"><img src="${pageContext.request.contextPath}/resources/images/search.png" alt="search" id="search_img"></button>
+                    <button class="btn my-2 my-sm-0" type="submit"><img src="${pageContext.request.contextPath }/resources/images/search.png" alt="search" id="search_img"></button>
                 </form>
             </div>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,32 +57,26 @@
                 <div class=" memu-div d-none d-sm-block" >  
                     <ul class="d-flex justify-content-around menu-ul">
                         <li class="nav-item active ">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminProduct"> 상품관리<span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="${pageContext.request.contextPath }/agency/agencyProduct"> 상품관리<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminMember">아티스트/회원 관리</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath }/agency/agencyArtist">아티스트 관리</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminSales">결제/배송/매출 </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminNotice">Site 관리</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath }/agency/agencySales">결제/배송/매출 </a>
                         </li>
                     </ul>
                 </div>
                 <div class="d-block d-sm-none" >  
                     <ul class="menu-ul">
                         <li class="nav-item active ">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminProduct"> 상품관리<span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="${pageContext.request.contextPath }/agency/agencyProduct"> 상품관리<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminMember">아티스트/회원 관리</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath }/agency/agencyArtist">아티스트 관리</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminSales">결제/배송/매출 </a>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminNotice">Site 관리</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath }/agency/agencySales">결제/배송/매출 </a>
                         </li>
                     </ul>
                 </div>
@@ -94,7 +85,6 @@
           </nav>
         <hr>
     </header>
-
 
     <!-- 관리자 메인페이지 -->
     <section>
