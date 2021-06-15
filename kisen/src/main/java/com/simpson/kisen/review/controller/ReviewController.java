@@ -82,60 +82,60 @@ public class ReviewController {
 	
 	
 	
-	@PostMapping("/reviewEnroll.do")
-	public String reviewEnroll(
-						@ModelAttribute ReviewExt review,
-						@RequestParam(name = "upFile") MultipartFile[] upFiles,
-						RedirectAttributes redirectAttr
-					) throws Exception {
-		
-		try {
-			log.debug("review = {}", review);
-			//1. 파일 저장 : 절대경로 /resources/upload/board
-			//pageContext:PageContext - request:HttpServletRequest - session:HttpSession - application:ServletContext
-			String saveDirectory = application.getRealPath("/resources/upload/review");
-			log.debug("saveDirectory = {}", saveDirectory);
-			
-			//디렉토리 생성
-			File dir = new File(saveDirectory);
-			if(!dir.exists())
-				dir.mkdirs(); // 복수개의 디렉토리를 생성
-			
-			List<Attachment> attachList = new ArrayList<>();
-			
-			for(MultipartFile upFile : upFiles) {
-				//input[name=upFile]로부터 비어있는 upFile이 넘어온다.
-				if(upFile.isEmpty()) continue;
-				
-				String renamedFilename = 
-						HelloSpringUtils.getRenamedFilename(upFile.getOriginalFilename());
-				
-				//a.서버컴퓨터에 저장
-				File dest = new File(saveDirectory, renamedFilename);
-				upFile.transferTo(dest); // 파일이동
-				
-				//b.저장된 데이터를 Attachment객체에 저장 및 list에 추가
-				Attachment attach = new Attachment();
-				attach.setOriginalFilename(upFile.getOriginalFilename());
-				attach.setRenamedFilename(renamedFilename);
-				attachList.add(attach);
-			}
-			
-			log.debug("attachList = {}", attachList);
-			//board객체에 설정
-			review.setAttachList(attachList);
-			
-			//2. 업무로직 : db저장 board, attachment
-			int result = reviewService.insertReview(review);
-			
-			//3. 사용자피드백 &  리다이렉트
-			redirectAttr.addFlashAttribute("msg", "리뷰등록 성공!");
-		} catch(Exception e) {
-			log.error("리뷰 등록 오류!", e);
-			throw e;
-		}
-		return "redirect:/review/reviewDetail.do?no=" + review.getReview_No();
-	}
+//	@PostMapping("/reviewEnroll.do")
+//	public String reviewEnroll(
+//						@ModelAttribute ReviewExt review,
+//						@RequestParam(name = "upFile") MultipartFile[] upFiles,
+//						RedirectAttributes redirectAttr
+//					) throws Exception {
+//		
+//		try {
+//			log.debug("review = {}", review);
+//			//1. 파일 저장 : 절대경로 /resources/upload/board
+//			//pageContext:PageContext - request:HttpServletRequest - session:HttpSession - application:ServletContext
+//			String saveDirectory = application.getRealPath("/resources/upload/review");
+//			log.debug("saveDirectory = {}", saveDirectory);
+//			
+//			//디렉토리 생성
+//			File dir = new File(saveDirectory);
+//			if(!dir.exists())
+//				dir.mkdirs(); // 복수개의 디렉토리를 생성
+//			
+//			List<Attachment> attachList = new ArrayList<>();
+//			
+//			for(MultipartFile upFile : upFiles) {
+//				//input[name=upFile]로부터 비어있는 upFile이 넘어온다.
+//				if(upFile.isEmpty()) continue;
+//				
+//				String renamedFilename = 
+//						HelloSpringUtils.getRenamedFilename(upFile.getOriginalFilename());
+//				
+//				//a.서버컴퓨터에 저장
+//				File dest = new File(saveDirectory, renamedFilename);
+//				upFile.transferTo(dest); // 파일이동
+//				
+//				//b.저장된 데이터를 Attachment객체에 저장 및 list에 추가
+//				Attachment attach = new Attachment();
+//				attach.setOriginalFilename(upFile.getOriginalFilename());
+//				attach.setRenamedFilename(renamedFilename);
+//				attachList.add(attach);
+//			}
+//			
+//			log.debug("attachList = {}", attachList);
+//			//board객체에 설정
+//			review.setAttachList(attachList);
+//			
+//			//2. 업무로직 : db저장 board, attachment
+//			int result = reviewService.insertReview(review);
+//			
+//			//3. 사용자피드백 &  리다이렉트
+//			redirectAttr.addFlashAttribute("msg", "리뷰등록 성공!");
+//		} catch(Exception e) {
+//			log.error("리뷰 등록 오류!", e);
+//			throw e;
+//		}
+//		return "redirect:/review/reviewDetail.do?no=" + review.getReview_No();
+//	}
 	
 	@GetMapping("/reviewDetail.do")
 	public void selectOneReview(@RequestParam int no, Model model) {
@@ -159,37 +159,37 @@ public class ReviewController {
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 */
-	@GetMapping("/fileDownload.do")
-	public ResponseEntity<Resource> fileDownloadWithResponseEntity(@RequestParam int no) 
-			throws UnsupportedEncodingException{
-		ResponseEntity<Resource> responseEntity = null;
-		try {
-			//1. 업무로직 : db조회
-			Attachment attach = reviewService.selectOneAttachment(no);
-			if(attach == null) {
-				return ResponseEntity.notFound().build();
-			}
-			
-			//2. Resource객체
-			String saveDirectory = application.getRealPath("/resources/upload/review");
-			File downFile = new File(saveDirectory, attach.getRenamedFilename());
-			Resource resource = resourceLoader.getResource("file:" + downFile);
-			String filename = new String(attach.getOriginalFilename().getBytes("utf-8"), "iso-8859-1");
-			
-			//3. ResponseEntity객체 생성 및 리턴
-			//builder패턴
-			responseEntity = 
-					ResponseEntity
-						.ok()
-						.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)
-						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + filename)
-						.body(resource);
-		} catch (Exception e) {
-			log.error("파일 다운로드 오류", e);
-			throw e;
-		}
-		return responseEntity;
-	}
+//	@GetMapping("/fileDownload.do")
+//	public ResponseEntity<Resource> fileDownloadWithResponseEntity(@RequestParam int no) 
+//			throws UnsupportedEncodingException{
+//		ResponseEntity<Resource> responseEntity = null;
+//		try {
+//			//1. 업무로직 : db조회
+//			Attachment attach = reviewService.selectOneAttachment(no);
+//			if(attach == null) {
+//				return ResponseEntity.notFound().build();
+//			}
+//			
+//			//2. Resource객체
+//			String saveDirectory = application.getRealPath("/resources/upload/review");
+//			File downFile = new File(saveDirectory, attach.getRenamedFilename());
+//			Resource resource = resourceLoader.getResource("file:" + downFile);
+//			String filename = new String(attach.getOriginalFilename().getBytes("utf-8"), "iso-8859-1");
+//			
+//			//3. ResponseEntity객체 생성 및 리턴
+//			//builder패턴
+//			responseEntity = 
+//					ResponseEntity
+//						.ok()
+//						.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)
+//						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + filename)
+//						.body(resource);
+//		} catch (Exception e) {
+//			log.error("파일 다운로드 오류", e);
+//			throw e;
+//		}
+//		return responseEntity;
+//	}
 	
 	
 	
