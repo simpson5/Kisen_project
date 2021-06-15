@@ -9,7 +9,7 @@
 
 <div class="container">
   <div class="d-flex justify-content-end mt-5">
-    <button type="button" class="btn btn-secondary" onclick="productEnroll()"> 상품등록</button>
+    <button type="button" class="btn btn-secondary" onclick="artistEroll()"> 아티스트 등록</button>
   </div>
   <div class="card mb-3 mt-4">
     <div class="row g-0 idol-img">
@@ -73,6 +73,10 @@
         keyboard : true
         });
     });
+	function artistEroll(){
+        location.href="${pageContext.request.contextPath}/agency/agencyArtistEnroll";
+	}
+    
     function artistDetail() {
         location.href="agencyArtistDetail.html"
     }

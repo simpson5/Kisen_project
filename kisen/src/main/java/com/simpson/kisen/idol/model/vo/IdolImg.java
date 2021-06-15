@@ -1,5 +1,7 @@
 package com.simpson.kisen.idol.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,13 +9,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Idol {
-	//git test
+public class IdolImg {
+	private int idolImgNo;
 	private int idolNo;
-	private int agencyNo;
-	private String idolName;
-	private IdolImg idolImg;
-	private int fanCnt;
-	
-	private boolean hasImg;
+	private String originalFileName;
+	private String renamedFileName;
+	private Date uploadDate;
 }
