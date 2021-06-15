@@ -15,8 +15,8 @@ public class Fan {
 	private String fanId;
 	private String password;
 	private String phone;
-	private String adress;
-	private String eamil;
+	private String address;
+	private String email;
 	private Date birthday;
 	private String gender;
 	private String grade;
@@ -24,6 +24,7 @@ public class Fan {
 	private String status;
 	private String certification;
 	private Timestamp enrollDate;
+	private String fanName;
 	
 	// git test
 	

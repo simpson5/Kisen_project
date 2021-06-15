@@ -1,0 +1,135 @@
+section {
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+#kisen-logo {
+    text-align: center;
+  }
+#kisen-logo img {
+  width: 200px;
+ }
+  
+.signup-container {
+	margin: 0 auto;
+	width : 50%;
+}
+
+.fill-in-area {
+    margin: 10px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1.9px solid rgb(180, 144, 180);
+    width: 60%;
+    height: 33px;
+}
+
+input:hover {
+    border-bottom: 1.9px solid rgb(128, 25, 128);
+}
+
+input:focus {
+    outline: none;
+}
+
+
+.submit-btn {
+    background-color: rgb(146, 105, 146);
+    width: 62%;
+    height: 50px;
+    margin: 15px auto 30px;
+    color: snow;
+    border : none;
+ }
+  
+.submit-btn:hover {
+    background-color: rgb(180, 126, 180);
+  }
+
+  /* address start */
+.add1 {
+    width: 45%;
+}
+
+.add3 {
+    width: 20%;
+    margin-right: -5px;
+}
+.add4 {
+    width: 39%;
+    transform: translateX(-1px);
+}
+.add-btn {
+    background-color: rgb(146, 105, 146);
+    width: 14.7%;
+    height: 40px;
+    color: snow;
+    border: none;
+    font-size: smaller;
+    transform: translateX(-9px);
+}
+.add-btn:hover {
+    background-color: rgb(202, 171, 202);
+    color: rgb(117, 59, 93);
+    font-weight: bolder;
+}
+
+[name="signupFrm"], [name="signupAgencyFrm"] {
+    text-align: center;
+    margin: 0 auto;
+}
+
+label {
+    width: 60%;
+    text-align: left;
+    display: block;
+    margin: 10px auto 0;
+}
+
+#zip-code {
+    display: inline;
+}
+
+/* date타입 placeholder 색상 변경 */
+input[type=date]::-webkit-datetime-edit-text { color : gray; } 
+input[type=date]::-webkit-datetime-edit-month-field{ color : gray; } 
+input[type=date]::-webkit-datetime-edit-day-field { color : gray; } 
+input[type=date]::-webkit-datetime-edit-year-field { color : gray; }
+
+
+.required-mark {
+	color : rgb(128, 25, 128);
+}
+
+.chkNotice {
+    width: 60%;
+    font-size: smaller;
+    text-align: left;
+    margin: 0 auto 5px;
+}
+
+[name="email"] {
+	width: 45.6% !important;
+	transform: translateX(-2px);
+}
+
+[name="selectEmail"] {
+    width: 13.7%;
+    height: 37.3px;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 1.9px solid rgb(180, 144, 180);
+    font-size: smaller;
+    margin-left: 4px;
+    transform: translate(-12px, -3px);
+}
+
+[name="selectEmail"]:focus{
+    border-bottom: 1.9px solid rgb(128, 25, 128);
+}
+
+#phone-authentication {
+    margin-top: 15px;
+}

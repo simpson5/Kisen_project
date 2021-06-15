@@ -77,7 +77,7 @@ img#productImg{
 	    </div>
 	    <div class="col-4 height_90" id="reviewInfo">
 			<div>
-				제목
+				리뷰내용
 			</div>
 	    </div>
 	    <div class="col-2 height_90" id="reviewInfo">
@@ -146,8 +146,97 @@ function goEditForm(){
 	location.href = "${pageContext.request.contextPath}/review/revieweditForm.do";
 	
 }
+
+$(() => {
+	$("tr[data-no]").click(e => {
+		//화살표함수안에서는 this는 e.target이 아니다.
+		//console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
+		var $tr = $(e.target).parent();
+		var no = $tr.data("no");
+		location.href = "${pageContext.request.contextPath}/board/boardDetail.do?no=" + no;
+	});
+
+	$( "#searchTitle" ).autocomplete({
+  		source: function(request, response){
+ 		  //console.log(request);
+ 		  //console.log(response);
+ 		  //response([{label:'a', value:'a'}, {label:'b', value:'b'}]);
+ 		  
+ 		  //사용자입력값전달 ajax요청 -> success함수안에서 response호출 
+  	 	  $.ajax({
+			url: "${pageContext.request.contextPath}/board/searchTitle.do",
+			data: {
+				searchTitle: request.term
+			},
+			success(data){
+				console.log(data);
+				const {list} = data;
+				//배열
+				const arr = 
+					list.map(({no, title}) => ({
+						label: title,
+						value: title,
+						no		
+					}));
+				console.log(arr);
+				response(arr);
+			},
+			error(xhr, statusText, err){
+				console.log(xhr, statusText, err);
+			}
+  	  	  });
+		},
+		select: function(event, selected){
+			// 클릭했을때, 해당게시글 상세페이지로 이동
+			//console.log("select : ", selected);
+			const {item: {no}} = selected;
+			location.href = "${pageContext.request.contextPath}/board/boardDetail.do?no=" + no;
+		},
+		focus: function(event, focused){
+		 return false;
+		},
+		autoFocus: true, 
+		minLength: 2
+  });
+});
 </script>
-	    </li>
+
+<section id="board-container" class="container">
+	
+	<table id="tbl-board" class="table table-striped table-hover">
+		<tr>
+			<th>리뷰번호</th>
+			<th>상품번호</th>
+			<th>리뷰내용</th>
+			<th>작성자</th>
+			<th>조회수</th>
+			<th>추천수</th>
+			<th>작성일</th>
+			<!--<th>첨부파일</th>  첨부파일 있을 경우, /resources/images/file.png 표시 width: 16px-->
+			
+		</tr>
+		<c:forEach items="${list}" var="review">
+		<tr data-no="${review.Review_No}">
+			<td>${review.Review_No}</td>
+			<td>${review.Product_No}</td>
+			<td>${review.Review_Content}</td>
+			<td>${review.Fan_Id}</td>
+			<td>${review.Read_Cnt}</td>
+			<td>${review.Reco_Cnt}</td>
+			<td><fmt:formatDate value="${review.Review_Date}" pattern="yy-MM-dd"/></td>
+			
+			<td>
+				<c:if test="${board.hasAttachment}">
+				<img src="${pageContext.request.contextPath}/resources/images/file.png" width="16px" alt="" />
+				</c:if>
+			</td>
+		</tr>
+		</c:forEach>
+		
+	</table>
+	
+	${pageBar}
+	   
 	   </ul>	    
 </div>
 
