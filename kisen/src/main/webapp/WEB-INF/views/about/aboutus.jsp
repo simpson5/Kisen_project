@@ -104,6 +104,7 @@ span.font-color{
 	    		<div id="map" style="width:600px; height : 300px; margin:0 auto; text-align:center; disableAutoPan: true; ">
 	    			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=6b7f33ed5517285d15a818940fe8f0fe"></script>
 					<script>
+					
 					var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 				    mapOption = { 
 				        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -111,7 +112,10 @@ span.font-color{
 				    };
 
 					var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-	
+					// display: block 이 된 직 후,
+					window.setTimeout(function() {
+					    map.relayout();
+					}, 0);
 					// 지도를 표시하는 div 크기를 변경하는 함수입니다
 					function resizeMap() {
 					    var mapContainer = document.getElementById('map');
