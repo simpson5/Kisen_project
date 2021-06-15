@@ -153,6 +153,13 @@ td{
 	height: 0px;
 	overflow: hidden;
 }
+
+.kakaoBtn{
+	border: none;
+	background-color: white;
+	cursor: pointer;
+}
+
 </style>
 
 
@@ -179,6 +186,7 @@ td{
  <hr />
 
 <!-- 주문할 내역-->
+<form method="POST" id="payInfoFrm">
 <div class="border border-0 mx-auto p-3 rounded " id="orderHistory">
  	<table class="table">
   <thead id="cartOder">
@@ -282,6 +290,7 @@ td{
   </tbody>
 </table>
 </div>
+</form>
 <hr />
 <br />
 
@@ -459,7 +468,10 @@ td{
 		 	 	<label for="kakaopay">카카오페이 결제</label>
 		 	 	<hr/>
 		 	 	<div class="hiddenKakaoPay" id="hiddenKakao">
-	 	 			<span>카카오페이 결제창으로 이동</span>
+	 	 			<button class="kakaoBtn" id="kakaoBtn">
+   						 <img src="${pageContext.request.contextPath}/resources/images/moonju/payment_medium.png" onclick="kakaoPayment(this);" id="kakaoBtn">   							 	 			
+	 	 			</button>
+					
 	 	 			<hr/>
 		 	 	</div>
 		 	 
@@ -561,7 +573,8 @@ td{
  	</div>
  </div>	 
 <div class="border border-0 mx-auto p-3 rounded d-flex justify-content-center" >
-	 <a href="${pageContext.request.contextPath}/basket/payComplet.do">	<button type="button" class="btn btn-warning " id="payNow">결제하기</button></a>	
+	 <a href="${pageContext.request.contextPath}/basket/payComplet.do">	
+	 <button type="button" class="btn btn-warning " id="payNow">결제하기</button></a>	
 </div>
 
 <script>
@@ -615,12 +628,29 @@ function selectPay(obj){
 
 }
 //전체선택 설정
-	$("#agreedAll").change(function(e){
-		
-		$("[name=agreed]").prop("checked", this.checked);
-		
-		
+$("#agreedAll").change(function(e){
+	
+	$("[name=agreed]").prop("checked", this.checked);
+	
+	
+});
+
+//카카오페이 api
+$("#kakaoBtn").click(() => {
+	
+	$("#payInfoFrm").submit(e =>{
+		$.ajax({
+					url:"https://kapi.kakao.com/v1/payment/approve",
+					method: "POST",
+					success(data){
+						console.log(data);
+						
+					},
+					error: console.log
+				})
+			});
 	});
+});
 
 </script>
 
