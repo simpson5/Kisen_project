@@ -206,19 +206,19 @@ public class ReviewController {
 	
 	
 
-	@GetMapping("/reviewList.do")
-	public void reviewList() {}
-	
-	@GetMapping("/reviewForm.do")
-	public void reviewForm() {}
-	
-
-	@GetMapping("/revieweditForm.do")
-	public void revieweditForm() {}
-	
-	
-	@GetMapping("/reviewDetail.do")
-	public void reviewDetail() {}
+//	@GetMapping("/reviewList.do")
+//	public void reviewList() {}
+//	
+//	@GetMapping("/reviewForm.do")
+//	public void reviewForm() {}
+//	
+//
+//	@GetMapping("/revieweditForm.do")
+//	public void revieweditForm() {}
+//	
+//	
+//	@GetMapping("/reviewDetail.do")
+//	public void reviewDetail() {}
 
 	
 	
