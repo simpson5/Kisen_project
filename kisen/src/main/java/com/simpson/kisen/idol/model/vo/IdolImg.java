@@ -15,4 +15,6 @@ public class IdolImg {
 	private String originalFileName;
 	private String renamedFileName;
 	private Date uploadDate;
+	
+	
 }
