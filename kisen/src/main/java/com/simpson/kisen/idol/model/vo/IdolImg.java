@@ -17,4 +17,6 @@ public class IdolImg {
 	private Date uploadDate;
 	
 	
+	
+	
 }
