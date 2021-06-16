@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="idol">
+<!-- 이미지 파일 조회를 위한 idol select (idolImg와 조인) -->
+	<select id="selectOneIdolCollection" resultMap="idolCollectionMap">
+		select 
+			i.*,
+			iI.idol_img_no,
+			iI.idol_no,
+			iI.ORIGINAL_FILENAME,
+			iI.RENAMED_FILENAME,
+			iI.UPLOAD_DATE		
+        from 
+            idol i
+        left join 
+            idol_img iI
+        on i.idol_no = iI.idol_no
+        where 
+        	i.idol_no = #{idolNo}
+	</select>
+	<resultMap type="idolImg" id="idolCollectionMap">
+		<id column="idol_no" property="idolNo"/>
+		<result column="idol_name" property="idolName"/>
+		<result column="fan_cnt" property="fanCnt"/>
+		<result column="agency_no" property="agencyNo"/>
+		<result column="reg_date" property="regDate"/>
+		
+		<collection property="attachList" ofType="attachment">
+			<id column="attach_no" property="no"></id>
+			<result column="board_no" property="boardNo"/>
+			<result column="original_filename" property="originalFilename"/>
+			<result column="renamed_filename" property="renamedFilename"/>
+			<result column="upload_date" property="uploadDate"/>
+			<result column="download_count" property="downloadCount"/>
+			<result column="status" property="status" typeHandler="booleanYnTypeHandler"/>
+		
+		</collection>
+		
+	</resultMap>
+
+</mapper>

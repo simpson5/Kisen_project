@@ -88,13 +88,13 @@ div#mypage1{
 	  <!-- 내부 네브바  -->
 		     <ul class="nav nav-tabs justify-content-center">
 		  <li class="nav-item col-md-2 p-0">
-		    <a class="nav-link" href="${pageContext.request.contextPath}/mypage/mypage_pay.do" id="payNav">결제내역</a>
+		    <a class="nav-link" href="${pageContext.request.contextPath}/mypage/mypagePay.do" id="payNav">결제내역</a>
 		  </li>
 		  <li class="nav-item col-md-2 p-0">
-		    <a class="nav-link" href="${pageContext.request.contextPath}/mypage/mypage_artist.do" id="payNav">찜 아티스트</a>
+		    <a class="nav-link" href="${pageContext.request.contextPath}/mypage/mypageArtist.do" id="payNav">찜 아티스트</a>
 		  </li>
 		  <li class="nav-item col-md-2 p-0">
-		    <a class="nav-link active" href="${pageContext.request.contextPath}/mypage/mypage_member.do" id="payNav">회원정보수정</a>  <%--사용자가 클릭시 비밀번호 입력 나오게 하기 --%>
+		    <a class="nav-link active" href="${pageContext.request.contextPath}/mypage/mypageMember.do" id="payNav">회원정보수정</a>  <%--사용자가 클릭시 비밀번호 입력 나오게 하기 --%>
 		  </li>
 		  <!-- <li class="nav-item">
 		    <a class="nav-link disabled" href="#">Disabled</a>
