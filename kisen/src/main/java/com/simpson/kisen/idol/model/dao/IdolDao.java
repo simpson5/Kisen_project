@@ -4,7 +4,7 @@ import com.simpson.kisen.idol.model.vo.IdolImg;
 
 public interface IdolDao {
 
-	IdolImg selectOneIdolCollection(int idolNo);
+	IdolImg selectOneIdolCollection(int fanNo);
 
 
 

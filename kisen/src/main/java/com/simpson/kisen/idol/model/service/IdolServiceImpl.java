@@ -13,8 +13,8 @@ public class IdolServiceImpl implements IdolService {
 	private IdolDao idolDao;
 
 	@Override
-	public IdolImg selectOneIdolCollection(int idolNo) {
-		return idolDao.selectOneIdolCollection(idolNo);
+	public IdolImg selectOneIdolCollection(int fanNo) {
+		return idolDao.selectOneIdolCollection(fanNo);
 	}
 
 	

@@ -13,8 +13,8 @@ public class IdolDaoImpl implements IdolDao {
 	private SqlSessionTemplate session;
 
 	@Override
-	public IdolImg selectOneIdolCollection(int idolNo) {
-		return session.selectOne("idol.selectOneIdolCollection", idolNo);
+	public IdolImg selectOneIdolCollection(int fanNo) {
+		return session.selectOne("idol.selectOneIdolCollection", fanNo);
 	}
 	
 	

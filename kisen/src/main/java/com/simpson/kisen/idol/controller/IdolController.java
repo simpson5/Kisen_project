@@ -38,7 +38,7 @@ public class IdolController {
 	private IdolService idolService;
 		
 	@GetMapping("/mypageArtist.do")
-	public void selectOneBoard(@RequestParam int fanNo , Model model) {
+	public void selectOneBoard(@RequestParam int fanNo, Model model) {
 		//1. 업무로직 
 		IdolImg idolImg = idolService.selectOneIdolCollection(fanNo);
 			
