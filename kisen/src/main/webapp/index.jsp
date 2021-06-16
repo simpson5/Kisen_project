@@ -52,7 +52,7 @@
                 <span class="badge bg-dark">앨범</span>
               </p>
               <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-sm btn-outline-main" onclick="pdInfo();">상세보기</button>
+                <button type="button" class="btn btn-sm btn-outline-main" id="pdInfo-btn">상세보기</button>
                 <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
               </div>
             </div>
@@ -517,9 +517,9 @@
 </div>
 
 <script>
-function pdInfo(){
-	location.href="${pageContext.request.contextPath}/views/product/pdInfo.jsp";
-}
+$("#pdInfo-btn").click(function(){
+	window.location.href="${pageContext.request.contextPath}/product/productInfo";
+});
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
