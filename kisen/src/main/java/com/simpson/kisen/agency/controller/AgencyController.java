@@ -3,6 +3,7 @@ package com.simpson.kisen.agency.controller;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -66,7 +67,13 @@ public class AgencyController {
 	
 
 	@GetMapping("/agencyArtist")
-	public String agencyArtist() { return "agency/agencyArtist/agencyArtist";}
+	public String agencyArtist() { 
+		//아이돌 조회
+		List<Idol> idolList = agencyService.selectIdolList();
+		
+		return "agency/agencyArtist/agencyArtist";
+	}
+	
 	
 	@GetMapping("/agencyArtistDetail")
 	public String agencyArtistDetail() { return "agency/agencyArtist/agencyArtistDetail";}
@@ -107,11 +114,12 @@ public class AgencyController {
 		//c. idol 媛앹껜�뿉 idol_img, idolName ���옣
 		Idol idol = new Idol();
 		idol.setIdolName(idolName);
-		
+		idol.setIdolImg(idol_img);
+		idol.setAgencyNo("agency_1");
 		
 		
 		//2. �뾽臾대줈吏� : db ���옣
-		int result = agencyService.insertIdol(idol);
+//		int result = agencyService.insertIdol(idol);
 		
 		return "agency/agencyArtist/agencyArtist";
 	}
