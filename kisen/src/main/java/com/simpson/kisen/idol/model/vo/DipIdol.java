@@ -1,5 +1,6 @@
 package com.simpson.kisen.idol.model.vo;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,12 +8,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Idol {
-	//git test
+public class DipIdol extends Idol {
+
+	private String fanNo;
 	private int idolNo;
-	private String agencyNo;
-	private String idolName;
-	private int fanCnt;
 	private IdolImg idolImg;
-	
 }

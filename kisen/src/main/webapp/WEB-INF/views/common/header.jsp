@@ -38,7 +38,7 @@
                     </li>
                     <span class="divide">|</span>
                     <li >
-                        <a href="${pageContext.request.contextPath}/mypage/mypage_pay.do">MYPAGE</a>
+                        <a href="${pageContext.request.contextPath}/mypage/mypagePay.do">MYPAGE</a>
                     </li>
                     <span class="divide">|</span>
                     <li>

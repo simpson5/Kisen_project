@@ -1,9 +1,9 @@
 package com.simpson.kisen.agency.controller;
 
-import java.util.List;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -74,6 +74,7 @@ public class AgencyController {
 		return "agency/agencyArtist/agencyArtist";
 	}
 	
+	
 	@GetMapping("/agencyArtistDetail")
 	public String agencyArtistDetail() { return "agency/agencyArtist/agencyArtistDetail";}
 
@@ -89,7 +90,7 @@ public class AgencyController {
 		log.info("idolName = {}",idolName);
 		log.info("idolImg = {}",idolImg.getOriginalFilename());
 		
-		//파일 저장
+		//�뙆�씪 ���옣
 		String saveDir = application.getRealPath("/resources/upload/idol");
 		log.info("saveDir = {}",saveDir);
 		
@@ -100,23 +101,24 @@ public class AgencyController {
 		String renamedFilename = HelloSpringUtils.getRenamedFilename(idolImg.getOriginalFilename());
 		
 		
-		//a. 서버 컴퓨터에 저장
+		//a. �꽌踰� 而댄벂�꽣�뿉 ���옣
 		File dest = new File(saveDir,renamedFilename);
 		idolImg.transferTo(dest);
 		
-		//b. img 객체 저장
+		//b. img 媛앹껜 ���옣
 		IdolImg idol_img = new IdolImg();
 		idol_img.setOriginalFileName(idolImg.getOriginalFilename());
 		idol_img.setRenamedFileName(renamedFilename);
 		
 		
-		//c. idol 객체에 idol_img, idolName 저장
+		//c. idol 媛앹껜�뿉 idol_img, idolName ���옣
 		Idol idol = new Idol();
 		idol.setIdolName(idolName);
 		idol.setIdolImg(idol_img);
 		idol.setAgencyNo("agency_1");
 		
-		//2. 업무로직 : db 저장
+		
+		//2. �뾽臾대줈吏� : db ���옣
 //		int result = agencyService.insertIdol(idol);
 		
 		return "agency/agencyArtist/agencyArtist";
