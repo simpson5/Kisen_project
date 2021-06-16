@@ -22,7 +22,7 @@ public class Fan {
 	private String grade;
 	private int point;
 	private String status;
-	private String certification;
+	private boolean certification;
 	private Timestamp enrollDate;
 	private String fanName;
 	

@@ -1,5 +1,8 @@
 package com.simpson.kisen.member.controller;
 
+import java.beans.PropertyEditor;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,19 +10,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.simpson.kisen.agency.model.vo.Agency;
 import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.member.model.service.MemberService;
 
@@ -38,16 +48,22 @@ public class MemberController {
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	@GetMapping("/login.do")
-	public void login() {}
+	// @RequestHeader를 통해 Referer를 가져옴, referer가 없는 경우를 대비해 required는 false로 설정
+	public void memberLogin() {
+	}
 	
 	@GetMapping("/signupTerm.do")
 	public void signupTerm() {}
 	
 	@GetMapping("/signup.do")
 	public void signup() {}
+
+	@GetMapping("/signupAgency.do")
+	public void signupAgency() {}
 	
 	@GetMapping("/searchId.do")
 	public void searchId() {}
+	
 	
 	/**
 	 * 아이디 중복검사
@@ -75,6 +91,30 @@ public class MemberController {
 				.body(map); // body에 map담기
 	}
 	
+	/**
+	 * java.sql.Date, java.util.Date 필드에 값대입시
+	 * 사용자 입력값이 ""인 경우, null로 처리될 수 있도록 설정
+	 * @param binder
+	 */
+	// initBinder - 커맨드 객체 관련 설정을 담당
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		// [특정 타입에 대해 형변환해주는 editor를 등록]
+		// 1. editor에서 필요한 형식 지정
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		// 2. editor객체 생성
+		// CustomDateEditor(DateFormat dateFormat, boolean allowEmpty)
+		// allowEmpty여부를 true로 바꾸기 : 빈문자열이 들어오는 것을 허용함
+		PropertyEditor editor = new CustomDateEditor(format, true);
+		// 3. binder에 editor 등록
+		// 형변환이 필요하다면 이 editor를 사용하라
+		binder.registerCustomEditor(Date.class, editor);
+	}
+	
+	
+	/**
+	 * 회원가입 처리
+	 */
 	@PostMapping("/signup.do")
 	public String memberEnroll(
 			@ModelAttribute Fan member,
@@ -104,4 +144,42 @@ public class MemberController {
 		}
 		return "redirect:/";
 	}
+	
+//	@PostMapping("/signupAgency.do")
+//	public String memberAgencyEnroll(
+//			@ModelAttribute Fan member,
+//			@RequestParam String addressExt1,
+//			@RequestParam String addressExt2,
+//			@RequestParam String addressExt3,
+//			@ModelAttribute Agency agency,
+//			@RequestParam String fanNoExt1,
+//			@RequestParam String fanNoExt2,
+//			RedirectAttributes redirectAttr
+//			) {
+//		log.info("member = {}", member);
+//		try {
+//			// member에 모든 주소 다시 세팅
+//			member.setAddress(member.getAddress() + ") " + addressExt1 + addressExt2 + " " + addressExt3);
+//			// agency에 모든 사업자번호 다시 세팅
+//			member.setFanNo("agcy_" + agency.getFanNo() + fanNoExt1 + fanNoExt2);
+//			
+//			// 0. 비밀번호 암호화처리
+//			String rawPassword = member.getPassword();
+//			String encodedPassword = bcryptPasswordEncoder.encode(rawPassword);
+//			// member에 암호화된 비밀번호 다시 세팅
+//			member.setPassword(encodedPassword);
+//			log.info("member(암호화처리 이후) = {}", member);
+//			// 1. 업무로직
+//			// 1.1. fan테이블에 세팅
+//			int result = memberService.insertMemberAgency(member, agency);
+//			// 2. 사용자피드백 및 리다이렉트
+//			redirectAttr.addFlashAttribute("msg", "기획사 회원가입성공");
+//			// redirect:/ - 인덱스페이지(welcome file)로 이동
+//			// welcome file로 바로 찾게 되면 redirectAttr을 처리할 수 없음
+//		} catch (Exception e) {
+//			log.error("회원가입 오류!", e);
+//			throw e;
+//		}
+//		return "redirect:/";
+//	}
 }

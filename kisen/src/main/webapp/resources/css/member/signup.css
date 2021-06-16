@@ -31,6 +31,7 @@ input:hover {
 
 input:focus {
     outline: none;
+    border-bottom: 1.9px solid rgb(128, 25, 128);
 }
 
 
@@ -132,4 +133,14 @@ input[type=date]::-webkit-datetime-edit-year-field { color : gray; }
 
 #phone-authentication {
     margin-top: 15px;
+}
+
+input.corp-no-input {
+	width : 17.9% !important;
+	text-align : center;
+}
+
+hr {
+    width: 60%;
+    margin: 55px auto 52px;
 }

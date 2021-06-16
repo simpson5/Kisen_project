@@ -81,10 +81,22 @@
 </div>
 <!-- 회원가입 폼 -->
 <form 
-	action="${pageContext.request.contextPath}/member/signup.do"
-	name="signupFrm"
+	action="${pageContext.request.contextPath}/member/signupAgency.do"
+	name="signupAgencyFrm"
 	method="post"
 >
+	<div>
+        <label for="agency-name">소속사명<span class="required-mark"> *</span></label>
+        <input type="text" class="fill-in-area" name="agencyName" id="agency-name">
+        <p id="chkNoticeAgencyName" class="chkNotice"></p>
+    </div>
+	<div class="corp-no-container">
+    	<label for="corp-no">사업자번호<span class="required-mark"> *</span></label>
+	    <input type="text" class="fill-in-area corp-no-input" id="corp-no" name="fanNo" maxlength="3">-
+	    <input type="text" class="fill-in-area corp-no-input" name="fanNoExt1" maxlength="2">-
+	    <input type="text" class="fill-in-area corp-no-input" name="fanNoExt2" maxlength="5">
+    </div>
+    <hr/>
     <div>
         <label for="id">아이디<span class="required-mark"> *</span></label>
         <input type="text" class="fill-in-area" name="fanId" id="id" placeholder="5자~11자">
@@ -244,7 +256,7 @@ $('#passwordCheck').keyup(function(){
 });
 
 // 제출시 유효성 검사
-$("[name=signupFrm]").submit(function(){
+$("[name=signupAgencyFrm]").submit(function(){
 
 	// 아이디 중복검사 완료전에는 제출되지 않도록
 	var $idValid = $("#idValid");
