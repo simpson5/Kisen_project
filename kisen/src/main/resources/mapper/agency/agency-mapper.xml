@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="agency">
+  <!-- <insert id="insertIdol">
+  	insert into
+  		idol(
+  			idol_no,
+  			idol_name,
+  			fan_cnt,
+  			agency_no
+  		)
+  	values(
+  		seq_idol.nextval,
+  		#{idolName},
+  		0,
+  		(select agency_no from agency where fan_no =#{agency_no})
+  	)
+  	
+  	<selectKey keyProperty="no" resultType="_int" order="AFTER">
+  		select 
+  			seq_board_no.currval
+  		from
+  		 	dual
+  	</selectKey>
+  </insert>
+  
+	<insert id="insertIdolImg"> 
+		insert into 
+		idol_img( no, idol_no, original_filename, renamed_filename ) 
+		values( seq_idol_img.nextval, #{idolNo}, #{originalFilename}, #{renamedFilename} ) 
+	</insert> -->
+	
+	
+	<select id="selectIdolList" resultType ="idol">
+		select * from idol
+	</select>
+</mapper>
