@@ -5,8 +5,9 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 
-	<jsp:param value="mypage" name="title"/>
+<jsp:param value="mypage" name="title"/>
 </jsp:include>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
 <style>
 div#demo-container{
 	width:600px;
@@ -112,13 +113,8 @@ div#myArtist img{
 #carouselExampleIndicators2{
 	background-color:  #c8aad2;
 }
-div#heart img{
-	width:20px;
-	height:20px;
-}
-div#heart img:hover{
-	width:20px;
-	height:20px;
+
+.heartBtn:hover{
 	cursor: pointer;
 }
 </style>
@@ -190,7 +186,7 @@ div#heart img:hover{
 	  	 <br /><br />
 	  	 <div class=" mx-auto font-weight-bold text-center">BLACK PINK</div>
 	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -198,7 +194,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">Red Velvet</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -206,7 +202,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">TWICE</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -214,7 +210,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">IU</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -222,7 +218,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">공원소녀</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	</div>
@@ -235,7 +231,7 @@ div#heart img:hover{
 	  	 <br /><br />
 	  	 <div class=" mx-auto font-weight-bold text-center">SEVENTEEN</div>
 	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -243,7 +239,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">SF9</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -251,7 +247,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">더보이즈</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -259,7 +255,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">MONSTA-X</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -267,7 +263,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">BTS</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	</div>
@@ -280,7 +276,7 @@ div#heart img:hover{
 	  	 <br /><br />
 	  	 <div class=" mx-auto font-weight-bold text-center">SHINEE</div>
 	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -288,7 +284,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">EVERGLOW</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -296,7 +292,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">BRAVE GIRLS</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -304,7 +300,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">여자친구</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -312,7 +308,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">오마이걸</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/heart.png" />
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
 	</div>
@@ -352,34 +348,34 @@ div#heart img:hover{
 	  <div class="col-4"></div>
 	</div>
 
-<!-- 아티스트 사진 부분 이것도 조금이라도 수정-->
+<!-- 아티스트 사진 부분 -->
 <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
       	<div class="d-flex flex-row justify-content-center" id="myArtist">
 	<br />
 	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/blackpink.jpg" alt="" />
+	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/blackpink.jpg" />
 	  	 <br /><br />
 	  	 <div class=" mx-auto font-weight-bold text-center">BLACK PINK</div>
 	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/rv.jpg" alt="" />
+	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/rv.jpg" />
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">Red Velvet</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/twice.jpg" alt="" />
+	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/twice.jpg" />
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">TWICE</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -387,7 +383,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">IU</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -395,7 +391,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">공원소녀</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	</div>
@@ -404,27 +400,27 @@ div#heart img:hover{
       	<div class="d-flex flex-row justify-content-center" id="myArtist">
 	<br />
 	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/seventeen.jpg" alt="" />
+	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/seventeen.jpg"/>
 	  	 <br /><br />
 	  	 <div class=" mx-auto font-weight-bold text-center">SEVENTEEN</div>
 	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/sf9.jpg" alt="" />
+	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/sf9.jpg" />
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">SF9</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/theboys.jpg" alt="" />
+	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/theboys.jpg" />
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">더보이즈</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -432,7 +428,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">MONSTA-X</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -440,7 +436,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">BTS</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	</div>
@@ -453,7 +449,7 @@ div#heart img:hover{
 	  	 <br /><br />
 	  	 <div class=" mx-auto font-weight-bold text-center">SHINEE</div>
 	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -461,7 +457,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">EVER GLOW</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -469,7 +465,7 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">BRAVE GIRLS</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -477,15 +473,15 @@ div#heart img:hover{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">여자친구</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
 	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/omyg.jpg" alt="" />
 	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">오마이걸</div>
+     	<div class=" mx-auto font-weight-bold text-center" name="o-artist">오마이걸</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<img src="${pageContext.request.contextPath}/resources/images/moonju/like.png" />
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	</div>
@@ -502,6 +498,18 @@ div#heart img:hover{
 </div>
 
 </div>
+<script>
+$(".heartBtn").click (e => {
+	const $me = $(e.target);
+	//직전요소 가져옴  const $like = $(e.target).parent().prev(); -> 아티스트 이름 값을 가져옴 like.text()
+	
+	$me.toggleClass("far");
+	$me.toggleClass("fas");
 
+
+});
+
+
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
