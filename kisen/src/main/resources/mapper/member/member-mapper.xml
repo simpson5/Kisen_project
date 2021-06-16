@@ -6,14 +6,17 @@
 
 <!-- =========================== [ 회원가입 - 회원조회 ] =========================== -->
 <!-- enabled는 db에서는 1/0 -> true/false로 자동형변환되어 들어옴 -->
-	<select id="selectOneMember" resultType="fan">
-		select
-			*
-		from
-			"fan"
-		where "fan_id" = #{id}
-	</select>
-<!-- =========================== [ 회원가입 - 회원등록 ] =========================== -->
+<select id="selectOneMember" resultMap="memberMap">
+	select
+		*
+	from
+		"fan"
+	where "fan_id" = #{id}
+</select>
+<resultMap type="fan" id="memberMap">
+	<result column="certification" property="certification" typeHandler="booleanYNTypeHandler"/>
+</resultMap>
+<!-- =========================== [ (일반) 회원가입 - 회원등록 ] =========================== -->
 <insert id="insertMember">
 	insert into
 		"fan"
@@ -32,6 +35,42 @@
 		'N',
 		default,
 		#{fanName}
+	)
+</insert>
+<!-- =========================== [ (기획사) 회원가입 - 회원등록 ] =========================== -->
+<insert id="insertAgencyMember">
+	insert into
+		"fan"
+	values (
+		#{fanNo},
+		#{fanId},
+		#{password},
+		#{phone},
+		#{address},
+		#{email},
+		#{birthday},
+		'M',
+		null,
+		null,
+		null,
+		'N',
+		default,
+		#{fanName}
+	)
+	<selectKey keyProperty="fanNo" resultType="string" order="AFTER">
+	 	select
+	 		"fanNo".currval
+	 	from
+	 		"fan"
+	 </selectKey>
+</insert>
+<insert id="insertAgency">
+	insert into
+		"agency"
+	values (
+		#{fanNo},
+		#{agencyName},
+		seq_agency_no.nextval
 	)
 </insert>
 </mapper>

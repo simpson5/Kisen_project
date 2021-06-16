@@ -32,15 +32,13 @@ $(document).ready(function(){
     })
 })
 </script>
-<a href="${pageContext.request.contextPath}/member/captcha.do"></a>
 <div class="term-container">
     <!-- 로고 -->
     <div id="kisen-logo">
         <img src="${pageContext.request.contextPath }/resources/images/member/kisen_logo.png" alt="kisen-logo">
     </div>
     <!-- 이용약관 폼 -->
-    <form 
-        action="${pageContext.request.contextPath}/member/signup.do"
+    <form
         method="get"
         name="signupTermFrm">
         <!-- 전체동의 -->
@@ -237,9 +235,17 @@ $("[name=signupTermFrm]").submit(function(){
         $("#term-alert").css("display","");
     return false;
     }
+    if ($("#agencySignup").is(":checked")) {
+    // 기획사 회원가입 이동
+	    $("[name=signupTermFrm]").attr("action", "${pageContext.request.contextPath}/member/signupAgency.do");
+    } else {
+    // 일반회원 회원가입 이동
+    	$("[name=signupTermFrm]").attr("action", "${pageContext.request.contextPath}/member/signup.do");
+	}
+    
 });
 
-// 기획사 회원가입
+// 기획사 회원가입 경고
 $(document).ready(function(){
     $("#agencySignup").change(function(){
    if ($("#agencySignup").is(":checked")) {
