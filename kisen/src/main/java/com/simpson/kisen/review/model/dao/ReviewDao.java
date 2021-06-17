@@ -28,6 +28,11 @@ public interface ReviewDao {
 	Attachment selectOneAttachment(int no);
 
 	List<Review> searchTitle(String searchTitle);
+	
+
+
+
+
 
 
 }

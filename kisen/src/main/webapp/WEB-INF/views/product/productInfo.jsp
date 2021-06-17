@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="헬로우 스프으으으리이이잉" name="title" />
+	<jsp:param value="상품 상세" name="title" />
 </jsp:include>
 <style>
 body, html {
@@ -12,14 +12,16 @@ body, html {
 	padding: 0px;
 }
 
-a{
+a {
 	text-decoration: none;
 	color: black;
 }
-a:hover{
+
+a:hover {
 	text-decoration: none;
 	color: black;
 }
+
 #wrap {
 	position: relative;
 	width: 1230px;
@@ -64,6 +66,7 @@ a:hover{
 	height: 30px;
 	border: none;
 }
+
 .hr {
 	width: 100%;
 }
@@ -107,12 +110,14 @@ a:hover{
 	color: #353535;
 	vertical-align: middle;
 }
-.btn-buy{
-	height:50px;
-	line-height:50px;
+
+.btn-buy {
+	height: 50px;
+	line-height: 50px;
 	border-top: 1px solid #eee;
 	text-align: center;
 }
+
 .pd-detail-menu {
 	position: relative;
 	margin-top: 10px;
@@ -145,109 +150,138 @@ a:hover{
 	border: 1px solid #d4d8d9;
 	border-radius: 3px 0 0 3px;
 	position: relative;
-	top:-10px;
+	top: -10px;
 }
-
 
 .col-md-3 {
 	height: 50px;
 	float: none;
 	margin: 0 auto;
 	line-height: 50px;
-	border : 1px solid #d4d8d9;
+	border: 1px solid #d4d8d9;
 }
 
-.select{
+.select {
 	position: relative;
-    top: -1px;
-    margin: -12px 0 -1px;
-    border: 2px solid #000;
-    color: #000;
-    font-size: 16px;
-    font-weight: bold;
-    background: #fff;
-    border-bottom: 0px;
-    height: 63px;
-    line-height: 50px;	
+	top: -1px;
+	margin: -12px 0 -1px;
+	border: 2px solid #000;
+	color: #000;
+	font-size: 16px;
+	font-weight: bold;
+	background: #fff;
+	border-bottom: 0px;
+	height: 63px;
+	line-height: 50px;
 }
 
-.pd-detail{
+.pd-detail {
 	width: 100%;
-	margin:0 auto;
+	margin: 0 auto;
 	vertical-align: middle;
 	text-align: center;
 }
-.pd-detail img{
-	height : 500px;
+
+.pd-detail img {
+	height: 500px;
 }
-.pd-review{
-	width:100%;
-	margin:0 auto;
+
+.pd-review {
+	width: 100%;
+	margin: 0 auto;
 }
-pd-review-board{
-	width:100%;
+
+pd-review-board {
+	width: 100%;
 }
-.pd-review-board th{ 
-	min-width:30px;
+
+.pd-review-board th {
+	min-width: 30px;
+	text-align: center;
+	background-color: #c7a2e0;
+}
+
+.pd-review-board td {
 	text-align: center;
 }
-.pd-review-board td{
-	text-align:center;
-}
-.pd-review-board td:nth-of-type(2){
+
+.pd-review-board td:nth-of-type(2) {
 	text-align: left;
 }
 
-button .write{
-	margin-right:10px;
+button .write {
+	margin-right: 10px;
 }
 
-.btn-area{
-	width:100%;
-	height:50px;
-	vertical-align:middle;
-	line-height:50px;	
-	border-bottom:1px solid #d4d8d9;
-	border-top:1px solid #d4d8d9;
+.btn-area {
+	width: 100%;
+	height: 50px;
+	vertical-align: middle;
+	line-height: 50px;
+	border-bottom: 1px solid #d4d8d9;
+	border-top: 1px solid #d4d8d9;
 }
-.btn-group{
+
+.btn-group {
 	float: right;
 	line-height: 50px;
-	padding-top:5px;
-}
-.paging-area{
-	width:100%;
-	height:50px;
-	line-height:50px;
-	margin-top : 20px;
+	padding-top: 5px;
 }
 
-.review-paging-nav{
-	width : 100%;
-	position:relative;
+.paging-area {
+	width: 100%;
+	height: 50px;
+	line-height: 50px;
+	margin-top: 20px;
 }
-.review-paging-nav .pagination{
+
+.review-paging-nav {
+	width: 100%;
+	position: relative;
+}
+
+.review-paging-nav .pagination {
 	text-align: center;
-	margin:0 auto;
+	margin: 0 auto;
 }
-.review-paging-nav .pagination li{
+
+.review-paging-nav .pagination li {
 	display: inline-block;
 }
 
-div#pd-slide img{
+div#pd-slide img {
 	width: 200px;
 	height: 150px;
 }
 
-.another-pd-price{
-	color : #0066ff;
-	font-size:13px;
+.another-pd-price {
+	color: #0066ff;
+	font-size: 13px;
 }
 
-.another-pd-name{
+.another-pd-name {
 	font-size: 1.3em;
 }
+
+.btn-outline-warning {
+	color: #9033b5;
+	background-color: transparent;
+	background-image: none;
+	border-color: #9033b5;
+}
+
+.btn-outline-warning:hover {
+	color: white;
+	background-color: #c7a2e0;
+	background-image: none;
+	border-color: #c7a2e0;
+}
 </style>
+   <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <div id="wrap">
 	<div class="container" id="container">
 		<div class="detail row">
@@ -278,8 +312,9 @@ div#pd-slide img{
 						</tr>
 						<tr>
 							<th>옵션</th>
-							<td colspan="3" style="border: 0; outline: 0;">
-							<select	class="form-select" aria-label="Default select example" name="option-select">
+							<td colspan="3" style="border: 0; outline: 0;"><select
+								class="form-select" aria-label="Default select example"
+								name="option-select">
 									<option selected disabled>- [필수] 옵션을 선택해 주세요 -</option>
 									<option value="1">옵션 1</option>
 									<option value="2">옵션 2</option>
@@ -293,8 +328,8 @@ div#pd-slide img{
 					위 옵션선택 박스를 선택하시면 아래에 상품이 추가됩니다.</p>
 				<div class="select-option"></div>
 				<div class="total-pd">
-					<table class="pd-option-tbl">	
-						<tbody>						
+					<table class="pd-option-tbl">
+						<tbody>
 							<tr>
 								<td colspan="3" class="total-td"><strong>총 상품금액</strong>(수량)
 									: <span class="total"></span></td>
@@ -302,7 +337,8 @@ div#pd-slide img{
 							<tr>
 								<td class="btn-buy" colspan="3">
 									<button type="button" class="btn btn-dark col-5 mx-2 py-2">구매하기</button>
-									<button type="button" class="btn btn-outline-secondary col-5 mx-2 py-2">장바구니
+									<button type="button"
+										class="btn btn-outline-secondary col-5 mx-2 py-2">장바구니
 										담기</button>
 								</td>
 							</tr>
@@ -313,188 +349,232 @@ div#pd-slide img{
 		</div>
 		<div class="pd-detail-menu">
 			<div class="row text-center" style="width: 100%;">
-				<div class="col-md-3 select pd-nav" id="nav1" >Detail</div>
+				<div class="col-md-3 select pd-nav" id="nav1">Detail</div>
 				<div class="col-md-3 pd-nav" id="nav2">Review</div>
 				<div class="col-md-3 pd-nav" id="nav3">Another</div>
 				<div class="col-md-3 pd-nav" id="nav4">QnA</div>
 			</div>
 		</div>
-		
+
 		<div class="pd-detail">
-			<img src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" class="col-9"/>
+			<img
+				src="${pageContext.request.contextPath}/resources/images/kisen_logo.png"
+				class="col-9" />
 		</div>
-		<div class="pd-review mx-auto" style="display:none;">
-			<p class="h5" 
-				style="color: #353535;
-					font-size:16px;
-					line-height: 18px;
-					font-family: 'Lato','Nanum Gothic','verdana','돋움','굴림';">REVIEW</p>
+
+		<div class="pd-review mx-auto" style="display: none;">
+
+			<p class="h5"
+				style="color: #353535; font-size: 16px; line-height: 18px; font-family: 'Lato', 'Nanum Gothic', 'verdana', '돋움', '굴림';">REVIEW</p>
 			<table class="table pd-review-board table table-hover">
-			  <thead>
-			    <tr>
-			      <th scope="col" class="col-1 table-primary">번호</th>
-			      <th scope="col" class="col-6 table-primary">제목</th>
-			      <th scope="col" class="col-1 table-primary">작성자</th>
-			      <th scope="col" class="col-1 table-primary">작성일</th>
-			      <th scope="col" class="col-1 table-primary">조회</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr>
-			      <td>1</td>
-			      <td><a href="#">Mark</a></td>
-			      <td>dsadasd</td>
-			      <td>@mdo</td>
-			      <td>@mdo</td>			      
-			    </tr>
-			    <tr>
-			      <td>2</td>
-			      <td><a href="#">Mark</a></td>
-			      <td>Thornton</td>
-			      <td>@fat</td>
-			      <td>@fat</td>
-			    </tr>
-			    <tr>
-			      <td>3</td>
-			      <td><a href="#">Mark</a></td>
-			      <td>@twitter</td>
-			      <td>@twitter</td>
-			      <td>@twitter</td>
-			    </tr>
-			  </tbody>
+				<thead>
+					<tr>
+						<th scope="col" class="col-1 table-primary">번호</th>
+						<th scope="col" class="col-6 table-primary">제목</th>
+						<th scope="col" class="col-1 table-primary">작성자</th>
+						<th scope="col" class="col-1 table-primary">작성일</th>
+						<th scope="col" class="col-1 table-primary">조회</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td><a href="#">Mark</a></td>
+						<td>dsadasd</td>
+						<td>@mdo</td>
+						<td>@mdo</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td><a href="#">Mark</a></td>
+						<td>Thornton</td>
+						<td>@fat</td>
+						<td>@fat</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td><a href="#">Mark</a></td>
+						<td>@twitter</td>
+						<td>@twitter</td>
+						<td>@twitter</td>
+					</tr>
+				</tbody>
 			</table>
-			<div class="btn-area">
-				<div class="btn-group" role="group" aria-label="Basic example">
-				  <button type="button" class="btn btn-dark write">글 작성</button>
-				  <button type="button" class="btn btn-secondary">전체보기</button>
+
+			<div class="form-inline" id="edit">
+				<div class="py-2">
+					<button type="button" class="btn btn-outline-warning"
+						onclick="goReviewForm();">글쓰기</button>
+
+				</div>
+				<div class="py-2">
+					<button type="submit" class="btn btn-outline-warning"
+						onclick="goEditForm();">수정하기</button>
+				</div>
+				<div class="py-2">
+					<button type="submit" class="btn btn-outline-warning">삭제하기</button>
 				</div>
 			</div>
-			<div class="paging-area">
+			<div class="paging-area my-5">
 				<nav class="review-paging-nav" aria-label="Page navigation example">
-				  <ul class="pagination col-2">
-				    <li class="page-item">
-				      <a class="page-link" href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				    </li>
-				    <li class="page-item"><a class="page-link" href="#">1</a></li>
-				    <li class="page-item"><a class="page-link" href="#">2</a></li>
-				    <li class="page-item"><a class="page-link" href="#">3</a></li>
-				    <li class="page-item">
-				      <a class="page-link" href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>
-				  </ul>
+					<ul class="pagination col-2">
+						<li class="page-item"><a class="page-link" href="#"
+							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+						</a></li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#"
+							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+						</a></li>
+					</ul>
 				</nav>
 			</div>
+	<div id="write" style="display: none;">
+	<div class="form-group">
+		<label for="title">title:</label> <input type="text"
+				class="form-control" placeholder="title" id="title" name="title">
 		</div>
-		<div class="pd-another border border-0 mx-auto p-3"  style="display:none;">
-			<div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
-			  <div class="carousel-inner">
-			  	<div class="carousel-item active">
-					<div class="d-flex flex-row justify-content-center" id="pd-slide">
-			  		<br />
-						<c:forEach var="i" begin="1" end="5" step="1">
-				    	<div class="p-2 my-3 col-xs-1">
-					        <div class=" mx-auto font-weight-bold text-center">
-					        	<img src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
-					        </div>
-					        <div class=" mx-auto font-weight-bold text-center"><p class="another-pd-name">상품명</p><span class="another-pd-price">상품가격</span></div>
-				     	</div>    	
-						</c:forEach>
-					</div>	
-			    </div>
-			    <div class="carousel-item">
-					<div class="d-flex flex-row justify-content-center" id="pd-slide">
-			  		<br />
-				    	<c:forEach var="i" begin="1" end="5" step="1">
-				    	<div class="p-2 my-3 col-xs-1">
-					        <div class=" mx-auto font-weight-bold text-center">
-					        	<img src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
-					        </div>
-					        <div class=" mx-auto font-weight-bold text-center"><p class="another-pd-name">상품명</p><span class="another-pd-price">상품가격</span></div>
-				     	</div>    	
-						</c:forEach>
-					</div>	
-			    </div>
-			  </div>
+		<div class="form-group">
+			<label for="content">content:</label>
+			<textarea class="form-control" rows="5" id="summernote"
+				name="content" style="width: 100%"></textarea>
+		</div>
+
+
+		<div class="col-2" id="edit">
+			<div class="py-2">
+				<button type="button" id="saveBtn" class="btn btn-outline-warning">글쓰기등록</button>
+
 			</div>
-			
-			<a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-slide="prev" id="btnPrev">
-				<span class="carousel-control-prev-icon" aria-hidden="true" ></span>
-				<span class="sr-only">Previous</span>
-			</a>
-			<a class="carousel-control-next" href="#carouselExampleIndicators2" role="button" data-slide="next" id="btnNext">
-				<span class="carousel-control-next-icon" aria-hidden="true"></span>
-				<span class="sr-only">Next</span>
+
+<script>
+				$(document).ready(function() {
+					//여기 아래 부분
+					$('#summernote').summernote({
+						  height: 300,                 // 에디터 높이
+						  minHeight: null,             // 최소 높이
+						  maxHeight: null,             // 최대 높이
+						  focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
+						  lang: "ko-KR",					// 한글 설정
+						  placeholder: '최대 2000자까지 쓸 수 있습니다'	//placeholder 설정
+				          
+	});
+});
+</script>
+				</div>
+			</div>
+		</div>
+		<div class="pd-another border border-0 mx-auto p-3"
+			style="display: none;">
+			<div id="carouselExampleIndicators2" class="carousel slide"
+				data-ride="carousel">
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<div class="d-flex flex-row justify-content-center" id="pd-slide">
+							<br />
+							<c:forEach var="i" begin="1" end="5" step="1">
+								<div class="p-2 my-3 col-xs-1">
+									<div class=" mx-auto font-weight-bold text-center">
+										<img
+											src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
+									</div>
+									<div class=" mx-auto font-weight-bold text-center">
+										<p class="another-pd-name">상품명</p>
+										<span class="another-pd-price">상품가격</span>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+					<div class="carousel-item">
+						<div class="d-flex flex-row justify-content-center" id="pd-slide">
+							<br />
+							<c:forEach var="i" begin="1" end="5" step="1">
+								<div class="p-2 my-3 col-xs-1">
+									<div class=" mx-auto font-weight-bold text-center">
+										<img
+											src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
+									</div>
+									<div class=" mx-auto font-weight-bold text-center">
+										<p class="another-pd-name">상품명</p>
+										<span class="another-pd-price">상품가격</span>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<a class="carousel-control-prev" href="#carouselExampleIndicators2"
+				role="button" data-slide="prev" id="btnPrev"> <span
+				class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+				class="sr-only">Previous</span>
+			</a> <a class="carousel-control-next" href="#carouselExampleIndicators2"
+				role="button" data-slide="next" id="btnNext"> <span
+				class="carousel-control-next-icon" aria-hidden="true"></span> <span
+				class="sr-only">Next</span>
 			</a>
 		</div>
-		
-		
-		<div class="pd-qna" style="display:none;">
-			<p class="h5" 
-				style="color: #353535;
-					font-size:16px;
-					line-height: 18px;
-					font-family: 'Lato','Nanum Gothic','verdana','돋움','굴림';">QnA</p>
+
+
+		<div class="pd-qna" style="display: none;">
+			<p class="h5"
+				style="color: #353535; font-size: 16px; line-height: 18px; font-family: 'Lato', 'Nanum Gothic', 'verdana', '돋움', '굴림';">QnA</p>
 			<table class="table pd-review-board table table-hover">
-			  <thead>
-			    <tr>
-			      <th scope="col" class="col-1 table-primary">번호</th>
-			      <th scope="col" class="col-6 table-primary">제목</th>
-			      <th scope="col" class="col-1 table-primary">작성자</th>
-			      <th scope="col" class="col-1 table-primary">작성일</th>
-			      <th scope="col" class="col-1 table-primary">조회</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    <tr>
-			      <td>1</td>
-			      <td><a href="#">Mark</a></td>
-			      <td>dsadasd</td>
-			      <td>@mdo</td>
-			      <td>@mdo</td>			      
-			    </tr>
-			    <tr>
-			      <td>2</td>
-			      <td><a href="#">Mark</a></td>
-			      <td>Thornton</td>
-			      <td>@fat</td>
-			      <td>@fat</td>
-			    </tr>
-			    <tr>
-			      <td>3</td>
-			      <td><a href="#">Mark</a></td>
-			      <td>@twitter</td>
-			      <td>@twitter</td>
-			      <td>@twitter</td>
-			    </tr>
-			  </tbody>
+				<thead>
+					<tr>
+						<th scope="col" class="col-1 table-primary">번호</th>
+						<th scope="col" class="col-6 table-primary">제목</th>
+						<th scope="col" class="col-1 table-primary">작성자</th>
+						<th scope="col" class="col-1 table-primary">작성일</th>
+						<th scope="col" class="col-1 table-primary">조회</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>1</td>
+						<td><a href="#">Mark</a></td>
+						<td>dsadasd</td>
+						<td>@mdo</td>
+						<td>@mdo</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td><a href="#">Mark</a></td>
+						<td>Thornton</td>
+						<td>@fat</td>
+						<td>@fat</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td><a href="#">Mark</a></td>
+						<td>@twitter</td>
+						<td>@twitter</td>
+						<td>@twitter</td>
+					</tr>
+				</tbody>
 			</table>
 			<div class="btn-area">
 				<div class="btn-group" role="group" aria-label="Basic example">
-				  <button type="button" class="btn btn-dark write">글 작성</button>
-				  <button type="button" class="btn btn-secondary">전체보기</button>
+					<button type="button" class="btn btn-dark write">글 작성</button>
+					<button type="button" class="btn btn-secondary">전체보기</button>
 				</div>
 			</div>
 			<div class="paging-area">
 				<nav class="review-paging-nav" aria-label="Page navigation example">
-				  <ul class="pagination col-2">
-				    <li class="page-item">
-				      <a class="page-link" href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				    </li>
-				    <li class="page-item"><a class="page-link" href="#">1</a></li>
-				    <li class="page-item"><a class="page-link" href="#">2</a></li>
-				    <li class="page-item"><a class="page-link" href="#">3</a></li>
-				    <li class="page-item">
-				      <a class="page-link" href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>
-				  </ul>
+					<ul class="pagination col-2">
+						<li class="page-item"><a class="page-link" href="#"
+							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+						</a></li>
+						<li class="page-item"><a class="page-link" href="#">1</a></li>
+						<li class="page-item"><a class="page-link" href="#">2</a></li>
+						<li class="page-item"><a class="page-link" href="#">3</a></li>
+						<li class="page-item"><a class="page-link" href="#"
+							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+						</a></li>
+					</ul>
 				</nav>
 			</div>
 		</div>
@@ -600,6 +680,16 @@ function total(){
 	console.log(cnt);
 	console.log(total);
 	$total += $total.html("<strong>"+total+"</strong>"+"("+cnt+"개)");
+}
+
+function goReviewForm(){
+	//location.href = "${pageContext.request.contextPath}/review/reviewForm.do";
+	$('#write').show();
+}
+
+function goEditForm(){
+	location.href = "${pageContext.request.contextPath}/review/revieweditForm.do";
+	
 }
 </script>
 

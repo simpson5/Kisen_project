@@ -56,6 +56,8 @@ public class UnofficialController {
 	
 	
 	
+	
+	
 	@GetMapping("/unofficial.do")
 	public void unofficial() {}
 
@@ -69,11 +71,11 @@ public class UnofficialController {
 	
 
 	
-	@GetMapping("/depositsubmit.do")
-	public void depositsubmit() {}
+	@GetMapping("/depositDetail.do")
+	public void depositDetail() {}
 	
-	@GetMapping("/demandsubmit.do")
-	public void demandsubmit() {}
+	@GetMapping("/demandDetail.do")
+	public void demandDetail() {}
 	
 	
 	
