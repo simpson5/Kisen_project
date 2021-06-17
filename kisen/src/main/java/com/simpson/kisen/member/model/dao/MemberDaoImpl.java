@@ -33,4 +33,13 @@ public class MemberDaoImpl implements MemberDao {
 		return session.insert("member.insertAgency", agency);
 	}
 
+	@Override
+	public int insertMemberAuthority(Fan member) {
+		return session.insert("member.insertMemberAuthority", member);
+	}
+
+	@Override
+	public int insertAgencyAuthority(Fan member) {
+		return session.insert("member.insertAgencyAuthority", member);
+	}
 }

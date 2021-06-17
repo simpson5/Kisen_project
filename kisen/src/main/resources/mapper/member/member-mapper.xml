@@ -10,8 +10,8 @@
 	select
 		*
 	from
-		"fan"
-	where "fan_id" = #{id}
+		fan
+	where fan_id = #{id}
 </select>
 <resultMap type="fan" id="memberMap">
 	<result column="certification" property="certification" typeHandler="booleanYNTypeHandler"/>
@@ -19,7 +19,7 @@
 <!-- =========================== [ (일반) 회원가입 - 회원등록 ] =========================== -->
 <insert id="insertMember">
 	insert into
-		"fan"
+		fan
 	values (
 		seq_fan_no.nextval,
 		#{fanId},
@@ -28,19 +28,36 @@
 		#{address},
 		#{email},
 		#{birthday},
-		'M',
-		null,
 		null,
 		null,
 		'N',
 		default,
-		#{fanName}
+		#{fanName},
+		null
+	)
+</insert>
+<!-- =========================== [ 회원가입 - 회원등록 - authority설정 ] =========================== -->
+<insert id="insertMemberAuthority">
+	insert into
+		authority
+	values (
+		#{fanId},
+		'ROLE_USER'
+	)
+</insert>
+
+<insert id="insertAgencyAuthority">
+	insert into
+		authority
+	values (
+		#{fanId},
+		'ROLE_AGENCY'
 	)
 </insert>
 <!-- =========================== [ (기획사) 회원가입 - 회원등록 ] =========================== -->
 <insert id="insertAgencyMember">
 	insert into
-		"fan"
+		fan
 	values (
 		#{fanNo},
 		#{fanId},
@@ -49,24 +66,26 @@
 		#{address},
 		#{email},
 		#{birthday},
-		'M',
-		null,
 		null,
 		null,
 		'N',
 		default,
-		#{fanName}
+		#{fanName},
+		null
 	)
 	<selectKey keyProperty="fanNo" resultType="string" order="AFTER">
-	 	select
-	 		"fanNo".currval
-	 	from
-	 		"fan"
+		select f.*
+		from (
+		    select fan_no
+		    from fan
+		    order by enroll_date desc
+		    ) f
+		where rownum = 1
 	 </selectKey>
 </insert>
 <insert id="insertAgency">
 	insert into
-		"agency"
+		agency
 	values (
 		#{fanNo},
 		#{agencyName},

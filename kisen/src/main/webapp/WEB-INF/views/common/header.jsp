@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!-- security관련 taglib -->
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>	
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,6 +32,28 @@
         <div class="box  ">
             <div class="d-none d-sm-block">  
                 <ul class=" search-ul d-flex justify-content-end">
+                	<!-- security : 로그인한 경우 -->
+				    <sec:authorize access="isAuthenticated()">
+				    <!-- property : principal.username -> 인증한 객체의 아이디 -->
+				    <li>
+				    	<sec:authentication property="principal.username"/>
+				    	<!-- property : authorities -> 인증한 객체가 가지고 있는 권한 -->
+				    	<sec:authentication property="authorities"/>
+				    </li>
+				    <span class="divide">|</span>
+				    <li>	
+				    	<form:form class="d-inline"
+				    				action="${pageContext.request.contextPath}/member/logout.do"
+				    				method="POST">
+			    			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">로그아웃</button>
+			    		</form:form>
+			    	</li>
+			    	<li>
+			    		<a href="${pageContext.request.contextPath}/member/memberTest.do">memberTest</a>
+			    	</li>
+				    </sec:authorize>
+                	<!-- security : 로그인하지 않은 경우 -->
+                	<sec:authorize access="isAnonymous()">
                     <li>
                         <a href="${pageContext.request.contextPath}/member/login.do">LOGIN </span></a>
                     </li>
@@ -36,6 +61,7 @@
                     <li>
                         <a href="${pageContext.request.contextPath}/member/signupTerm.do">JOIN</a>
                     </li>
+                    </sec:authorize>
                     <span class="divide">|</span>
                     <li >
                         <a href="${pageContext.request.contextPath}/mypage/mypagePay.do">MYPAGE</a>

@@ -1,10 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
+<!-- beans 네임스페이스가 원래 기본 namespace
+	 편의성을 위해 security를 기본 namespace로 바꾸기
+	 -> security는 앞의 pefix인 namespace생략하고 사용 가능
+	 -> beans는 앞에 namespace를 붙여야함
+-->
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.0.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-	<!-- #8.2 BCryptPasswordEncoder 빈 등록 -->
-	<bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
-</beans>
+	<!-- #4. 암호화인코딩 빈등록 : BCryptPasswordEncoder -->
+	<!-- 암호화처리할 빈 등록 -->
+	<beans:bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
+	
+	<!-- #5. 권한체크 설정 -->
+	<!-- 정적파일(css, javascript...) 을 권한검사에서 제외 -->
+	<!-- security속성을 none으로 : 검사하지 마라 -->
+	<!-- pattern속성으로 어떤 파일들에 대해 제외시킬지 -->
+	<http security="none" pattern="/resources/**/"></http>
+	<!-- auto-cofig속성을 true로 : 하위 기타 설정들을 자동으로 해줌 -->
+	<http auto-config="true">
+		<!-- intercept-url은 여러개 등록 가능 -->
+		<!-- pattern : /(인덱스페이지)에 대해
+			 access : permitAll - 모두 승인하라 -->
+		<intercept-url pattern="/" access="permitAll"/>
+		<!-- 내부적으로 포워딩하는 index.jsp에 대해서도 모두 승인 -->
+		<intercept-url pattern="/index.jsp" access="permitAll"/>
+		<!-- 인증하지 않은 상태라면 login페이지에 접근할 수 있도록 : isAnonymous
+			 -> 인증한 상태라면 접근할 수 없음 -->
+		<intercept-url pattern="/member/login.do" access="isAnonymous()"/>
+		<intercept-url pattern="/member/loginProcess.do" access="isAnonymous()"/>
+		<intercept-url pattern="/member/signup.do" access="isAnonymous()"/>
+		<!-- pattern : admin으로 시작하는 모든 요청은
+			 access : admin권한이 있어야 한다 -->
+		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')"/>
+		<intercept-url pattern="/agency/**" access="hasRole('AGENCY')"/>
+		<!-- pattern : /** 이런 url요청(모든 요청)이 있다면
+			 access : USER권한이 있는지 검사하자 -->
+		<!-- 로그인 관련 설정 -->
+		<!-- login-page : 로그인 폼 페이지 요청
+			 login-processing-url : 로그인 폼이 제출될 페이지 (핸들러 작성할 필요 없음) -->
+		<!-- 제출폼에서 id/pw에 해당하는 name값이 username/password가 아닌 경우
+			 username-parameter, password-parameter로 설정 -->
+		<form-login
+			login-page="/member/login.do"
+			login-processing-url="/member/loginProcess.do"
+			username-parameter="fanId"
+			password-parameter="password"
+			/>
+		<!-- 로그아웃도 form의 post방식으로 처리되어야 함
+			 logout-url : 로그아웃 폼 페이지 요청
+			 logout-success-url : 로그아웃 성공시 이동할 주소
+			 	/ -> 인덱스 페이지로 이동
+			 	(기본값 : 로그인 페이지의 로그아웃 (/member/memberLogin.do?logout))
+			 invalidate-session : 기본값 : ture (로그아웃 할 때 세션을 함께 날리기)
+			 delete-cookies : 특정 쿠키값 지우기
+		-->
+		<logout
+			logout-url="/member/logout.do"
+			logout-success-url="/"
+			invalidate-session="true"
+		/>
+		
+		<!-- remember-me : 
+			session에서 정한 timeout속성 (session-timeout)시간 이상으로 사용자 정보를 관리할 수 있는 옵션
+			cf. session-timeout
+			session은 서버측의 자원을 사용하는 것
+			클라이언트마다 session객체를 생성해서 관리해줌
+			session id값은 cookie에서 jsessionid라는 이름으로 확인
+			jsessionid값으로 접근할 수 있는 서버측의 객체를 생성해서 관리
+			jsessionid는 서버컴퓨터의 메모리를 잡아먹고 있기 때문에 사용자의 jsessionid를 무한히 관리할 수 없음
+			-> session-timeout으로 그 시간 제한을 걸어두고 그 시간이 지나면 자동 로그아웃
+			-> 그 시간이 지나면 또 로그인해야 함
+			
+			remember-me설정을 하면 session객체의 timeout 제한시간이 지나도
+			로그인을 유지하도록 도와줌
+			
+			원리 :
+			db에 별도의 remember-me cookie를 발급하여 관리함
+			security가 remember-me cookie를 db에 담아둠
+			-> 그 cookie값을 보고 이 사람이 remember-me 옵션을 사용하는구나! 하고 판단
+			-> 그 값이 올바르다면 서버가 돌아가는 한 seesion에 객체가 없어도 사용자 인증정보를 계속 관리해줌
+			-> 별도의 데이터베이스 테이블 필요!
+		-->
+		<!-- 
+			 data-source-ref : db에 접속해야 하므로 datasource빈을 연결시켜줘야 함
+			 cf. datasource빈 : application-context에 빈을 등록해뒀었음
+			 token-validity-seconds : remember-me 토큰의 유효시간 (초단위 | 1209600 : 60 * 60 * 24 * 14 - 2주)
+			 cf. 당연히 session-timeout 시간보다 길어야 의미있음
+			  -->
+		<remember-me
+			data-source-ref="dataSource"
+			token-validity-seconds="1209600"/>
+		<!-- 권한없는 페이지 접근시 처리 -->
+		<!-- error-page : 권한이 없을 경우 리다이렉트할 페이지 요청 -->
+		<access-denied-handler error-page="/error/accessDenied.do"/>
+	</http>	
+	
+	<!-- #6. 인증/권한 검사 manager bean 설정 -->
+	<!-- 인증/권한 검사를 주도적으로 실행할 bean -->
+	<!-- 인증 : authentication
+		 권한 : authority -->
+	<authentication-manager>
+		<!-- authentication-provider : 구현체 -->
+		<!-- user-service-ref속성 : securityService 빈을 사용하겠다고 선언 -->
+		<!-- securityServiceImpl에 아이디 지정 해주기 -->
+		<authentication-provider user-service-ref="securityService">
+			<!-- 위에 설정한 사용할 passwordEncoder 등록 -->
+			<password-encoder ref="bcryptPasswordEncoder"/>
+			<!-- secrityServiceImpl 빈, secrityDaoImpl 빈 등록 : component-scan태그의 base-package 지정 -->
+		</authentication-provider>
+	</authentication-manager>
+	<!-- securityService를 이용해서 DB의 사용자 정보를 가져다가 id,pwd 인증 -->
+	<!-- #7. UserDetails 구현체 빈 등록 -->
+	<!-- application-context에서만 사용하면 되기 때문에 security패키지로 한정함
+		 security하위의 service, dao가 bean으로 등록됨 -->
+	<context:component-scan base-package="com.simpson.kisen.security"></context:component-scan>
+</beans:beans>
