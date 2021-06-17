@@ -15,7 +15,7 @@
 	<resultMap type="reviewExt" id="reviewExtMap">
 		<result column="attach_count" property="hasAttachment"/>	
 	</resultMap>
-	<select id="selectReviewTotalContents" resultType="_int">
+	<select id="selectReviewTotalContents" resultType="int">
 		select
 			count(*)
 		from
@@ -36,7 +36,7 @@
 			#{review_content}
 		)
 		<!-- 발급받은 review pk no값을 파라미터 review객체의 property no에 저장한다. -->
-		<selectKey keyProperty="no" resultType="_int" order="AFTER">
+		<selectKey keyProperty="no" resultType="int" order="AFTER">
 			select
 				seq_review_no.currval
 			from 
