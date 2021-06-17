@@ -107,7 +107,7 @@
                             <a class="nav-link" href="${pageContext.request.contextPath}/">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/unoffical">비공식굿즈</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/unofficial/unofficial.do">비공식굿즈</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/artist/artistInfo" onclick="artistClick()">아티스트별</a>
@@ -123,7 +123,7 @@
                             <a class="nav-link" href="${pageContext.request.contextPath}/">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/unoffical">비공식굿즈</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/unofficial/unofficial.do">비공식굿즈</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="${pageContext.request.contextPath}/offical">아티스트별</a>

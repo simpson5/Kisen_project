@@ -74,5 +74,11 @@ public class ReviewDaoImpl implements ReviewDao {
 		return session.selectList("review.searchTitle", searchTitle);
 	}
 
+
+	
+	
+
+	
+	
 	
 }
