@@ -69,8 +69,8 @@ public class AgencyController {
 	@GetMapping("/agencyArtist")
 	public String agencyArtist() { 
 		//아이돌 조회
-		List<Idol> idolList = agencyService.selectIdolList();
-		
+		List<Idol> idolList = agencyService.selectIdolList(3);	//agnecyNo;
+		log.info("idolList={}",idolList);
 		return "agency/agencyArtist/agencyArtist";
 	}
 	
@@ -91,7 +91,7 @@ public class AgencyController {
 		log.info("idolImg = {}",idolImg.getOriginalFilename());
 		
 		//�뙆�씪 ���옣
-		String saveDir = application.getRealPath("/resources/upload/idol");
+		String saveDir = application.getRealPath("/resources/upload/idol_img");
 		log.info("saveDir = {}",saveDir);
 		
 		File dir = new File(saveDir);
@@ -107,19 +107,20 @@ public class AgencyController {
 		
 		//b. img 媛앹껜 ���옣
 		IdolImg idol_img = new IdolImg();
-		idol_img.setOriginalFileName(idolImg.getOriginalFilename());
-		idol_img.setRenamedFileName(renamedFilename);
+		idol_img.setOriginalFilename(idolImg.getOriginalFilename());
+		idol_img.setRenamedFilename(renamedFilename);
+		log.info("idol_img={}",idol_img);
 		
 		
 		//c. idol 媛앹껜�뿉 idol_img, idolName ���옣
 		Idol idol = new Idol();
 		idol.setIdolName(idolName);
 		idol.setIdolImg(idol_img);
-		idol.setAgencyNo("agency_1");
+		idol.setAgencyNo(3);
 		
 		
 		//2. �뾽臾대줈吏� : db ���옣
-//		int result = agencyService.insertIdol(idol);
+		int result = agencyService.insertIdol(idol);
 		
 		return "agency/agencyArtist/agencyArtist";
 	}

@@ -7,10 +7,10 @@ import com.simpson.kisen.idol.model.vo.IdolImg;
 
 public interface AgencyDao {
 
-	List<Idol> selectIdolList();
+	List<Idol> selectIdolList(int agencyNo);
 
-//	int insertIdol(Idol idol);
-//
-//	int insertIdolImg(IdolImg idolImg);
+	int insertIdol(Idol idol);
+
+	int insertIdolImg(IdolImg idolImg);
 
 }

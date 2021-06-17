@@ -28,17 +28,10 @@
                 <p class="card-text"> 
                 <p class=""> <strong>MV </strong> : <br/>
                     <span> <a href=""> https://youtu.be/_ysomCGaZLw </a></span> <br/>
-                    <span> <a href=""> https://youtu.be/_ysomCGaZLw </a></span><br/>
-                    <span> <a href=""> https://youtu.be/_ysomCGaZLw </a></span><br/>
-                    <span> <a href=""> https://youtu.be/_ysomCGaZLw </a></span><br/>
                 </p>  
                 </p>
                 <p class="card-text"> 
                 <p class=""> <strong> IMG</strong> : 
-                    <span> <img src="/images/kisen_logo.png" alt="" style="height: 60px; width: 80px;"></span>
-                    <span> <img src="/images/kisen_logo.png" alt="" style="height: 60px; width: 80px;"></span>
-                    <span> <img src="/images/kisen_logo.png" alt="" style="height: 60px; width: 80px;"></span>
-                    <span> <img src="/images/kisen_logo.png" alt="" style="height: 60px; width: 80px;"></span>
                     <span> <img src="/images/kisen_logo.png" alt="" style="height: 60px; width: 80px;"></span>
                 </p>  
                 </p>

@@ -18,27 +18,31 @@ public class AgencyServiceImpl implements AgencyService {
 	private AgencyDao agencyDao;
 
 	@Override
-	public List<Idol> selectIdolList() {
+	public List<Idol> selectIdolList(int agencyNo) {
 		// TODO Auto-generated method stub
-		return agencyDao.selectIdolList();
+		return agencyDao.selectIdolList(agencyNo);
 	}
 	
-//	@Override
-//	public int insertIdol(Idol idol) {
-//		int result =0;
-//		result = agencyDao.insertIdol(idol);
-//		if(idol.getIdolImg() != null) {
-//			IdolImg idolImg = new IdolImg();
-//			idolImg.setIdolNo(idol.getIdolNo());
-//			result = insertIdolImg(idolImg);
-//		}
-//		return result;
-//	}
-//	
-//	@Transactional(rollbackFor = Exception.class)
-//	public int insertIdolImg(IdolImg idolImg) {
-////		return agencyDao.insertIdolImg(idolImg);
-//		return 0;
-//	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int insertIdol(Idol idol) {
+		int result =0;
+		
+		//1. idol 등록
+		result = agencyDao.insertIdol(idol);
+		if(idol.getIdolImg() != null) {
+			IdolImg idolImg = idol.getIdolImg();
+			idolImg.setIdolNo(idol.getIdolNo());
+			//2. 해당 idol의 이미지 등록
+			result = insertIdolImg(idolImg);
+		}
+		return result;
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public int insertIdolImg(IdolImg idolImg) {
+		return agencyDao.insertIdolImg(idolImg);
+	}
 
 }
