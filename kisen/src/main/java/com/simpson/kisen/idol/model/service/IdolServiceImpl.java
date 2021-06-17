@@ -4,7 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.simpson.kisen.idol.model.dao.IdolDao;
-import com.simpson.kisen.idol.model.vo.IdolImg;
+import com.simpson.kisen.idol.model.vo.DipIdol;
+
 
 @Service
 public class IdolServiceImpl implements IdolService {
@@ -13,7 +14,7 @@ public class IdolServiceImpl implements IdolService {
 	private IdolDao idolDao;
 
 	@Override
-	public IdolImg selectOneIdolCollection(int fanNo) {
+	public DipIdol selectOneIdolCollection(int fanNo) {
 		return idolDao.selectOneIdolCollection(fanNo);
 	}
 

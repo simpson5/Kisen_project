@@ -630,13 +630,12 @@ function selectPay(obj){
 //전체선택 설정
 $("#agreedAll").change(function(e){
 	
-	$("[name=agreed]").prop("checked", this.checked);
-	
+	$("[name=agreed]").prop("checked", this.checked);	
 	
 });
 
 //카카오페이 api
-$("#kakaoBtn").click(() => {
+/*$("#kakaoBtn").click(() => {
 	
 	$("#payInfoFrm").submit(e =>{
 		$.ajax({
@@ -651,7 +650,7 @@ $("#kakaoBtn").click(() => {
 			});
 	});
 });
-
+*/
 </script>
 
 

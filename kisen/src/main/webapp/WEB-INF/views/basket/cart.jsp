@@ -166,7 +166,7 @@ color:  #9033b5;
 	<table class="table">
   <thead class="thead " id="thead">
     <tr>
-      <th scope="col" ><input type="checkbox" id="checkboxs"/></th>
+      <th scope="col" ><input type="checkbox" id="checkboxAll" name="selectProduct"/></th>
       <th scope="col">상품정보</th>
       <th scope="col">옵션</th>
       <th scope="col">상품금액</th>
@@ -176,7 +176,7 @@ color:  #9033b5;
   <tbody>
     <tr>
      <th scope="row" class="border border-left-0 border-top-0  border-right-0 ">
-     	<input class="" type="checkbox" id="checkboxs"/>
+     	<input class="" type="checkbox" id="checkboxs" name="selectProduct"/>
      </th>
       <td class=" border border-left-0 border-top-0 ">
       	<div class="media">
@@ -215,7 +215,7 @@ color:  #9033b5;
 
     <tr>
       <th scope="row" class="border border-left-0 border-top-0 border-right-0 ">
-      	<input type="checkbox" id="checkboxs"/>
+      	<input type="checkbox" id="checkboxs" name="selectProduct"/>
       </th>
       <td class=" border border-left-0 border-top-0 ">
       	<div class="media">
@@ -254,7 +254,7 @@ color:  #9033b5;
 
     <tr>
        <th scope="row" class="border border-left-0 border-top-0 border-right-0 ">
-       	<input type="checkbox" id="checkboxs"/>
+       	<input type="checkbox" id="checkboxs" name="selectProduct"/>
        </th>
       <td class=" border border-left-0 border-top-0">
       	<div class="media">
@@ -293,12 +293,12 @@ color:  #9033b5;
 
     <tr>
        <th scope="row" class="border border-left-0 border-top-0 border-right-0 ">
-       	<input type="checkbox" id="checkboxs"/>
+       <input type="checkbox" id="checkboxDel" name="selectProduct"/>
        </th>
-      <td class="border border-left-0 border-top-0 border-right-0 "  colspan="4">
-      	<div class="p-2" style="width: 250px">
+      <td class="border border-left-0 border-top-0 border-right-0 " colspan="4">
+      	<div class="p-1" style="width:100px;">
 		  	<button class="btn btn-outline p-2" id="selectProduct">선택 상품 삭제</button>
-		  	<button class="btn btn-outline p-2 " id="selectProduct">선택 상품 찜</button>
+		  
 		  </div>
       </td>
     </tr>
@@ -355,7 +355,22 @@ color:  #9033b5;
 		  </div>
 
 </div>
+
 <script>
+//체크박스 전체 선택 이밴트
+$("#checkboxAll").change(function(e){
+	
+	$("[name=selectProduct]").prop("checked", this.checked);	
+	
+});
+$("#checkboxDel").change(function(e){
+	
+	$("[name=selectProduct]").prop("checked", this.checked);	
+	
+});
+
+//버튼 누를시 선택된 상품 삭제
+
 </script>		
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

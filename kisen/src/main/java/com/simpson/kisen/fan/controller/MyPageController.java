@@ -24,14 +24,14 @@ public class MyPageController {
 	private FanService fanService;
 	
 	@GetMapping("/mypageMember.do")
-	public ModelAndView mypageMember(ModelAndView mav, @SessionAttribute(name = "loginMember") Fan loginMember){
-		log.info("loginMember = {}", loginMember);
-		
-		//加己 历厘
-		mav.addObject("time", System.currentTimeMillis());
-		//viewName 汲沥
-		mav.setViewName("mypage/mypageMember");
-		return mav;
+	public void mypageMember(){
+//		log.info("loginMember = {}", loginMember);
+//		
+//		//加己 历厘
+//		mav.addObject("time", System.currentTimeMillis());
+//		//viewName 汲沥
+//		mav.setViewName("mypage/mypageMember");
+//		return mav;
 
 	}
 	
