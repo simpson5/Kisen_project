@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,25 +56,29 @@ $(() => {
 				</div>
 				<!--로그인 폼 / modal 바디부 -->
 				<!-- https://getbootstrap.com/docs/4.1/components/forms/#overview -->
-				<form
-					action="${pageContext.request.contextPath}/member/memberLogin.do"
+				<form:form
+					action="${pageContext.request.contextPath}/member/loginProcess.do"
 					method="post"
 					name="loginFrm">
 				<div class="modal-body">
 					<div id="logo">
 							<img src="${pageContext.request.contextPath}/resources/images/member/kisen_logo.png" alt="kisen-logo">
 					</div>
-						<input type="tel" class="fill-in-area" name="fan_id" id="fan_id" placeholder="아이디">
+						<input type="text" class="fill-in-area" name="fanId" id="fan_id" placeholder="아이디">
 						<p id="chkNoticeId" class="chkNotice"></p>
-						<input type="tel" class="fill-in-area" name="password" id="password" placeholder="비밀번호">
+						<input type="password" class="fill-in-area" name="password" id="password" placeholder="비밀번호">
 						<p id="chkNoticePwd" class="chkNotice"></p>
 					</div>
+					<c:if test="${param.error != null}">
+						<p class="text-danger">아이디 또는 비밀번호가 일치하지 않습니다.</p>
+					</c:if>
 					<div>
 						<button type="submit" class="btn btn-block">로그인</button>
 					</div>
+				</form:form>
 					<div name="saveId">
-						<input type="checkbox" id="saveId" class="checkbox-style" />
-						<label for="saveId">로그인 상태 유지</label>
+						<input type="checkbox" id="saveId" name="remember-me" class="checkbox-style" />
+						<label for="remember-me">로그인 상태 유지</label>
 					</div>
 					<div class="login-ext" style="text-align: center;">
 					<a href="${pageContext.request.contextPath}/member/searchId.do">아이디 찾기</a>
@@ -86,7 +91,6 @@ $(() => {
 							<img src="${pageContext.request.contextPath}/resources/images/member/kakao_login_large_wide.png" id="kakao-log" alt="login with kakao">
 							<img src="${pageContext.request.contextPath}/resources/images/member/kakao_login_large_wide.png" id="kakao-log" alt="login with kakao">
 						</div>
-				</form>
 			</div>
 		</div>
 	</div>

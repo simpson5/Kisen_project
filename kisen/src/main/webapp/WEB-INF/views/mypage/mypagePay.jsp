@@ -4,12 +4,17 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-
-	<jsp:param value="mypage" name="title"/>
+<jsp:param value="mypage" name="title"/>
 </jsp:include>
+
 <style>
 div#demo-container{
 	width:600px;
+}
+div#mypage-container{
+	background-color: #c7a2e0;
+	width:800px;
+	height: 280px;
 }
 a#payNav{
 	color :#a52bb3;
@@ -110,28 +115,34 @@ img#productImg{
 
 	<!-- 회원상태 -->
 	<br /><br /><br /><br />
-<div id="mypageContainer" class="border border-0 mx-auto p-3 rounded ">
-	<div class="media mx-auto" id="mypage1">
-	  <img class="align-self-start mr-3 " src="..." alt="사진여부 결정해주세용">
-	  <div class="media-body">
-	    <h5 class="mt-0">{$id}님, 안녕하세요!</h5><span class="badge badge-warning mx-1">Lv.1</span>
+<div id="mypage-container" class="border border-0 mx-auto p-3 rounded ">
+	<div class="row ">
+		    <h5 class="col">{$fanId}님, 안녕하세요! </h5>
+	    <div class="col-8">
+		    <span class="badge badge-warning mx-1">Lv.1</span>
+	    </div>
 	</div>
-	</div>
-
-	 <div class="row align-items-end p-5" id="coupon">
-    <div class="col-4">
-     보유쿠폰
+<!-- 쿠폰 및 마일리지 박스 -->
+	<div class="row align-items-end p-5 rounded" id="coupon" style="background-color: white;">
+	    <div class="col-4 font-weight-bold" >
+	     보유쿠폰
+	     <hr/>
+		     <div class="col mx-auto" style="text-align: center;color: #ff5c00; font-size: 20px">
+		     <span >3장</span>
+		    </div>
+	    </div>
+	    <div class="col-4">
+	
+	    </div>
+	    <div class="col-4 font-weight-bold" style="color: ">
+	      마일리지
+	      <hr/>
+		     <div class="col mx-auto" style="text-align: center; color: #efb300; font-size: 20px" >
+		     <span >1000점</span>
+		    </div>
+	    </div>
     </div>
-    <div class="col-4">
-
-    </div>
-    <div class="col-4">
-      마일리지
-    </div>
-
-  </div>
 </div>
-
 
 	<br /><br /><br />
 
