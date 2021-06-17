@@ -1,10 +1,11 @@
 package com.simpson.kisen.idol.model.service;
 
-import com.simpson.kisen.idol.model.vo.IdolImg;
+import com.simpson.kisen.idol.model.vo.DipIdol;
+
 
 public interface IdolService {
 
-	IdolImg selectOneIdolCollection(int fanNo);
+	DipIdol selectOneIdolCollection(int fanNo);
 
 
 

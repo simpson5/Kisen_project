@@ -19,7 +19,8 @@ public class BasketController {
 	
 	@GetMapping("/cart.do")
 	public void cart() {
-		
+		//사용자 번호를 가져와서 조회한후 상품테이블과 조인 후 상품 번호가 같다면 리스트로 만들어서 뿌린다.
+		//
 	}
 	@GetMapping("/payment.do")
 	public void payment() {
