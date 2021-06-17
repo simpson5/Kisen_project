@@ -6,8 +6,8 @@ import com.simpson.kisen.idol.model.vo.Idol;
 
 public interface AgencyService {
 
-	List<Idol> selectIdolList();
+	List<Idol> selectIdolList(int agencyNo);
 
-//	int insertIdol(Idol idol);
+	int insertIdol(Idol idol);
 
 }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Idol {
 	//git test
 	private int idolNo;
-	private String agencyNo;
+	private int agencyNo;
 	private String idolName;
 	private int fanCnt;
 	private IdolImg idolImg;

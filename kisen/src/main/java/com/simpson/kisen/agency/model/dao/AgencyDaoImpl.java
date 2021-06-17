@@ -17,20 +17,20 @@ public class AgencyDaoImpl implements AgencyDao {
 	@Autowired
 	private SqlSessionTemplate session;
 
+
 	@Override
-	public List<Idol> selectIdolList() {
-		return session.selectList("agency.selectIdolList");
+	public List<Idol> selectIdolList(int agencyNo) {
+		return session.selectList("agency.selectIdolList",agencyNo);
 	}
 	
-//	@Override
-//	public int insertIdol(Idol idol) {
-//		return session.insert("agency.insertIdol", idol);
-//	}
-//
-//	@Override
-//	public int insertIdolImg(IdolImg idolImg) {
-//		log.info("idolImg ={}",idolImg);
-//		return session.insert("agency.insertIdolImg",idolImg);
-//	}
+	@Override
+	public int insertIdol(Idol idol) {
+		return session.insert("agency.insertIdol", idol);
+	}
+
+	@Override
+	public int insertIdolImg(IdolImg idolImg) {
+		return session.insert("agency.insertIdolImg",idolImg);
+	}
 
 }

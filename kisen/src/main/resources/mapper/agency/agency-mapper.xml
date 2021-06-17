@@ -3,24 +3,19 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="agency">
-  <!-- <insert id="insertIdol">
+  <insert id="insertIdol">
   	insert into
-  		idol(
-  			idol_no,
-  			idol_name,
-  			fan_cnt,
-  			agency_no
-  		)
+  		idol
   	values(
   		seq_idol.nextval,
   		#{idolName},
   		0,
-  		(select agency_no from agency where fan_no =#{agency_no})
+  		#{agencyNo}
   	)
   	
-  	<selectKey keyProperty="no" resultType="_int" order="AFTER">
+  	<selectKey keyProperty="idolNo" resultType="_int" order="AFTER">
   		select 
-  			seq_board_no.currval
+  			seq_idol.currval
   		from
   		 	dual
   	</selectKey>
@@ -28,12 +23,33 @@
   
 	<insert id="insertIdolImg"> 
 		insert into 
-		idol_img( no, idol_no, original_filename, renamed_filename ) 
-		values( seq_idol_img.nextval, #{idolNo}, #{originalFilename}, #{renamedFilename} ) 
-	</insert> -->
+		idol_img
+		values( seq_idol_img.nextval, #{idolNo}, #{originalFilename}, #{renamedFilename},default ) 
+	</insert>
 	
 	
-	<select id="selectIdolList" resultType ="idol">
-		select * from idol
+	<select id="selectIdolList" resultMap ="idolCollectionMap">
+		select 
+			* 
+		from 
+			idol i left join idol_img ii
+			    on i.idol_no = ii.idol_no
+		where 
+			agency_no= #{agencyNo}
 	</select>
+	<resultMap type="idol" id="idolCollectionMap">
+		<id column ="idol_no" property="idolNo"/>
+		<result column="idol_name" property="idolName"/>
+		<result column="fan_cnt" property="fanCnt"/>
+		<result column="agency_no" property="agencyNo"/>
+		
+		<collection property="idolImg" ofType="IdolImg">
+		 	<id column ="idol_img_no" property="idolImgNo"/>
+		 	<result column="idol_no" property="idolNo"/>
+		 	<result column="original_filename" property="originalFilename"/>
+		 	<result column="renamed_filename" property="renamedFilename"/>
+		 	<result column="upload_date" property="uploadDate"/>
+		</collection>
+	</resultMap>
+	
 </mapper>

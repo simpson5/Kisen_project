@@ -22,6 +22,27 @@
 	        </div>
 	    </div>
 	
+<!-- 	    <div class="mb-4 row">
+	        <label class="col-md-3 col-form-label" for="pdIdol">mv</label>
+	        <div class="col-md-9">
+	            <input type="text" class="form-control" name="idolMv1" >	            
+	            <input type="text" class="form-control" name="idolMv2" >	            
+	            <input type="text" class="form-control" name="idolMv3" >	            
+	            <input type="text" class="form-control" name="idolMv4">	      
+	            <input type="hidden" name="idolList" />        
+	            <div class="alert alert-secondary" role="alert">
+	            	최대 4개 등록가능
+	            </div>
+	        </div>
+	    </div> -->
+		
+	    <div class="mb-4 row">
+	        <label class="col-md-3 col-form-label" for="pdIdol">아이돌</label>
+	        <div class="col-md-9">
+	            <input type="text" class="form-control" name="pdIdol" id="pdIdol" readonly>
+	        </div>
+	    </div>
+	
 	    <!-- 상품 설명 이미지 -->
 	    <div class="mb-4 row">
 	        <label class="col-md-3 col-form-label">이미지</label>
@@ -60,6 +81,8 @@
 
     //폼 검사
     function formValidate(){
+
+        //MV 처리 
 
     }
 	var sel_file;

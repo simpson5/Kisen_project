@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class IdolImg {
 	private int idolImgNo;
 	private int idolNo;
-	private String originalFileName;
-	private String renamedFileName;
+	private String originalFilename;
+	private String renamedFilename;
 	private Date uploadDate;
 	
 	
