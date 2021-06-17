@@ -111,8 +111,8 @@ input[type=date]::-webkit-datetime-edit-year-field { color : gray; }
 }
 
 [name="email"] {
-	width: 45.6% !important;
-	transform: translateX(-2px);
+    width: 42.5% !important;
+    transform: translateX(-6px);
 }
 
 [name="selectEmail"] {
@@ -122,9 +122,9 @@ input[type=date]::-webkit-datetime-edit-year-field { color : gray; }
     border-left: none;
     border-right: none;
     border-bottom: 1.9px solid rgb(180, 144, 180);
-    font-size: smaller;
+    font-size: 15px;
     margin-left: 4px;
-    transform: translate(-12px, -3px);
+    transform: translate(-3px, -3px);
 }
 
 [name="selectEmail"]:focus{
@@ -143,4 +143,8 @@ input.corp-no-input {
 hr {
     width: 60%;
     margin: 55px auto 52px;
+}
+
+#email-span {
+	color: gray;
 }

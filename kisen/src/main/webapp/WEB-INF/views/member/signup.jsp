@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="Main" name="title"/>
 </jsp:include>
@@ -80,7 +81,7 @@
     </div>
 </div>
 <!-- 회원가입 폼 -->
-<form 
+<form:form
 	action="${pageContext.request.contextPath}/member/signup.do"
 	name="signupFrm"
 	method="post"
@@ -109,7 +110,7 @@
     <div>
         <div>
         <label id="email-offset" for="email">이메일<span class="required-mark"> *</span></label>
-        <input type="text" class="fill-in-area add1" name="email" id="email">
+        <input type="text" class="fill-in-area add1" name="email" id="email"><span id="email-span">@</span>
         <select class="selectEmail" name="selectEmail" id="selectEmail">
             <option value="1" selected>직접입력</option>
             <option value="naver.com">naver.com</option> 
@@ -158,7 +159,7 @@
         <p id="chkNoticeAddress" class="chkNotice"></p>
     </div>
     <input type="submit" class="submit-btn" value="회원가입" >
-</form>
+</form:form>
 </div>
 
 <script>

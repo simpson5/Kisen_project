@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="Main" name="title"/>
 </jsp:include>
@@ -80,7 +81,7 @@
     </div>
 </div>
 <!-- 회원가입 폼 -->
-<form 
+<form:form 
 	action="${pageContext.request.contextPath}/member/signupAgency.do"
 	name="signupAgencyFrm"
 	method="post"
@@ -95,6 +96,7 @@
 	    <input type="text" class="fill-in-area corp-no-input" id="corp-no" name="fanNo" maxlength="3">-
 	    <input type="text" class="fill-in-area corp-no-input" name="fanNoExt1" maxlength="2">-
 	    <input type="text" class="fill-in-area corp-no-input" name="fanNoExt2" maxlength="5">
+        <p id="chkNoticeCorpNo" class="chkNotice"></p>
     </div>
     <hr/>
     <div>
@@ -121,7 +123,7 @@
     <div>
         <div>
         <label id="email-offset" for="email">이메일<span class="required-mark"> *</span></label>
-        <input type="text" class="fill-in-area add1" name="email" id="email">
+        <input type="text" class="fill-in-area add1" name="email" id="email"><span id="email-span">@</span>
         <select class="selectEmail" name="selectEmail" id="selectEmail">
             <option value="1" selected>직접입력</option>
             <option value="naver.com">naver.com</option> 
@@ -170,7 +172,7 @@
         <p id="chkNoticeAddress" class="chkNotice"></p>
     </div>
     <input type="submit" class="submit-btn" value="회원가입" >
-</form>
+</form:form>
 </div>
 
 <script>
@@ -258,10 +260,35 @@ $('#passwordCheck').keyup(function(){
 // 제출시 유효성 검사
 $("[name=signupAgencyFrm]").submit(function(){
 
+	// 소속사명 유효성검사
+	var agencyName = $("#agency-name");
+	var $agencyNameOffset = agencyName.offset();
+	if (agencyName.val() == ''){
+		$("html body").animate({scrollTop:$agencyNameOffset.top},2000);
+		agencyName.focus();
+		$('#chkNoticeAgencyName').html('소속사명을 입력해주세요.').css("color","red");
+		return false;
+	}
+
+	// 사업자번호 10자리 유효성검사
+	var corpNo1 = $("[name=fanNo]").val();
+	var corpNo2 = $("[name=fanNoExt1]").val();	
+	var corpNo3 = $("[name=fanNoExt2]").val();	
+	var corpNo = corpNo1 + corpNo2 + corpNo3;
+	var corpReg = /[0-9]{10}/;
+	console.log(corpNo);
+	var $corpNoOffset = $("[name=fanNo]").offset();
+	if(!corpReg.test(corpNo)) {
+		$("html body").animate({scrollTop:$corpNoOffset.top},2000);
+		$("[name=fanNo]").focus();
+		$('#chkNoticeCorpNo').html('사업자등록번호를 바르게 입력해주세요.').css("color","red");
+		return false;
+	}
+	
 	// 아이디 중복검사 완료전에는 제출되지 않도록
 	var $idValid = $("#idValid");
 	var $id = $("#id");
-	var $idOffset = $("#id").offset();
+	var $idOffset = $id.offset();
 	if($idValid.val() == 0) {
 		$("html body").animate({scrollTop:$idOffset.top},2000);
 		$id.focus();
@@ -270,7 +297,7 @@ $("[name=signupAgencyFrm]").submit(function(){
     // 패스워드 유효성검사
     var pwd1 = $("#password");
   	var pwd2 = $('#passwordCheck');
-	var $pwdOffset = $("#password").offset();
+	var $pwdOffset = pwd1.offset();
   	// 1. 패스워드 입력하지 않은 경우
   	if(pwd1.val() == ''){
 		$("html body").animate({scrollTop:$pwdOffset.top},2000);
@@ -288,7 +315,7 @@ $("[name=signupAgencyFrm]").submit(function(){
 
 	// 이름 유효성검사
 	var name = $("#fan-name");
-	var $nameOffset = $("#fan-name").offset();
+	var $nameOffset = name.offset();
 	if (name.val() == ''){
 		$("html body").animate({scrollTop:$nameOffset.top},2000);
 		name.focus();
@@ -323,7 +350,7 @@ $("[name=signupAgencyFrm]").submit(function(){
     // 핸드폰 유효성검사
     var $phone = $("#phone");
     var patternPhone = new RegExp("01[016789][^0][0-9]{2,3}[0-9]{3,4}");  
-	var $phoneOffset = $("#phone").offset();
+	var $phoneOffset = $phone.offset();
     if(!patternPhone.test($phone.val())){
 		$("html body").animate({scrollTop:$phoneOffset.top},2000);
         $phone.focus();
@@ -341,19 +368,17 @@ $("[name=signupAgencyFrm]").submit(function(){
     var $detail = $("[name='addressExt3']");
     var $zipOffset = $zipcode.offset();
     var $detailOffset = $detail.offset();
-    if($zipcode.val() == '' || $detail.val() == '') {
-        if($zipcode.val() == '') {
-    		$("html body").animate({scrollTop:$zipOffset.top},2000);
-            $zipcode.focus();
-            $('#chkNoticeAddress').html('우편번호를 검색하여 주소를 모두 입력해주세요.').css("color","red");
-            return false;
-        }
-        if($detail.val() == '') {
-    		$("html body").animate({scrollTop:$detailOffset.top},2000);
-            $deatil.focus();
-            $('#chkNoticeAddress').html('상세주소까지 모두 입력해주세요.').css("color","red");
-            return false;
-        }
+    if($zipcode.val() == '') {
+		$("html body").animate({scrollTop:$zipOffset.top},2000);
+        $zipcode.focus();
+        $('#chkNoticeAddress').html('우편번호를 검색하여 주소를 모두 입력해주세요.').css("color","red");
+        return false;
+    }
+    if($detail.val() == '') {
+		$("html body").animate({scrollTop:$detailOffset.top},2000);
+        $deatil.focus();
+        $('#chkNoticeAddress').html('상세주소까지 모두 입력해주세요.').css("color","red");
+        return false;
     }
 });
 </script>
