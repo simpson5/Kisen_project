@@ -73,7 +73,7 @@ div#topList {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/2.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -92,7 +92,7 @@ div#topList {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/3.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -109,7 +109,7 @@ div#topList {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/4.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -126,7 +126,7 @@ div#topList {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/5.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -143,7 +143,7 @@ div#topList {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/6.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -179,7 +179,7 @@ div#ingdemandList {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/7.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -198,7 +198,7 @@ div#ingdemandList {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/8.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -215,7 +215,7 @@ div#ingdemandList {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/9.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -232,7 +232,7 @@ div#ingdemandList {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/10.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -249,7 +249,7 @@ div#ingdemandList {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/11.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -282,7 +282,7 @@ div#ingdepositlist {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/12.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -300,7 +300,7 @@ div#ingdepositlist {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/13.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -317,7 +317,7 @@ div#ingdepositlist {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/14.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -334,7 +334,7 @@ div#ingdepositlist {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/15.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -351,7 +351,7 @@ div#ingdepositlist {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/16.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -382,7 +382,7 @@ div#newdemandlist {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/17.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -401,7 +401,7 @@ div#newdemandlist {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/18.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -418,7 +418,7 @@ div#newdemandlist {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/19.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -435,7 +435,7 @@ div#newdemandlist {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/20.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
@@ -452,7 +452,7 @@ div#newdemandlist {
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/21.png"
-					alt="Card image cap" onclick="goDemandSubmit();">
+					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
 				<div class="card-body">
 					<h5 class="card-title">방탄소년단</h5>
                             <p class="card-text"> 
