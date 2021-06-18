@@ -39,13 +39,6 @@
 				    	<sec:authentication property="principal.username"/>
 				    </li>
 				    <span class="divide">|</span>
-				    <li>	
-				    	<form:form class="d-inline"
-				    				action="${pageContext.request.contextPath}/member/logout.do"
-				    				method="POST">
-			    			<button class="logout-btn" type="submit">로그아웃</button>
-			    		</form:form>
-			    	</li>
 			    	<li>
 			    		<a href="${pageContext.request.contextPath}/member/memberTest.do">memberTest</a>
 			    	</li>
@@ -68,6 +61,17 @@
                     <li>
                         <a href="${pageContext.request.contextPath}/basket/cart.do">장바구니</a>
                     </li>
+                    <span class="divide">|</span>
+                    <sec:authorize access="isAuthenticated()">
+                    <li>	
+				    	<form:form class="d-inline"
+				    				action="${pageContext.request.contextPath}/member/logout.do"
+				    				method="POST">
+			    			<button class="logout-btn" type="submit">LOGOUT</button>
+			    		</form:form>
+			    	</li>
+                    <span class="divide">|</span>
+                    </sec:authorize>
                 </ul>
             </div>
           
