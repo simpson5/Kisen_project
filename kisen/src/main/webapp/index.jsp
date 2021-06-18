@@ -47,7 +47,7 @@
             </div>
             <div class="card-body">
               <h5 class="card-title">${product.pdName}</h5>
-              <p class="card-text"> 
+              <p class="card-text">  
                 <span class="badge bg-s">${product.idolName}</span><br />
                 <span class="badge bg-dark">공식굿즈</span>
                 <span class="badge bg-dark">${product.pdCategory}</span>

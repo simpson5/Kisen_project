@@ -12,6 +12,8 @@ public interface ProductDao {
 
 	ProductExt selectOneProduct(int no);
 
+	
+	
 }
 =======
 package com.simpson.kisen.product.model.dao;
