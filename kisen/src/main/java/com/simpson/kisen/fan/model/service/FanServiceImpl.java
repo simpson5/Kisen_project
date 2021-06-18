@@ -12,9 +12,10 @@ public class FanServiceImpl implements FanService {
 	@Autowired
 	private FanDao fanDao;
 
+
 	@Override
-	public Fan selectOneFan(int fanNo) {
-		return fanDao.selectOneFan(fanNo);
+	public int updateFan(Fan loginMember) {
+		return fanDao.updateFan(loginMember);
 	}
 	
 }

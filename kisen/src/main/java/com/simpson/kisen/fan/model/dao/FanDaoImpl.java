@@ -13,9 +13,10 @@ public class FanDaoImpl implements FanDao {
 	private SqlSessionTemplate session;
 
 	@Override
-	public Fan selectOneFan(int fanNo) {
-		return session.selectOne("member.selectOneFan",fanNo);
+	public int updateFan(Fan loginMember) {
+		return session.update("member.updateFan",loginMember);
 	}
+
 	
 	
 }

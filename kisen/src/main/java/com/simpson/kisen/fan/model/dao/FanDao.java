@@ -4,6 +4,6 @@ import com.simpson.kisen.fan.model.vo.Fan;
 
 public interface FanDao {
 
-	Fan selectOneFan(int fanNo);
+	int updateFan(Fan loginMember);
 
 }

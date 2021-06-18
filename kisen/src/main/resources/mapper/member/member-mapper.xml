@@ -93,7 +93,7 @@
 	)
 </insert>
 <!-- 마이페이지 회원수정페이지 조회  -->
-	<select id="selectOneFan" resultMap="mypageFan">
+<!-- 	<select id="selectOneFan" resultMap="mypageFan">
 	select 
 		*
 	from
@@ -101,7 +101,7 @@
 	where
 		fan_no = #{fanNo}
 	
-	</select>
+	</select>  열심히 적은 매퍼 타입입니다 필요할지 모르니 주석으로 남겨 놓겠습니당...총총
 	<resultMap type="fan" id="mypageFan">
 	 	<id column="fan_no" property="fanNo"/>
 		<result column="fan_id" property="fanId"/>
@@ -116,6 +116,19 @@
 		<result column="enroll_date" property="enrollDate"/>
 		<result column="fan_name" property="fanName"/>
 		<result column="enabled" property="enabled"/>	
-	</resultMap>
+	</resultMap> -->
+	<update id="updateFan">
+		update
+			fan
+		set
+			fan_id= #{fanId},
+			password = #{password},
+			phone = #{phone},
+			address = #{address},
+			email = #{email},	
+			fan_name = #{fanName}
+		where
+			fan_no = #{fanNo}
+	</update>
 
 </mapper>
