@@ -1,5 +1,9 @@
 package com.simpson.kisen.product.model.vo;
 
+
+
+import java.util.Date;
+
 import org.springframework.stereotype.Repository;
 
 import lombok.AllArgsConstructor;
@@ -11,15 +15,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
-	private int pdNo; // »óÇ°¹øÈ£
-	private int idolNo; // ¾ÆÀÌµ¹¹øÈ£
- 	private String pdCategory; // ºÐ·ù
-	private String pdName; // »óÇ°ÀÌ¸§
-	private String pdImg; // »óÇ°ÀÌ¹ÌÁö
-	private String pdContent; //»óÇ° ¼³¸í
-	private int price; // »óÇ°°¡°Ý
-	private int pdStock; // Àç°í·®
-	private int pdSale;  // ÆÇ¸Å·®
-	
+	private int pdNo; // ï¿½ï¿½Ç°ï¿½ï¿½È£
+	private int idolNo; // ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½È£
+ 	private String pdCategory; // ï¿½Ð·ï¿½
+	private String pdName; // ï¿½ï¿½Ç°ï¿½Ì¸ï¿½
+	private String pdImg; // ï¿½ï¿½Ç°ï¿½Ì¹ï¿½ï¿½ï¿½
+	private String pdContent; //ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½
+	private int price; // ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½
+	private int pdStock; // ï¿½ï¿½ï¿½
+	private int pdSales;  // ï¿½Ç¸Å·ï¿½
+	private Date salesDate;
 	//git test
 }
