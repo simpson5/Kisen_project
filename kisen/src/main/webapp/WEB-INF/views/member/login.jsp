@@ -75,11 +75,11 @@ $(() => {
 					<div>
 						<button type="submit" class="btn btn-block">로그인</button>
 					</div>
-				</form:form>
 					<div name="saveId">
 						<input type="checkbox" id="saveId" name="remember-me" class="checkbox-style" />
 						<label for="remember-me">로그인 상태 유지</label>
 					</div>
+				</form:form>
 					<div class="login-ext" style="text-align: center;">
 					<a href="${pageContext.request.contextPath}/member/searchId.do">아이디 찾기</a>
 					 <span>|</span>

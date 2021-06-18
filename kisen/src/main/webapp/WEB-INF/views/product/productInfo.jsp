@@ -276,8 +276,47 @@ div#pd-slide img {
 	background-image: none;
 	border-color: #c7a2e0;
 }
+.btn-outline-success {
+	color: #9033b5;
+	background-color: transparent;
+	background-image: none;
+	border-color: #9033b5;
+}
+
+.btn-outline-success:hover {
+	color: white;
+	background-color: #c7a2e0;
+	background-image: none;
+	border-color: #c7a2e0;
+}
+
+.form-control{
+	display: block;
+    width: 75%;
+    height: 2rem;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+
+}
+
+
+textarea.autosize {
+ min-height: 300px; 
+ width: 75%
+ }
 </style>
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> branch 'master' of https://github.com/simpson5/Kisen_project.git
 <div id="wrap">
 	<div class="container" id="container">
 		<div class="detail row">
@@ -362,105 +401,111 @@ div#pd-slide img {
 
 			<p class="h5"
 				style="color: #353535; font-size: 16px; line-height: 18px; font-family: 'Lato', 'Nanum Gothic', 'verdana', '돋움', '굴림';">REVIEW</p>
-			<table class="table pd-review-board table table-hover">
-				<thead>
-					<tr>
-						<th scope="col" class="col-1 table-primary">번호</th>
-						<th scope="col" class="col-6 table-primary">제목</th>
-						<th scope="col" class="col-1 table-primary">작성자</th>
-						<th scope="col" class="col-1 table-primary">작성일</th>
-						<th scope="col" class="col-1 table-primary">조회</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td><a href="#">Mark</a></td>
-						<td>dsadasd</td>
-						<td>@mdo</td>
-						<td>@mdo</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td><a href="#">Mark</a></td>
-						<td>Thornton</td>
-						<td>@fat</td>
-						<td>@fat</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td><a href="#">Mark</a></td>
-						<td>@twitter</td>
-						<td>@twitter</td>
-						<td>@twitter</td>
-					</tr>
-				</tbody>
-			</table>
+			<section id="board-container" class="container">
 
-			<div class="form-inline" id="edit">
-				<div class="py-2">
-					<button type="button" class="btn btn-outline-warning"
-						onclick="goReviewForm();">글쓰기</button>
 
+				<table id="tbl-review" class="table table-striped table-hover">
+					<tr>
+						<th>리뷰번호</th>
+						<th>내용</th>
+						<th>작성자</th>
+						<th>작성일</th>
+						<th>첨부파일</th>
+						<!-- 첨부파일 있을 경우, /resources/images/file.png 표시 width: 16px-->
+						<th>조회수</th>
+					</tr>
+					<c:forEach items="${list}" var="review">
+						<tr data-no="${review.no}">
+							<td>${review.no}</td>
+							<td>${review.content}</td>
+							<td>${review.memberId}</td>
+							<td><fmt:formatDate value="${review.regDate}"
+									pattern="yy-MM-dd" /></td>
+							<td><c:if test="${review.hasAttachment}">
+									<img
+										src="${pageContext.request.contextPath}/resources/images/file.png"
+										width="16px" alt="" />
+								</c:if></td>
+							<td>${review.readCount}</td>
+						</tr>
+					</c:forEach>
+					</section>
+				</table>
+
+
+
+				<div class="form-inline" id="edit">
+					<div class="py-2">
+						<button type="button" class="btn btn-outline-warning"
+							onclick="goReviewForm();">글쓰기</button>
+
+					</div>
+					<div class="py-2">
+						<button type="submit" class="btn btn-outline-warning"
+							onclick="goEditForm();">수정하기</button>
+					</div>
+					<div class="py-2">
+						<button type="submit" class="btn btn-outline-warning">삭제하기</button>
+					</div>
+					<input type="search" placeholder="제목 검색..." id="searchTitle"
+						class="form-control col-sm-3 d-inline" />
 				</div>
-				<div class="py-2">
-					<button type="submit" class="btn btn-outline-warning"
-						onclick="goEditForm();">수정하기</button>
+
+				<div class="paging-area my-5">
+					<nav class="review-paging-nav" aria-label="Page navigation example">
+						<ul class="pagination col-2">
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							</a></li>
+							<li class="page-item"><a class="page-link" href="#">1</a></li>
+							<li class="page-item"><a class="page-link" href="#">2</a></li>
+							<li class="page-item"><a class="page-link" href="#">3</a></li>
+							<li class="page-item"><a class="page-link" href="#"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							</a></li>
+						</ul>
+					</nav>
 				</div>
-				<div class="py-2">
-					<button type="submit" class="btn btn-outline-warning">삭제하기</button>
+				<div id="write" style="display: none;">
+					<div id="board-container">
+						<form name="boardFrm"
+							action="${pageContext.request.contextPath}/review/reviewEnroll.do"
+							method="post" enctype="multipart/form-data"
+							onsubmit="return boardValidate();">
+							 <input type="text"
+								class="form-control" name="memberId" value="${loginMember.id}"
+								readonly required>
+							<!-- input:file소스 : https://getbootstrap.com/docs/4.1/components/input-group/#custom-file-input -->
+							<div class="input-group mb-3" style="padding: 0px;">
+								<div class="input-group-prepend" style="padding: 0px;">
+									<span class="input-group-text">첨부파일1</span>
+								</div>
+								<div class="custom-file">
+									<input type="file" class="custom-file-input" name="upFile"
+										id="upFile1" multiple /> <label class="custom-file-label"
+										for="upFile1">파일을 선택하세요</label>
+								</div>
+							</div>
+							<div class="input-group mb-3" style="padding: 0px;">
+								<div class="input-group-prepend" style="padding: 0px;">
+									<span class="input-group-text">첨부파일2</span>
+								</div>
+								<div class="custom-file">
+									<input type="file" class="custom-file-input" name="upFile"
+										id="upFile2"> <label class="custom-file-label"
+										for="upFile2">파일을 선택하세요</label>
+								</div>
+							</div>
+							<textarea class="autosize" onkeydown="resize(this)" onkeyup="resize(this)" name="content" placeholder="내용"
+								required   style="resize: none;"></textarea>
+							<br /> <input type="submit" class="btn btn-outline-success" onclick="goReviewEnroll();"
+								value="저장" >
+						</form>
+					</div>
 				</div>
-			</div>
-			<div class="paging-area my-5">
-				<nav class="review-paging-nav" aria-label="Page navigation example">
-					<ul class="pagination col-2">
-						<li class="page-item"><a class="page-link" href="#"
-							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-						</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#"
-							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-						</a></li>
-					</ul>
-				</nav>
-			</div>
-	<div id="write" style="display: none;">
-	<div class="form-group">
-		<label for="title">title:</label> <input type="text"
-				class="form-control" placeholder="title" id="title" name="title">
 		</div>
-		<div class="form-group">
-			<label for="content">content:</label>
-			<textarea class="form-control" rows="5" id="summernote"
-				name="content" style="width: 100%"></textarea>
-		</div>
+	
 
-
-		<div class="col-2" id="edit">
-			<div class="py-2">
-				<button type="button" id="saveBtn" class="btn btn-outline-warning">글쓰기등록</button>
-
-			</div>
-
-<script>
-				$(document).ready(function() {
-					//여기 아래 부분
-					$('#summernote').summernote({
-						  height: 300,                 // 에디터 높이
-						  minHeight: null,             // 최소 높이
-						  maxHeight: null,             // 최대 높이
-						  focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
-						  lang: "ko-KR",					// 한글 설정
-						  placeholder: '최대 2000자까지 쓸 수 있습니다'	//placeholder 설정
-				          
-	});
-});
-</script>
-				</div>
-			</div>
-		</div>
 		<div class="pd-another border border-0 mx-auto p-3"
 			style="display: none;">
 			<div id="carouselExampleIndicators2" class="carousel slide"
@@ -683,10 +728,74 @@ function goReviewForm(){
 	$('#write').show();
 }
 
+function goReviewEnroll(){
+	location.href = "${pageContext.request.contextPath}/review/reviewDetail.do";
+}
+
+
+
 function goEditForm(){
 	location.href = "${pageContext.request.contextPath}/review/revieweditForm.do";
 	
 }
+
+function resize(obj) {
+	  obj.style.height = "1px";
+	  obj.style.height = (12+obj.scrollHeight)+"px";
+	}
+
+//$(() => {
+//	$("tr[data-no]").click(e => {
+		//화살표함수안에서는 this는 e.target이 아니다.
+		//console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
+//		var $tr = $(e.target).parent();
+//		var no = $tr.data("no");
+//		location.href = "${pageContext.request.contextPath}/review/reviewDetail.do?no=" + no;
+//	});
+
+	//$( "#searchTitle" ).autocomplete({
+  	//	source: function(request, response){
+ 		  //console.log(request);
+ 		  //console.log(response);
+ 		  //response([{label:'a', value:'a'}, {label:'b', value:'b'}]);
+ 		  
+ 		  //사용자입력값전달 ajax요청 -> success함수안에서 response호출 
+  	 //	  $.ajax({
+	//		url: "${pageContext.request.contextPath}/review/searchTitle.do",
+	//		data: {
+	//			searchTitle: request.term
+	//		},
+	//		success(data){
+	//			console.log(data);
+	//			const {list} = data;
+				//배열
+	//			const arr = 
+	//				list.map(({no, title}) => ({
+	//					label: title,
+	//					value: title,
+	//					no		
+	//				}));
+	//			console.log(arr);
+	//			response(arr);
+	//		},
+	//		error(xhr, statusText, err){
+	//			console.log(xhr, statusText, err);
+	//		}
+  	//  	  });
+	//	},
+	//	select: function(event, selected){
+			// 클릭했을때, 해당게시글 상세페이지로 이동
+			//console.log("select : ", selected);
+	//		const {item: {no}} = selected;
+	//		location.href = "${pageContext.request.contextPath}/board/boardDetail.do?no=" + no;
+	//	},
+	//	focus: function(event, focused){
+	//	 return false;
+	//	},
+	//	autoFocus: true, 
+	//	minLength: 2
+  //});
+//});
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

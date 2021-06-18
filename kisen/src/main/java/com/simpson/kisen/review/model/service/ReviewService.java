@@ -1,7 +1,9 @@
 package com.simpson.kisen.review.model.service;
 
 import java.util.List;
+
 import java.util.Map;
+
 
 import com.simpson.kisen.review.model.vo.Attachment;
 import com.simpson.kisen.review.model.vo.Review;
@@ -26,6 +28,8 @@ public interface ReviewService {
 	Attachment selectOneAttachment(int no);
 
 	List<Review> searchTitle(String searchTitle);
+
+	
 	
 	
 

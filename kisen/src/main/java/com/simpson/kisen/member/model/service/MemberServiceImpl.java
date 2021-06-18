@@ -34,15 +34,15 @@ public class MemberServiceImpl implements MemberService {
 		int result = 0;
 		result = memberDao.insertAgencyMember(member);
 		result = insertMemberAuthority(member);
-		result = insertAgencyAuthority(member);
+		// result = insertAgencyAuthority(member);
 		agency.setFanNo(member.getFanNo()); // agency fanNo 세팅
 		result = insertAgency(agency);
 		return result;
 	}
 
-	private int insertAgencyAuthority(Fan member) {
-		return memberDao.insertAgencyAuthority(member);
-	}
+//	private int insertAgencyAuthority(Fan member) {
+//		return memberDao.insertAgencyAuthority(member);
+//	}
 
 	private int insertAgency(Agency agency) {
 		return memberDao.insertAgency(agency);
