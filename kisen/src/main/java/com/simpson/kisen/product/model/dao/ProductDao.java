@@ -11,4 +11,6 @@ public interface ProductDao {
 
 	ProductExt selectOneProduct(int no);
 
+	
+	
 }
