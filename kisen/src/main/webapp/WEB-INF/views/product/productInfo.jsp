@@ -277,11 +277,7 @@ div#pd-slide img {
 	border-color: #c7a2e0;
 }
 </style>
-   <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+ 
 <div id="wrap">
 	<div class="container" id="container">
 		<div class="detail row">
@@ -294,17 +290,17 @@ div#pd-slide img {
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col" colspan="4" id="pd_name">상품명</th>
+							<th scope="col" colspan="4" id="pd_name">${product.pdName}</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<th>판매가격</th>
-							<td colspan="3" style="color: #0066ff; border: 0; outline: 0;">10,000원</td>
+							<td colspan="3" style="color: #0066ff; border: 0; outline: 0;">${product.price} 원</td>
 						</tr>
 						<tr>
 							<th>판매일</th>
-							<td colspan="3" style="border: 0; outline: 0;">2021.06.04</td>
+							<td colspan="3" style="border: 0; outline: 0;">${product.salesDate}</td>
 						</tr>
 						<tr>
 							<th>배송정보</th>

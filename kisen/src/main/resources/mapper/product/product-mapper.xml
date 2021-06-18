@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="product">
+	<select id="selectProductList" resultMap="productMap">
+		select 
+		    p.*,
+		    i.idol_name idolName
+		from  
+		    product p
+		  left join 
+		    idol i
+		      on p.idol_no = i.idol_no
+	</select>
+	<resultMap type="productExt" id="productMap">
+		<id column="idol_no" property="idolNo"/>
+		<result column="pd_no" property="pdNo"/>
+		<result column="pd_category" property="pdCategory"/>
+		<result column="pd_name" property="pdName"/>
+		<result column="pd_img" property="pdImg"/>
+		<result column="price" property="price"/>
+		<result column="pd_stock" property="pdStock"/>
+		<result column="pd_sales" property="pdSales"/>
+		<result column="sales_date" property="salesDate"/>
+		<result column="idolName" property="idolName"/>
+	</resultMap>
+	
+	<select id="selectOneProduct" resultType="productExt">
+		select
+			*
+		from
+			product
+		where
+			pd_no = #{no}
+	</select>
+</mapper>
