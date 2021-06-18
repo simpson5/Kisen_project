@@ -35,17 +35,15 @@
                 	<!-- security : 로그인한 경우 -->
 				    <sec:authorize access="isAuthenticated()">
 				    <!-- property : principal.username -> 인증한 객체의 아이디 -->
-				    <li>
+				    <li class="user-id">
 				    	<sec:authentication property="principal.username"/>
-				    	<!-- property : authorities -> 인증한 객체가 가지고 있는 권한 -->
-				    	<sec:authentication property="authorities"/>
 				    </li>
 				    <span class="divide">|</span>
 				    <li>	
 				    	<form:form class="d-inline"
 				    				action="${pageContext.request.contextPath}/member/logout.do"
 				    				method="POST">
-			    			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">로그아웃</button>
+			    			<button class="logout-btn" type="submit">로그아웃</button>
 			    		</form:form>
 			    	</li>
 			    	<li>
