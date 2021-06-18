@@ -92,3 +92,19 @@ header hr {
     width: 100%;
     visibility: hidden;
 }
+
+.logout-btn {
+	background-color: transparent !important;
+	border: none;
+	transform : translateY(0.8px);
+}
+
+.logout-btn:hover {
+	cursor: pointer;
+	font-weight : 600;
+}
+
+.user-id {
+	font-weight : 500;
+	transform : translateY(0.85px);
+}
