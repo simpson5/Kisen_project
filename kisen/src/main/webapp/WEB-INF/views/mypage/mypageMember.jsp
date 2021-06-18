@@ -116,11 +116,11 @@ div#mypage1{
 <form class="justify-content-center">
    <div class="form-group col-md-7 mx-auto">
       <label for="myId">*아이디</label>
-      <input type="text" class="form-control" id="myId" placeholder="아이디">
+      <input type="text" class="form-control" id="myId" value="${fan.fanId}">
     </div>
   <div class="form-group col-md-7 mx-auto">
       <label for="myName">*이름</label>
-      <input type="text" class="form-control" id="myName" placeholder="이름">
+      <input type="text" class="form-control" id="myName"  value="${fan.fanName}">
     </div>
  <div class="form-group col-md-7 mx-auto">
       <label for="inputPassword4">*새 비밀번호</label>
@@ -133,11 +133,11 @@ div#mypage1{
 
 <div class="form-group col-md-7 mx-auto">
       <label for="inputEmail4">*이메일</label>
-      <input type="email" class="form-control" id="inputEmail4"" placeholder="이메일">
+      <input type="email" class="form-control" id="inputEmail4" value="${fan.email}">
 </div>
   <div class="form-group col-md-7 mx-auto">
       <label for="myPhone">*전화번호</label>
-      <input type="tel" class="form-control" id="myPhone" placeholder="(-)없이 입력하십시오.">
+      <input type="tel" class="form-control" id="myPhone" value="${fan.phone}">
     </div>
  <!-- 주소 -->
     <div class="form-group col-md-7 mx-auto">

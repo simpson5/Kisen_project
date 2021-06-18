@@ -4,12 +4,18 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-@Repository
+import com.simpson.kisen.fan.model.vo.Fan;
 
+@Repository
 public class FanDaoImpl implements FanDao {
 	
 	@Autowired
 	private SqlSessionTemplate session;
+
+	@Override
+	public Fan selectOneFan(int fanNo) {
+		return session.selectOne("member.selectOneFan",fanNo);
+	}
 	
 	
 }
