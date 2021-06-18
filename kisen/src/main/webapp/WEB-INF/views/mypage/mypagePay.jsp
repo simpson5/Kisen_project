@@ -46,7 +46,7 @@ a#payNav:hover{
 div#mypageContainer{
 	background-color: #c7a2e0;
 	width:800px;
-	height: 300px;
+	height: 400px;
 }
 .border-secondary {
     border-color:  #9033b5!important;
@@ -117,7 +117,7 @@ img#productImg{
 	<br /><br /><br /><br />
 <div id="mypage-container" class="border border-0 mx-auto p-3 rounded ">
 	<div class="row ">
-		    <h5 class="col">{$fanId}님, 안녕하세요! </h5>
+		    <h5 class="col">{$principal.fanId}님, 안녕하세요! </h5>
 	    <div class="col-8">
 		    <span class="badge badge-warning mx-1">Lv.1</span>
 	    </div>

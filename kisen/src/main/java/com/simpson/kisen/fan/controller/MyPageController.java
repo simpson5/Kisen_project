@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
@@ -19,14 +20,14 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 @RequestMapping("/mypage")
-/* @SessionAttributes({"loginMember", "next"}) */
+@SessionAttributes({"loginMember", "next"})
 public class MyPageController {
 	
 	@Autowired
 	private FanService fanService;
 	
 	@GetMapping("/mypageMember.do")
-	public String mypageMember(Model model, @RequestParam(name = "fanNo", required = true) int fanNo){
+	public String mypageMember(Model model, @RequestParam(name = "fan_no", required = true) int fanNo){
 		
 		try {
 			Fan fan = fanService.selectOneFan(fanNo);
@@ -44,7 +45,13 @@ public class MyPageController {
 	
 	
 	@GetMapping("/mypagePay.do")
-	public void mypage(){
-	}
+	public  ModelAndView mypage(ModelAndView mav, @SessionAttribute(name = "loginMember") Fan loginMember ){
 	
+		log.info("loginMember = {}", loginMember);
+		
+		mav.addObject("time", System.currentTimeMillis());
+		
+		mav.setViewName("mypage/mypagePay");
+		return mav;
+	}
 }
