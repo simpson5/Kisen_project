@@ -39,88 +39,28 @@
   <hr>
   <div class="idol-item row d-none d-sm-block">
     <div class="row g-3 ">
+      <c:forEach items="${list}" var="product">
       <div class="col-lg-3 col-md-4 col-sm-6 ">
         <div class="card" style="width: 13rem;">
             <div class="embed-responsive embed-responsive-4by3 ">
               <img src="${pageContext.request.contextPath}/resources/images/idol/bts.jpg" class="card-img-top embed-responsive-item  card-img" alt="tree" style="">
             </div>
             <div class="card-body">
-              <h5 class="card-title">방탄소년단</h5>
-              <p class="card-text"> 
-                <span class="badge bg-s"> BTS</span>
+              <h5 class="card-title">${product.pdName}</h5>
+              <p class="card-text">  
+                <span class="badge bg-s">${product.idolName}</span><br />
                 <span class="badge bg-dark">공식굿즈</span>
-                <span class="badge bg-dark">앨범</span>
+                <span class="badge bg-dark">${product.pdCategory}</span>
               </p>
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-sm btn-outline-main" id="pdInfo-btn">상세보기</button>
+              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
+                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
                 <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
               </div>
             </div>
         </div>
       <!-- col-lg-3 col-md-6 End -->
       </div>
-
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="card" style="width: 13rem;">
-          <div class="embed-responsive embed-responsive-4by3">
-            <img src="${pageContext.request.contextPath}/resources/images/idol/itzy.png" class="card-img-top embed-responsive-item" alt="tree">
-          </div>
-            <div class="card-body">
-              <h5 class="card-title">ITZY</h5>
-              <p class="card-text"> 
-                <span class="badge bg-s">ITZY</span>
-                <span class="badge bg-dark">공식굿즈</span>
-                <span class="badge bg-dark">앨범</span>
-              </p>
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
-              </div>
-            </div>
-        </div>
-      <!-- col-lg-3 col-md-6 End -->
-      </div>
-
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="card" style="width: 13rem;">
-          <div class="embed-responsive embed-responsive-4by3">
-            <img src="${pageContext.request.contextPath}/resources/images/idol/nct.png" class="card-img-top embed-responsive-item" alt="tree" >
-          </div>
-            <div class="card-body">
-              <h5 class="card-title">NCT</h5>
-              <p class="card-text"> 
-                <span class="badge bg-s">NCT</span>
-                <span class="badge bg-dark">공식굿즈</span>
-                <span class="badge bg-dark">앨범</span>
-              </p>
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
-              </div>
-            </div>
-        </div>
-      <!-- col-lg-3 col-md-6 End -->
-      </div>
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="card" style="width: 13rem;">
-          <div class="embed-responsive embed-responsive-4by3">
-            <img src="${pageContext.request.contextPath}/resources/images/idol/tiwce.png" class="card-img-top embed-responsive-item" alt="tree">
-          </div>
-            <div class="card-body">
-              <h5 class="card-title">TIWCE</h5>
-              <p class="card-text"> 
-                <span class="badge bg-s">TIWCE</span>
-                <span class="badge bg-dark">공식굿즈</span>
-                <span class="badge bg-dark"></span>
-              </p>
-              <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
-              </div>
-            </div>
-        </div>
-      <!-- col-lg-3 col-md-6 End -->
-      </div>
+      </c:forEach>
     <!-- row g-3 End -->
     </div>
   <!-- row end -->
@@ -519,6 +459,18 @@
 <script>
 $("#pdInfo-btn").click(function(){
 	window.location.href="${pageContext.request.contextPath}/product/productInfo";
+});
+
+$(() => {
+	$("button[name=pdDetail]").click(e => {
+		//화살표함수안에서는 this는 e.target이 아니다.
+		//console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
+		var $no = $(e.target).parent();
+		var no = $no.data("no");
+		console.log(no);
+		
+		location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + no;
+	});
 });
 </script>
 
