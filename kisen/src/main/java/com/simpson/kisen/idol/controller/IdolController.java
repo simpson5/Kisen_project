@@ -13,12 +13,14 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.service.IdolService;
 import com.simpson.kisen.idol.model.vo.DipIdol;
 import com.simpson.kisen.idol.model.vo.Idol;
@@ -37,24 +39,22 @@ public class IdolController {
 	 * @Autowired private ServletContext application;
 	 * 
 	 * @Autowired private ResourceLoader resourceLoader;
-	 * ±×¸®°í controller´Ü¿¡¼­ idol °´Ã¼¸¦ list¿¡ Ãß°¡ ÇØ¼­ view´Ü¿¡ ³Ñ°ÜÁÖ½Ã¸é µÉ°Å°°¾Æ¿ä
+	 * ï¿½×¸ï¿½ï¿½ï¿½ controllerï¿½Ü¿ï¿½ï¿½ï¿½ idol ï¿½ï¿½Ã¼ï¿½ï¿½ listï¿½ï¿½ ï¿½ß°ï¿½ ï¿½Ø¼ï¿½ viewï¿½Ü¿ï¿½ ï¿½Ñ°ï¿½ï¿½Ö½Ã¸ï¿½ ï¿½É°Å°ï¿½ï¿½Æ¿ï¿½
 	 * 
-	 * imgÆÄÀÏÀº upload¿¡ ¹®ÀÚ¿­·Î ºÒ·¯ ¿À´Â°Í
+	 * imgï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ uploadï¿½ï¿½ ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ ï¿½Ò·ï¿½ ï¿½ï¿½ï¿½Â°ï¿½
 	 */
 	@Autowired
 	private IdolService idolService;
 		
 	@GetMapping("/mypageArtist.do")
-	public void selectOneBoard(@RequestParam int fanNo, Model model
+	public void selectOneBoard(Authentication authentication, Model model
 			) {
-		//1. ¾÷¹«·ÎÁ÷ 
-		DipIdol dipidol = idolService.selectOneIdolCollection(fanNo);
+
+		Fan principal = (Fan) authentication.getPrincipal();
+		model.addAttribute("loginMember", principal);
 		
-		//2. °´Ã¼¿¡ ÀúÀåµÈ ÆÄÀÏ ´ã±â	
-		List<DipIdol> idolList = new ArrayList<>();
-		idolList.add(dipidol);
-		
-		model.addAttribute("dipidol",idolList);
-		
+		log.debug("authentication = {}", authentication);
+		// authentication = org.springframework.security.authentication.UsernamePasswordAuthenticationToken@23abe407: Principal: Member(id=honggd, password=$2a$10$qHHeJGgQ9teamJyIJFXbyOBtl7nIsQ37VP2jrz89dnDA7LgzS.nYi, name=ì¹´ê¸¸ë™, gender=M, birthday=2021-05-04, email=honggd@naver.com, phone=01012341234, address=ì„œìš¸ì‹œ ê°•ë‚¨êµ¬, hobby=[ìš´ë™,  ë“±ì‚°], enrollDate=2021-05-20, authorities=[ROLE_USER], enabled=true); Credentials: [PROTECTED]; Authenticated: true; Details: org.springframework.security.web.authentication.WebAuthenticationDetails@166c8: RemoteIpAddress: 0:0:0:0:0:0:0:1; SessionId: B95C1041773474D93729781512D4490A; Granted Authorities: ROLE_USER
+		log.debug("principal = {}", principal);
 	}			
 }

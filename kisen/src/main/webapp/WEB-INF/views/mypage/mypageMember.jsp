@@ -1,10 +1,23 @@
+<%@page import="com.simpson.kisen.fan.model.vo.Fan"%>
+<%@page import="org.springframework.security.core.context.SecurityContextHolder"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>	
+<%-- <% 
+	/* List.contains메소드를 사용하기 위해 String[] => List로 형변환함.  */
 
+	Fan fan = (Fan)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	if(fan != null){
+		String add = fan.getAddress();
+		String add1 = add.substring(0, 4);
+	  pageContext.setAttribute("add1", add1);		
+	}
+%>
+ --%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 <jsp:param value="mypage" name="title"/>
 </jsp:include>
@@ -121,10 +134,9 @@ div#mypage1{
 		  method="post" 
 		  action="${pageContext.request.contextPath}/mypage/updateMypage.do">
    <div class="form-group col-md-7 mx-auto">
-      <label for="myId">*아이디</label>
-      <input type="text" class="form-control" id="fanId" name="fanId" value="${loginMember.fanId}">
-     	 <p id="chkNoticeIdDuplicate" class="chkNotice"></p>
-        <input type="hidden" id="idValid" value="0"/> 
+      <label for="myId">아이디</label>
+      <input type="text" class="form-control" id="fanId" name="fanId"value="${loginMember.fanId}" readonly required >
+     
     </div>
   <div class="form-group col-md-7 mx-auto">
       <label for="myName">*이름</label>
@@ -149,7 +161,11 @@ div#mypage1{
 </div>
   <div class="form-group col-md-7 mx-auto">
       <label for="myPhone">*전화번호</label>
-      <input type="tel" class="form-control" id="myPhone" value="${loginMember.phone}">
+      <input type="tel" class="form-control" id="phone" name="phone" value="${loginMember.phone}">
+    </div>
+     <div class="form-group col-md-7 mx-auto">
+        <label for="birthday">*생년월일</label>
+        <input type="date" class="fill-in-area" name="birthday" id="birthday" value="${loginMember.birthday}">
     </div>
  <!-- 주소 -->
     <div class="form-group col-md-7 mx-auto">
@@ -157,7 +173,8 @@ div#mypage1{
         <!-- 우편번호 검색 -->
         <div id="zip-code form-control">
             <div class="p-2 ">
-            <input type="text" class="fill-in-area add1 form-control" id="sample6_postcode" name="address" readonly placeholder="우편번호" style="width: 100%">
+            <input type="text" class="fill-in-area add1 form-control" id="sample6_postcode" name="address" 
+            	readonly placeholder="우편번호" style="width: 100%" >
         	</div>
             <div class="form-group col-md-7 mx-auto">
             	<input type="button" class="add-btn btn btn-secondary btn-sm" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
@@ -180,30 +197,33 @@ div#mypage1{
    
         <p id="chkNoticeAddress" class="chkNotice "></p>
     </div>
-  <div class="container">
-  <div class="row justify-content-md-center">
-    <div class="col-2 col-lg-2"></div>
-    <div class="col-4 mt-2 p-0">
-    <input type="hidden" name="no" value="${loginMember.fanNo}" />
+  <div class="d-flex justify-content-around">
+    <div class="col-3 mt-2 p-0">
   	<button type="submit" class="btn btn-outline-success" >수정하기</button>
     </div>
-    <div class="col-4 col-lg-2 mt-2">
-    <input type="hidden" name="no" value="${loginMember.fanNo}" />
-     <button type="submit" class="btn btn-outline-danger " >탈퇴하기</button>
+    <div class="col-3 mt-2 p-0"></div>
+   </form:form>
+    <div class="col-3 col-lg-2 mt-2">
+     <button class="btn btn-outline-danger" onclick="deleteFan(this);" data-data="${loginMember.fanNo}">탈퇴하기</button>
     </div>
-    <div class="col-4 col-lg-2"></div>
   </div>
-  </div>
-
-</form:form>
-
 </div>
+    <form:form
+	name="FanDelFrm" 
+	action="${pageContext.request.contextPath}/mypage/deleteFan.do" 
+	method="POST">
+	<input type="hidden" name="fanNo" value="" />
+	</form:form>
+    
+
+
 	<br />
 	<br />
 	<br />
 	<br />
 
 <script>
+
 
 //주소 찾기//
 function sample6_execDaumPostcode() {
@@ -254,44 +274,6 @@ function sample6_execDaumPostcode() {
     }).open();
 }
  
-//아이디 중복검사 및 유효성검사
- $("#fanId").keyup(e => {
- 	const id = $(e.target).val();
- 	const $chkNoticeDupl = $("#chkNoticeIdDuplicate");
- 	const $idValid = $("#idValid"); // 0 -> 1 (중복검사 성공시)
-     
- 	if(id.length < 6 || id.length > 20) {
- 		// 4글자 이상을 썼다가 지우는 경우를 대비해서
- 		$chkNoticeDupl.html('아이디는 6자리 이상 20자리 이하여야 합니다.').css("color","red");
- 		$idValid.val(0); // 다시 작성하는 경우를 대비, idValid를 다시 0으로 만들기
- 		return; // 네글자 이상일 때만 검사할 수 있도록 return
- 	}
- 	// {id:id} -> {id}로 줄여쓸 수 있음 -> {id : "abcde"}
- 	$.ajax({
- 		url : "${pageContext.request.contextPath}/member/checkIdDuplicate.do",
- 		data : {id},
- 		success : data => {
- 		// success : ({available}) => {
- 			console.log(data); // {"available" : true} 이런식으로 json으로 넘어올 것
- 			const {available} = data;
- 		    
- 			// 사용가능한 경우
- 			// if(data.available){
- 			if(available) {
- 				$chkNoticeDupl.html('이 아이디는 사용가능합니다.').css("color","rgb(117, 59, 93)");
- 				$idValid.val(1);
- 			}
- 			// 사용불가한 경우
- 			else {
- 				$chkNoticeDupl.html('이 아이디는 사용하실 수 없습니다.').css("color","red");
- 				$idValid.val(0);
- 			}
- 		},
- 		error : (xhr, stautsText, err) => {
- 			console.log(xhr, statusText, err);
- 		}
- 	});
- });
 
  // 실시간 유효성검사
  // password 블러 시 유효성검사
@@ -333,15 +315,6 @@ function sample6_execDaumPostcode() {
  // 제출시 유효성 검사
  $("[name=MypageFrm]").submit(function(){
 
- 	// 아이디 중복검사 완료전에는 제출되지 않도록
- 	var $idValid = $("#idValid");
- 	var $id = $("#fanId");
- 	var $idOffset = $("#fanId").offset();
- 	if($idValid.val() == 0) {
- 		$("html body").animate({scrollTop:$idOffset.top},2000);
- 		$id.focus();
- 		return false;
- 	}
      // 패스워드 유효성검사
      var pwd1 = $("#password");
    	var pwd2 = $('#passwordCheck');
@@ -431,6 +404,15 @@ function sample6_execDaumPostcode() {
          }
      }
  });
+ function deleteFan(obj){
+		var no = $(obj).data("data");
+		console.log(no);
+		if(confirm("정말 탈퇴 하시겠습니까?")){
+			var $frm = $(document.FanDelFrm);
+			$frm.find("[name=fanNo]").val(no);
+			$frm.submit();
+		}
+	}
 
 
 

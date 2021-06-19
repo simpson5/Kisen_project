@@ -121,14 +121,20 @@
 		update
 			fan
 		set
-			fan_id= #{fanId},
 			password = #{password},
 			phone = #{phone},
 			address = #{address},
 			email = #{email},	
+			birthday = #{birthday},
 			fan_name = #{fanName}
 		where
 			fan_no = #{fanNo}
 	</update>
-
+	<delete id="deleteFan">
+		delete 
+		from 
+			fan 
+		where
+			fan_no = #{fanNo}
+	</delete>
 </mapper>

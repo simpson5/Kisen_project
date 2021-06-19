@@ -2,6 +2,7 @@ package com.simpson.kisen.fan.model.dao;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import com.simpson.kisen.fan.model.vo.Fan;
@@ -13,9 +14,16 @@ public class FanDaoImpl implements FanDao {
 	private SqlSessionTemplate session;
 
 	@Override
-	public int updateFan(Fan loginMember) {
-		return session.update("member.updateFan",loginMember);
+	public int updateFan(Fan updateFan) {
+		return session.update("member.updateFan",updateFan);
 	}
+
+	@Override
+	public int deleteFan(Fan fan) {
+		return session.delete("member.deleteFan",fan);
+	}
+
+
 
 	
 	

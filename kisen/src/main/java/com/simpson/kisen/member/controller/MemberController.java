@@ -52,6 +52,7 @@ public class MemberController {
 	@GetMapping("/login.do")
 	// @RequestHeader를 통해 Referer를 가져옴, referer가 없는 경우를 대비해 required는 false로 설정
 	public void memberLogin() {
+		
 	}
 
 	@GetMapping("/signupTerm.do")

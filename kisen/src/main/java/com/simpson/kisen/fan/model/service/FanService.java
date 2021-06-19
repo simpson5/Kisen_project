@@ -4,7 +4,10 @@ import com.simpson.kisen.fan.model.vo.Fan;
 
 public interface FanService {
 
+	int updateFan(Fan updateFan);
 
-	int updateFan(Fan loginMember);
+	int deleteFan(Fan fan);
+
+
 
 }

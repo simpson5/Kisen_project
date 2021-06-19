@@ -1,8 +1,18 @@
 package com.simpson.kisen.fan.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,36 +33,77 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/mypage")
 @SessionAttributes({"loginMember", "principal"})
+
+
 public class MyPageController {
+	
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	@Autowired
 	private FanService fanService;
 	
 	@GetMapping("/mypagePay.do")
-	public void mypage(){
-	
+	public void mypage(Authentication authentication, Model model){
+		Fan principal = (Fan) authentication.getPrincipal();
+		model.addAttribute("loginMember", principal);
+		
+		log.debug("authentication = {}", authentication);
+		// authentication = org.springframework.security.authentication.UsernamePasswordAuthenticationToken@23abe407: Principal: Member(id=honggd, password=$2a$10$qHHeJGgQ9teamJyIJFXbyOBtl7nIsQ37VP2jrz89dnDA7LgzS.nYi, name=카길동, gender=M, birthday=2021-05-04, email=honggd@naver.com, phone=01012341234, address=서울시 강남구, hobby=[운동,  등산], enrollDate=2021-05-20, authorities=[ROLE_USER], enabled=true); Credentials: [PROTECTED]; Authenticated: true; Details: org.springframework.security.web.authentication.WebAuthenticationDetails@166c8: RemoteIpAddress: 0:0:0:0:0:0:0:1; SessionId: B95C1041773474D93729781512D4490A; Granted Authorities: ROLE_USER
+		log.debug("principal = {}", principal);
 	}
+	
 	
 		
 	@GetMapping("/mypageMember.do")
-	public void mypageMember(){
+	public void mypageMember(Authentication authentication, Model model){
+		Fan principal = (Fan) authentication.getPrincipal();
+		model.addAttribute("loginMember", principal);
+		
+		log.debug("authentication = {}", authentication);
+		// authentication = org.springframework.security.authentication.UsernamePasswordAuthenticationToken@23abe407: Principal: Member(id=honggd, password=$2a$10$qHHeJGgQ9teamJyIJFXbyOBtl7nIsQ37VP2jrz89dnDA7LgzS.nYi, name=카길동, gender=M, birthday=2021-05-04, email=honggd@naver.com, phone=01012341234, address=서울시 강남구, hobby=[운동,  등산], enrollDate=2021-05-20, authorities=[ROLE_USER], enabled=true); Credentials: [PROTECTED]; Authenticated: true; Details: org.springframework.security.web.authentication.WebAuthenticationDetails@166c8: RemoteIpAddress: 0:0:0:0:0:0:0:1; SessionId: B95C1041773474D93729781512D4490A; Granted Authorities: ROLE_USER
+		log.debug("principal = {}", principal);
 	}
 	
 	@PostMapping("/updateMypage.do")
-	public String updateMypgae (@ModelAttribute Fan fan, @RequestParam String addressExt1,
-			@RequestParam String addressExt2, @RequestParam String addressExt3,  
+	public String updateMypgae (@ModelAttribute Fan updateFan, @RequestParam String addressExt1,
+			@RequestParam String addressExt2, @RequestParam String addressExt3,Authentication oldAuthentication,
 			RedirectAttributes redirectAttr) {
-		log.info("수정요청 fan = {}", fan);
+		log.info("수정요청 fan = {}", updateFan);
 		try {
-			fan.setAddress(fan.getAddress() + ") " + addressExt1 + addressExt2 + " " + addressExt3);
-			//1. 업무로직
-			int result = fanService.updateFan(fan);
-			if(result == 0)
-				throw new IllegalArgumentException("존재하지 않는 회원 정보 : " + fan.getFanNo());
+			String rawPassword = updateFan.getPassword();
+			String encodedPassword = bcryptPasswordEncoder.encode(rawPassword);
+			// member에 암호화된 비밀번호 다시 세팅
+			updateFan.setPassword(encodedPassword);
+			updateFan.setAddress(updateFan.getAddress() + ") " + addressExt1 + addressExt2 + " " + addressExt3);
+				
+			Collection<? extends GrantedAuthority> oldAuthorities = 
+						oldAuthentication.getAuthorities();
 			
+			List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+			for(GrantedAuthority auth : oldAuthorities) {
+					SimpleGrantedAuthority simpleAuth = 
+						new SimpleGrantedAuthority(auth.getAuthority());
+		      // 문자열을 인자로 auth객체생성 
+					authorities.add(simpleAuth);
+				}
 			
-			//2. 사용자피드백 & 리다이렉트
-			redirectAttr.addFlashAttribute("msg", "회원 정보 수정 성공!");
+			updateFan.setAuthorities(authorities);
+			
+			log.info("담긴내용 -fan = {}", updateFan);
+			int result = fanService.updateFan(updateFan);
+				
+				//새로운 authentication객체 생성
+				Authentication newAuthentication = 
+						new UsernamePasswordAuthenticationToken(
+								updateFan,
+								oldAuthentication.getCredentials(),
+								oldAuthentication.getAuthorities()
+								);
+				log.info("담긴내용 -Authentication = {}", newAuthentication);
+				//SecurityContextHolder - SecurityContext 하위에 설정
+		SecurityContextHolder.getContext().setAuthentication(newAuthentication);
+		
 		} catch(Exception e) {
 			log.error("회원 정보 수정 오류!", e);
 			throw e;
@@ -60,5 +111,23 @@ public class MyPageController {
 		return "redirect:/mypage/mypageMember.do";
 		
 	}
+	
+	@PostMapping("/deleteFan.do")
+	public String deleteFan(@ModelAttribute Fan Fan, RedirectAttributes redirectAttr) {
+		try {
+		
+			log.info("fanNo={}",Fan);
+			//1. 업무로직
+			int result = fanService.deleteFan(Fan);
+		
+	//2. 사용자피드백 
+			redirectAttr.addFlashAttribute("msg", "회원 탈퇴 성공!");
+		} catch(Exception e) {
+			log.error("회원 탈퇴 오류!", e);
+			throw e;
+		}
+		return "redirect:/";
+	}
+	
 	
 }
