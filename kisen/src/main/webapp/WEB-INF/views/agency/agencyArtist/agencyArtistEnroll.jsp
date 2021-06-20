@@ -44,9 +44,8 @@
 	    </div>
 		
 	
-	    <!-- 상품 설명 이미지 -->
 	    <div class="mb-4 row">
-	        <label class="col-md-3 col-form-label">이미지</label>
+	        <label class="col-md-3 col-form-label">대표 이미지</label>
 	        <div class="col-md-9">
 	            <input  type="file" class="form-control" id="idolImg" name="idolImg" accept="image/png,image/jpeg,image/jpg" onchange="setThumbnail(event)">
 	            <div class="alert alert-secondary" role="alert">
@@ -139,6 +138,8 @@
 					idolcheck.html("<span style='color :green;'> 등록 가능한 아이돌입니다. </span>");
 					$("#idolName").attr("check_result","success");
 					$("#idolName").attr("readonly","readonly");
+					$("#button-addon2").removeClass("btn-outline-danger");
+					$("#button-addon2").addClass("btn-outline-success");
 				}
 			},
 			error : (xhr, statusText, err)=>{

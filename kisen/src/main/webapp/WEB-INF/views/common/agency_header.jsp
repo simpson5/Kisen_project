@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!-- security관련 taglib -->
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>	
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,14 +27,26 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/adminProduct.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sideBanner.css">
 </head>
+
 <body>
     <header>
         <div class="box  ">
             <div class="d-none d-sm-block">  
                 <ul class=" search-ul d-flex justify-content-end">
-                    <li>
-                        <a href="#">  <strong>기획사</strong> 님</span></a>
-                    </li>
+                	<!-- security : 로그인한 경우 -->
+				    <sec:authorize access="isAuthenticated()">
+                    	<li>
+				    		<sec:authentication property="principal.username"/>님
+                    	</li>
+				    	<span class="divide">|</span>
+				    	<li>
+					    	<form:form class="d-inline"
+					    				action="${pageContext.request.contextPath}/member/logout.do"
+					    				method="POST">
+				    			<button class="logout-btn" type="submit">LOGOUT</button>
+				    		</form:form>
+				    	</li>
+			    	</sec:authorize>
                 </ul>
             </div>
           

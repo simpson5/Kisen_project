@@ -32,11 +32,51 @@
 		select 
 			* 
 		from 
-			idol i left join idol_img ii
+			idol i 
+			left join idol_img ii
 			    on i.idol_no = ii.idol_no
+		    left join idol_mv im
+		        on i.idol_no = im.idol_no
 		where 
 			agency_no= #{agencyNo}
 	</select>
+	
+  	<select id="selectIdolTotalContents" resultType="_int">
+  		select count(*) from idol where agency_no = #{agencyNo}
+  	</select>
+	<select id="selectOneIdol" resultType="idol">
+		select * from idol where idol_name = #{idolName}
+	</select>
+	
+	
+	<select id="selectIdol" resultMap="idolCollectionMap">
+		select 
+			* 
+		from 
+			idol i 
+			left join idol_img ii
+			    on i.idol_no = ii.idol_no
+		    left join idol_mv im
+		        on i.idol_no = im.idol_no
+		where 
+			 i.idol_no = #{idolNo}
+	</select>
+	
+	
+	<insert id="insertIdolMv"> 
+		insert into 
+		idol_mv
+		values(seq_idol_mv_no.nextval, #{idolNo}, #{mvLink}) 
+	</insert>
+	
+	<select id="selectAgency" resultType="agency">
+		select * from agency where fan_no = #{fanNo}
+	</select>
+	
+	<select id="selectPdCnt" resultType="_int">
+		select count(*) from product where idol_no = #{idolNo}
+	</select>
+	
 	<resultMap type="idol" id="idolCollectionMap">
 		<id column ="idol_no" property="idolNo"/>
 		<result column="idol_name" property="idolName"/>
@@ -59,15 +99,32 @@
 	</resultMap>
 	
 	
-	<select id="selectOneIdol" resultType="idol">
-		select * from idol where idol_name = #{idolName}
-	</select>
+	<update id="updateIdol">
+		update 
+			idol
+		set 
+			idol_name = #{idolName}
+		where 
+			idol_no = #{idolNo}
+	</update>
+	
+	<update id="updateIdolImg">
+		update 
+			idol_img
+		set 
+			original_filename = #{originalFilename},
+			renamed_filename = #{renamedFilename}
+		where 
+			idol_no = #{idolNo}
+	</update>
 	
 	
-	<insert id="insertIdolMv"> 
-		insert into 
-		idol_mv
-		values(seq_idol_mv_no.nextval, #{idolNo}, #{mvLink}) 
-	</insert>
-	
+	<update id="updateIdolMv">
+		update 
+			idol_mv
+		set 
+			mv_link = #{mvLink}
+		where 
+			idol_no = #{idolNo}
+	</update>
 </mapper>
