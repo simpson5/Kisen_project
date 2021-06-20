@@ -6,53 +6,54 @@
 <jsp:include page="/WEB-INF/views/common/agency_header.jsp">
 	<jsp:param value="회원/아티스트 관리" name="title"/>
 </jsp:include>
+<style>
+.bg-success {
+    background-color: #28a745!important;
+    color: white;
+}
+</style>
 
 <div class="container">
-  <div class="d-flex justify-content-end mt-5">
-    <button type="button" class="btn btn-secondary" onclick="artistEroll()"> 아티스트 등록</button>
-  </div>
-  <div class="card mb-3 mt-4">
-    <div class="row g-0 idol-img">
-        <div class="col-4 idol-img">
-          <div class="idol-img text-center">
-              <img src="/images/idol/itzy.png" class="card-img mt-5" alt="tree">
-              <div class="btn-group m-1 mt-5" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-sm btn-outline-main"   onclick="artistDetail();">상세보기</button>
-                <button type="button" class="btn btn-sm btn-outline-main"   onclick="artistUpdate();">수정하기</button>
-              </div>
-          </div>
-        </div>
-        <div class="col-8">
-            <div class="card-body">
-                <h5 class="card-title">ITZY</h5>
-                <p class="card-text"> 
-                <p class=""> <strong>MV </strong> : <br/>
-                    <span> <a href=""> https://youtu.be/_ysomCGaZLw </a></span> <br/>
-                </p>  
-                </p>
-                <p class="card-text"> 
-                <p class=""> <strong> IMG</strong> : 
-                    <span> <img src="/images/kisen_logo.png" alt="" style="height: 60px; width: 80px;"></span>
-                </p>  
-                </p>
-            </div>
-        </div>
-    </div>
-  </div>
+	<div class="d-flex justify-content-end mt-5">
+	  <button type="button" class="btn btn-secondary" onclick="artistEroll()"> 아티스트 등록</button>
+	</div>
+	<c:forEach items="${idolList}" var="idol">
+	  <div class="card mb-3 mt-4">
+	    <div class="row g-0 idol-img">
+	        <div class="col-4 idol-img">
+	          <div class="idol-img text-center">
+	              <%-- <img src="${pageContext.request.contextPath}/resources/upload/idol_img/" class="card-img mt-5" alt="tree"> --%>
+	              <img src="<c:url value='/resources/upload/idol/${idol.idolImg.renamedFilename}'/>" class="card-img mt-5" alt="tree" style="width:300px">
+	              <div class="btn-group m-1 mt-5" role="group" aria-label="Basic example">
+	                <button type="button" class="btn btn-sm btn-outline-main"   onclick="artistDetail(event);" data-no="${idol.idolNo}">상세보기</button>
+	                <button type="button" class="btn btn-sm btn-outline-main"   onclick="artistUpdate(event);" data-no="${idol.idolNo}">수정하기</button>
+	              </div>
+	          </div>
+	        </div>
+	        
+	        <div class="col-8">
+	            <div class="card-body">
+	                <h5 class="card-title fw-bold" > <strong>${idol.idolName }</strong> </h5>
+	                <p class="card-text"> 
+		                <p class=""> <strong>MV </strong> : <br/>
+		                <!-- mvList  -->
+		                <c:forEach items="${idol.idolMv }" var="mv">
+			                     <span> <a href="${mv.mvLink}"> ${mv.mvLink} </a></span>  <br/>
+		                </c:forEach>
+		                </p>
+		                
+		                
+	                    <h5><p class=""> 팬 수  :  <span class= "badge bg-success" > ${idol.fanCnt} </span> </h5>
+		                </p>
+	                </p>
+	            </div>
+	        </div>
+	    </div>
+	  </div>
+	</c:forEach>
   <!-- paging -->
-  <div class="d-flex justify-content-center">
-    <div class="btn-toolbar mb-3" role="toolbar" aria-label="Toolbar with button groups">
-        <div class="btn-group me-2 " role="group" aria-label="First group">
-          <button type="button" class="btn btn-outline-secondary"><<</button>
-          <button type="button" class="btn btn-outline-secondary">1</button>
-          <button type="button" class="btn btn-outline-secondary">2</button>
-          <button type="button" class="btn btn-outline-secondary">3</button>
-          <button type="button" class="btn btn-outline-secondary">4</button>
-          <button type="button" class="btn btn-outline-secondary">5</button>
-          <button type="button" class="btn btn-outline-secondary">>></button>
-        </div>
-    </div>
-  </div>
+
+	${pageBar}
 </div>
 
 <script> 
@@ -70,11 +71,18 @@
         location.href="${pageContext.request.contextPath}/agency/agencyArtistEnroll";
 	}
     
-    function artistDetail() {
-        location.href="agencyArtistDetail.html"
+    function artistDetail(event) {
+        const target = event.target;
+        console.log(target);
+        const idolNo= target.dataset.no;
+        location.href=`${pageContext.request.contextPath}/agency/agencyArtistDetail/\${idolNo}`;
+
     }
-    function artistUpdate() {
-        location.href="agencyArtistUpdate.html"
+    function artistUpdate(event) {
+        const target = event.target;
+        console.log(target);
+        const idolNo= target.dataset.no;
+        location.href=`${pageContext.request.contextPath}/agency/agencyArtistUpdate/\${idolNo}`;
     }
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
