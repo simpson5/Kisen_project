@@ -18,8 +18,8 @@ public class FanServiceImpl implements FanService {
 	}
 
 	@Override
-	public int deleteFan(Fan fan) {
-		return fanDao.deleteFan(fan);
+	public int deleteFan(String fanId) {
+		return fanDao.deleteFan(fanId);
 	}
 
 	

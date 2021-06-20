@@ -204,7 +204,7 @@ div#mypage1{
     <div class="col-3 mt-2 p-0"></div>
    </form:form>
     <div class="col-3 col-lg-2 mt-2">
-     <button class="btn btn-outline-danger" onclick="deleteFan(this);" data-data="${loginMember.fanNo}">탈퇴하기</button>
+     <button class="btn btn-outline-danger" onclick="deleteFan(this);" data-string="${loginMember.fanId}">탈퇴하기</button>
     </div>
   </div>
 </div>
@@ -212,7 +212,7 @@ div#mypage1{
 	name="FanDelFrm" 
 	action="${pageContext.request.contextPath}/mypage/deleteFan.do" 
 	method="POST">
-	<input type="hidden" name="fanNo" value="" />
+	<input type="hidden" name="fanId" value="" />
 	</form:form>
     
 
@@ -405,11 +405,14 @@ function sample6_execDaumPostcode() {
      }
  });
  function deleteFan(obj){
-		var no = $(obj).data("data");
-		console.log(no);
+	 	
+		var no = $(document.MypageFrm);
+		const $fanId = no.find("[name=fanId]").val();
+		console.log($fanId);
+		
 		if(confirm("정말 탈퇴 하시겠습니까?")){
 			var $frm = $(document.FanDelFrm);
-			$frm.find("[name=fanNo]").val(no);
+			$frm.find("[name=fanId]").val($fanId);
 			$frm.submit();
 		}
 	}

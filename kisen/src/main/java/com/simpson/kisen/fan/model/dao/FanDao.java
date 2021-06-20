@@ -9,7 +9,7 @@ public interface FanDao {
 
 	int updateFan(Fan updateFan);
 
-	int deleteFan(Fan fan);
+	int deleteFan(String fanId);
 	
 
 

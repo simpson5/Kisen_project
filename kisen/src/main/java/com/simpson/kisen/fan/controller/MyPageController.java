@@ -113,12 +113,13 @@ public class MyPageController {
 	}
 	
 	@PostMapping("/deleteFan.do")
-	public String deleteFan(@ModelAttribute Fan Fan, RedirectAttributes redirectAttr) {
+	public String deleteFan(@RequestParam String fanId, RedirectAttributes redirectAttr, Authentication oldAuthentication) {
 		try {
 		
-			log.info("fanNo={}",Fan);
+			log.info("fanId={}",fanId);
+		
 			//1. 업무로직
-			int result = fanService.deleteFan(Fan);
+			int result = fanService.deleteFan(fanId);
 		
 	//2. 사용자피드백 
 			redirectAttr.addFlashAttribute("msg", "회원 탈퇴 성공!");

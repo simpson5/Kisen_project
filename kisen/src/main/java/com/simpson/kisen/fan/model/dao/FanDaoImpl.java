@@ -19,8 +19,8 @@ public class FanDaoImpl implements FanDao {
 	}
 
 	@Override
-	public int deleteFan(Fan fan) {
-		return session.delete("member.deleteFan",fan);
+	public int deleteFan(String fanId) {
+		return session.delete("member.deleteFan",fanId);
 	}
 
 
