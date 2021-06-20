@@ -3,13 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <jsp:include page="/WEB-INF/views/common/agency_header.jsp">
 	<jsp:param value="아티스트 등록" name="title"/>
 </jsp:include>
 
 <div class="container ">
     <h2 class="text-center m-4" style="font-weight: bold;">아티스트 등록</h2>
-	<form
+	<form:form 
 		name="artistFrm" 
 		action="${pageContext.request.contextPath}/agency/agencyArtistEnroll"
 		enctype="multipart/form-data" 
@@ -18,30 +20,29 @@
 		<div class="mb-4 row">
 	        <label class="col-md-3 col-form-label" for="idolName">아티스트 명</label>
 	        <div class="col-md-9">
-	            <input type="text" class="form-control" name="idolName" id="idolName" required>
+		        <div class="input-group ">
+		            <input type="text" class="form-control" name="idolName" id="idolName"  check_result="fail"  required>
+		            <button class="btn btn-outline-danger" type="button" id="button-addon2" onclick="idolcheck();">중복 확인</button>	  
+		        </div>
+		        <p class="mt-2" id="idolcheck"></p>
 	        </div>
+	        
 	    </div>
 	
-<!-- 	    <div class="mb-4 row">
-	        <label class="col-md-3 col-form-label" for="pdIdol">mv</label>
+ 	    <div class="mb-4 row">
+	        <label class="col-md-3 col-form-label" for="pdIdol">MV LINK</label>
 	        <div class="col-md-9">
-	            <input type="text" class="form-control" name="idolMv1" >	            
-	            <input type="text" class="form-control" name="idolMv2" >	            
-	            <input type="text" class="form-control" name="idolMv3" >	            
-	            <input type="text" class="form-control" name="idolMv4">	      
+	            <input type="text" class="form-control" name="idolMv" >	            
+	            <input type="text" class="form-control" name="idolMv" >	            
+	            <input type="text" class="form-control" name="idolMv" >	            
+	            <input type="text" class="form-control" name="idolMv">	      
 	            <input type="hidden" name="idolList" />        
 	            <div class="alert alert-secondary" role="alert">
 	            	최대 4개 등록가능
 	            </div>
 	        </div>
-	    </div> -->
-		
-	    <div class="mb-4 row">
-	        <label class="col-md-3 col-form-label" for="pdIdol">아이돌</label>
-	        <div class="col-md-9">
-	            <input type="text" class="form-control" name="pdIdol" id="pdIdol" readonly>
-	        </div>
 	    </div>
+		
 	
 	    <!-- 상품 설명 이미지 -->
 	    <div class="mb-4 row">
@@ -70,8 +71,7 @@
 	            </div>
 	        </div>
 	    </div>
-	
-	</form>
+	</form:form >
     
 </div>
 <script>
@@ -81,10 +81,15 @@
 
     //폼 검사
     function formValidate(){
-
-        //MV 처리 
-
+        const idolName = $("#idolName");
+		if(idolName.attr("check_result") == "fail"){
+			alert("아이돌명을 확인해주세요")
+			idolName.focus();
+			return false;
+		}
+		return true;
     }
+    
 	var sel_file;
     function setThumbnail(event){
 		var file = event.target.files;
@@ -103,6 +108,43 @@
 				$("#thumbNailImg").attr("src",e.target.result);
 			}
 			reader.readAsDataURL(f);
+		});
+    }
+
+
+    function idolcheck(){
+        const idolName = $("#idolName").val();
+        const idolcheck = $("#idolcheck");
+        
+		if(idolName == ''){
+			alert("아이돌명을 입력해주세요");
+			return;
+		}
+        
+		$.ajax({
+			url : `${pageContext.request.contextPath}/agency/agencyArtistEnroll/checkIdolName`,
+			data: {idolName},
+			method : "GET",
+			success: function(data){
+				console.log(data);
+				const {exist} = data;
+				console.log(exist);
+				if(exist){
+					//존재하는 경우
+					console.log("존재함");
+					idolcheck.html("<span style='color :red;'> 이미 존재하는 아이돌입니다. </span>")
+					$("#idolName").attr("check_result","fail");
+				}
+				else{
+					idolcheck.html("<span style='color :green;'> 등록 가능한 아이돌입니다. </span>");
+					$("#idolName").attr("check_result","success");
+					$("#idolName").attr("readonly","readonly");
+				}
+			},
+			error : (xhr, statusText, err)=>{
+				console.log(xhr, statusText, err);
+			}
+			
 		});
     }
 </script>

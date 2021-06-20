@@ -3,7 +3,11 @@ package com.simpson.kisen.agency.controller;
 import java.io.File;
 import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
 
@@ -11,9 +15,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -22,12 +29,13 @@ import com.simpson.kisen.agency.model.service.AgencyService;
 import com.simpson.kisen.common.util.HelloSpringUtils;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.idol.model.vo.IdolImg;
+import com.simpson.kisen.idol.model.vo.IdolMv;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
-@RequestMapping("agency")
+@RequestMapping("/agency")
 public class AgencyController {
 	@Autowired
 	private ServletContext application;
@@ -81,14 +89,18 @@ public class AgencyController {
 	@GetMapping("/agencyArtistEnroll")
 	public String agencyArtistEnroll() { return "agency/agencyArtist/agencyArtistEnroll";}
 	
+
+//	@RequestMapping(value = "/agencyArtistEnroll", method = RequestMethod.POST)
 	@PostMapping("/agencyArtistEnroll")
 	public String artistEnroll(
 			@RequestParam(name="idolName") String idolName,
 			@RequestParam(name="idolImg") MultipartFile idolImg,
+			@RequestParam(name="idolMv", required = false) String[] idolMvList,
 			RedirectAttributes redirectAttr
 			) throws IllegalStateException, IOException{
 		log.info("idolName = {}",idolName);
 		log.info("idolImg = {}",idolImg.getOriginalFilename());
+		log.info("idolMvList = {}",idolMvList);
 		
 		//�뙆�씪 ���옣
 		String saveDir = application.getRealPath("/resources/upload/idol_img");
@@ -118,13 +130,60 @@ public class AgencyController {
 		idol.setIdolImg(idol_img);
 		idol.setAgencyNo(3);
 		
+
+		List<IdolMv> mvList = new ArrayList<>();
+		
+		
+		
+		//d. idol mv 넣기
+		for(String mv : idolMvList) {
+			if(!mv.equals("")) {
+				IdolMv idol_mv = new IdolMv();
+				idol_mv.setMvLink(mv);
+				mvList.add(idol_mv);
+			}
+		}
+		log.info("mvList={}",mvList.toString());
+		idol.setIdolMv(mvList);
+		
 		
 		//2. �뾽臾대줈吏� : db ���옣
 		int result = agencyService.insertIdol(idol);
-		
-		return "agency/agencyArtist/agencyArtist";
+		redirectAttr.addFlashAttribute("msg","아티스트 등록 성공");
+		return "redirect:agencyArtist";
 	}
 	
+	
+	/**
+	 * 아이돌 중복확인 
+	 */
+	@GetMapping("/agencyArtistEnroll/checkIdolName")
+	@ResponseBody
+	public Map<String, Object> artistEnroll(@RequestParam String idolName){
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			//영문 확인 => 영문이면 toUpperCase로 대문자 조회
+			boolean b = Pattern.matches("^[a-z]*$", idolName); //소문자면 trure
+			
+			if(b) {
+				//대문자로 변경
+				idolName = idolName.toUpperCase();
+			}
+
+
+			log.info("idolName = {}",idolName);
+			Idol idol = agencyService.selectOneIdol(idolName);
+			log.info("idol={}", idol);
+
+			boolean exist = idol !=null ? true : false;
+			map.put("exist",exist);
+			
+			log.info("exist= {}", exist);
+		}catch (Exception e) {
+			throw e;
+		}
+		return map;
+	}
 	
 	@GetMapping("/agencyArtistUpdate")
 	public String agencyArtistUpdate() { return "agency/agencyArtist/agencyProductUpdate";}

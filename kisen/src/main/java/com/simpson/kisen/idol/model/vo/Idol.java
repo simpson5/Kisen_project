@@ -1,5 +1,7 @@
 package com.simpson.kisen.idol.model.vo;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,6 @@ public class Idol {
 	private int agencyNo;
 	private String idolName;
 	private int fanCnt;
-	private IdolImg idolImg; //¿©±â¼­ °´Ã¼·Î ¼±¾ðÇß±â ¶§¹®¿¡ µö¾ÆÀÌµ¹¿¡¼­ »°´Ù
-	
+	private IdolImg idolImg; //ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½Ã¼ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ß±ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+	private List<IdolMv> idolMv;
 }

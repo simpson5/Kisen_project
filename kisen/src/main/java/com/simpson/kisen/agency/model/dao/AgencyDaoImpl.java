@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.idol.model.vo.IdolImg;
+import com.simpson.kisen.idol.model.vo.IdolMv;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +32,16 @@ public class AgencyDaoImpl implements AgencyDao {
 	@Override
 	public int insertIdolImg(IdolImg idolImg) {
 		return session.insert("agency.insertIdolImg",idolImg);
+	}
+
+	@Override
+	public Idol selectOneIdol(String idolName) {
+		return session.selectOne("agency.selectOneIdol",idolName);
+	}
+
+	@Override
+	public int insertIdolMv(IdolMv idolMv) {
+		return session.insert("agency.insertIdolMv",idolMv);
 	}
 
 }

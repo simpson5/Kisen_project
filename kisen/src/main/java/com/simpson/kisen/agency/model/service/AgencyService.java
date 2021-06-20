@@ -10,4 +10,6 @@ public interface AgencyService {
 
 	int insertIdol(Idol idol);
 
+	Idol selectOneIdol(String idolName);
+
 }

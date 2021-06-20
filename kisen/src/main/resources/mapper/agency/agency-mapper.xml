@@ -50,6 +50,24 @@
 		 	<result column="renamed_filename" property="renamedFilename"/>
 		 	<result column="upload_date" property="uploadDate"/>
 		</collection>
+		
+		<collection property="idolMv" ofType="IdolMv">
+		 	<id column ="mv_no" property="mvNo"/>
+		 	<result column="idol_no" property="idolNo"/>
+		 	<result column="mv_link" property="mvLink"/>
+		</collection>
 	</resultMap>
+	
+	
+	<select id="selectOneIdol" resultType="idol">
+		select * from idol where idol_name = #{idolName}
+	</select>
+	
+	
+	<insert id="insertIdolMv"> 
+		insert into 
+		idol_mv
+		values(seq_idol_mv_no.nextval, #{idolNo}, #{mvLink}) 
+	</insert>
 	
 </mapper>
