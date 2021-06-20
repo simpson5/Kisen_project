@@ -16,5 +16,9 @@ public class Idol {
 	private String idolName;
 	private int fanCnt;
 	private IdolImg idolImg; //���⼭ ��ü�� �����߱� ������ �����̵����� ����
+<<<<<<< HEAD
 	private List<IdolMv> idolMv;
+=======
+	
+>>>>>>> refs/heads/master
 }

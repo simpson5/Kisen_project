@@ -19,6 +19,17 @@ public class Attachment {
 	private Timestamp Review_Date; //리뷰 날짜
 	private int Read_Cnt; //읽은 수
 	private int Reco_Cnt; //추천 수	
+	public void setOriginalFilename(String originalFilename) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setRenamedFilename(String renamedFilename) {
+		// TODO Auto-generated method stub
+		
+	}
+
+		
+	
 	
 	
 }
