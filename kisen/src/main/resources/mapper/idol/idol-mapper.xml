@@ -5,24 +5,19 @@
 <mapper namespace="idol">
 <!-- 이미지 파일 조회를 위한 idol select (idolImg와 조인) 
 	형제 요소인 dip_fan이랑도 조인해준다. 그래야지 사용자(fan)의 번호로 조회가능-->
-	<select id="selectOneIdolCollection" resultMap="idolCollectionMap">
+	<select id="selectOneCollection" resultMap="idolCollectionMap">
 		select
-        	di.fan_no,
-			i.*,
+        	di.*,
 			iI.idol_img_no,
 			iI.ORIGINAL_FILENAME,
 			iI.RENAMED_FILENAME,
 			iI.UPLOAD_DATE		
         from 
-           idol I
-       left join
-       		dip_idol dI
-       	on
-            I.idol_no = dI.idol_no
+            dip_idol di
        join 
             idol_img iI
         on 
-        	I.idol_no = iI.idol_no;	
+        	di.idol_no = iI.idol_no	
         
 	</select>
 	<resultMap type="dipidol" id="idolCollectionMap">
@@ -32,7 +27,7 @@
 		<result column="idol_name" property="idolName"/>
 		<result column="fan_cnt" property="fanCnt"/>
 		
-		<collection property="idolImgList" ofType="IdolImg">
+		<collection property="idolImg" ofType="IdolImg">
 			<id column="idol_no" property="idolNo"></id>
 			<result column="idol_img_no" property="idolImgNo"/>
 			<result column="ORIGINAL_FILENAME" property="originalFileName"/>
@@ -41,5 +36,29 @@
 		</collection>
 
 	</resultMap>
+	
+	<select id="selectAllIdole" resultMap="idolCollectionMaptwo">
+      select 
+         * 
+      from 
+         idol i 
+         left join idol_img ii
+         on i.idol_no = ii.idol_no
+   </select>
+
+   <resultMap type="idol" id="idolCollectionMaptwo">
+      <id column ="idol_no" property="idolNo"/>
+      <result column="idol_name" property="idolName"/>
+      <result column="fan_cnt" property="fanCnt"/>
+      <result column="agency_no" property="agencyNo"/>
+      
+      <collection property="idolImg" ofType="IdolImg">
+          <id column ="idol_img_no" property="idolImgNo"/>
+          <result column="idol_no" property="idolNo"/>
+          <result column="original_filename" property="originalFilename"/>
+          <result column="renamed_filename" property="renamedFilename"/>
+          <result column="upload_date" property="uploadDate"/>
+      </collection>
+   </resultMap>
 
 </mapper>
