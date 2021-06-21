@@ -15,6 +15,8 @@ public interface MemberDao {
 
 	int insertMemberAuthority(Fan member);
 
+	int insertOauthMember(Fan member);
+
 	// int insertAgencyAuthority(Fan member);
 
 }

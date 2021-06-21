@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>	
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="Main" name="title"/>
 </jsp:include>
@@ -37,10 +38,10 @@
     <!-- 비밀번호 찾기, 아이디 찾기 nav -->
     <ul class="nav nav-tabs">
         <li class="nav-item">
-        <a class="nav-link active" href="#">아이디 찾기</a>
+        <a class="nav-link active" href="${pageContext.request.contextPath}/member/searchId.do">아이디 찾기</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link inactive" href="#">비밀번호 찾기</a>
+        <a class="nav-link inactive" href="${pageContext.request.contextPath}/member/searchPwd.do">비밀번호 찾기</a>
         </li>
     </ul>
     <!-- 이메일로 찾기, 휴대폰으로 찾기 선택 radio -->
@@ -89,34 +90,6 @@
         </form>
     </div>
 </div>
-
-<html>
-  <head>
-    <title>reCAPTCHA demo: Running both v2 and v3</title>
-    <script src="https://www.google.com/recaptcha/api.js?render=v3_site_key"></script>
-    <script>
-      grecaptcha.ready(() => {
-        grecaptcha.render('html_element', {
-           'sitekey' : 'v2_site_key'
-        });
-      });
-    </script>
-    <script>
-      function onSubmit() {
-        grecaptcha.ready(() => {
-            grecaptcha.execute('v3_site_key', {action: 'homepage'}).then((token) => {
-               ...
-            });
-        });
-      }
-    </script>
-  </head>
-</html>
-
-This site is protected by reCAPTCHA and the Google
-    <a href="https://policies.google.com/privacy">Privacy Policy</a> and
-    <a href="https://policies.google.com/terms">Terms of Service</a> apply.
-    
     
 <style>
 .grecaptcha-badge { visibility: hidden; }
