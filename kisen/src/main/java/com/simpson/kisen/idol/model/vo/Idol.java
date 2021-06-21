@@ -1,5 +1,7 @@
 package com.simpson.kisen.idol.model.vo;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,5 +16,5 @@ public class Idol {
 	private String idolName;
 	private int fanCnt;
 	private IdolImg idolImg; //���⼭ ��ü�� �����߱� ������ �����̵����� ����
-	
+	private List<IdolMv> idolMv;
 }
