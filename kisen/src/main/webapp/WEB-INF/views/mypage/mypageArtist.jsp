@@ -238,6 +238,7 @@ div#myArtist img{
     <div class="carousel-item">
       	<div class="d-flex flex-row justify-content-center" id="myArtist">
 	<br />
+	 
 	  <div class="p-2 my-3">
 	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/seventeen.jpg" alt="" />
 	  	 <br /><br />
@@ -246,12 +247,13 @@ div#myArtist img{
      		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
 	  	 </div>
 	  </div>
+	 
 	  <div class="p-2 my-3">
 	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/sf9.jpg" alt="" />
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center">SF9</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
 	  <div class="p-2 my-3">
@@ -488,12 +490,13 @@ div#myArtist img{
      		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
 	  	 </div>
 	  </div>
+	
 	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/omyg.jpg" alt="" />
+	  	<img src="${pageContext.request.contextPath}/resources/upload/idol/${idolLis.renamedFilename}" alt="" />
 	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center" name="o-artist">오마이걸</div>
+     	<div class=" mx-auto font-weight-bold text-center" name="o-artist">${idolList.idolName}</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" data-string="${loginMember.fanNo}" onclick="insertIdol(this);"></i>
 	  	 </div>
 	  </div>
 	</div>
@@ -520,6 +523,29 @@ $(".heartBtn").click (e => {
 
 
 });
+
+function insertIdol(obj){
+	const $no= $(obj).data("string");
+
+	console.log($no);
+
+	/* $.ajax({
+				url: "${pageContext.request.contextPath}/dipIdol",
+				data: JSON.stringify($no),
+				contentType: "application/json; charset=utf-8",
+				method: "POST",
+				success(data) {
+					console.log(data);
+				const {msg} = data;
+					alert(msg);
+				},
+				error: console.log, 
+				complete(){
+					e.target.reset(); // 폼초기화
+				} 
+			}); */
+		
+}
 
 
 </script>

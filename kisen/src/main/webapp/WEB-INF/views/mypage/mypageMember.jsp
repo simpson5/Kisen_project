@@ -143,16 +143,19 @@ div#mypage1{
       <input type="text" class="form-control" id="fanName" name="fanName" value="${loginMember.fanName}">
       <p id="chkNoticeName" class="chkNotice"></p>
     </div>
- <div class="form-group col-md-7 mx-auto">
-      <label for="inputPassword4">*새 비밀번호</label>
-      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-      <p id="chkNoticePwd1" class="chkNotice"></p>
- </div>
- <div class="form-group col-md-7 mx-auto">
-      <label for="inputPassword4">*비밀번호 확인</label>
-      <input type="password" class="form-control" name="passwordCheck" id="passwordCheck" placeholder="Password">
-      <p id="chkNoticePwd2" class="chkNotice"></p>
-</div>
+    
+<c:if test="${loginMember.oauth != null }">
+	 <div class="form-group col-md-7 mx-auto">
+	      <label for="inputPassword4">*새 비밀번호</label>
+	      <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+	      <p id="chkNoticePwd1" class="chkNotice"></p>
+	 </div>
+	 <div class="form-group col-md-7 mx-auto">
+	      <label for="inputPassword4">*비밀번호 확인</label>
+	      <input type="password" class="form-control" name="passwordCheck" id="passwordCheck" placeholder="Password">
+	      <p id="chkNoticePwd2" class="chkNotice"></p>
+	</div>
+</c:if>
 
 <div class="form-group col-md-7 mx-auto">
       <label for="inputEmail4">*이메일</label>

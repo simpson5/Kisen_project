@@ -233,7 +233,7 @@ img#productImg{
 </div>
 
 
-<!-- 결제내역 이것도 약간 수저어엉ㅇ
+<!-- 결제내역
 
  -->
 <div class="border border-0 mx-auto p-3 rounded " id="paymentHistory">
