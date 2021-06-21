@@ -40,7 +40,7 @@ public class MemberServiceImpl implements MemberService {
 		result = memberDao.insertAgencyMember(member);
 		result = insertMemberAuthority(member);
 		// result = insertAgencyAuthority(member);
-		agency.setFanNo(member.getFanNo()); // agency fanNo ì„¸íŒ…
+		agency.setFanNo(member.getFanNo()); // agency fanNo ¼¼ÆÃ
 		result = insertAgency(agency);
 		return result;
 	}

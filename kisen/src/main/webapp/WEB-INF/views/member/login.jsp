@@ -22,9 +22,6 @@
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/member/login.css" />
 
-<!-- 카톡 로그인 -->
-<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-
 <script>
 // modal : bootstrap이 제공하는 디자인된 팝업창
 $(() => {
@@ -90,24 +87,17 @@ $(() => {
 					<span>|</span>
 					<a href="${pageContext.request.contextPath}/member/signupTerm.do">회원가입</a>
 					</div>
-					<form:form action="${pageContext.request.contextPath}/member/loginProcess2.do"
-								method="post">
-					<c:if test="${not empty kakaoMember.password}">
-					<input type="hidden" name="fanId" value="${kakaoMember.fanId}" />
-					<input type="hidden" name="password" value="${kakaoMember.password}" />
-					</c:if>
-					<button type="submit">
-					<a href="https://kauth.kakao.com/oauth/authorize?client_id=fd88614f9ea0303ee10198eee2c817e1&redirect_uri=http://localhost:9090/kisen/member/kakao/callback&response_type=code">
-						<img src="${pageContext.request.contextPath}/resources/images/member/kakao_login_medium_wide.png"> </a>
-					</button>
-					</form:form>
-				</div>
+						<div class="login-social">
+							<img src="${pageContext.request.contextPath}/resources/images/member/kakao_login_large_wide.png" id="kakao-log" alt="login with kakao">
+							<img src="${pageContext.request.contextPath}/resources/images/member/kakao_login_large_wide.png" id="kakao-log" alt="login with kakao">
+						</div>
 			</div>
 		</div>
 	</div>
 	<!-- Modal 끝-->
 </body>
 </html>
+
 <script>
 $("[name=loginFrm]").submit(function(){
 

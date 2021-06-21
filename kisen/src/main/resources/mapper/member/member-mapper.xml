@@ -92,4 +92,49 @@
 		seq_agency_no.nextval
 	)
 </insert>
+<!-- 마이페이지 회원수정페이지 조회  -->
+<!-- 	<select id="selectOneFan" resultMap="mypageFan">
+	select 
+		*
+	from
+		fan
+	where
+		fan_no = #{fanNo}
+	
+	</select>  열심히 적은 매퍼 타입입니다 필요할지 모르니 주석으로 남겨 놓겠습니당...총총
+	<resultMap type="fan" id="mypageFan">
+	 	<id column="fan_no" property="fanNo"/>
+		<result column="fan_id" property="fanId"/>
+		<result column="password" property="password"/>
+		<result column="phone" property="phone"/>
+		<result column="address" property="address"/>
+		<result column="email" property="email"/>
+		<result column="birthday" property="birthday"/>
+		<result column="gender" property="gender"/>
+		<result column="point" property="point"/>
+		<result column="certification" property="certification"/>
+		<result column="enroll_date" property="enrollDate"/>
+		<result column="fan_name" property="fanName"/>
+		<result column="enabled" property="enabled"/>	
+	</resultMap> -->
+	<update id="updateFan">
+		update
+			fan
+		set
+			password = #{password},
+			phone = #{phone},
+			address = #{address},
+			email = #{email},	
+			birthday = #{birthday},
+			fan_name = #{fanName}
+		where
+			fan_no = #{fanNo}
+	</update>
+	<delete id="deleteFan">
+		delete 
+		from 
+			fan 
+		where
+			fan_id = #{fanId}
+	</delete>
 </mapper>

@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>	
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 
 <jsp:param value="mypage" name="title"/>
@@ -130,7 +131,7 @@ div#myArtist img{
 	<br /><br /><br /><br />
 <div id="mypage-container" class="border border-0 mx-auto p-3 rounded ">
 	<div class="row ">
-		    <h5 class="col">{$fanId}님, 안녕하세요! </h5>
+		    <h5 class="col">${loginMember.fanId}님, 안녕하세요! </h5>
 	    <div class="col-8">
 		    <span class="badge badge-warning mx-1">Lv.1</span>
 	    </div>
