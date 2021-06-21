@@ -104,8 +104,12 @@
 		<!-- 권한없는 페이지 접근시 처리 -->
 		<!-- error-page : 권한이 없을 경우 리다이렉트할 페이지 요청 -->
 		<access-denied-handler error-page="/error/accessDenied.do"/>
+		
+		
+		<!--csrf 설정 해제 => post 요청 못받는거 해결  -->
+	    <csrf disabled="true" /> <!-- true 시 비활성화. 기본값은 false -->
 	</http>	
-	
+
 	<!-- #6. 인증/권한 검사 manager bean 설정 -->
 	<!-- 인증/권한 검사를 주도적으로 실행할 bean -->
 	<!-- 인증 : authentication

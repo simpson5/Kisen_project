@@ -3,132 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="review">
-	<select id="selectReviewList" resultMap="reviewExtMap">
-		select
-			r.*,
-			(select count(*) from attachment where Review_No = r.no) attach_count			
-		from 
-			review r
-		order by
-			no desc
-	</select>
-	<resultMap type="reviewExt" id="reviewExtMap">
-		<result column="attach_count" property="hasAttachment"/>	
-	</resultMap>
+
 	<select id="selectReviewTotalContents" resultType="int">
 		select
 			count(*)
 		from
 			review 
 	</select>
-	<insert id="insertReview">
-		insert into
-			review(
-				review_no,
-				review_title,
-				review_content,
-				member_id
-			)
-		values (
-			seq_review_no.nextval,
-			#{review_title},
-			#{member_id},
-			#{review_content}
-		)
-		<!-- 발급받은 review pk no값을 파라미터 review객체의 property no에 저장한다. -->
-		<selectKey keyProperty="no" resultType="int" order="AFTER">
-			select
-				seq_review_no.currval
-			from 
-				dual
-		</selectKey>
-	</insert>
-	<insert id="insertAttachment">
-		insert into
-			attachment(
-				no,
-				review_no,
-				original_filename,
-				renamed_filename
-			)
-		values(
-			seq_attachment_no.nextval,
-			#{review_no},
-			#{originalFilename},
-			#{renamedFilename}
-		)
-	</insert>
-	<select id="selectOnereview" resultMap="reviewExtMap">
-		select
-			*
-		from
-			review
-		where 
-			no = #{review_no}
-	</select>
-	<select id="selectAttachList" resultMap="attachVoMap">
-		select
-			*
-		from
-			attachment
-		where
-			review_no = #{review_no}
-	</select>
-	<resultMap type="attachment" id="attachVoMap">
-		<result column="status" property="status" javaType="_boolean" jdbcType="CHAR"/>
-	</resultMap>
-	<select id="selectOneReviewCollection" resultMap="reviewCollectionMap">
-		select 
-		    b.*,
-		    a.no "attach_no",
-		    a.review_no,
-		    a.original_filename,
-		    a.renamed_filename,
-		    a.upload_date,
-		    a.download_count,
-		    a.status
-		from  
-		    review r
-		  left join 
-		    attachment a
-		      on r.no = a.review_no
-		where r.no = #{review_no}
-	</select>
-	<resultMap type="reviewExt" id="reviewCollectionMap">
-		<id column="no" property="no"/>
-		<result column="member_id" property="memberId"/>
-		<result column="review_title" property="title"/>
-		<result column="review_content" property="content"/>
-		<result column="review_date" property="reviewDate"/>
-		<result column="read_cnt" property="readCnt"/>
-		<collection property="attachList" ofType="attachment">
-			<id column="attach_no" property="no"/>
-			<result column="review_no" property="reviewNo"/>
-			<result column="original_filename" property="originalFilename"/>
-			<result column="renamed_filename" property="renamedFilename"/>
-			<result column="upload_date" property="uploadDate"/>
-			<result column="download_count" property="downloadCount"/>
-			<result column="status" property="status" typeHandler="booleanYnTypeHandler"/>
-		</collection>
-	</resultMap>
-	
-	<select id="selectOneAttachment" resultMap="attachVoMap">
-		select
-			*
-		from
-			attachment
-		where 
-			review_no = #{review_no}
-	</select>
-	
-	<select id="searchTitle" resultType="review">
-		select 
-			*
-		from 
-			review
-		where
-			title like '%' || #{searchTitle} || '%'
-	</select>
+
 </mapper>
 
 

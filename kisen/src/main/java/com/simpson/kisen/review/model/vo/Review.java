@@ -11,14 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Review {
 
-	private int Review_No; //리뷰번호
-	private int Payment_No; //결제번호
-	private int Product_No; //상품번호
-	private String Fan_Id; //작성자
-	private String Review_Content; //리뷰내용
-	private Timestamp Review_Date; //리뷰 날짜
-	private int Read_Cnt; //읽은 수
-	private int Reco_Cnt; //추천 수	
+	private int reviewNo; //리뷰번호
+	private int paymentNo; //결제번호
+	private int productNo; //상품번호
+	private String fanId; //작성자
+	private String reviewContent; //리뷰내용
+	private Timestamp reviewDate; //리뷰 날짜
+	private int readCnt; //읽은 수
+	private int recoCnt; //추천 수	
 	
 	
 	

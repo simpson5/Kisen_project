@@ -20,7 +20,7 @@ public class ReviewServiceImpl implements ReviewService {
 	
 	@Autowired
 	private ReviewDao reviewDao;
-
+	
 	@Override
 	public List<Review> selectReviewList() {
 		return reviewDao.selectReviewList();
@@ -35,6 +35,7 @@ public class ReviewServiceImpl implements ReviewService {
 	public int selectReviewTotalContents() {
 		return reviewDao.selectReviewTotalContents();
 	}
+
 	
 	/**
 	 * rollbackFor - 트랜잭션 rollback처리하기위한 예외 등록. Exception -> 모든 예외.
@@ -50,7 +51,7 @@ public class ReviewServiceImpl implements ReviewService {
 		//2.attachment 등록
 		if(review.getAttachList().size() > 0) {
 			for(Attachment attach : review.getAttachList()) {
-				attach.setReview_No(review.getReview_No()); // board no fk 세팅
+				attach.setReview_No(review.getReviewNo()); // board no fk 세팅
 				result = insertAttachment(attach);
 			}
 		}
@@ -87,6 +88,8 @@ public class ReviewServiceImpl implements ReviewService {
 		return reviewDao.searchTitle(searchTitle);
 	}
 	
+
+
 	
 
 
