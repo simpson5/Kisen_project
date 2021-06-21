@@ -90,18 +90,18 @@ $(() => {
 					<span>|</span>
 					<a href="${pageContext.request.contextPath}/member/signupTerm.do">회원가입</a>
 					</div>
-					<form:form action="${pageContext.request.contextPath}/member/loginProcess2.do"
-								method="post">
-					<c:if test="${not empty kakaoMember.password}">
-					<input type="hidden" name="fanId" value="${kakaoMember.fanId}" />
-					<input type="hidden" name="password" value="${kakaoMember.password}" />
-					</c:if>
-					<button type="submit">
-					<a href="https://kauth.kakao.com/oauth/authorize?client_id=fd88614f9ea0303ee10198eee2c817e1&redirect_uri=http://localhost:9090/kisen/member/kakao/callback&response_type=code">
-						<img src="${pageContext.request.contextPath}/resources/images/member/kakao_login_medium_wide.png"> </a>
-					</button>
-					</form:form>
-				</div>
+					    <a href="https://kauth.kakao.com/oauth/authorize
+    ?client_id=88bf7d10350a212d618435c477aa9bca
+    &redirect_uri=http://localhost:9090/kisen/member/kakaoLogin
+    &response_type=code">카카오 로그인</a>
+						</li>
+						<li onclick="kakaoLogout();">
+					      <a href="javascript:void(0)">
+					          <span>카카오 로그아웃</span>
+					      </a>
+						</li>
+				</ul>
+						</div>
 			</div>
 		</div>
 	</div>

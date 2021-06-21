@@ -11,4 +11,6 @@ public interface MemberService {
 
 	int insertMemberAgency(Fan member, Agency agency);
 
+	int insertOauthMember(Fan member);
+
 }

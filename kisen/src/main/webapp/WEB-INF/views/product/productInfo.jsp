@@ -728,7 +728,7 @@ function total(){
 }
 
 function goReviewForm(){
-	//location.href = "${pageContext.request.contextPath}/review/reviewForm.do";
+
 	$('#write').show();
 }
 
@@ -748,58 +748,7 @@ function resize(obj) {
 	  obj.style.height = (12+obj.scrollHeight)+"px";
 	}
 
-//$(() => {
-//	$("tr[data-no]").click(e => {
-		//화살표함수안에서는 this는 e.target이 아니다.
-		//console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
-//		var $tr = $(e.target).parent();
-//		var no = $tr.data("no");
-//		location.href = "${pageContext.request.contextPath}/review/reviewDetail.do?no=" + no;
-//	});
 
-	//$( "#searchTitle" ).autocomplete({
-  	//	source: function(request, response){
- 		  //console.log(request);
- 		  //console.log(response);
- 		  //response([{label:'a', value:'a'}, {label:'b', value:'b'}]);
- 		  
- 		  //사용자입력값전달 ajax요청 -> success함수안에서 response호출 
-  	 //	  $.ajax({
-	//		url: "${pageContext.request.contextPath}/review/searchTitle.do",
-	//		data: {
-	//			searchTitle: request.term
-	//		},
-	//		success(data){
-	//			console.log(data);
-	//			const {list} = data;
-				//배열
-	//			const arr = 
-	//				list.map(({no, title}) => ({
-	//					label: title,
-	//					value: title,
-	//					no		
-	//				}));
-	//			console.log(arr);
-	//			response(arr);
-	//		},
-	//		error(xhr, statusText, err){
-	//			console.log(xhr, statusText, err);
-	//		}
-  	//  	  });
-	//	},
-	//	select: function(event, selected){
-			// 클릭했을때, 해당게시글 상세페이지로 이동
-			//console.log("select : ", selected);
-	//		const {item: {no}} = selected;
-	//		location.href = "${pageContext.request.contextPath}/board/boardDetail.do?no=" + no;
-	//	},
-	//	focus: function(event, focused){
-	//	 return false;
-	//	},
-	//	autoFocus: true, 
-	//	minLength: 2
-  //});
-//});
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
