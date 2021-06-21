@@ -75,13 +75,13 @@ public class AgencyServiceImpl implements AgencyService {
 
 
 	@Override
-	public List<Idol> selectIdolList(int agencyNo, Map<String, Object> param) {
-		return agencyDao.selectIdolList(agencyNo,param);
+	public List<Idol> selectIdolList(String fanNo, Map<String, Object> param) {
+		return agencyDao.selectIdolList(fanNo,param);
 	}
 
 	@Override
-	public int selectIdolTotalContents(int agencyNo) {
-		return agencyDao.selectIdolTotalContents(agencyNo);
+	public int selectIdolTotalContents(String fanNo) {
+		return agencyDao.selectIdolTotalContents(fanNo);
 	}
 
 	@Override

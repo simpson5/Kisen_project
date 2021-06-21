@@ -23,12 +23,12 @@ public class AgencyDaoImpl implements AgencyDao {
 
 
 	@Override
-	public List<Idol> selectIdolList(int agencyNo,Map<String, Object> param) {
+	public List<Idol> selectIdolList(String fanNo,Map<String, Object> param) {
 		log.info("param={}",param);
 		int offset = (int)param.get("offset");
 		int limit = (int)param.get("limit");
 		RowBounds rowBounds = new RowBounds(offset, limit);		
-		List<Idol> idolList = session.selectList("agency.selectIdolList",agencyNo,rowBounds);
+		List<Idol> idolList = session.selectList("agency.selectIdolList",fanNo,rowBounds);
 		log.info("IdolList@dao={}",idolList);
 		return idolList;
 	}
@@ -59,8 +59,8 @@ public class AgencyDaoImpl implements AgencyDao {
 	}
 
 	@Override
-	public int selectIdolTotalContents(int agencyNo) {
-		return session.selectOne("agency.selectIdolTotalContents",agencyNo);
+	public int selectIdolTotalContents(String fanNo) {
+		return session.selectOne("agency.selectIdolTotalContents",fanNo);
 	}
 
 	@Override
