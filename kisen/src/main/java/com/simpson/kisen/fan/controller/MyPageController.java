@@ -127,7 +127,7 @@ public class MyPageController {
 			log.error("회원 탈퇴 오류!", e);
 			throw e;
 		}
-		return "redirect:/";
+		return "redirect:/member/logout.do";
 	}
 	
 	
