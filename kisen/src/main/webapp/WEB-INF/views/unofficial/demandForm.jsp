@@ -165,9 +165,9 @@
 					</div>
 				</div>
 				<div class="mb-4 row">
-					<label class="col-md-3 col-form-label" for="pdIdol">아이돌</label>
+					<label class="col-md-3 col-form-label" for="idolName">아이돌</label>
 					<div class="col-md-9">
-						<input type="text" class="form-control" name="pdIdol" id="pdIdol">
+						<input type="text" class="form-control" name="idolName" id="idolName">
 					</div>
 				</div>
 
@@ -176,9 +176,10 @@
 					<div class="col-md-9">
 						<div class="row">
 							<div class="col-auto">
-								<select name="officalProd" id="officalProd" class="form-select">
-									<option value="unOfficalProd_goods">앨범</option>
-									<option value="unOfficalProd_goods">상품</option>
+								<select name="unofficalProd" id="unofficalProd" class="form-select">
+									<option value="unOfficalProd_goods">인형</option>
+									<option value="unOfficalProd_goods">포토카드</option>
+									<option value="unOfficalProd_goods">기타</option>
 								</select>
 							</div>
 						</div>
@@ -196,10 +197,10 @@
 					</div>
 				</div>
 				<div class="mb-4 row">
-					<label class="col-md-3 col-form-label" for="price">배송비</label>
+					<label class="col-md-3 col-form-label" for="deliveryPrice">배송비</label>
 					<div class="col-md-9">
 						<div class="input-group">
-							<input type="number" class="form-control" name="price" id="price">
+							<input type="number" class="form-control" name="deliveryPrice" id="deliveryPrice">
 							<span class="input-group-text">원</span>
 						</div>
 					</div>
@@ -222,7 +223,7 @@
 				<!-- 이미지 -->
 				<!-- 썸네일&대표 -->
 				<div class="mb-4 row">
-					<label class="col-md-3 col-form-label">대표 이미지</label>
+					<label class="col-md-3 col-form-label" id="pdImg">대표 이미지</label>
 					<div class="col-md-9">
 						<input type="file" class="form-control" id="formFile"
 							accept="image/png,image/jpeg,image/jpg">
@@ -242,32 +243,52 @@
 
 
 				<div class="form-group">
-					<label for="content">상세설명</label>
+					<label for="pdContent">상세설명</label>
 					<textarea class="form-control" rows="5" id="summernote"
 						name="content"></textarea>
 				</div>
-				<button id="edit" class="btn btn-primary" onclick="edit()"
+				<!--  <button id="edit" class="btn btn-primary" onclick="edit()"
 						type="button">수정하기</button>
 					<button id="save" class="btn btn-primary" onclick="save()"
 						type="button">저장하기</button>
-					<div class="click2edit">click2edit</div>
+					<div class="click2edit">click2edit</div>-->
 
 
 
 
 				<script>
-					$(document).ready(function() {
-						//여기 아래 부분
-						$('#summernote').summernote({
-							height : 300, // 에디터 높이
-							minHeight : null, // 최소 높이
-							maxHeight : null, // 최대 높이
-							focus : true, // 에디터 로딩후 포커스를 맞출지 여부
-							lang : "ko-KR", // 한글 설정
-							placeholder : '최대 2000자까지 쓸 수 있습니다' //placeholder 설정
-
-						});
+				$(document).ready(function() {
+					//여기 아래 부분
+					$('#summernote').summernote({
+						  height: 300,                 // 에디터 높이
+						  minHeight: null,             // 최소 높이
+						  maxHeight: null,             // 최대 높이
+						  focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
+						  lang: "ko-KR",					// 한글 설정
+						  placeholder: '최대 2000자까지 쓸 수 있습니다'	//placeholder 설정
+				          
 					});
+				});
+				        
+
+					/**
+					* 이미지 파일 업로드
+					
+					function uploadSummernoteImageFile(file, editor) {
+						data = new FormData();
+						data.append("file", file);
+						$.ajax({
+							data : data,
+							type : "POST",
+							url : "/uploadSummernoteImageFile",
+							contentType : false,
+							processData : false,
+							success : function(data) {
+				            	//항상 업로드된 파일의 url이 있어야 한다.
+								$(editor).summernote('insertImage', data.url);
+							}
+						});
+						*/
 
 
 					var edit = function() {
@@ -283,7 +304,7 @@
 					};
 				</script>
 				<div class="form-group">
-					<label for="date">수요조사기간</label>
+					<label for="demandDate">수요조사기간</label>
 				</div>
 				<!-- jquery UI 링크 -->
 				<link rel="stylesheet"
@@ -371,7 +392,7 @@
 
 
 					<div class="form-group">
-						<label for="addquestion">(선택)추가질문</label> <input type="text"
+						<label for="question">(선택)추가질문</label> <input type="text"
 							class="form-control" placeholder="추가질문을 받으시려면 작성하세요">
 					</div>
 
@@ -389,6 +410,7 @@
 					</div>
 			</form>
 	</section>
+
 
 
 </body>
