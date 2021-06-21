@@ -1,23 +1,29 @@
 package com.simpson.kisen.member.controller;
 
 import java.beans.PropertyEditor;
-import java.sql.Date;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -29,20 +35,30 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simpson.kisen.agency.model.vo.Agency;
 import com.simpson.kisen.fan.model.vo.Fan;
+import com.simpson.kisen.member.model.KakaoProfile;
+import com.simpson.kisen.member.model.OAuthToken;
+import com.simpson.kisen.member.model.KakaoProfile.KakaoAccount.Profile;
 import com.simpson.kisen.member.model.service.MemberService;
 
+import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequestMapping("/member")
 @Slf4j
-@SessionAttributes({"session에 저장할 속성명", "loginMember"})
+@SessionAttributes({"loginMember", "kakaoMember"})
 public class MemberController {
+	
+	private String pwdKey = "pwd1234";
 	
 	@Autowired
 	private MemberService memberService;
@@ -67,6 +83,9 @@ public class MemberController {
 	
 	@GetMapping("/searchId.do")
 	public void searchId() {}
+	
+	@GetMapping("/searchPwd.do")
+	public void searchPwd() {}
 	
 	
 	/**
@@ -212,8 +231,133 @@ public class MemberController {
 		// authentication = org.springframework.security.authentication.UsernamePasswordAuthenticationToken@23abe407: Principal: Member(id=honggd, password=$2a$10$qHHeJGgQ9teamJyIJFXbyOBtl7nIsQ37VP2jrz89dnDA7LgzS.nYi, name=카길동, gender=M, birthday=2021-05-04, email=honggd@naver.com, phone=01012341234, address=서울시 강남구, hobby=[운동,  등산], enrollDate=2021-05-20, authorities=[ROLE_USER], enabled=true); Credentials: [PROTECTED]; Authenticated: true; Details: org.springframework.security.web.authentication.WebAuthenticationDetails@166c8: RemoteIpAddress: 0:0:0:0:0:0:0:1; SessionId: B95C1041773474D93729781512D4490A; Granted Authorities: ROLE_USER
 		log.debug("principal = {}", principal);
 	}
-	
-	@GetMapping("/memberTest2.do")
-	public void memberTest2() {}
+
+	@GetMapping("/kakao/callback")
+	public String kakaoCallback(@RequestParam String code, Model model, RedirectAttributes redirectAttr) { // data를 리턴해주는 컨트롤러 함수
+		// POST방식으로 key=value 데이터를 카카오쪽으로 요청
+		
+		// HttpHeader 오브젝트 생성
+		RestTemplate rt = new RestTemplate();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		// HttpBody 오브젝트 생성
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		params.add("grant_type", "authorization_code");
+		params.add("client_id", "fd88614f9ea0303ee10198eee2c817e1");
+		params.add("redirect_uri", "http://localhost:9090/kisen/member/kakao/callback");
+		params.add("code", code); // 받아온 인증 코드 동적으로 넣기
+		
+		// HttpHeader와 HttpBody를 하나의 오브젝트에 담기
+		// body 데이터(params)와 header값(headers)을 가진 entity 만들기
+		// why? exchange메소드에 HttpEntity<?> 오브젝트를 넣어야 하기 때문
+		HttpEntity<MultiValueMap<String, String>> kakaoTalkRequest =
+				new HttpEntity<>(params, headers);
+		
+		// Http 요청하기 - POST방식으로 - response변수의 응답을 받음
+		ResponseEntity<String> response = rt.exchange(
+			"https://kauth.kakao.com/oauth/token", // 토큰발급 요청주소
+			HttpMethod.POST, // 요청메소드
+			kakaoTalkRequest, // httpEntity (body, header)
+			String.class // response의 응답이 string 데이터로 될 것!
+		);
+		
+		// json data -> java에서 처리하기 위해 java Object로 변환
+		ObjectMapper objectMapper = new ObjectMapper();
+		OAuthToken oauthToken = null;
+		try {
+			oauthToken = objectMapper.readValue(response.getBody(), OAuthToken.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("kakao access token : " + oauthToken.getAccess_token());
+		// kakao access token : dvkkT0-g31B9SQTKx9ijLZNKLcThYkRz_7-42Qo9dZwAAAF6Kf0GXA
+		
+		// HttpHeader 오브젝트 생성
+		RestTemplate rt2 = new RestTemplate();
+		HttpHeaders headers2 = new HttpHeaders();
+		headers2.add("Authorization", "Bearer " + oauthToken.getAccess_token());
+		headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+		
+		// HttpHeader와 HttpBody를 하나의 오브젝트에 담기
+		// body 데이터(params)와 header값(headers)을 가진 entity 만들기
+		// why? exchange메소드에 HttpEntity<?> 오브젝트를 넣어야 하기 때문
+		HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest2 =
+				new HttpEntity<>(headers2);
+		
+		// Http 요청하기 - POST방식으로 - response변수의 응답을 받음
+		ResponseEntity<String> response2 = rt2.exchange(
+			"https://kapi.kakao.com/v2/user/me", 
+			HttpMethod.POST, // 요청메소드
+			kakaoProfileRequest2, // httpEntity (body, header)
+			String.class // response의 응답이 string 데이터로 될 것!
+		);
+		
+		ObjectMapper objectMapper2 = new ObjectMapper();
+		KakaoProfile kakaoProfile = null;
+		try {
+			kakaoProfile = objectMapper2.readValue(response2.getBody(), KakaoProfile.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// user 오브젝트 : username, password, email
+		System.out.println("카카오 아이디 (번호) : " + kakaoProfile.getId()); // 카카오 아이디 (번호) : 1776027704
+		System.out.println("카카오 이메일 : " + kakaoProfile.getKakao_account().getEmail()); // 카카오 이메일 : dbs7wl7@naver.com
+		System.out.println("kisen 서버 유저네임 : " + kakaoProfile.getKakao_account().getEmail() + "_" + kakaoProfile.getId()); // kisen 서버 유저네임 : dbs7wl7@naver.com_1776027704
+		System.out.println("kisen 서버 이메일 : " + kakaoProfile.getKakao_account().getEmail()); // kisen 서버 이메일 : dbs7wl7@naver.com
+		// UUID garbagePassword = UUID.randomUUID();
+		System.out.println("kisen 서버 패스워드 : " + pwdKey); // kisen 서버 패스워드 : 6d3bd309-88cc-4c18-88a0-78fea82e2c50
+		
+		String gender = (String)kakaoProfile.getKakao_account().getGender();
+		
+		System.out.println("카카오 이름, 성별, 폰, 생년월일 : " + 
+					gender + 
+					kakaoProfile.getProperties().getNickname() + 
+					kakaoProfile.getKakao_account().getBirthday());
+		
+		String kakaoBirthday = kakaoProfile.getKakao_account().getBirthday();
+		String birth1 = kakaoBirthday.substring(0, 2);
+		String birth2 = kakaoBirthday.substring(2, 4);
+		String bday = "1900-" + birth1 + "-" + birth2;
+		java.sql.Date birthday = java.sql.Date.valueOf(bday);
+		
+		// user object
+		Fan kakaoMember = Fan.builder()
+				.fanId(kakaoProfile.getKakao_account().getEmail() + "_" + kakaoProfile.getId())
+				.password(pwdKey)
+				.email(kakaoProfile.getKakao_account().getEmail())
+				.oauth("kakao")
+				.gender(kakaoProfile.getKakao_account().getGender())
+				.phone(kakaoProfile.getKakao_account().getPhone_number())
+				.fanName(kakaoProfile.getProperties().getNickname())
+				.birthday(birthday)
+				.build();
+		
+
+		// 가입자 혹은 비가입자 체크해서 처리
+		Fan originMember = memberService.selectOneMember(kakaoMember.getFanId());
+		if(originMember == null) {
+			// 비가입자 -> 회원가입 -> 로그인처리
+			log.info("기존 회원이 아닙니다. 자동 회원가입을 진행합니다.");
+			// memberService.insertMember(kakaoMember);
+			// model.addAttribute("kakaoMember", kakaoMember);
+			redirectAttr.addFlashAttribute("kakaoMember", kakaoMember);
+			return "redirect:/member/signup.do";
+		} else {
+			// 가입자 -> 로그인처리
+			model.addAttribute("kakaoMember", kakaoMember);
+			return "/member/login";
+		}
+	}
+
 
 }

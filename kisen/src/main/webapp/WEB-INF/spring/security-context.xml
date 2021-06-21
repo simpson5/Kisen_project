@@ -59,6 +59,12 @@
 			 invalidate-session : 기본값 : ture (로그아웃 할 때 세션을 함께 날리기)
 			 delete-cookies : 특정 쿠키값 지우기
 		-->
+		<form-login
+			login-page="/member/login.do"
+			login-processing-url="/member/loginProcess2.do"
+			username-parameter="fanId"
+			password-parameter="password"
+			/>
 		<logout
 			logout-url="/member/logout.do"
 			logout-success-url="/"

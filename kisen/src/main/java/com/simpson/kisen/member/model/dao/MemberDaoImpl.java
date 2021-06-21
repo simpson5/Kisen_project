@@ -38,6 +38,11 @@ public class MemberDaoImpl implements MemberDao {
 		return session.insert("member.insertMemberAuthority", member);
 	}
 
+	@Override
+	public int insertOauthMember(Fan member) {
+		return session.insert("member.insertKakaoMember", member);
+	}
+
 //	@Override
 //	public int insertAgencyAuthority(Fan member) {
 //		return session.insert("member.insertAgencyAuthority", member);
