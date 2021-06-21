@@ -313,14 +313,7 @@ textarea.autosize {
  }
 <<<<<<< HEAD
 </style>
-=======
-</style>
-<<<<<<< HEAD
- 
-=======
 
->>>>>>> branch 'master' of https://github.com/simpson5/Kisen_project.git
->>>>>>> refs/heads/master
 <div id="wrap">
 	<div class="container" id="container">
 		<div class="detail row">
@@ -403,110 +396,6 @@ textarea.autosize {
 
 		<div class="pd-review mx-auto" style="display: none;">
 
-			<p class="h5"
-				style="color: #353535; font-size: 16px; line-height: 18px; font-family: 'Lato', 'Nanum Gothic', 'verdana', '돋움', '굴림';">REVIEW</p>
-			<section id="board-container" class="container">
-
-
-				<table id="tbl-review" class="table table-striped table-hover">
-					<tr>
-						<th>리뷰번호</th>
-						<th>내용</th>
-						<th>작성자</th>
-						<th>작성일</th>
-						<th>첨부파일</th>
-						<!-- 첨부파일 있을 경우, /resources/images/file.png 표시 width: 16px-->
-						<th>조회수</th>
-					</tr>
-					<c:forEach items="${list}" var="review">
-						<tr data-no="${review.no}">
-							<td>${review.no}</td>
-							<td>${review.content}</td>
-							<td>${review.memberId}</td>
-							<td><fmt:formatDate value="${review.regDate}"
-									pattern="yy-MM-dd" /></td>
-							<td><c:if test="${review.hasAttachment}">
-									<img
-										src="${pageContext.request.contextPath}/resources/images/file.png"
-										width="16px" alt="" />
-								</c:if></td>
-							<td>${review.readCount}</td>
-						</tr>
-					</c:forEach>
-					</section>
-				</table>
-
-
-
-				<div class="form-inline" id="edit">
-					<div class="py-2">
-						<button type="button" class="btn btn-outline-warning"
-							onclick="goReviewForm();">글쓰기</button>
-
-					</div>
-					<div class="py-2">
-						<button type="submit" class="btn btn-outline-warning"
-							onclick="goEditForm();">수정하기</button>
-					</div>
-					<div class="py-2">
-						<button type="submit" class="btn btn-outline-warning">삭제하기</button>
-					</div>
-					<input type="search" placeholder="제목 검색..." id="searchTitle"
-						class="form-control col-sm-3 d-inline" />
-				</div>
-
-				<div class="paging-area my-5">
-					<nav class="review-paging-nav" aria-label="Page navigation example">
-						<ul class="pagination col-2">
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-							</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#"
-								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-							</a></li>
-						</ul>
-					</nav>
-				</div>
-				<div id="write" style="display: none;">
-					<div id="board-container">
-						<form name="boardFrm"
-							action="${pageContext.request.contextPath}/review/reviewEnroll.do"
-							method="post" enctype="multipart/form-data"
-							onsubmit="return boardValidate();">
-							 <input type="text"
-								class="form-control" name="memberId" value="${loginMember.id}"
-								readonly required>
-							<!-- input:file소스 : https://getbootstrap.com/docs/4.1/components/input-group/#custom-file-input -->
-							<div class="input-group mb-3" style="padding: 0px;">
-								<div class="input-group-prepend" style="padding: 0px;">
-									<span class="input-group-text">첨부파일1</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" class="custom-file-input" name="upFile"
-										id="upFile1" multiple /> <label class="custom-file-label"
-										for="upFile1">파일을 선택하세요</label>
-								</div>
-							</div>
-							<div class="input-group mb-3" style="padding: 0px;">
-								<div class="input-group-prepend" style="padding: 0px;">
-									<span class="input-group-text">첨부파일2</span>
-								</div>
-								<div class="custom-file">
-									<input type="file" class="custom-file-input" name="upFile"
-										id="upFile2"> <label class="custom-file-label"
-										for="upFile2">파일을 선택하세요</label>
-								</div>
-							</div>
-							<textarea class="autosize" onkeydown="resize(this)" onkeyup="resize(this)" name="content" placeholder="내용"
-								required   style="resize: none;"></textarea>
-							<br /> <input type="submit" class="btn btn-outline-success" onclick="goReviewEnroll();"
-								value="저장" >
-						</form>
-					</div>
-				</div>
 		</div>
 	
 
@@ -727,26 +616,6 @@ function total(){
 	$total += $total.html("<strong>"+total+"</strong>"+"("+cnt+"개)");
 }
 
-function goReviewForm(){
-
-	$('#write').show();
-}
-
-function goReviewEnroll(){
-	location.href = "${pageContext.request.contextPath}/review/reviewDetail.do";
-}
-
-
-
-function goEditForm(){
-	location.href = "${pageContext.request.contextPath}/review/revieweditForm.do";
-	
-}
-
-function resize(obj) {
-	  obj.style.height = "1px";
-	  obj.style.height = (12+obj.scrollHeight)+"px";
-	}
 
 
 </script>
