@@ -311,12 +311,16 @@ textarea.autosize {
  min-height: 300px; 
  width: 75%
  }
+<<<<<<< HEAD
+</style>
+=======
 </style>
 <<<<<<< HEAD
  
 =======
 
 >>>>>>> branch 'master' of https://github.com/simpson5/Kisen_project.git
+>>>>>>> refs/heads/master
 <div id="wrap">
 	<div class="container" id="container">
 		<div class="detail row">
