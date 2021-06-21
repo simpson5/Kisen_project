@@ -40,8 +40,18 @@
 				    </li>
 				    <span class="divide">|</span>
 			    	<li>
+			    	<sec:authentication property="authorities" var="authority"/>
+			    	<c:if test="${fn:contains(authority , 'ROLE_AGENCY')}">
+			    		<li>
+							<a href="${pageContext.request.contextPath}/agency/agencyMain.do">기획사</a>
+						</li>
+			    	</c:if>
+			    	<c:if test="${fn:contains(authority , 'ROLE_ADMIN')}">
+			    		<li>
+			    			<a href="${pageContext.request.contextPath}/admin/adminMain.do">관리자</a>
+			    		</li>
+			    	</c:if>
 			    		<a href="${pageContext.request.contextPath}/member/memberTest.do">memberTest</a>
-			    	</li>
 				    </sec:authorize>
                 	<!-- security : 로그인하지 않은 경우 -->
                 	<sec:authorize access="isAnonymous()">
@@ -58,7 +68,7 @@
                         <a href="${pageContext.request.contextPath}/mypage/mypagePay.do">MYPAGE</a>
                     </li>
                     <span class="divide">|</span>
-                    <li>
+     				<li>
                         <a href="${pageContext.request.contextPath}/basket/cart.do">장바구니</a>
                     </li>
                     <span class="divide">|</span>

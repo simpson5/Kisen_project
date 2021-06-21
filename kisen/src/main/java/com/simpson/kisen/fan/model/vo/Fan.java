@@ -10,12 +10,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 // security userDetails 구현
 public class Fan implements UserDetails {
 	private String fanNo;
@@ -30,6 +32,7 @@ public class Fan implements UserDetails {
 	private boolean certification;
 	private Timestamp enrollDate;
 	private String fanName;
+	private String oauth; // kakao, google
 	
 	// 하기내용 - security 관련
 	

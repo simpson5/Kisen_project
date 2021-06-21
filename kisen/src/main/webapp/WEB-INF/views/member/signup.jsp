@@ -78,6 +78,9 @@
 <div class="term-container">
     <div id="kisen-logo">
         <img src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" alt="kisen-logo">
+    	<c:if test="${not empty kakaoMember}">
+    		<h2 style="text-align: center;">추가정보 입력</h2>
+    	</c:if>
     </div>
 </div>
 <!-- 회원가입 폼 -->
@@ -88,29 +91,34 @@
 >
     <div>
         <label for="id">아이디<span class="required-mark"> *</span></label>
-        <input type="text" class="fill-in-area" name="fanId" id="id" placeholder="5자~11자">
+        <input type="text" class="fill-in-area" name="fanId" id="id" value="${kakaoMember.fanId}" placeholder="5자~11자" ${kakaoMember.fanId != '' ? 'readonly' : ''}>
         <p id="chkNoticeIdDuplicate" class="chkNotice"></p>
         <input type="hidden" id="idValid" value="0"/> <!-- 이걸 보고 memberForm을 submit하는지 마는지의 여부를 결정 -->
     </div>
-    <div>
-        <label for="password">패스워드<span class="required-mark"> *</span></label>
-        <input type="password" class="fill-in-area" name="password" id="password" placeholder="숫자,영문,특수문자 조합 최소8자">
-        <p id="chkNoticePwd1" class="chkNotice"></p>
-    </div>
-    <div>
-        <label for="password">패스워드 재확인<span class="required-mark"> *</span></label>
-        <input type="password" class="fill-in-area" name="passwordCheck" id="passwordCheck">
-        <p id="chkNoticePwd2" class="chkNotice"></p>
-    </div>
+    <c:if test="${empty kakaoMember.password}">
+	    <div>
+	        <label for="password">패스워드<span class="required-mark"> *</span></label>
+	        <input type="password" class="fill-in-area" name="password" id="password" value="${kakaoMember.password}" placeholder="숫자,영문,특수문자 조합 최소8자" ${kakaoMember.password != '' ? 'readonly' : ''}>
+	        <p id="chkNoticePwd1" class="chkNotice"></p>
+	    </div>
+	    <div>
+	        <label for="password">패스워드 재확인<span class="required-mark"> *</span></label>
+	        <input type="password" class="fill-in-area" name="passwordCheck" value="${kakaoMember.password}" id="passwordCheck" ${kakaoMember.password != '' ? 'readonly' : ''}>
+	        <p id="chkNoticePwd2" class="chkNotice"></p>
+	    </div>
+    </c:if>
+    <c:if test="${not empty kakaoMember.password}">
+    	<input type="hidden" name="password" value="${kakaoMember.password}"/>
+    </c:if>
     <div>
         <label for="name">이름<span class="required-mark"> *</span></label>
-        <input type="text" class="fill-in-area" name="fanName" id="fan-name">
+        <input type="text" class="fill-in-area" name="fanName" value="${kakaoMember.fanName}" id="fan-name">
         <p id="chkNoticeName" class="chkNotice"></p>
     </div>
     <div>
         <div>
         <label id="email-offset" for="email">이메일<span class="required-mark"> *</span></label>
-        <input type="text" class="fill-in-area add1" name="email" id="email"><span id="email-span">@</span>
+        <input type="text" class="fill-in-area add1" name="email" value ="${kakaoMember.email}" id="email" value="" ${kakaoMember.email != '' ? 'readonly' : ''}><span id="email-span">@</span>
         <select class="selectEmail" name="selectEmail" id="selectEmail">
             <option value="1" selected>직접입력</option>
             <option value="naver.com">naver.com</option> 
@@ -126,7 +134,7 @@
     </div>
     <div>
         <label for="phone">휴대폰<span class="required-mark"> *</span></label>
-        <input type="tel" class="fill-in-area" name="phone" id="phone" placeholder="-없이 번호만 입력">
+        <input type="tel" class="fill-in-area" name="phone" id="phone" placeholder="-없이 번호만 입력" value="${kakaoMember.phone}">
         <div id="phone-authentication">
             <input type="text" class="fill-in-area add1" placeholder="인증번호">
             <input type="button" class="add-btn" onclick="requestEmail()" value="인증번호 요청"><br>
@@ -135,7 +143,7 @@
     </div>
     <div>
         <label for="birthday">생년월일</label>
-        <input type="date" class="fill-in-area" name="birthday" id="birthday">
+        <input type="date" class="fill-in-area" name="birthday" id="birthday" value="${kakaoMember.birthday}">
     </div>
     <!-- 주소 -->
     <div>
@@ -158,6 +166,7 @@
         </div>
         <p id="chkNoticeAddress" class="chkNotice"></p>
     </div>
+    <input type="hidden" name="oauth" value="${kakaoMember.oauth}"/>
     <input type="submit" class="submit-btn" value="회원가입" >
 </form:form>
 </div>
@@ -173,7 +182,8 @@ $("#id").keyup(e => {
 	const id = $(e.target).val();
 	const $chkNoticeDupl = $("#chkNoticeIdDuplicate");
 	const $idValid = $("#idValid"); // 0 -> 1 (중복검사 성공시)
-    
+
+    if(${kakaoMember.email} == ''){
 	if(id.length < 6 || id.length > 20) {
 		// 4글자 이상을 썼다가 지우는 경우를 대비해서
 		$chkNoticeDupl.html('아이디는 6자리 이상 20자리 이하여야 합니다.').css("color","red");
@@ -205,6 +215,7 @@ $("#id").keyup(e => {
 			console.log(xhr, statusText, err);
 		}
 	});
+	}
 });
 
 // 실시간 유효성검사
@@ -215,64 +226,69 @@ $('#password').blur(function(){
 	var pwd1 = $("#password").val();
   	var pwd2 = $('#passwordCheck').val();
   	var pwdTest = pwdReg.test(pwd1);
-  		
-    if(!pwdTest){
-		$('#chkNoticePwd1').html('비밀번호는 숫자,영문,특수문자 조합 최소8자여야 합니다.').css("color","red");            
-	} else {
-		$('#chkNoticePwd1').html('');       
-	}
+  	if(${kakaoMember.password} == ''){
+	    if(!pwdTest){
+			$('#chkNoticePwd1').html('비밀번호는 숫자,영문,특수문자 조합 최소8자여야 합니다.').css("color","red");            
+		} else {
+			$('#chkNoticePwd1').html('');       
+		}
+  	}
 });
 
 // passwordChk 유효성 검사
 $('#passwordCheck').keyup(function(){
 
-  	var pwd1 = $("#password").val();
-  	var pwd2 = $('#passwordCheck').val();
-       
-	// 1. 패스워드 체크부터 진행할 경우
-    if(pwd1 == ''){
-		$('#chkNoticePwd1').html('패스워드부터 입력해주세요.').css("color","red");
-        $('#password').select();
-    }
-	// 2. 패스워드 일치 여부 검사
-	if(pwd2.length > 3){
-		if(pwd1 != pwd2){
-			$('#chkNoticePwd2').html('패스워드가 일치하지 않습니다.').css("color","red");
-		} else{
-			$('#chkNoticePwd2').html('패스워드가 일치합니다.').css("color","rgb(117, 59, 93)");
-       }
-   }
+	if(${kakaoMember.password} == ''){
+	  	var pwd1 = $("#password").val();
+	  	var pwd2 = $('#passwordCheck').val();
+	       
+		// 1. 패스워드 체크부터 진행할 경우
+	    if(pwd1 == ''){
+			$('#chkNoticePwd1').html('패스워드부터 입력해주세요.').css("color","red");
+	        $('#password').select();
+	    }
+		// 2. 패스워드 일치 여부 검사
+		if(pwd2.length > 3){
+			if(pwd1 != pwd2){
+				$('#chkNoticePwd2').html('패스워드가 일치하지 않습니다.').css("color","red");
+			} else{
+				$('#chkNoticePwd2').html('패스워드가 일치합니다.').css("color","rgb(117, 59, 93)");
+	       }
+	   }
+	}
 });
 
 // 제출시 유효성 검사
 $("[name=signupFrm]").submit(function(){
 
-	// 아이디 중복검사 완료전에는 제출되지 않도록
-	var $idValid = $("#idValid");
-	var $id = $("#id");
-	var $idOffset = $("#id").offset();
-	if($idValid.val() == 0) {
-		$("html body").animate({scrollTop:$idOffset.top},2000);
-		$id.focus();
-		return false;
-	}
-    // 패스워드 유효성검사
-    var pwd1 = $("#password");
-  	var pwd2 = $('#passwordCheck');
-	var $pwdOffset = $("#password").offset();
-  	// 1. 패스워드 입력하지 않은 경우
-  	if(pwd1.val() == ''){
-		$("html body").animate({scrollTop:$pwdOffset.top},2000);
-		pwd1.focus();
-		$('#chkNoticePwd1').html('패스워드를 입력해주세요.').css("color","red");
-		return false;
-  	}
-  	// 2. 패스워드 체크를 하지 않은 경우
-  	if(pwd1.val() != pwd2.val()){
-		$("html body").animate({scrollTop:$pwdOffset.top},2000);
-		pwd2.focus();
-		$('#chkNoticePwd2').html('패스워드가 일치하지 않습니다.').css("color","red");
-        return false;
+	if(${kakaoMember.fanId} == ''){
+		// 아이디 중복검사 완료전에는 제출되지 않도록
+		var $idValid = $("#idValid");
+		var $id = $("#id");
+		var $idOffset = $("#id").offset();
+		if($idValid.val() == 0) {
+			$("html body").animate({scrollTop:$idOffset.top},2000);
+			$id.focus();
+			return false;
+		}
+	    // 패스워드 유효성검사
+	    var pwd1 = $("#password");
+	  	var pwd2 = $('#passwordCheck');
+		var $pwdOffset = $("#password").offset();
+	  	// 1. 패스워드 입력하지 않은 경우
+	  	if(pwd1.val() == ''){
+			$("html body").animate({scrollTop:$pwdOffset.top},2000);
+			pwd1.focus();
+			$('#chkNoticePwd1').html('패스워드를 입력해주세요.').css("color","red");
+			return false;
+	  	}
+	  	// 2. 패스워드 체크를 하지 않은 경우
+	  	if(pwd1.val() != pwd2.val()){
+			$("html body").animate({scrollTop:$pwdOffset.top},2000);
+			pwd2.focus();
+			$('#chkNoticePwd2').html('패스워드가 일치하지 않습니다.').css("color","red");
+	        return false;
+		}
 	}
 
 	// 이름 유효성검사
