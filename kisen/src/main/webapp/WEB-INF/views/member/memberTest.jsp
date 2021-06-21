@@ -13,3 +13,9 @@ Fan member =
 	(Fan) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 System.out.println(member);
 %>
+		<!-- 방법1. controller에서 loginMember로 넘긴 경우, loginMember.id로 꺼내쓸 수 있음 -->
+		<input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="id" id="id" value='${loginMember.fanId}' readonly required/>
+		<input type="text" class="form-control" placeholder="아이디 (4글자이상)" name="id" id="id" value='${loginMember.fanName}' readonly required/>
+		<br />
+		
+		<a href="${pageContext.request.contextPath}/member/memberTest2.do">memberTest</a>
