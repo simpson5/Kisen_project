@@ -10,7 +10,7 @@ import com.simpson.kisen.idol.model.vo.IdolMv;
 
 public interface AgencyDao {
 
-	List<Idol> selectIdolList(int agencyNo, Map<String, Object> param);
+	List<Idol> selectIdolList(String fanNo, Map<String, Object> param);
 
 	int insertIdol(Idol idol);
 
@@ -23,7 +23,7 @@ public interface AgencyDao {
 	Agency selectAgency(String fanNo);
 
 
-	int selectIdolTotalContents(int agencyNo);
+	int selectIdolTotalContents(String fanNo);
 
 	Idol selectIdol(int no);
 

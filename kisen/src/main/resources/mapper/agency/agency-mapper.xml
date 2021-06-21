@@ -38,11 +38,13 @@
 		    left join idol_mv im
 		        on i.idol_no = im.idol_no
 		where 
-			agency_no= #{agencyNo}
+			agency_no= 
+			(select agency_no from agency where fan_no = #{fanNo})
 	</select>
 	
   	<select id="selectIdolTotalContents" resultType="_int">
-  		select count(*) from idol where agency_no = #{agencyNo}
+  		select count(*) from idol where agency_no = 
+			(select agency_no from agency where fan_no = #{fanNo})
   	</select>
 	<select id="selectOneIdol" resultType="idol">
 		select * from idol where idol_name = #{idolName}
