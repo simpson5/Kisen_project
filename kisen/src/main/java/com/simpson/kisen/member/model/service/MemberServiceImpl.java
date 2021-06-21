@@ -20,7 +20,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int insertMember(Fan member) {
-		int result = memberDao.insertMember(member);
+		int result = 0;
+		if(member.getOauth() == null || "".equals(member.getOauth())) {
+			result = memberDao.insertMember(member);
+		} else {
+			result = insertOauthMember(member);
+		}
 		result = insertMemberAuthority(member);
 		return result;
 	}
@@ -46,5 +51,10 @@ public class MemberServiceImpl implements MemberService {
 
 	private int insertAgency(Agency agency) {
 		return memberDao.insertAgency(agency);
+	}
+
+	@Override
+	public int insertOauthMember(Fan member) {
+		return memberDao.insertOauthMember(member);
 	}
 }
