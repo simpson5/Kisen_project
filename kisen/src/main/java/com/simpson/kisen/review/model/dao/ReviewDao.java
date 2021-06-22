@@ -11,9 +11,9 @@ import com.simpson.kisen.review.model.vo.ReviewExt;
 public interface ReviewDao {
 	List<Review> selectReviewList();
 
-	List<Review> selectReviewList(Map<String, Object> param);
+	List<ReviewExt> selectReviewList(Map<String, Object> param);
 
-	int selectReviewTotalContents();
+	int selectReviewTotalContents(int no);
 
 	int insertReview(ReviewExt review);
 
@@ -28,6 +28,7 @@ public interface ReviewDao {
 	Attachment selectOneAttachment(int no);
 
 	List<Review> searchTitle(String searchTitle);
+
 
 	
 
