@@ -6,10 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -18,8 +16,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.social.google.connect.GoogleConnectionFactory;
+import org.springframework.social.oauth2.GrantType;
+import org.springframework.social.oauth2.OAuth2Operations;
+import org.springframework.social.oauth2.OAuth2Parameters;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -29,14 +30,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -44,12 +41,12 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simpson.kisen.agency.model.vo.Agency;
 import com.simpson.kisen.fan.model.vo.Fan;
+import com.simpson.kisen.member.auth.SNSLogin;
+import com.simpson.kisen.member.auth.SnsValue;
 import com.simpson.kisen.member.model.KakaoProfile;
 import com.simpson.kisen.member.model.OAuthToken;
-import com.simpson.kisen.member.model.KakaoProfile.KakaoAccount.Profile;
 import com.simpson.kisen.member.model.service.MemberService;
 
-import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -63,13 +60,28 @@ public class MemberController {
    @Autowired
    private MemberService memberService;
    
-   // ¾ÏÈ£È­ Ã³¸®
+   @Inject
+   private SnsValue googleSns; 
+   
+   @Inject
+   private GoogleConnectionFactory googleConnectionFactory; 
+   
+   @Inject
+   private OAuth2Parameters googleOAuth2Parameters;
+   
+   // ì•”í˜¸í™” ì²˜ë¦¬
    @Autowired
    private BCryptPasswordEncoder bcryptPasswordEncoder;
    
    @GetMapping("/login.do")
-   // @RequestHeader¸¦ ÅëÇØ Referer¸¦ °¡Á®¿È, referer°¡ ¾ø´Â °æ¿ì¸¦ ´ëºñÇØ required´Â false·Î ¼³Á¤
-   public void memberLogin() {
+   // @RequestHeaderë¥¼ í†µí•´ Refererë¥¼ ê°€ì ¸ì˜´, refererê°€ ì—†ëŠ” ê²½ìš°ë¥¼ ëŒ€ë¹„í•´ requiredëŠ” falseë¡œ ì„¤ì •
+   public void memberLogin(Model model) throws Exception {
+
+		/* êµ¬ê¸€code ë°œí–‰ì„ ìœ„í•œ URL ìƒì„± */
+		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
+		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
+
+		model.addAttribute("google_url", url);
    }
    
    @GetMapping("/signupTerm.do")
@@ -89,54 +101,54 @@ public class MemberController {
    
    
    /**
-    * ¾ÆÀÌµğ Áßº¹°Ë»ç
+    * ì•„ì´ë”” ì¤‘ë³µê²€ì‚¬
     */
    @GetMapping("/checkIdDuplicate.do")
-   // ResponseEntity¿¡¼­ Ã³¸®ÇØÁÖ±â ¶§¹®¿¡ responseBody ÇÊ¿ä¾øÀ½
-   // ResponseEntityÀÇ ¿ä¼Ò·Î MapÀ» ¸®ÅÏ
+   // ResponseEntityì—ì„œ ì²˜ë¦¬í•´ì£¼ê¸° ë•Œë¬¸ì— responseBody í•„ìš”ì—†ìŒ
+   // ResponseEntityì˜ ìš”ì†Œë¡œ Mapì„ ë¦¬í„´
    public ResponseEntity<Map<String, Object>> checkIdDuplicate3(@RequestParam String id) {
-      // 1. ¾÷¹«·ÎÁ÷
-      // Àú ¾ÆÀÌµğ·Î ±âÁ¸È¸¿øÀÌ ÀÖ´Â°¡ È®ÀÎ
+      // 1. ì—…ë¬´ë¡œì§
+      // ì € ì•„ì´ë””ë¡œ ê¸°ì¡´íšŒì›ì´ ìˆëŠ”ê°€ í™•ì¸
       Fan member = memberService.selectOneMember(id);
-      // member°¡ nullÀÎÁöÀÇ ¿©ºÎ¸¦ º¯¼ö¿¡ ´ã¾ÆµÒ (nullÀÌ¾î¾ß true)
+      // memberê°€ nullì¸ì§€ì˜ ì—¬ë¶€ë¥¼ ë³€ìˆ˜ì— ë‹´ì•„ë‘  (nullì´ì–´ì•¼ true)
       boolean available = member == null ;
       
-      // 2. map¿¡ ¿ä¼Ò ÀúÀå ÈÄ ¸®ÅÏ
-      // modelÇÊ¿ä ¾øÀ½
+      // 2. mapì— ìš”ì†Œ ì €ì¥ í›„ ë¦¬í„´
+      // modelí•„ìš” ì—†ìŒ
       Map<String, Object> map = new HashMap<>();
       map.put("available", available);
       map.put("id", id);
 
-      // ResponseEntity°´Ã¼¸¦ ¸¸µé¾î¼­ Àü´Ş
+      // ResponseEntityê°ì²´ë¥¼ ë§Œë“¤ì–´ì„œ ì „ë‹¬
       return ResponseEntity
-            .ok() // ÀÀ´äÇì´õ 200¹ø
-            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE) // "application/json;charset=UTF-8" -> header°ªÀ¸·Î jsonÀÌ¶ó´Â °ÍÀ» ¾Ë¸²
-            .body(map); // body¿¡ map´ã±â
+            .ok() // ì‘ë‹µí—¤ë” 200ë²ˆ
+            .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE) // "application/json;charset=UTF-8" -> headerê°’ìœ¼ë¡œ jsonì´ë¼ëŠ” ê²ƒì„ ì•Œë¦¼
+            .body(map); // bodyì— mapë‹´ê¸°
    }
    
    /**
-    * java.sql.Date, java.util.Date ÇÊµå¿¡ °ª´ëÀÔ½Ã
-    * »ç¿ëÀÚ ÀÔ·Â°ªÀÌ ""ÀÎ °æ¿ì, null·Î Ã³¸®µÉ ¼ö ÀÖµµ·Ï ¼³Á¤
+    * java.sql.Date, java.util.Date í•„ë“œì— ê°’ëŒ€ì…ì‹œ
+    * ì‚¬ìš©ì ì…ë ¥ê°’ì´ ""ì¸ ê²½ìš°, nullë¡œ ì²˜ë¦¬ë  ìˆ˜ ìˆë„ë¡ ì„¤ì •
     * @param binder
     */
-   // initBinder - Ä¿¸Çµå °´Ã¼ °ü·Ã ¼³Á¤À» ´ã´ç
+   // initBinder - ì»¤ë§¨ë“œ ê°ì²´ ê´€ë ¨ ì„¤ì •ì„ ë‹´ë‹¹
    @InitBinder
    public void initBinder(WebDataBinder binder) {
-      // [Æ¯Á¤ Å¸ÀÔ¿¡ ´ëÇØ Çüº¯È¯ÇØÁÖ´Â editor¸¦ µî·Ï]
-      // 1. editor¿¡¼­ ÇÊ¿äÇÑ Çü½Ä ÁöÁ¤
+      // [íŠ¹ì • íƒ€ì…ì— ëŒ€í•´ í˜•ë³€í™˜í•´ì£¼ëŠ” editorë¥¼ ë“±ë¡]
+      // 1. editorì—ì„œ í•„ìš”í•œ í˜•ì‹ ì§€ì •
       SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-      // 2. editor°´Ã¼ »ı¼º
+      // 2. editorê°ì²´ ìƒì„±
       // CustomDateEditor(DateFormat dateFormat, boolean allowEmpty)
-      // allowEmpty¿©ºÎ¸¦ true·Î ¹Ù²Ù±â : ºó¹®ÀÚ¿­ÀÌ µé¾î¿À´Â °ÍÀ» Çã¿ëÇÔ
+      // allowEmptyì—¬ë¶€ë¥¼ trueë¡œ ë°”ê¾¸ê¸° : ë¹ˆë¬¸ìì—´ì´ ë“¤ì–´ì˜¤ëŠ” ê²ƒì„ í—ˆìš©í•¨
       PropertyEditor editor = new CustomDateEditor(format, true);
-      // 3. binder¿¡ editor µî·Ï
-      // Çüº¯È¯ÀÌ ÇÊ¿äÇÏ´Ù¸é ÀÌ editor¸¦ »ç¿ëÇÏ¶ó
+      // 3. binderì— editor ë“±ë¡
+      // í˜•ë³€í™˜ì´ í•„ìš”í•˜ë‹¤ë©´ ì´ editorë¥¼ ì‚¬ìš©í•˜ë¼
       binder.registerCustomEditor(Date.class, editor);
    }
    
    
    /**
-    * È¸¿ø°¡ÀÔ Ã³¸®
+    * íšŒì›ê°€ì… ì²˜ë¦¬
     */
    @PostMapping("/signup.do")
    public String memberEnroll(
@@ -150,28 +162,28 @@ public class MemberController {
       log.info("member = {}", member);
       try {
          member.setAddress(member.getAddress() + ") " + addressExt1 + addressExt2 + " " + addressExt3);
-         // member¿¡ ¸ğµç ÁÖ¼Ò ´Ù½Ã ¼¼ÆÃ
+         // memberì— ëª¨ë“  ì£¼ì†Œ ë‹¤ì‹œ ì„¸íŒ…
          member.setAddress(member.getAddress() + ") " + addressExt1 + addressExt2 + " " + addressExt3);
-         // member¿¡ ¼±ÅÃ¿©ºÎ¿¡ µû¸¥ ÀÌ¸ŞÀÏ ¼¼ÆÃ
+         // memberì— ì„ íƒì—¬ë¶€ì— ë”°ë¥¸ ì´ë©”ì¼ ì„¸íŒ…
          if("1".equals(selectEmail) == false) {
             member.setEmail(member.getEmail() + "@" + selectEmail);
          }
          
-         // 0. ºñ¹Ğ¹øÈ£ ¾ÏÈ£È­Ã³¸®
+         // 0. ë¹„ë°€ë²ˆí˜¸ ì•”í˜¸í™”ì²˜ë¦¬
          String rawPassword = member.getPassword();
          String encodedPassword = bcryptPasswordEncoder.encode(rawPassword);
-         // member¿¡ ¾ÏÈ£È­µÈ ºñ¹Ğ¹øÈ£ ´Ù½Ã ¼¼ÆÃ
+         // memberì— ì•”í˜¸í™”ëœ ë¹„ë°€ë²ˆí˜¸ ë‹¤ì‹œ ì„¸íŒ…
          member.setPassword(encodedPassword);
          
-         log.info("member(¾ÏÈ£È­Ã³¸® ÀÌÈÄ) = {}", member);
-         // 1. ¾÷¹«·ÎÁ÷
+         log.info("member(ì•”í˜¸í™”ì²˜ë¦¬ ì´í›„) = {}", member);
+         // 1. ì—…ë¬´ë¡œì§
          int result = memberService.insertMember(member);
-         // 2. »ç¿ëÀÚÇÇµå¹é ¹× ¸®´ÙÀÌ·ºÆ®
-         redirectAttr.addFlashAttribute("msg", "È¸¿ø°¡ÀÔ¼º°ø");
-         // redirect:/ - ÀÎµ¦½ºÆäÀÌÁö(welcome file)·Î ÀÌµ¿
-         // welcome file·Î ¹Ù·Î Ã£°Ô µÇ¸é redirectAttrÀ» Ã³¸®ÇÒ ¼ö ¾øÀ½
+         // 2. ì‚¬ìš©ìí”¼ë“œë°± ë° ë¦¬ë‹¤ì´ë ‰íŠ¸
+         redirectAttr.addFlashAttribute("msg", "íšŒì›ê°€ì…ì„±ê³µ");
+         // redirect:/ - ì¸ë±ìŠ¤í˜ì´ì§€(welcome file)ë¡œ ì´ë™
+         // welcome fileë¡œ ë°”ë¡œ ì°¾ê²Œ ë˜ë©´ redirectAttrì„ ì²˜ë¦¬í•  ìˆ˜ ì—†ìŒ
       } catch (Exception e) {
-         log.error("È¸¿ø°¡ÀÔ ¿À·ù!", e);
+         log.error("íšŒì›ê°€ì… ì˜¤ë¥˜!", e);
          throw e;
       }
       return "redirect:/";
@@ -191,79 +203,67 @@ public class MemberController {
          ) {
       log.info("member = {}", member);
       try {
-         // member¿¡ ¸ğµç ÁÖ¼Ò ´Ù½Ã ¼¼ÆÃ
+         // memberì— ëª¨ë“  ì£¼ì†Œ ë‹¤ì‹œ ì„¸íŒ…
          member.setAddress(member.getAddress() + ") " + addressExt1 + addressExt2 + " " + addressExt3);
-         // member¿¡ ¼±ÅÃ¿©ºÎ¿¡ µû¸¥ ÀÌ¸ŞÀÏ ¼¼ÆÃ
+         // memberì— ì„ íƒì—¬ë¶€ì— ë”°ë¥¸ ì´ë©”ì¼ ì„¸íŒ…
          if("1".equals(selectEmail) == false) {
             member.setEmail(member.getEmail() + "@" + selectEmail);
          }
          
-         // agency¿¡ ¸ğµç »ç¾÷ÀÚ¹øÈ£ ´Ù½Ã ¼¼ÆÃ
+         // agencyì— ëª¨ë“  ì‚¬ì—…ìë²ˆí˜¸ ë‹¤ì‹œ ì„¸íŒ…
          member.setFanNo("agcy_" + agency.getFanNo() + fanNoExt1 + fanNoExt2);
          
-         // 0. ºñ¹Ğ¹øÈ£ ¾ÏÈ£È­Ã³¸®
+         // 0. ë¹„ë°€ë²ˆí˜¸ ì•”í˜¸í™”ì²˜ë¦¬
          String rawPassword = member.getPassword();
          String encodedPassword = bcryptPasswordEncoder.encode(rawPassword);
-         // member¿¡ ¾ÏÈ£È­µÈ ºñ¹Ğ¹øÈ£ ´Ù½Ã ¼¼ÆÃ
+         // memberì— ì•”í˜¸í™”ëœ ë¹„ë°€ë²ˆí˜¸ ë‹¤ì‹œ ì„¸íŒ…
          member.setPassword(encodedPassword);
-         log.info("member(¾ÏÈ£È­Ã³¸® ÀÌÈÄ) = {}", member);
-         // 1. ¾÷¹«·ÎÁ÷
-         // 1.1. fanÅ×ÀÌºí¿¡ ¼¼ÆÃ
+         log.info("member(ì•”í˜¸í™”ì²˜ë¦¬ ì´í›„) = {}", member);
+         // 1. ì—…ë¬´ë¡œì§
+         // 1.1. faní…Œì´ë¸”ì— ì„¸íŒ…
          int result = memberService.insertMemberAgency(member, agency);
-         // 2. »ç¿ëÀÚÇÇµå¹é ¹× ¸®´ÙÀÌ·ºÆ®
-         redirectAttr.addFlashAttribute("msg", "±âÈ¹»ç È¸¿ø°¡ÀÔ¼º°ø");
-         // redirect:/ - ÀÎµ¦½ºÆäÀÌÁö(welcome file)·Î ÀÌµ¿
-         // welcome file·Î ¹Ù·Î Ã£°Ô µÇ¸é redirectAttrÀ» Ã³¸®ÇÒ ¼ö ¾øÀ½
+         // 2. ì‚¬ìš©ìí”¼ë“œë°± ë° ë¦¬ë‹¤ì´ë ‰íŠ¸
+         redirectAttr.addFlashAttribute("msg", "ê¸°íšì‚¬ íšŒì›ê°€ì…ì„±ê³µ");
+         // redirect:/ - ì¸ë±ìŠ¤í˜ì´ì§€(welcome file)ë¡œ ì´ë™
+         // welcome fileë¡œ ë°”ë¡œ ì°¾ê²Œ ë˜ë©´ redirectAttrì„ ì²˜ë¦¬í•  ìˆ˜ ì—†ìŒ
       } catch (Exception e) {
-         log.error("È¸¿ø°¡ÀÔ ¿À·ù!", e);
+         log.error("íšŒì›ê°€ì… ì˜¤ë¥˜!", e);
          throw e;
       }
       return "redirect:/";
    }
-   
-   // ¹æ¹ı2. handler mappingÇÑÅ× security ÀÎÁõµÈ »ç¿ëÀÚ authentication ¿äÃ»ÇÏ±â
-   @PostMapping("/loginProcess.do")
-   public void memberTest(Authentication authentication, Model model) {
-      Fan principal = (Fan) authentication.getPrincipal();
-      model.addAttribute("loginMember", principal);
-      
-      log.info("authentication = {}", authentication);
-      // authentication = org.springframework.security.authentication.UsernamePasswordAuthenticationToken@23abe407: Principal: Member(id=honggd, password=$2a$10$qHHeJGgQ9teamJyIJFXbyOBtl7nIsQ37VP2jrz89dnDA7LgzS.nYi, name=Ä«±æµ¿, gender=M, birthday=2021-05-04, email=honggd@naver.com, phone=01012341234, address=¼­¿ï½Ã °­³²±¸, hobby=[¿îµ¿,  µî»ê], enrollDate=2021-05-20, authorities=[ROLE_USER], enabled=true); Credentials: [PROTECTED]; Authenticated: true; Details: org.springframework.security.web.authentication.WebAuthenticationDetails@166c8: RemoteIpAddress: 0:0:0:0:0:0:0:1; SessionId: B95C1041773474D93729781512D4490A; Granted Authorities: ROLE_USER
-      log.info("principal = {}", principal);
-   }
-   
 
    @GetMapping("/kakao/callback")
-   public String kakaoCallback(@RequestParam String code, Model model, RedirectAttributes redirectAttr) { // data¸¦ ¸®ÅÏÇØÁÖ´Â ÄÁÆ®·Ñ·¯ ÇÔ¼ö
-      // POST¹æ½ÄÀ¸·Î key=value µ¥ÀÌÅÍ¸¦ Ä«Ä«¿ÀÂÊÀ¸·Î ¿äÃ»
+   public String kakaoCallback(@RequestParam String code, Model model, RedirectAttributes redirectAttr) { // dataë¥¼ ë¦¬í„´í•´ì£¼ëŠ” ì»¨íŠ¸ë¡¤ëŸ¬ í•¨ìˆ˜
+      // POSTë°©ì‹ìœ¼ë¡œ key=value ë°ì´í„°ë¥¼ ì¹´ì¹´ì˜¤ìª½ìœ¼ë¡œ ìš”ì²­
       
-      // HttpHeader ¿ÀºêÁ§Æ® »ı¼º
+      // HttpHeader ì˜¤ë¸Œì íŠ¸ ìƒì„±
       RestTemplate rt = new RestTemplate();
       HttpHeaders headers = new HttpHeaders();
       headers.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
       
-      // HttpBody ¿ÀºêÁ§Æ® »ı¼º
+      // HttpBody ì˜¤ë¸Œì íŠ¸ ìƒì„±
       MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
       params.add("grant_type", "authorization_code");
       params.add("client_id", "fd88614f9ea0303ee10198eee2c817e1");
       params.add("redirect_uri", "http://localhost:9090/kisen/member/kakao/callback");
-      params.add("code", code); // ¹Ş¾Æ¿Â ÀÎÁõ ÄÚµå µ¿ÀûÀ¸·Î ³Ö±â
+      params.add("code", code); // ë°›ì•„ì˜¨ ì¸ì¦ ì½”ë“œ ë™ì ìœ¼ë¡œ ë„£ê¸°
       
-      // HttpHeader¿Í HttpBody¸¦ ÇÏ³ªÀÇ ¿ÀºêÁ§Æ®¿¡ ´ã±â
-      // body µ¥ÀÌÅÍ(params)¿Í header°ª(headers)À» °¡Áø entity ¸¸µé±â
-      // why? exchange¸Ş¼Òµå¿¡ HttpEntity<?> ¿ÀºêÁ§Æ®¸¦ ³Ö¾î¾ß ÇÏ±â ¶§¹®
+      // HttpHeaderì™€ HttpBodyë¥¼ í•˜ë‚˜ì˜ ì˜¤ë¸Œì íŠ¸ì— ë‹´ê¸°
+      // body ë°ì´í„°(params)ì™€ headerê°’(headers)ì„ ê°€ì§„ entity ë§Œë“¤ê¸°
+      // why? exchangeë©”ì†Œë“œì— HttpEntity<?> ì˜¤ë¸Œì íŠ¸ë¥¼ ë„£ì–´ì•¼ í•˜ê¸° ë•Œë¬¸
       HttpEntity<MultiValueMap<String, String>> kakaoTalkRequest =
             new HttpEntity<>(params, headers);
       
-      // Http ¿äÃ»ÇÏ±â - POST¹æ½ÄÀ¸·Î - responseº¯¼öÀÇ ÀÀ´äÀ» ¹ŞÀ½
+      // Http ìš”ì²­í•˜ê¸° - POSTë°©ì‹ìœ¼ë¡œ - responseë³€ìˆ˜ì˜ ì‘ë‹µì„ ë°›ìŒ
       ResponseEntity<String> response = rt.exchange(
-         "https://kauth.kakao.com/oauth/token", // ÅäÅ«¹ß±Ş ¿äÃ»ÁÖ¼Ò
-         HttpMethod.POST, // ¿äÃ»¸Ş¼Òµå
+         "https://kauth.kakao.com/oauth/token", // í† í°ë°œê¸‰ ìš”ì²­ì£¼ì†Œ
+         HttpMethod.POST, // ìš”ì²­ë©”ì†Œë“œ
          kakaoTalkRequest, // httpEntity (body, header)
-         String.class // responseÀÇ ÀÀ´äÀÌ string µ¥ÀÌÅÍ·Î µÉ °Í!
+         String.class // responseì˜ ì‘ë‹µì´ string ë°ì´í„°ë¡œ ë  ê²ƒ!
       );
       
-      // json data -> java¿¡¼­ Ã³¸®ÇÏ±â À§ÇØ java Object·Î º¯È¯
+      // json data -> javaì—ì„œ ì²˜ë¦¬í•˜ê¸° ìœ„í•´ java Objectë¡œ ë³€í™˜
       ObjectMapper objectMapper = new ObjectMapper();
       OAuthToken oauthToken = null;
       try {
@@ -279,24 +279,24 @@ public class MemberController {
       System.out.println("kakao access token : " + oauthToken.getAccess_token());
       // kakao access token : dvkkT0-g31B9SQTKx9ijLZNKLcThYkRz_7-42Qo9dZwAAAF6Kf0GXA
       
-      // HttpHeader ¿ÀºêÁ§Æ® »ı¼º
+      // HttpHeader ì˜¤ë¸Œì íŠ¸ ìƒì„±
       RestTemplate rt2 = new RestTemplate();
       HttpHeaders headers2 = new HttpHeaders();
       headers2.add("Authorization", "Bearer " + oauthToken.getAccess_token());
       headers2.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
       
-      // HttpHeader¿Í HttpBody¸¦ ÇÏ³ªÀÇ ¿ÀºêÁ§Æ®¿¡ ´ã±â
-      // body µ¥ÀÌÅÍ(params)¿Í header°ª(headers)À» °¡Áø entity ¸¸µé±â
-      // why? exchange¸Ş¼Òµå¿¡ HttpEntity<?> ¿ÀºêÁ§Æ®¸¦ ³Ö¾î¾ß ÇÏ±â ¶§¹®
+      // HttpHeaderì™€ HttpBodyë¥¼ í•˜ë‚˜ì˜ ì˜¤ë¸Œì íŠ¸ì— ë‹´ê¸°
+      // body ë°ì´í„°(params)ì™€ headerê°’(headers)ì„ ê°€ì§„ entity ë§Œë“¤ê¸°
+      // why? exchangeë©”ì†Œë“œì— HttpEntity<?> ì˜¤ë¸Œì íŠ¸ë¥¼ ë„£ì–´ì•¼ í•˜ê¸° ë•Œë¬¸
       HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest2 =
             new HttpEntity<>(headers2);
       
-      // Http ¿äÃ»ÇÏ±â - POST¹æ½ÄÀ¸·Î - responseº¯¼öÀÇ ÀÀ´äÀ» ¹ŞÀ½
+      // Http ìš”ì²­í•˜ê¸° - POSTë°©ì‹ìœ¼ë¡œ - responseë³€ìˆ˜ì˜ ì‘ë‹µì„ ë°›ìŒ
       ResponseEntity<String> response2 = rt2.exchange(
          "https://kapi.kakao.com/v2/user/me", 
-         HttpMethod.POST, // ¿äÃ»¸Ş¼Òµå
+         HttpMethod.POST, // ìš”ì²­ë©”ì†Œë“œ
          kakaoProfileRequest2, // httpEntity (body, header)
-         String.class // responseÀÇ ÀÀ´äÀÌ string µ¥ÀÌÅÍ·Î µÉ °Í!
+         String.class // responseì˜ ì‘ë‹µì´ string ë°ì´í„°ë¡œ ë  ê²ƒ!
       );
       
       ObjectMapper objectMapper2 = new ObjectMapper();
@@ -310,17 +310,17 @@ public class MemberController {
       } catch (IOException e) {
          e.printStackTrace();
       }
-      // user ¿ÀºêÁ§Æ® : username, password, email
-      System.out.println("Ä«Ä«¿À ¾ÆÀÌµğ (¹øÈ£) : " + kakaoProfile.getId()); // Ä«Ä«¿À ¾ÆÀÌµğ (¹øÈ£) : 1776027704
-      System.out.println("Ä«Ä«¿À ÀÌ¸ŞÀÏ : " + kakaoProfile.getKakao_account().getEmail()); // Ä«Ä«¿À ÀÌ¸ŞÀÏ : dbs7wl7@naver.com
-      System.out.println("kisen ¼­¹ö À¯Àú³×ÀÓ : " + kakaoProfile.getKakao_account().getEmail() + "_" + kakaoProfile.getId()); // kisen ¼­¹ö À¯Àú³×ÀÓ : dbs7wl7@naver.com_1776027704
-      System.out.println("kisen ¼­¹ö ÀÌ¸ŞÀÏ : " + kakaoProfile.getKakao_account().getEmail()); // kisen ¼­¹ö ÀÌ¸ŞÀÏ : dbs7wl7@naver.com
+      // user ì˜¤ë¸Œì íŠ¸ : username, password, email
+      System.out.println("ì¹´ì¹´ì˜¤ ì•„ì´ë”” (ë²ˆí˜¸) : " + kakaoProfile.getId()); // ì¹´ì¹´ì˜¤ ì•„ì´ë”” (ë²ˆí˜¸) : 1776027704
+      System.out.println("ì¹´ì¹´ì˜¤ ì´ë©”ì¼ : " + kakaoProfile.getKakao_account().getEmail()); // ì¹´ì¹´ì˜¤ ì´ë©”ì¼ : dbs7wl7@naver.com
+      System.out.println("kisen ì„œë²„ ìœ ì €ë„¤ì„ : " + kakaoProfile.getKakao_account().getEmail() + "_" + kakaoProfile.getId()); // kisen ì„œë²„ ìœ ì €ë„¤ì„ : dbs7wl7@naver.com_1776027704
+      System.out.println("kisen ì„œë²„ ì´ë©”ì¼ : " + kakaoProfile.getKakao_account().getEmail()); // kisen ì„œë²„ ì´ë©”ì¼ : dbs7wl7@naver.com
       // UUID garbagePassword = UUID.randomUUID();
-      System.out.println("kisen ¼­¹ö ÆĞ½º¿öµå : " + pwdKey); // kisen ¼­¹ö ÆĞ½º¿öµå : 6d3bd309-88cc-4c18-88a0-78fea82e2c50
+      System.out.println("kisen ì„œë²„ íŒ¨ìŠ¤ì›Œë“œ : " + pwdKey); // kisen ì„œë²„ íŒ¨ìŠ¤ì›Œë“œ : 6d3bd309-88cc-4c18-88a0-78fea82e2c50
       
       String gender = (String)kakaoProfile.getKakao_account().getGender();
       
-      System.out.println("Ä«Ä«¿À ÀÌ¸§, ¼ºº°, Æù, »ı³â¿ùÀÏ : " + 
+      System.out.println("ì¹´ì¹´ì˜¤ ì´ë¦„, ì„±ë³„, í°, ìƒë…„ì›”ì¼ : " + 
                gender + 
                kakaoProfile.getProperties().getNickname() + 
                kakaoProfile.getKakao_account().getBirthday());
@@ -343,17 +343,17 @@ public class MemberController {
             .birthday(birthday)
             .build();
       
-      // °¡ÀÔÀÚ È¤Àº ºñ°¡ÀÔÀÚ Ã¼Å©ÇØ¼­ Ã³¸®
+      // ê°€ì…ì í˜¹ì€ ë¹„ê°€ì…ì ì²´í¬í•´ì„œ ì²˜ë¦¬
       Fan originMember = memberService.selectOneMember(kakaoMember.getFanId());
       if(originMember == null) {
-         // ºñ°¡ÀÔÀÚ -> È¸¿ø°¡ÀÔ -> ·Î±×ÀÎÃ³¸®
-         log.info("±âÁ¸ È¸¿øÀÌ ¾Æ´Õ´Ï´Ù. ÀÚµ¿ È¸¿ø°¡ÀÔÀ» ÁøÇàÇÕ´Ï´Ù.");
+         // ë¹„ê°€ì…ì -> íšŒì›ê°€ì… -> ë¡œê·¸ì¸ì²˜ë¦¬
+         log.info("ê¸°ì¡´ íšŒì›ì´ ì•„ë‹™ë‹ˆë‹¤. ìë™ íšŒì›ê°€ì…ì„ ì§„í–‰í•©ë‹ˆë‹¤.");
          // memberService.insertMember(kakaoMember);
          // model.addAttribute("kakaoMember", kakaoMember);
          redirectAttr.addFlashAttribute("kakaoMember", kakaoMember);
          return "redirect:/member/signup.do";
       } else {
-         // °¡ÀÔÀÚ -> ·Î±×ÀÎÃ³¸®
+         // ê°€ì…ì -> ë¡œê·¸ì¸ì²˜ë¦¬
          model.addAttribute("kakaoMember", kakaoMember);
          return "/member/login";
       }
