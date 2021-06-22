@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PdImg {
+public class UnofficialPdImg {
 	private int no; //번호
 	private int pdNo; //상품번호
 	private String pdCategory; //상품카테고리
