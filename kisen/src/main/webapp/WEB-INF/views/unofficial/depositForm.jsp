@@ -130,8 +130,11 @@
 
 					<div class="form-group">
 						<label for="pdContent">상세설명</label>
-						<textarea class="form-control" rows="5" id="summernote"
-							name="pdContent"></textarea>
+						<!-- 썸머노트 -->
+					<div class = "col-12 col-md-12">
+						<br />
+						<textarea name = "pContent" class="summernote" placeholder = "내용 입력"></textarea>
+					</div>
 					</div>
 					<!--  	<button id="edit" class="btn btn-primary" onclick="edit()"
 						type="button">수정하기</button>
@@ -293,101 +296,59 @@
 
 
 						<script>
-						$(document).ready(function() {
-							//여기 아래 부분
-							$('#summernote').summernote({
-								  height: 300,                 // 에디터 높이
-								  minHeight: null,             // 최소 높이
-								  maxHeight: null,             // 최대 높이
-								  focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
-								  lang: "ko-KR",					// 한글 설정
-								  placeholder: '최대 2000자까지 쓸 수 있습니다'	//placeholder 설정
-						          
-							});
-						});
+						 var check = $('.summernote').summernote({
+						        height : 600 // 에디터 높이
+						      , minHeight : null // 최소 높이
+						      , maxHeight : null // 최대 높이
+						      , focus : false  // 에디터 로딩후 포커스를 맞출지 여부
+						      , lang : "ko-KR" // 한글 설정
+						      , placeholder : '최대 2000자까지 쓸 수 있습니다' //placeholder 설정
+						      , toolbar: [
+						         // [groupName, [list of button]]
+						         ['style', ['style']],
+						         ['font', ['strikethrough', 'bold', 'underline', 'clear']],
+						         ['Font Style', ['fontname']],
+						         ['fontsize', ['fontsize']],
+						         ['color', ['color']],
+						         ['para', ['ul', 'ol', 'paragraph']],
+						         ['table', ['table']],
+						         ['height', ['height']],
+						         ['insert', ['link', 'picture', 'video']],
+						         ['view', ['fullscreen', 'codeview', 'help']]
+						      ], callbacks : {
+						         onImageUpload : function(files, editor,
+						               welEditorble) {
+						            data = new FormData();
+						            data.append("file", files[0]);
+						            var $note = $(this);
+						            
+						            $.ajax({
+						               data : data,
+						               type : "post",
+						               url : '/dream/pImgInsert.pl', // servlet url
+						               cache : false,
+						               contentType : false,
+						               processData : false,
+						               success : function(fileUrl) {
+						                  check.summernote('insertImage', fileUrl);
+						                  alert("이미지 등록 성공!");
+						               },
+						               error : function(request, status, error) {
+						                  alert("code:" + request.status + "\n"
+						                        + "message:"
+						                        + request.responseText + "\n"
+						                        + "error:" + error);
+						               }
+						            });
+						         }
+						      }
+						   });
 
 
 										
-									/* 	callbacks: { 
-									onImageUpload: function(files, editor, welEditable) { 
-												for (var i = files.length - 1; i >= 0; i--) { 
-													sendFile(files[i], this); 
-													} 
-												}, 
-
-
-									onChange: function(contents, $editable) { 
-										console.log('onChange:', contents, $editable);
-										 
-										new_img_list=$(".note-editable .sn_insert_img"); 
-										if(old_img_list!='' &&new_img_list!='') 
-											{ 
-
-										note_image_sync(old_img_list,new_img_list); 
-										} 
-										old_img_list= $(".note-editable .sn_insert_img"); 
-										}, 
-
-									onBlur: function() { 
-										console.log('Editable area loses focus'); 
-										}, 
-									onFocus: function() { 
-										console.log('Editable area is focused'); 
-										} 
-										} 
-								}); 
-
-								$("#summernote").summernote({ 
-									onMediaDelete : function($target, editor, $editable) { 
-										alert($target.context.dataset.filename); $target.remove(); 
-										} 
-								});
-
-								function sendFile(file, el) { 
-									var form_data = new FormData(); 
-									form_data.append('file', file); 
-									$.ajax({ 
-										data: form_data, 
-										headers : { 
-											'X-CSRF-TOKEN': $("#csrf_token").val() 
-											}, 
-										type: "POST", 
-										url: '/admin/chart/image_upload', 
-										cache: false, 
-										contentType: false, 
-										enctype: 'multipart/form-data', 
-										processData: false, 
-										async: false 
-										}).done(function( msg ) { 
-											if(msg.result=='IMAGE_OK') 
-												{ 
-												var url = msg.url; 
-												id = msg.id; 
-												$(el).summernote('editor.insertImage', url,fun_summernote_imgcallback); 
-												$('#imageBoard > ul').append('<li><img src="'+url+'" class="summernoteimg_obj" id="'+id+'" width="100%" height="100%"/></li>'); 
-												} 
-											else 
-													{ 
-												showmessage("알림","이미지 파일이 아닙니다.",2000,''); 
-												} 
-											}); 
-									}
-
-								
- */
+							
 									
 
-							var edit = function() {
-								$('.click2edit').summernote({
-									focus : true
-								});
-							};
-
-							var save = function() {
-								var markup = $('.click2edit')
-										.summernote('code');
-								$('.click2edit').summernote('destroy');
-							};
 						</script>
 
 						<div class="container text-center">

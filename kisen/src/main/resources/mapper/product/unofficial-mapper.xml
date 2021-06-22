@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="unofficial">
+ 
+ <insert id="insertunofficialdemand">
+		INSERT
+		INTO unofficial_demand
+		VALUES
+		(  
+		    #{demandNo}
+		  , #{pdName}
+		  , #{idolName}
+		  , #{pdCategory}
+		  , #{price}
+		  , #{deliveryPrice}
+		  , #{pdStock}
+		  , #{pdSales}
+		  , #{pdContent}
+		  , #{demandstartDate}
+		  , #{demandendDate}
+		  , #{question}
+		)
+	</insert>
+	
+	<insert id="unofficialpdimg"> 
+		insert into 
+		unofficial_pd_img
+		values( 
+				seq_unofficial_pd_img.nextval
+				, #{no}
+				, #{pdNo}
+				, #{pdCategory}
+				, #{originalFilename}
+				, #{renamedFilename},default 
+				) 
+	</insert>
+	
+	
+	<!-- <collection property="unofficialpdimg" ofType="unofficialpdimg">
+		 	<id column ="unofficial_pd_img" property="pdNo"/>
+		 	<result column="pd_no" property="pdNo"/>
+		 	<result column="pd_category" property="pdCategory"/>
+		 	<result column="original_filename" property="originalFilename"/>
+		 	<result column="renamed_filename" property="renamedFilename"/>
+		</collection> -->
+	
+
+	</mapper>
