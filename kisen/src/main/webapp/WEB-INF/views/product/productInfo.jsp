@@ -428,7 +428,7 @@ textarea.autosize {
 			</table>
 			
 			<div class="btn-area">
-				<div class="btn-group" role="group" aria-label="Basic example" onclick="location.href='${pageContext.request.contextPath}/productInfo?no=${no}'">
+				<div class="btn-group" role="group" aria-label="Basic example" onclick="location.href='${pageContext.request.contextPath}/review/reviewForm.do?no=${no}'">
 					<button type="button" class="btn btn-dark write" name="reviewWrite">글 작성</button>
 					<button type="button" class="btn btn-secondary">전체보기</button>
 				</div>

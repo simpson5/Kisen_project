@@ -9,13 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.simpson.kisen.common.util.HelloSpringUtils;
+import com.simpson.kisen.product.model.service.ProductService;
+import com.simpson.kisen.product.model.vo.ProductExt;
 import com.simpson.kisen.review.model.service.ReviewService;
 import com.simpson.kisen.review.model.vo.ReviewExt;
 
@@ -34,6 +40,9 @@ public class ReviewController {
 	@Autowired
 	private ReviewService reviewService;
 
+	@Autowired
+	private ProductService productService;
+	
 	@GetMapping("/reviewList.do")
 	public String reviewList(
 				@RequestParam int no,
@@ -65,37 +74,22 @@ public class ReviewController {
 		return "review/reviewList";
 	}
 
-
-
-	
-
-
-
-	
-
-	
-
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
 	@GetMapping("/reviewForm.do")
-	public void reviewForm() {}
+	public String reviewForm(@RequestParam int no,
+							Model model) {
+		ProductExt product = productService.selectOneProduct(no);
+		
+		model.addAttribute("product",product);
+		return "review/reviewForm";
+	}
+	@PostMapping("/reviewInsert")
+	public String reviewInsert() {
+		
+		return "redirect:/review/reviewForm.do";
+	}
 	
-
+	
+	
 	@GetMapping("/revieweditForm.do")
 	public void revieweditForm() {}
 	
