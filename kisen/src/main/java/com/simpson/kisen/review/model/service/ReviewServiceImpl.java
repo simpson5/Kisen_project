@@ -27,13 +27,13 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public List<Review> selectReviewList(Map<String, Object> param) {
+	public List<ReviewExt> selectReviewList(Map<String, Object> param) {
 		return reviewDao.selectReviewList(param);
 	}
 
 	@Override
-	public int selectReviewTotalContents() {
-		return reviewDao.selectReviewTotalContents();
+	public int selectReviewTotalContents(int no) {
+		return reviewDao.selectReviewTotalContents(no);
 	}
 
 	
@@ -87,6 +87,8 @@ public class ReviewServiceImpl implements ReviewService {
 	public List<Review> searchTitle(String searchTitle) {
 		return reviewDao.searchTitle(searchTitle);
 	}
+
+
 	
 
 

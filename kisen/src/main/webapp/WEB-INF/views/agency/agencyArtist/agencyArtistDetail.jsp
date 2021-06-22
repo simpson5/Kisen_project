@@ -25,14 +25,7 @@
             <input type="text" class="form-control" name="pdIdol" id="pdIdol" value="${idol.idolName }" readonly>
         </div>
     </div>
-
-    <div class="mb-4 row">
-        <label class="col-md-3 col-form-label" for="pdCategory">소속 기획사</label>
-        <div class="col-md-9">
-            <input type="text" class="form-control" name="pdCategory" id="pdCategory" value="${agencyMember.agencyName}" readonly>
-        </div>
-    </div>
-
+    
     <div class="mb-4 row">
         <label class="col-md-3 col-form-label" for="pdContent">MV 리스트</label>
         <div class="col-md-9">

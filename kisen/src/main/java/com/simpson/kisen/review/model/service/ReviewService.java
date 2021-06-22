@@ -13,9 +13,9 @@ public interface ReviewService {
 	
 	List<Review> selectReviewList();
 
-	List<Review> selectReviewList(Map<String, Object> param);
+	List<ReviewExt> selectReviewList(Map<String, Object> param);
 
-	int selectReviewTotalContents();
+	int selectReviewTotalContents(int no);
 
 	int insertReview(ReviewExt review);
 	
@@ -28,12 +28,5 @@ public interface ReviewService {
 	Attachment selectOneAttachment(int no);
 
 	List<Review> searchTitle(String searchTitle);
-
-	
-	
-	
-
-
-
 
 }
