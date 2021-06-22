@@ -21,6 +21,7 @@
 	background-image: none;
 	border-color: #c7a2e0;
 }
+
 </style>
 
 </head>
@@ -97,6 +98,8 @@
 							keyboard : true
 						});
 			});
+
+			
 		</script>
 
 
@@ -121,14 +124,22 @@ div#topList {
 }
 </style>
 
+ 
+	  
+
 
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"
 					src="${pageContext.request.contextPath }/resources/images/unofficial/2.png"
 					alt="Card image cap" onclick="goDepositSubmit();"
 					style="cursor: pointer;">
+					
 				<div class="card-body">
+							<div class=" mx-auto font-weight-bold text-center" id="heart">
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
+	  	 </div>
 					<h5 class="card-title">방탄소년단</h5>
+		
 					<p class="card-text">
 						<span class="badge bg-dark">비공식굿즈</span>
 						<!-- 분류 -->
@@ -138,9 +149,11 @@ div#topList {
 							class="badge bg-s">재고 : 100</span> <span class="badge bg-s">판매량
 							: 100</span> <span class="badge bg-s">판매자 : 정쿠키</span> <span
 							class="badge bg-s">조회수 : 1234</span>
+							
 					</p>
 				</div>
 			</div>
+			
 
 			<div class="card" style="width: 18rem;">
 				<img class="card-img-top"

@@ -32,14 +32,7 @@
 			    <p class="mt-2" id="idolcheck"></p>
 	        </div>
 	    </div>
-	
-	    <div class="mb-4 row">
-	        <label class="col-md-3 col-form-label" for="agency">소속 기획사</label>
-	        <div class="col-md-9">
-	            <input type="text" class="form-control" name="agency" id="agency" value="${agencyMember.agencyName}" readonly>
-	        </div>
-	    </div>
-	
+	    
 	    <div class="mb-4 row">
 	        <label class="col-md-3 col-form-label" for="pdContent">MV 리스트</label>
 	        <div class="col-md-9">

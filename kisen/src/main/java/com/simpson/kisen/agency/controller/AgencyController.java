@@ -13,6 +13,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,15 +53,8 @@ public class AgencyController {
 	private AgencyService agencyService;
 	
 	
-	
 	@GetMapping("/agencyMain.do")
-	public String agencyMain(@SessionAttribute Fan loginMember, Model model) {
-		//agency 내용 session에 저장 => memnber에 변경
-		Agency agency = agencyService.selectAgency(loginMember.getFanNo()); 
-		
-		log.info("loginMember ={}", loginMember);
-		log.info("agencyMember ={}", agency);
-		model.addAttribute("agencyMember",agency);
+	public String agencyMain() {
 		return "agency/agencyMain";
 	}
 	
@@ -93,11 +87,11 @@ public class AgencyController {
 
 	@GetMapping("/agencyArtist")
 	public String agencyArtist(
-			@SessionAttribute Fan loginMember,
-			@SessionAttribute Agency agencyMember, 
+			Authentication authentication,
 			@RequestParam(required = true, defaultValue = "1") int cpage,
 			HttpServletRequest request,
 			Model model) {
+	    Fan loginMember = (Fan) authentication.getPrincipal();
 		
 		final int limit = 5;
 		final int offset = (cpage - 1) * limit;;
@@ -106,8 +100,10 @@ public class AgencyController {
 		param.put("offset", offset);
 		
 		//아이돌 조회
-		List<Idol> idolList = agencyService.selectIdolList(agencyMember.getAgencyNo(),param);	//agnecyNo;
-		int totalContents = agencyService.selectIdolTotalContents(agencyMember.getAgencyNo());
+		List<Idol> idolList = agencyService.selectIdolList(loginMember.getFanNo(),param);	
+		int totalContents = agencyService.selectIdolTotalContents(loginMember.getFanNo());
+		
+		
 		String url = request.getRequestURI();
 		log.info("totalContents = {}, url = {}", totalContents, url);
 		log.info("idolList={}",idolList);
@@ -151,11 +147,12 @@ public class AgencyController {
 			@RequestParam(name="idolName") String idolName,
 			@RequestParam(name="idolImg") MultipartFile idolImg,
 			@RequestParam(name="idolMv", required = false) String[] idolMvList,
-			@SessionAttribute Agency agencyMember,
+			Authentication authentication,
 			RedirectAttributes redirectAttr
 			) throws IllegalStateException, IOException{
 
-		
+	    Fan loginMember = (Fan) authentication.getPrincipal();
+		Agency agency = agencyService.selectAgency(loginMember.getFanNo());
 
 		
 		
@@ -168,7 +165,7 @@ public class AgencyController {
 		Idol idol = new Idol();
 		idol.setIdolName(idolName);
 		idol.setIdolImg(idol_img);
-		idol.setAgencyNo(agencyMember.getAgencyNo());
+		idol.setAgencyNo(agency.getAgencyNo());
 		
 
 		List<IdolMv> mvList = idolMvUpload(idolMvList);
@@ -243,18 +240,22 @@ public class AgencyController {
 			@RequestParam(name="idolName") String idolName,
 			@RequestParam(name="idolImg", required = false ) MultipartFile idolImg,
 			@RequestParam(name="idolMv", required = false) String[] idolMvList,
-			@SessionAttribute Agency agencyMember,
-			RedirectAttributes redirectAttr
+			Authentication authentication,
+			RedirectAttributes redirectAttr,
+			Model model
 			) throws IllegalStateException, IOException {
 		log.info("idolNo@update={}",idolNo);
 		log.info("idolName@update={}",idolName);
 		log.info("idolImg@update={}",idolImg);
 		log.info("idolMvList@update={}",idolMvList);
 
+	    Fan loginMember = (Fan) authentication.getPrincipal();
+		Agency agency = agencyService.selectAgency(loginMember.getFanNo());
+
 		Idol idol = new Idol();
 		idol.setIdolNo(idolNo);
 		idol.setIdolName(idolName);
-		idol.setAgencyNo(agencyMember.getAgencyNo());
+		idol.setAgencyNo(agency.getAgencyNo());
 		
 		
 		//이미지 변경
@@ -280,7 +281,7 @@ public class AgencyController {
 		log.info("idol@update={}",idol);
 		int result = agencyService.updateIdol(idol);
 		redirectAttr.addFlashAttribute("msg", "수정 성공");
-
+		model.addAttribute("agency", agency);
 		return "redirect:agencyArtistDetail/"+idolNo;
 	}
 	
