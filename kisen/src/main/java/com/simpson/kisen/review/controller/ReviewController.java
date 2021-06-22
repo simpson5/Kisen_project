@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.simpson.kisen.common.util.HelloSpringUtils;
 import com.simpson.kisen.review.model.service.ReviewService;
-import com.simpson.kisen.review.model.vo.Review;
+import com.simpson.kisen.review.model.vo.ReviewExt;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,6 +36,7 @@ public class ReviewController {
 
 	@GetMapping("/reviewList.do")
 	public String reviewList(
+				@RequestParam int no,
 				@RequestParam(required = true, defaultValue = "1") int cpage,
 				HttpServletRequest request,
 				Model model
@@ -48,8 +49,8 @@ public class ReviewController {
 			param.put("limit", limit);
 			param.put("offset", offset);
 			//1.업무로직 : content영역 - Rowbounds
-			List<Review> list = reviewService.selectReviewList(param);
-			int totalContents = reviewService.selectReviewTotalContents();
+			List<ReviewExt> list = reviewService.selectReviewList(param);
+			int totalContents = reviewService.selectReviewTotalContents(no);
 			String url = request.getRequestURI();
 			log.debug("totalContents = {}, url = {}", totalContents, url);
 			String pageBar = HelloSpringUtils.getPageBar(totalContents, cpage, limit, url);
