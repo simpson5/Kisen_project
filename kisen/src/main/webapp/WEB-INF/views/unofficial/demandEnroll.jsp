@@ -64,14 +64,13 @@
 
 		
 
-		<div class="container ">
+		<div class="container">
 			<h2 class="text-center m-4" style="font-weight: bold;">수요조사폼만들기</h2>
 			<form:form 
 		name="demandForm" 
 		action="${pageContext.request.contextPath}/unofficial/demandFormEnroll"
 		enctype="multipart/form-data" 
-		method ="post"
-		onsubmit="return formValidate();">
+		method ="post">
 	
 				<div class="mb-4 row">
 					<label class="col-md-3 col-form-label" for="pdName">상품명</label>
@@ -183,19 +182,7 @@
 				      , focus : false  // 에디터 로딩후 포커스를 맞출지 여부
 				      , lang : "ko-KR" // 한글 설정
 				      , placeholder : '최대 2000자까지 쓸 수 있습니다' //placeholder 설정
-				      , toolbar: [
-				         // [groupName, [list of button]]
-				         ['style', ['style']],
-				         ['font', ['strikethrough', 'bold', 'underline', 'clear']],
-				         ['Font Style', ['fontname']],
-				         ['fontsize', ['fontsize']],
-				         ['color', ['color']],
-				         ['para', ['ul', 'ol', 'paragraph']],
-				         ['table', ['table']],
-				         ['height', ['height']],
-				         ['insert', ['link', 'picture', 'video']],
-				         ['view', ['fullscreen', 'codeview', 'help']]
-				      ], callbacks : {
+				      , callbacks : {
 				         onImageUpload : function(files, editor,
 				               welEditorble) {
 				            data = new FormData();
@@ -244,6 +231,8 @@
 							reader.readAsDataURL(f);
 						});
 				    }
+
+				    
 
 				            
 				
@@ -338,6 +327,11 @@
 								return moment(element.value).toDate();
 							}
 						});
+
+
+						
+						 
+						
 					</script>
 
 
@@ -353,12 +347,35 @@
 									style="width: 100%;">취소하기</button>
 							</div>
 							<div class="col-6 d-grid p-1">
-								<button type="button" class="btn btn-lg btn-main"
+								<button type="button" class="btn btn-lg btn-main" onclick="insert();"
 									style="width: 100%;">등록하기</button>
 							</div>
 						</div>
 					</div>
 			</form:form>
+			</div>
+			
+			<script>
+			function insert(){
+			    
+			    $.ajax({
+			        type:'POST',
+			        url : "<c:url value='/unofficial/demandEnroll.do'/>",
+			        data:$("#demandForm").serialize(),
+			        success(data) {
+		                console.log(data);
+		                const {msg} = data;
+		                alert(msg);
+		            },
+		              error: console.log, 
+		            complete(){
+		                e.target.reset(); // 폼초기화
+		            } 
+		          });
+		    });
+
+
+			</script>
 			
 			
 	

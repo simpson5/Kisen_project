@@ -2,6 +2,8 @@ package com.simpson.kisen.unofficial.model.vo;
 
 import java.util.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,6 +26,7 @@ public class UnofficialDemand {
 	private Date demandstartDate; //수요조사시작날짜
 	private Date demandendDate; //수요조사끝날짜
 	private String question; //추가질문
+	
 	
 	
 
