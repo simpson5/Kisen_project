@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 <title>demandForm</title>
 
@@ -55,109 +57,21 @@
 
 
 
-<script>
-	$(function() {
-		fn_default_datepicker();
-	});
-
-	function fn_default_datepicker() {
-		var start = $("#datepicker_start").datepicker(
-				{
-					dateFormat : 'yy-mm-dd' //Input Display Format 변경
-					,
-					showOtherMonths : true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-					,
-					showMonthAfterYear : true //년도 먼저 나오고, 뒤에 월 표시
-					,
-					changeYear : true //콤보박스에서 년 선택 가능
-					,
-					changeMonth : true //콤보박스에서 월 선택 가능                
-					//,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시
-					//,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-					//,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-					,
-					buttonText : "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
-					,
-					yearSuffix : "년" //달력의 년도 부분 뒤에 붙는 텍스트
-					,
-					monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월',
-							'7월', '8월', '9월', '10월', '11월', '12월' ] //달력의 월 부분 텍스트
-					,
-					monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
-							'8월', '9월', '10월', '11월', '12월' ] //달력의 월 부분 Tooltip 텍스트
-					,
-					dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ] //달력의 요일 부분 텍스트
-					,
-					dayNames : [ '일요일', '월요일', '화요일', '수요일', '목요일', '금요일',
-							'토요일' ] //달력의 요일 부분 Tooltip 텍스트
-					,
-					minDate : "-6M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-					,
-					maxDate : "0M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)                
-				});
-
-		var end = $("#datepicker_end").datepicker(
-				{
-					dateFormat : 'yy-mm-dd' //Input Display Format 변경
-					,
-					showOtherMonths : true //빈 공간에 현재월의 앞뒤월의 날짜를 표시
-					,
-					showMonthAfterYear : true //년도 먼저 나오고, 뒤에 월 표시
-					,
-					changeYear : true //콤보박스에서 년 선택 가능
-					,
-					changeMonth : true //콤보박스에서 월 선택 가능                
-					//,showOn: "both" //button:버튼을 표시하고,버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고,버튼을 누르거나 input을 클릭하면 달력 표시  
-					//,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif" //버튼 이미지 경로
-					//,buttonImageOnly: true //기본 버튼의 회색 부분을 없애고, 이미지만 보이게 함
-					,
-					buttonText : "선택" //버튼에 마우스 갖다 댔을 때 표시되는 텍스트                
-					,
-					yearSuffix : "년" //달력의 년도 부분 뒤에 붙는 텍스트
-					,
-					monthNamesShort : [ '1월', '2월', '3월', '4월', '5월', '6월',
-							'7월', '8월', '9월', '10월', '11월', '12월' ] //달력의 월 부분 텍스트
-					,
-					monthNames : [ '1월', '2월', '3월', '4월', '5월', '6월', '7월',
-							'8월', '9월', '10월', '11월', '12월' ] //달력의 월 부분 Tooltip 텍스트
-					,
-					dayNamesMin : [ '일', '월', '화', '수', '목', '금', '토' ] //달력의 요일 부분 텍스트
-					,
-					dayNames : [ '일요일', '월요일', '화요일', '수요일', '목요일', '금요일',
-							'토요일' ] //달력의 요일 부분 Tooltip 텍스트
-					//   ,minDate: "-6M" //최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-					//   ,maxDate: "0M" //최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)
-					,
-					defaultDate : "+1w"
-				});
-
-		//초기값을 오늘 날짜로 설정
-		// $('#datepicker_start').datepicker('setDate', '-7D'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
-		// $('#datepicker_end').datepicker('setDate', 'today'); //(-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
-	}
-
-	function getDate(element) {
-		var date;
-		var dateFormat = "yy-mm-dd";
-		try {
-			date = $.datepicker.parseDate(dateFormat, element.value);
-		} catch (error) {
-			date = null;
-		}
-		return date;
-	}
-</script>
-
 </head>
 <body>
 
 
 
-	<section>
+		
 
-		<div class="container ">
+		<div class="container">
 			<h2 class="text-center m-4" style="font-weight: bold;">수요조사폼만들기</h2>
-			<form action="" method="post">
+			<form:form 
+		name="demandForm" 
+		action="${pageContext.request.contextPath}/unofficial/demandFormEnroll"
+		enctype="multipart/form-data" 
+		method ="post">
+	
 				<div class="mb-4 row">
 					<label class="col-md-3 col-form-label" for="pdName">상품명</label>
 					<div class="col-md-9">
@@ -244,8 +158,11 @@
 
 				<div class="form-group">
 					<label for="pdContent">상세설명</label>
-					<textarea class="form-control" rows="5" id="summernote"
-						name="content"></textarea>
+					<!-- 썸머노트 -->
+					<div class = "col-12 col-md-12">
+						<br />
+						<textarea name = "pContent" class="summernote" placeholder = "내용 입력"></textarea>
+					</div>
 				</div>
 				<!--  <button id="edit" class="btn btn-primary" onclick="edit()"
 						type="button">수정하기</button>
@@ -257,51 +174,73 @@
 
 
 				<script>
-				$(document).ready(function() {
-					//여기 아래 부분
-					$('#summernote').summernote({
-						  height: 300,                 // 에디터 높이
-						  minHeight: null,             // 최소 높이
-						  maxHeight: null,             // 최대 높이
-						  focus: true,                  // 에디터 로딩후 포커스를 맞출지 여부
-						  lang: "ko-KR",					// 한글 설정
-						  placeholder: '최대 2000자까지 쓸 수 있습니다'	//placeholder 설정
-				          
-					});
-				});
+
+				 var check = $('.summernote').summernote({
+				        height : 600 // 에디터 높이
+				      , minHeight : null // 최소 높이
+				      , maxHeight : null // 최대 높이
+				      , focus : false  // 에디터 로딩후 포커스를 맞출지 여부
+				      , lang : "ko-KR" // 한글 설정
+				      , placeholder : '최대 2000자까지 쓸 수 있습니다' //placeholder 설정
+				      , callbacks : {
+				         onImageUpload : function(files, editor,
+				               welEditorble) {
+				            data = new FormData();
+				            data.append("file", files[0]);
+				            var $note = $(this);
+				            
+				            $.ajax({
+				               data : data,
+				               type : "post",
+				               url : '/dream/pImgInsert.pl', // servlet url
+				               cache : false,
+				               contentType : false,
+				               processData : false,
+				               success : function(fileUrl) {
+				                  check.summernote('insertImage', fileUrl);
+				                  alert("이미지 등록 성공!");
+				               },
+				               error : function(request, status, error) {
+				                  alert("code:" + request.status + "\n"
+				                        + "message:"
+				                        + request.responseText + "\n"
+				                        + "error:" + error);
+				               }
+				            });
+				         }
+				      }
+				   });
+
+				 var sel_file;
+				    function setThumbnail(event){
+						var file = event.target.files;
+						console.log(file);
+						var fileArr = Array.prototype.slice.call(file);
+
+						fileArr.forEach(function(f){
+							if(!f.type.match("image.*")){
+								alert("확장자는 이미지만 가능합니다.");
+								return;
+							}	
+							sel_file=f;
+
+							var reader = new FileReader();
+							reader.onload=function(e){
+								$("#thumbNailImg").attr("src",e.target.result);
+							}
+							reader.readAsDataURL(f);
+						});
+				    }
+
+				    
+
+				            
+				
 				        
 
-					/**
-					* 이미지 파일 업로드
 					
-					function uploadSummernoteImageFile(file, editor) {
-						data = new FormData();
-						data.append("file", file);
-						$.ajax({
-							data : data,
-							type : "POST",
-							url : "/uploadSummernoteImageFile",
-							contentType : false,
-							processData : false,
-							success : function(data) {
-				            	//항상 업로드된 파일의 url이 있어야 한다.
-								$(editor).summernote('insertImage', data.url);
-							}
-						});
-						*/
 
-
-					var edit = function() {
-						$('.click2edit').summernote({
-							focus : true
-						});
-					};
-
-					var save = function() {
-						var markup = $('.click2edit')
-								.summernote('code');
-						$('.click2edit').summernote('destroy');
-					};
+					
 				</script>
 				<div class="form-group">
 					<label for="demandDate">수요조사기간</label>
@@ -388,6 +327,11 @@
 								return moment(element.value).toDate();
 							}
 						});
+
+
+						
+						 
+						
 					</script>
 
 
@@ -403,14 +347,38 @@
 									style="width: 100%;">취소하기</button>
 							</div>
 							<div class="col-6 d-grid p-1">
-								<button type="button" class="btn btn-lg btn-main"
+								<button type="button" class="btn btn-lg btn-main" onclick="insert();"
 									style="width: 100%;">등록하기</button>
 							</div>
 						</div>
 					</div>
-			</form>
-	</section>
+			</form:form>
+			</div>
+			
+			<script>
+			function insert(){
+			    
+			    $.ajax({
+			        type:'POST',
+			        url : "<c:url value='/unofficial/demandEnroll.do'/>",
+			        data:$("#demandForm").serialize(),
+			        success(data) {
+		                console.log(data);
+		                const {msg} = data;
+		                alert(msg);
+		            },
+		              error: console.log, 
+		            complete(){
+		                e.target.reset(); // 폼초기화
+		            } 
+		          });
+		    });
 
+
+			</script>
+			
+			
+	
 
 
 </body>

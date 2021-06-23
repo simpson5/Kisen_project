@@ -16,7 +16,7 @@ public class UnofficialDeposit {
 	private String pdName;//상품이름
 	private String idolName; //아이돌이름
 	private String pdCategory; //상품카테고리
-	private PdImg pdImg; // 대표이미지
+	private UnofficialPdImg pdImg; // 대표이미지
 	private String pdContent; // 폼내용
 	private Date depositPeriod; //입금기간
 	private String bankInfo; //은행정보

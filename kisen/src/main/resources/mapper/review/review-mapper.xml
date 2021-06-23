@@ -8,9 +8,34 @@
 		select
 			count(*)
 		from
-			review 
+			review
+		where
+			pd_no = #{no}
 	</select>
-
+	<select id="selectReviewList" resultMap="reviewMap">
+		select
+			r.*,
+			f.fan_id fanId
+		from
+			review r
+		  left join
+		  	fan f
+		  		on r.fan_no = f.fan_no
+		where
+			pd_no = #{no}
+	</select>
+	<resultMap type="reviewExt" id="reviewMap">
+		<id column="review_no" property="reviewNo"/>
+		<result column="fan_no" property="fanNo"/>
+		<result column="order_no" property="orderNo"/>
+		<result column="pd_no" property="pdNo"/>
+		<result column="review_content" property="reviewContent"/>
+		<result column="review_date" property="reviewDate"/>
+		<result column="read_cnt" property="readCnt"/>
+		<result column="reco_cnt" property="recoCnt"/>
+		<result column="review_title" property="reviewTitle"/>
+		<result column="fanId" property="fanId"/>
+	</resultMap>
 </mapper>
 
 

@@ -336,7 +336,7 @@ textarea.autosize {
 						</tr>
 						<tr>
 							<th>판매일</th>
-							<td colspan="3" style="border: 0; outline: 0;">${product.salesDate}</td>
+							<td colspan="3" style="border: 0; outline: 0;"><fmt:formatDate value="${product.salesDate}" pattern="yy-MM-dd"/></td>
 						</tr>
 						<tr>
 							<th>배송정보</th>
@@ -395,8 +395,47 @@ textarea.autosize {
 		</div>
 
 		<div class="pd-review mx-auto" style="display: none;">
-
-		
+			<p class="h5"
+				style="color: #353535; font-size: 16px; line-height: 18px; font-family: 'Lato', 'Nanum Gothic', 'verdana', '돋움', '굴림';">Review</p>
+			<table class="table pd-review-board table table-hover">
+				<thead>
+					<tr>
+						<th scope="col" class="col-1 table-primary">번호</th>
+						<th scope="col" class="col-6 table-primary">제목</th>
+						<th scope="col" class="col-1 table-primary">작성자</th>
+						<th scope="col" class="col-1 table-primary">작성일</th>
+						<th scope="col" class="col-1 table-primary">조회</th>
+					</tr>
+				</thead>
+				<tbody>
+				<c:if test="${empty list}">
+					<tr>
+						<td colspan="10">조회된 정보가 없습니다.</td>
+					</tr>
+				</c:if>
+				<c:if test="${!empty list}">
+				<c:forEach items="${list}" var="review" varStatus="status">
+					<tr data-no="${review.reviewNo}">
+						<td>${status.count}</td>
+						<td>${review.reviewTitle}</td>
+						<td>${review.fanId}</td>
+						<td><fmt:formatDate value="${review.reviewDate}" pattern="YYYY-MM-dd"/></td>
+						<td>${review.readCnt}</td>
+					</tr>
+				</c:forEach>
+				</c:if>
+				</tbody>
+			</table>
+			
+			<div class="btn-area">
+				<div class="btn-group" role="group" aria-label="Basic example" onclick="location.href='${pageContext.request.contextPath}/productInfo?no=${no}'">
+					<button type="button" class="btn btn-dark write" name="reviewWrite">글 작성</button>
+					<button type="button" class="btn btn-secondary">전체보기</button>
+				</div>
+			</div>
+			<div class="paging-area">
+				${pageBar}
+			</div>
 		</div>
 	
 
@@ -617,7 +656,15 @@ function total(){
 	$total += $total.html("<strong>"+total+"</strong>"+"("+cnt+"개)");
 }
 
-
+/* $(() => {
+	$("button[name=reviewWrite]").click(e => {
+		//var $no = $(e.target).parent();
+		//var no = $no.data("no");
+		console.log('${no}');
+		
+		//location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + no;
+	});
+}); */
 
 </script>
 

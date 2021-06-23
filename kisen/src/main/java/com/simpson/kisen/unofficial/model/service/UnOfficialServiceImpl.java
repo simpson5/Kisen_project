@@ -1,11 +1,16 @@
 package com.simpson.kisen.unofficial.model.service;
 
+import java.lang.reflect.Member;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.simpson.kisen.idol.model.vo.IdolImg;
 import com.simpson.kisen.review.model.dao.ReviewDao;
 import com.simpson.kisen.review.model.service.ReviewServiceImpl;
 import com.simpson.kisen.unofficial.model.dao.UnOfficialDao;
+import com.simpson.kisen.unofficial.model.vo.UnofficialDemand;
+import com.simpson.kisen.unofficial.model.vo.UnofficialPdImg;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -15,5 +20,9 @@ public class UnOfficialServiceImpl implements UnOfficialService {
 	
 	@Autowired
 	private UnOfficialDao unofficialDao;
+
+
+
+	
 
 }
