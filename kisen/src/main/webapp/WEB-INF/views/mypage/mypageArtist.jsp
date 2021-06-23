@@ -456,6 +456,7 @@ div#myArtist img{
     <div class="carousel-item">
       	<div class="d-flex flex-row justify-content-center" id="myArtist">
 	<br />
+	
 	  <div class="p-2 my-3">
 	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/shinee.jpg" alt="" />
 	  	 <br /><br />
@@ -493,7 +494,7 @@ div#myArtist img{
 	  	 <br /><br />
      	<div class=" mx-auto font-weight-bold text-center" name="o-artist">오마이걸</div>
      	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" onclick="inidol(this);" data-string="${loginMember.fanNo}"></i>
 	  	 </div>
 	  </div>
 	</div>
@@ -520,7 +521,10 @@ $(".heartBtn").click (e => {
 
 
 });
-
+function inidol(){
+	const $fanNo = this.$(data);
+	console.log($fanNo);
+}
 
 </script>
 

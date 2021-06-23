@@ -3,7 +3,9 @@ package com.simpson.kisen.idol.controller;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 
@@ -39,13 +41,20 @@ public class IdolController {
 	private IdolService idolService;
 		
 	@GetMapping("/mypageArtist.do")
-	public void selectOneIdolCollection(Authentication authentication, Model model
+	public void selectOneIdolCollection( @RequestParam(required = true, defaultValue = "1") int cpage,Authentication authentication, Model model
 			) {
 		
 		Fan principal = (Fan) authentication.getPrincipal();
 		
-		List<Idol> idolList = idolService.selectAllIdole();
-		List<DipIdol> fan = idolService.selectOneCollection();
+		log.debug("cpage = {}", cpage);
+		final int limit = 10;
+		final int offset = (cpage - 1) * limit;
+		Map<String, Object> param = new HashMap<>();
+		param.put("limit", limit);
+		param.put("offset", offset);
+			
+		List<Idol> idolList = idolService.selectAllIdole(param);
+		List<DipIdol> fan = idolService.selectOneCollection(param);
 		
 		model.addAttribute("loginMember", principal);
 		model.addAttribute("fan", fan);

@@ -1,6 +1,7 @@
 package com.simpson.kisen.idol.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,14 @@ public class IdolDaoImpl implements IdolDao {
 
 
 	@Override
-	public List<DipIdol> selectOneCollection() {
-		return session.selectList("idol.selectOneCollection");
+	public List<DipIdol> selectOneCollection(Map<String, Object> param) {
+		return session.selectList("idol.selectOneCollection",param);
 	}
 
 
 	@Override
-	public List<Idol> selectAllIdole() {
-		return session.selectList("idol.selectAllIdole");
+	public List<Idol> selectAllIdole(Map<String, Object> param) {
+		return session.selectList("idol.selectAllIdole",param);
 	}
 
 	
