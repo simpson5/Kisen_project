@@ -25,6 +25,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,10 +42,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.simpson.kisen.agency.model.vo.Agency;
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.idol.model.vo.IdolImg;
 import com.simpson.kisen.idol.model.vo.IdolMv;
 import com.simpson.kisen.unofficial.model.service.UnOfficialService;
+import com.simpson.kisen.unofficial.model.vo.UnOfficial;
+import com.simpson.kisen.unofficial.model.vo.UnofficialDemand;
 import com.simpson.kisen.unofficial.model.vo.UnofficialPdImg;
 
 import lombok.extern.slf4j.Slf4j;
@@ -65,6 +69,7 @@ public class UnofficialController {
 	@Autowired
 	UnOfficialService unofficialService; 
 	
+	
 
 	
 	
@@ -74,11 +79,66 @@ public class UnofficialController {
 	public void unofficial() {
 	}
 
-	@GetMapping("/demandForm.do")
+	@GetMapping("/demandEnroll.do")
 	public void demandForm() {
 	}
+	
+//	@PostMapping("/demandEnroll.do")
+//	public String demandEnroll(
+//			@RequestParam(name="pdName") String pdName,
+//			@RequestParam(name="idolName") String idolName,
+//			@RequestParam(name="pdCategory") String pdCategory,
+//			@RequestParam(name="price") int price,
+//			@RequestParam(name="deliveryPrice") int deliveryPrice,
+//			@RequestParam(name="pdStock") int pdStock,
+//			@RequestParam(name="pdSales") int pdSales,
+//			@RequestParam(name="pdImg") UnofficialPdImg pdImg,
+//			@RequestParam(name="pdContent") String pdContent,
+//			@RequestParam(name="demandstartDate") Date demandstartDate,
+//			@RequestParam(name="demandendDate") Date demandendDate,
+//			@RequestParam(name="question") String question,
+//			Authentication authentication,
+//			RedirectAttributes redirectAttr
+//			) throws IllegalStateException, IOException{
+//
+//	    Fan loginMember = (Fan) authentication.getPrincipal();
+//		Member member = unofficialService.selectMember(loginMember.getFanNo());
+//
+//		
+//		
+//		//b. img 객체 저장
+//		UnofficialPdImg unofficialpdImg = unofficialPdImgUpload(unofficialpdImg);
+//
+//		
+//		
+//				UnofficialDemand unofficialdemand = new UnofficialDemand();
+//				unofficialdemand.setPdName(pdName);
+//				unofficialdemand.setIdolName(idolName);
+//				unofficialdemand.setPdCategory(pdCategory);
+//				unofficialdemand.setPrice(price);
+//				unofficialdemand.setDeliveryPrice(deliveryPrice);
+//				unofficialdemand.setPdStock(pdStock);
+//				unofficialdemand.setPdSales(pdSales);
+//				unofficialdemand.setPdImg(pdImg);
+//				unofficialdemand.setPdContent( pdContent);
+//				unofficialdemand.setDemandstartDate(demandstartDate);
+//				unofficialdemand.setDemandendDate( demandendDate);
+//				unofficialdemand.setQuestion(question);
+//				unofficialdemand.setDemandNo(unofficialdemand.getDemandNo());
+//				
+//				
+//				
+//				int result = unofficialService.insertdemandEnroll(unofficialdemand);
+//				redirectAttr.addFlashAttribute("msg","수요조사 폼이 등록되었습니다.");
+//				return "redirect:unofficial.do";
+//			}
 
-	@GetMapping("/depositForm.do")
+	private UnofficialPdImg unofficialPdImgUpload(UnofficialPdImg unofficialpdImg) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@GetMapping("/depositEnroll.do")
 	public void depositForm() {
 	}
 
@@ -98,8 +158,6 @@ public class UnofficialController {
 	public void depositFormlist() {
 	}
 	
-	@GetMapping("/fanstore.do")
-	public void fanstore() {
-	}
+	
 
 }
