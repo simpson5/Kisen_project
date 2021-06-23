@@ -5,10 +5,22 @@
  <mapper namespace="unofficial">
  
  <insert id="insertunofficialdemand">
-		INSERT
-		INTO unofficial_demand
-		VALUES
-		(  
+		INSERT INTO 
+		unofficial_demand(
+			demand_no, 
+    		pd_name, 
+   		 	idol_name,
+    		pd_category, 
+    		price, 
+    		delivery_price,
+    		pd_stock,
+    		pd_sales,
+    		pd_content,
+    		demand_start_date,
+    		demand_end_date,
+    		question
+		)
+		VALUES(  
 		    #{demandNo}
 		  , #{pdName}
 		  , #{idolName}
@@ -23,6 +35,8 @@
 		  , #{question}
 		)
 	</insert>
+	
+	
 	
 	<insert id="unofficialpdimg"> 
 		insert into 
