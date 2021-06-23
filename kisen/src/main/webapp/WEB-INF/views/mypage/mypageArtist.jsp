@@ -363,142 +363,45 @@ div#myArtist img{
 <!-- 아티스트 사진 부분 -->
 <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
-    <div class="carousel-item active">
-      	<div class="d-flex flex-row justify-content-center" id="myArtist">
-	<br />
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/blackpink.jpg" />
-	  	 <br /><br />
-	  	 <div class=" mx-auto font-weight-bold text-center">BLACK PINK</div>
-	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/rv.jpg" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">Red Velvet</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/twice.jpg" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">TWICE</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/IU.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">IU</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/gw.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">공원소녀</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	</div>
-    </div>
-    <div class="carousel-item">
-      	<div class="d-flex flex-row justify-content-center" id="myArtist">
-	<br />
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/seventeen.jpg"/>
-	  	 <br /><br />
-	  	 <div class=" mx-auto font-weight-bold text-center">SEVENTEEN</div>
-	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/sf9.jpg" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">SF9</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/theboys.jpg" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">더보이즈</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/monstaX.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">MONSTA-X</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/bts.png" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">BTS</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	</div>
-    </div>
-    <div class="carousel-item">
-      	<div class="d-flex flex-row justify-content-center" id="myArtist">
+    <div class="carousel-item active" style="overflow: hidden;">
+    <div class="d-flex flex-row justify-content-center" id="myArtist">
 	<br />
 	
+		
+	<c:forEach items="${idolList}" var ="idolList" varStatus="vs">
 	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/shinee.jpg" alt="" />
+	  	<img src="${pageContext.request.contextPath}/resources/upload/idol/${idolList.idolImg.renamedFilename}"
+	  	style="width: 150px; height: 165px;"/>
 	  	 <br /><br />
-	  	 <div class=" mx-auto font-weight-bold text-center">SHINEE</div>
+	  	 <div class=" mx-auto font-weight-bold text-center">${idolList.idolName}</div>
 	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/everglow.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">EVER GLOW</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/bg.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">BRAVE GIRLS</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/gf.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">여자친구</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" ></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/omyg.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center" name="o-artist">오마이걸</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
      		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" onclick="inidol(this);" data-string="${loginMember.fanNo}"></i>
 	  	 </div>
 	  </div>
+	   </c:forEach>
+		  
+	</div>
+     </div>
+    
+    <div class="carousel-item ">
+      	<div class="d-flex flex-row justify-content-center" id="myArtist">
+	<br />
+	
+	<c:forEach items="${idolList}" var ="idolList" varStatus="vs">
+	  <div class="p-2 my-3">
+	  	<img src="${pageContext.request.contextPath}/resources/upload/idol/${idolList.idolImg.renamedFilename}"
+	  	style="width: 150px; height: 165px;"/>
+	  	 <br /><br />
+	  	 <div class=" mx-auto font-weight-bold text-center">${idolList.idolName}</div>
+	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" onclick="inidol(this);" data-string="${loginMember.fanNo}"></i>
+	  	 </div>
+	  </div>
+	   </c:forEach>
+	  
 	</div>
     </div>
+   
   </div>
   <a class="carousel-control-prev" href="#carouselExampleIndicators2" role="button" data-slide="prev" id="btnNext">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -521,10 +424,10 @@ $(".heartBtn").click (e => {
 
 
 });
-function inidol(){
+/* function inidol(){
 	const $fanNo = this.$(data);
 	console.log($fanNo);
-}
+} */
 
 </script>
 

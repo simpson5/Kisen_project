@@ -15,6 +15,6 @@ public class Idol {
 	private int agencyNo;
 	private String idolName;
 	private int fanCnt;
-	private IdolImg idolImg; //���⼭ ��ü�� �����߱� ������ �����̵����� ����
+	private IdolImg idolImg; 
 	private List<IdolMv> idolMv;
 }

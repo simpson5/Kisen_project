@@ -46,8 +46,8 @@ public class IdolController {
 		
 		Fan principal = (Fan) authentication.getPrincipal();
 		
-		log.debug("cpage = {}", cpage);
-		final int limit = 10;
+		log.info("cpage = {}", cpage);
+		final int limit = 5;
 		final int offset = (cpage - 1) * limit;
 		Map<String, Object> param = new HashMap<>();
 		param.put("limit", limit);
@@ -62,6 +62,7 @@ public class IdolController {
 		log.info("fan = {}", fan);
 		log.info("idolList = {}", idolList);
 		
+		log.info("cpage = {}", cpage);
 	
 	}			
 }

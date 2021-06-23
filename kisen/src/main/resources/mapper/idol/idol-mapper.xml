@@ -39,11 +39,17 @@
 	
 	<select id="selectAllIdole" resultMap="idolCollectionMaptwo">
       select 
-         * 
+          i.idol_no,
+         i.idol_name,
+         ii.renamed_filename
       from 
          idol i 
-         left join idol_img ii
-         on i.idol_no = ii.idol_no
+      join 
+      	idol_img ii
+      on
+      	i.idol_no = ii.idol_no
+     order by 
+     	i.idol_no desc
    </select>
 
    <resultMap type="idol" id="idolCollectionMaptwo">
