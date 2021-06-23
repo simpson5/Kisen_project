@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="agency">
+<mapper namespace="agency-artist">
   <insert id="insertIdol">
   	insert into
   		idol
@@ -27,6 +27,23 @@
 		values( seq_idol_img.nextval, #{idolNo}, #{originalFilename}, #{renamedFilename},default ) 
 	</insert>
 	
+	<select id="selectIdolNameList" resultMap ="idolNameList">
+		select 
+			idol_no, 
+			idol_name 
+		from idol
+		where 
+			agency_no= 
+			(select agency_no from agency where fan_no = #{fanNo})
+	</select>
+	
+	<resultMap type="idol" id="idolNameList">
+		<id column ="idol_no" property="idolNo"/>
+		<result column="idol_name" property="idolName"/>
+	</resultMap>
+	
+	
+	
 	
 	<select id="selectIdolList" resultMap ="idolCollectionMap">
 		select 
@@ -41,6 +58,8 @@
 			agency_no= 
 			(select agency_no from agency where fan_no = #{fanNo})
 	</select>
+	
+	
 	
   	<select id="selectIdolTotalContents" resultType="_int">
   		select count(*) from idol where agency_no = 
@@ -71,13 +90,6 @@
 		values(seq_idol_mv_no.nextval, #{idolNo}, #{mvLink}) 
 	</insert>
 	
-	<select id="selectAgency" resultType="agency">
-		select * from agency where fan_no = #{fanNo}
-	</select>
-	
-	<select id="selectPdCnt" resultType="_int">
-		select count(*) from product where idol_no = #{idolNo}
-	</select>
 	
 	<resultMap type="idol" id="idolCollectionMap">
 		<id column ="idol_no" property="idolNo"/>
@@ -129,4 +141,7 @@
 		where 
 			idol_no = #{idolNo}
 	</update>
+	
+	
+	
 </mapper>
