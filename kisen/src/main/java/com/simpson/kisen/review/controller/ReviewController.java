@@ -1,6 +1,7 @@
 package com.simpson.kisen.review.controller;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -13,11 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simpson.kisen.common.util.HelloSpringUtils;
 import com.simpson.kisen.product.model.service.ProductService;
@@ -75,19 +78,21 @@ public class ReviewController {
 	}
 
 	@GetMapping("/reviewForm.do")
-	public String reviewForm(@RequestParam int no,
+	public String reviewForm(@RequestParam(value="no", required = false) int no,
 							Model model) {
 		ProductExt product = productService.selectOneProduct(no);
 		
 		model.addAttribute("product",product);
 		return "review/reviewForm";
 	}
+	
 	@PostMapping("/reviewInsert")
 	public String reviewInsert() {
+		int no = 1;
 		
-		return "redirect:/review/reviewForm.do";
+		return "redirect:/review/reviewForm.do?no="+no;
 	}
-	
+
 	
 	
 	@GetMapping("/revieweditForm.do")
