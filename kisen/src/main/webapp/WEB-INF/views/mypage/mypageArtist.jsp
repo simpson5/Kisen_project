@@ -193,139 +193,26 @@ div#myArtist img{
     <div class="carousel-item active">
       	<div class="d-flex flex-row justify-content-center" id="myArtist">
 	<br />
+	<c:forEach items="${dipList}" var ="dipList">
 	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/blackpink.jpg" alt="" />
+	  	<img src="${pageContext.request.contextPath}/resources/upload/idol/${dipList.idolImg.renamedFilename}" />
 	  	 <br /><br />
-	  	 <div class=" mx-auto font-weight-bold text-center">BLACK PINK</div>
+	  	 <div class=" mx-auto font-weight-bold text-center">${dipList.idolName}</div>
 	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;" onclick="delidol(this);" data-no="${dipList.idolNo}"></i>
 	  	 </div>
 	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/rv.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">Red Velvet</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/twice.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">TWICE</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/IU.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">IU</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/gw.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">공원소녀</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
+	</c:forEach>
 	  </div>
 	</div>
-    </div>
+    
     <div class="carousel-item">
       	<div class="d-flex flex-row justify-content-center" id="myArtist">
 	<br />
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/seventeen.jpg" alt="" />
-	  	 <br /><br />
-	  	 <div class=" mx-auto font-weight-bold text-center">SEVENTEEN</div>
-	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/sf9.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">SF9</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/theboys.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">더보이즈</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/monstaX.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">MONSTA-X</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/bts.png" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">BTS</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
-	  </div>
+	 
+    </div>
 	</div>
     </div>
-    <div class="carousel-item">
-      	<div class="d-flex flex-row justify-content-center" id="myArtist">
-	<br />
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/shinee.jpg" alt="" />
-	  	 <br /><br />
-	  	 <div class=" mx-auto font-weight-bold text-center">SHINEE</div>
-	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/everglow.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">EVERGLOW</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/bg.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">BRAVE GIRLS</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/gf.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">여자친구</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
-	  </div>
-	  <div class="p-2 my-3">
-	  	<img src="${pageContext.request.contextPath}/resources/images/moonju/omyg.jpg" alt="" />
-	  	 <br /><br />
-     	<div class=" mx-auto font-weight-bold text-center">오마이걸</div>
-     	<div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;"></i>
-	  	 </div>
-	  </div>
-	</div>
-    </div>
-  </div>
   <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" id="btnNext">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="sr-only">Previous</span>
@@ -334,6 +221,7 @@ div#myArtist img{
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
+  </div>
 </div>
 
 
@@ -363,31 +251,32 @@ div#myArtist img{
 <!-- 아티스트 사진 부분 -->
 <div id="carouselExampleIndicators2" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
+ 
     <div class="carousel-item active" style="overflow: hidden;">
     <div class="d-flex flex-row justify-content-center" id="myArtist">
 	<br />
-	
 		
-	<c:forEach items="${idolList}" var ="idolList" varStatus="vs">
-	  <div class="p-2 my-3">
+	<c:forEach items="${idolList}" var ="idolList" >
+	  	<%-- <input type="hidden" name="idolNo" value="${idolList.idolNo}" /> --%>
+	  <div class="p-2 my-3" >
 	  	<img src="${pageContext.request.contextPath}/resources/upload/idol/${idolList.idolImg.renamedFilename}"
 	  	style="width: 150px; height: 165px;"/>
 	  	 <br /><br />
 	  	 <div class=" mx-auto font-weight-bold text-center">${idolList.idolName}</div>
 	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" onclick="inidol(this);" data-string="${loginMember.fanNo}"></i>
+     		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" onclick="inidol(this);" data-string="${loginMember.fanNo}" data-no="${idolList.idolNo}"></i>
 	  	 </div>
 	  </div>
 	   </c:forEach>
 		  
 	</div>
      </div>
-    
+
     <div class="carousel-item ">
       	<div class="d-flex flex-row justify-content-center" id="myArtist">
 	<br />
 	
-	<c:forEach items="${idolList}" var ="idolList" varStatus="vs">
+	<%-- <c:forEach items="${idolList}" var ="idolList" varStatus="vs">
 	  <div class="p-2 my-3">
 	  	<img src="${pageContext.request.contextPath}/resources/upload/idol/${idolList.idolImg.renamedFilename}"
 	  	style="width: 150px; height: 165px;"/>
@@ -397,7 +286,7 @@ div#myArtist img{
      		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" onclick="inidol(this);" data-string="${loginMember.fanNo}"></i>
 	  	 </div>
 	  </div>
-	   </c:forEach>
+	   </c:forEach> --%>
 	  
 	</div>
     </div>
@@ -424,10 +313,49 @@ $(".heartBtn").click (e => {
 
 
 });
-/* function inidol(){
-	const $fanNo = this.$(data);
-	console.log($fanNo);
-} */
+
+ function inidol(obj){
+	const fanNo = $(obj).data("string");
+	console.log(fanNo);
+	const idolNo = $(obj).data("no");
+	console.log(idolNo);
+
+	const dip = {
+			fanNo,
+			idolNo		
+			};
+	console.log(dip);
+
+	$.ajax({
+			url: "${pageContext.request.contextPath}/mypage/dip",
+			data: JSON.stringify(dip),
+			contentType: "application/json; charset=utf-8",
+			method: "POST",
+	success(data) {
+			console.log(data);
+			const {msg} = data;
+			alert(msg);
+		},
+		error: console.log
+		});
+} 
+
+ function delidol(obj){
+		const idolNo = $(obj).data("no");
+		console.log(idolNo);
+
+		$.ajax({
+				url: `${pageContext.request.contextPath}/mypage/delIdol/\${idolNo}`,
+				method: "DELETE",
+				success(data){
+					console.log(data);
+					const {msg} = data;
+					alert(msg);
+				},
+				error: console.log
+			});
+				
+	} 
 
 </script>
 

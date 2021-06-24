@@ -30,6 +30,16 @@ public class IdolServiceImpl implements IdolService {
 		return idolDao.selectAllIdole(param);
 	}
 
+	@Override
+	public int insertIdol(DipIdol dip) {
+		return idolDao.insertIdol(dip);
+	}
+
+	@Override
+	public int deleteidol(int idolNo) {
+		return idolDao.deleteidol(idolNo);
+	}
+
 	
 
 

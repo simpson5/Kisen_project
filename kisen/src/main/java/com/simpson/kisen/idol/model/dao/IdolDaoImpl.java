@@ -31,6 +31,18 @@ public class IdolDaoImpl implements IdolDao {
 		return session.selectList("idol.selectAllIdole",param);
 	}
 
+
+	@Override
+	public int insertIdol(DipIdol dip) {
+		return session.insert("idol.insertIdol",dip);
+	}
+
+
+	@Override
+	public int deleteidol(int idolNo) {
+		return session.delete("idol.deleteidol",idolNo);
+	}
+
 	
 
 

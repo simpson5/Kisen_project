@@ -12,6 +12,10 @@ public interface IdolDao {
 
 	List<Idol> selectAllIdole(Map<String, Object> param);
 
+	int insertIdol(DipIdol dip);
+
+	int deleteidol(int idolNo);
+
 
 
 	
