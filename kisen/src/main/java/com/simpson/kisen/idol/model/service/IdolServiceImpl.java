@@ -1,6 +1,7 @@
 package com.simpson.kisen.idol.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +19,25 @@ public class IdolServiceImpl implements IdolService {
 	@Autowired
 	private IdolDao idolDao;
 
+
 	@Override
-	public List<DipIdol> selectOneCollection() {
-		return  idolDao.selectOneCollection();
+	public List<DipIdol> selectOneCollection(Map<String, Object> param) {
+		return idolDao.selectOneCollection(param);
 	}
 
 	@Override
-	public List<Idol> selectAllIdole() {
-		return  idolDao.selectAllIdole();
+	public List<Idol> selectAllIdole(Map<String, Object> param) {
+		return idolDao.selectAllIdole(param);
+	}
+
+	@Override
+	public int insertIdol(DipIdol dip) {
+		return idolDao.insertIdol(dip);
+	}
+
+	@Override
+	public int deleteidol(int idolNo) {
+		return idolDao.deleteidol(idolNo);
 	}
 
 	

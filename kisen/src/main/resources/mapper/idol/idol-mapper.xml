@@ -3,21 +3,23 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="idol">
-<!-- 이미지 파일 조회를 위한 idol select (idolImg와 조인) 
-	형제 요소인 dip_fan이랑도 조인해준다. 그래야지 사용자(fan)의 번호로 조회가능-->
 	<select id="selectOneCollection" resultMap="idolCollectionMap">
 		select
-        	di.*,
-			iI.idol_img_no,
-			iI.ORIGINAL_FILENAME,
-			iI.RENAMED_FILENAME,
-			iI.UPLOAD_DATE		
+        	di.idol_no,
+			iI.RENAMED_FILENAME,		
+			i.idol_name
         from 
             dip_idol di
        join 
             idol_img iI
         on 
         	di.idol_no = iI.idol_no	
+        join 
+        	idol i
+        on
+        	di.idol_no = i.idol_no
+        order by 
+     		di.idol_no desc	
         
 	</select>
 	<resultMap type="dipidol" id="idolCollectionMap">
@@ -26,24 +28,34 @@
 		<result column="agency_no" property="agencyNo"/>
 		<result column="idol_name" property="idolName"/>
 		<result column="fan_cnt" property="fanCnt"/>
+		<result column="idol_name" property="idolName"/>
 		
-		<collection property="idolImg" ofType="IdolImg">
-			<id column="idol_no" property="idolNo"></id>
-			<result column="idol_img_no" property="idolImgNo"/>
-			<result column="ORIGINAL_FILENAME" property="originalFileName"/>
-			<result column="RENAMED_FILENAME" property="renamedFileName"/>
-			<result column="UPLOAD_DATE" property="uploadDate"/>
-		</collection>
+		 <collection property="idolImg" ofType="IdolImg">
+          <id column ="idol_img_no" property="idolImgNo"/>
+          <result column="idol_no" property="idolNo"/>
+          <result column="original_filename" property="originalFilename"/>
+          <result column="renamed_filename" property="renamedFilename"/>
+          <result column="upload_date" property="uploadDate"/>
+      </collection>
 
+		
+      
+    
 	</resultMap>
 	
 	<select id="selectAllIdole" resultMap="idolCollectionMaptwo">
       select 
-         * 
+         i.idol_no,
+         i.idol_name,
+         ii.renamed_filename
       from 
          idol i 
-         left join idol_img ii
-         on i.idol_no = ii.idol_no
+      join 
+      	idol_img ii
+      on
+      	i.idol_no = ii.idol_no
+     order by 
+     	i.idol_no desc
    </select>
 
    <resultMap type="idol" id="idolCollectionMaptwo">
@@ -60,5 +72,20 @@
           <result column="upload_date" property="uploadDate"/>
       </collection>
    </resultMap>
-
+	
+	<insert id="insertIdol">
+		insert into
+			dip_idol
+		values (
+			#{fanNo},
+			#{idolNo}
+		)
+	</insert>
+	
+	<delete id="deleteidol">
+		delete from
+			dip_idol
+		where
+			idol_no = #{idolNo}
+	</delete>
 </mapper>

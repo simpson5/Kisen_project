@@ -26,6 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simpson.kisen.fan.model.service.FanService;
 import com.simpson.kisen.fan.model.vo.Fan;
+import com.simpson.kisen.payment.model.service.PaymentService;
+import com.simpson.kisen.payment.model.vo.Payment;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,23 +36,30 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/mypage")
 @SessionAttributes({"loginMember", "principal"})
 
-
 public class MyPageController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
+
+	@Autowired
+	private PaymentService paymentService;
 	@Autowired
 	private FanService fanService;
 	
 	@GetMapping("/mypagePay.do")
 	public void mypage(Authentication authentication, Model model){
 		Fan principal = (Fan) authentication.getPrincipal();
-		model.addAttribute("loginMember", principal);
+		List<Payment> payList = paymentService.selectAllList();
 		
-		log.debug("authentication = {}", authentication);
+		model.addAttribute("loginMember", principal);
+		model.addAttribute("payList", payList);
+		
+		
+		log.info("payList = {}", payList);
+		log.info("authentication = {}", authentication);
 		// authentication = org.springframework.security.authentication.UsernamePasswordAuthenticationToken@23abe407: Principal: Member(id=honggd, password=$2a$10$qHHeJGgQ9teamJyIJFXbyOBtl7nIsQ37VP2jrz89dnDA7LgzS.nYi, name=카길동, gender=M, birthday=2021-05-04, email=honggd@naver.com, phone=01012341234, address=서울시 강남구, hobby=[운동,  등산], enrollDate=2021-05-20, authorities=[ROLE_USER], enabled=true); Credentials: [PROTECTED]; Authenticated: true; Details: org.springframework.security.web.authentication.WebAuthenticationDetails@166c8: RemoteIpAddress: 0:0:0:0:0:0:0:1; SessionId: B95C1041773474D93729781512D4490A; Granted Authorities: ROLE_USER
-		log.debug("principal = {}", principal);
+		log.info("principal = {}", principal);
 	}
 	
 	
@@ -58,6 +67,7 @@ public class MyPageController {
 	@GetMapping("/mypageMember.do")
 	public void mypageMember(Authentication authentication, Model model){
 		Fan principal = (Fan) authentication.getPrincipal();
+	
 		model.addAttribute("loginMember", principal);
 		
 		log.debug("authentication = {}", authentication);
