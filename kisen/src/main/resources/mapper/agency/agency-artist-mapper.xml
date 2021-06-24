@@ -37,6 +37,15 @@
 			(select agency_no from agency where fan_no = #{fanNo})
 	</select>
 	
+	
+	<select id="selectAllIdolName" resultMap ="idolNameList">
+		select 
+			idol_no, 
+			idol_name 
+		from idol
+		order by idol_name
+	</select>
+	
 	<resultMap type="idol" id="idolNameList">
 		<id column ="idol_no" property="idolNo"/>
 		<result column="idol_name" property="idolName"/>
