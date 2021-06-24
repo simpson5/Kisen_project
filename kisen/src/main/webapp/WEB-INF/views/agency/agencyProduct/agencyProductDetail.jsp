@@ -33,7 +33,16 @@
             </select>
         </div>
     </div>
-
+    <div class="mb-4 row">
+        <label class="col-md-3 col-form-label" for="pdCategory">옵션</label>
+        <div class="col-md-9 option">
+          	<c:forEach items="${product.pdOptionList }" var="option">
+	          	<c:if test="${!empty option.optionName}">
+	            	<input type="text" class="form-control" name="pdOption" id="pdOption" value="${option.optionName}" readonly>
+	          	</c:if>
+          	</c:forEach>
+        </div>
+    </div>
     <div class="mb-4 row">
         <label class="col-md-3 col-form-label" for="pdContent">상품 설명</label>
         <div class="col-md-9">
@@ -69,7 +78,7 @@
         <div class="col-md-9">
            	<c:forEach items="${product.pdImgList}" var="pdImg">
            		<c:if test="${pdImg.pdCategory eq 'R'}">
-  			        	<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-5" alt="tree" style="width:300px;  height: 100%">
+  			        	<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img" alt="tree" style="width:300px;  height: 100%">
            		</c:if>
            	</c:forEach>
         </div>
@@ -81,12 +90,12 @@
         <div class="col-md-9">
            	<c:forEach items="${product.pdImgList}" var="pdImg">
            		<c:if test="${pdImg.pdCategory eq 'D'}">
-  			        	<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-5" alt="tree" style="width:300px; height: 100%">
+  			        	<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img" alt="tree" style="width:300px; height: 100%">
            		</c:if>
            	</c:forEach>
         </div>
     </div>
-    <div class="container text-center">
+    <div class="container text-center mt-4 ">
         <div class="mb-4 row">
             <div class="col-6 d-grid p-1">
                 <button type="button" class="btn btn-lg btn-dark" style="width: 100%;">취소하기</button>

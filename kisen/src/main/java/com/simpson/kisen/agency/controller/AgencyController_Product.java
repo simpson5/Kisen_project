@@ -48,6 +48,7 @@ import com.simpson.kisen.idol.model.vo.IdolMv;
 import com.simpson.kisen.product.model.vo.Product;
 import com.simpson.kisen.product.model.vo.ProductImg;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
+import com.simpson.kisen.product.model.vo.ProductOption;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -80,7 +81,7 @@ public class AgencyController_Product {
 		param.put("offset", offset);
 	    Fan loginMember = (Fan) authentication.getPrincipal();
 
-	    List<ProductImgExt> productList = agencyService.selectProductList(loginMember.getFanNo());
+	    List<ProductImgExt> productList = agencyService.selectProductList(loginMember.getFanNo(),param);
 		int totalContents = agencyService.selectProductTotalContents(loginMember.getFanNo());
 		
 		
@@ -90,8 +91,11 @@ public class AgencyController_Product {
 
 		//1.업무로직 : pageBar영역 
 		String pageBar = HelloSpringUtils.getPageBar(totalContents, cpage, limit, url);
-		
+		List<Idol> idolList = agencyService.selectIdolNameList(loginMember.getFanNo());
+
 		model.addAttribute("pageBar", pageBar);
+		model.addAttribute("category", AgencyService.PRODUCT_CATEGORY);
+		model.addAttribute("idolList", idolList);
 		model.addAttribute("productList", productList);
 		
 		return "agency/agencyProduct/agencyAllProduct";
@@ -146,6 +150,7 @@ public class AgencyController_Product {
 			@ModelAttribute ProductImgExt product,
 			@RequestParam(name="thumbnailFile", required = false) MultipartFile thumbnailFile,
 			@RequestParam(name="detailFile", required = false) MultipartFile detailFile,
+			@RequestParam(name="pdOptionPlus", required = false) String[] pdOptionPlus,
 			RedirectAttributes redirectAttr
 		) throws IllegalStateException, IOException { 
         log.info("thumbnailFile ={} ",thumbnailFile.getOriginalFilename());
@@ -182,7 +187,14 @@ public class AgencyController_Product {
 		ProductImgExt pd = product;
 		pd.setPdImgList(pdImgList);
 		log.info("pd={}", pd);
-
+        
+        //새로 추가된 옵션은 insert 처리
+		if(pdOptionPlus != null) {
+			List<ProductOption> pdOptionList = pdOptionUpload(pdOptionPlus);
+			log.info("pdOptionList={}",pdOptionList.toString());
+			pd.setPdOptionList(pdOptionList);
+		}		
+		
 		int result = agencyService.updateProduct(product);
 		
 		if(result>0)
@@ -191,6 +203,25 @@ public class AgencyController_Product {
 	}
 	
 	
+	@DeleteMapping("/optionDelete/{optionNo}")
+	public ResponseEntity<?> productOPtionDelete(@PathVariable String optionNo) {
+		int optionNum = Integer.parseInt(optionNo);
+		log.debug("pdNo ={}",optionNo);
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			int result =agencyService.deleteOption(optionNum);
+			if(result > 0) {
+				map.put("msg", "메뉴삭제성공");
+				return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);			//status: 404 에러 보냄
+			}
+		} catch (Exception e) {
+			log.error("옵션 조회 오류 : " + optionNo, e);
+			throw e;
+		}
+	}
 	
 	@GetMapping("/agencyProductEnroll")
 	public String agencyProductEnroll(Authentication authentication, Model model) { 
@@ -209,11 +240,11 @@ public class AgencyController_Product {
 			@ModelAttribute ProductImgExt product,
 			@RequestParam(name="thumbnailFile", required = false) MultipartFile thumbnailFile,
 			@RequestParam(name="detailFile", required = false) MultipartFile detailFile,
+			@RequestParam(name="pdOption", required = false) String[] pdOption,
 			RedirectAttributes redirectAttr
 	) throws IllegalStateException, IOException { 
-        log.info("thumbnailFile ={} ",thumbnailFile);
-        log.info("detailFile ={} ",detailFile);
 
+        //파일
 		Map<String, Object> upFile = new HashMap<String, Object>();
 		if(!thumbnailFile.isEmpty()) {
 			upFile.put(AgencyService.PRODUCT_IMG_CATEGORY_THUMBNAIL, thumbnailFile);
@@ -238,11 +269,20 @@ public class AgencyController_Product {
             log.info("키 ={} ",elem.getKey());
             pdImgList.add(pdImg);
         }
-		
+
 		ProductImgExt pd = product;
 		pd.setPdImgList(pdImgList);
 		log.info("product={}", product);
 
+        
+        //옵션
+		if(pdOption!=null) {
+			List<ProductOption> pdOptionList = pdOptionUpload(pdOption);
+			log.info("pdOptionList={}",pdOptionList.toString());
+			pd.setPdOptionList(pdOptionList);	
+		}	
+		
+		
 		int result = agencyService.insertProduct(product);
 		
 		if(result>0)
@@ -250,6 +290,25 @@ public class AgencyController_Product {
 		return "redirect:agencyProduct";
 	}
 	
+	
+	/**
+	 * product option 관련
+	 * @param pdOption
+	 * @return
+	 */
+	private List<ProductOption> pdOptionUpload(String[] pdOption) {
+		List<ProductOption> pdOptionList = new ArrayList<ProductOption>();
+		//d. idol mv 넣기
+		for(String option : pdOption) {
+			if(!option.equals("")) {
+				ProductOption po = new ProductOption();
+				po.setOptionName(option);
+				pdOptionList.add(po);
+			}
+		}
+		return pdOptionList;
+	}
+
 	/**
 	 * product img 업로드 관련 function
 	 * @param img

@@ -46,6 +46,20 @@
 	            </div>
 	        </div>
 	    </div>
+	    <div class="mb-4 row">
+	        <label class="col-md-3 col-form-label" for="pdCategory">옵션</label>
+	        <div class="col-md-9 option">
+            	<button type="button" onclick="optionPlus()" class="btn btn-sm">옵션 추가</button><span class="badge bg-light text-dark"> 삭제 클릭시 바로 적용! </span>
+	          	<c:forEach items="${product.pdOptionList }" var="option">	 
+		          	<c:if test="${!empty option.optionName}">
+			          	<div class="input-group ">
+			            	<input type="text" class="form-control" name="pdOption" id="pdOption" value="${option.optionName}" data-no="${option.optionNo}">
+						    <button class="btn btn-outline-danger" type="button" onclick="optionDelete(event);" data-no="${option.optionNo}">삭제</button>	  
+					    </div>
+		          	</c:if>
+	          	</c:forEach>
+	        </div>
+	    </div>
 	
 	    <div class="mb-4 row">
 	        <label class="col-md-3 col-form-label" for="pdContent">상품 설명</label>
@@ -132,7 +146,9 @@
     </form:form>
 </div>
 <script>
-
+function formValidate(){
+	
+}
 function setThumbnail(event){
 	var file = event.target.files;
 	var name = event.target.id;
@@ -151,6 +167,44 @@ function setThumbnail(event){
 		}
 		reader.readAsDataURL(f);
 	});
+}
+var count=1;
+function  optionPlus(){
+	const option = $(".option");
+	var text = '<div class="input-group mt-2">';
+	text += '<input type="text" class="form-control" name="pdOptionPlus" id="pdOptionPlus">';
+	text+= '<button class="btn btn-outline-danger" id="minus" type="button" onclick="optionMinus(event);">-</button>	</div>';
+	option.append(text);
+	count = count+1;
+}
+
+function optionMinus(event){
+    const target = event.target;
+	const parent = $("#"+target.id).parent();
+	parent.remove();
+}
+function optionDelete(event){
+    const target = event.target;
+    const optionNo= target.dataset.no;
+    if(!confirm("정말 삭제하시겠습니까?")){
+		return false;
+    }
+	$.ajax({
+		url: `${pageContext.request.contextPath}/agency/optionDelete/\${optionNo}`,
+		method : 'delete',
+		success: function (data){
+			console.log("삭제 성공");
+			const {msg} = data;
+			alert(msg);
+			refreshMemList();
+		},
+		error(xhr, statusText, err){
+			console.log(err);
+		}
+	});
+}
+function refreshMemList(){
+	location.reload();
 }
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
