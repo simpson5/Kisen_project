@@ -8,6 +8,10 @@
     text-align: center;
 }
 
+.modal-content {
+	padding-bottom: 25px;
+}
+
 .fill-in-area {
     margin: 8px;
     border-top: none;
@@ -22,8 +26,11 @@ input:hover {
     border-bottom: 1.9px solid rgb(128, 25, 128);
 }
 
+
+
 input:focus {
     outline: none;
+    border-bottom: 1.9px solid rgb(128, 25, 128);
 }
 
 /* >> login btn start */
@@ -49,7 +56,7 @@ input:focus {
 
 /* >> login ext a_tag start */
 .login-ext {
-    margin: 20px 0 8px;
+    margin: 20px 0px 14px;
 }
 
 a {
@@ -82,5 +89,11 @@ span {
     font-size: smaller;
     text-align: left;
     margin: 0 auto 5px;
-    color: red;
+    color: grey;
+}
+
+.loginNotice {
+	text-align: center;
+	margin-bottom: 0px;
+	color: red;
 }
