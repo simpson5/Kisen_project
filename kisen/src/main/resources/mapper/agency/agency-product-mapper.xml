@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="agency-product">
+	<insert id="insertProduct">
+		insert into
+		    product
+		values(
+		    seq_pd_no.nextval,
+		    #{idolNo},
+		    #{pdCategory},
+		    #{pdName},
+		    #{pdContent},
+		    #{price},
+		    #{pdStock},
+		    0,
+		    default
+		)
+		
+		<selectKey keyProperty="pdNo" resultType="_int" order="AFTER">
+			select 
+				seq_pd_no.currval
+			from
+			 	dual
+		</selectKey>
+	</insert>
+	
+	
+	
+	<insert id="insertProductImg"> 
+		insert into 
+		pd_img
+		values( seq_pd_img_no.nextval, #{pdNo},#{pdCategory}, #{originalFilename}, #{renamedFilename},default) 
+	</insert>
+	<insert id="insertProductOption"> 
+		insert into 
+		pd_option
+		values( seq_pd_option_no.nextval, #{pdNo},#{optionName}) 
+	</insert>
+	
+	<select id="selectProductList" resultMap="productCollectionMap">
+		select 
+		    p.*,
+   			pi.pd_img_no,
+		    pi.pd_category img_category,
+		    pi.original_filename,
+		    pi.renamed_filename,
+            po.option_no,
+            po.option_name,
+		    i.idol_name
+		from product p 
+		    left join pd_img pi
+		        on p.pd_no = pi.pd_no
+            left join pd_option po
+		        on p.pd_no = po.pd_no
+		    left join idol i
+		        on p.idol_no = i.idol_no
+		where i.agency_no = (select agency_no from agency where fan_no =#{fanNo})
+		order by sales_date desc
+	</select>
+
+	<resultMap type="productImgExt" id="productCollectionMap">
+		<id column ="pd_no" property="pdNo"/>
+		<result column="idol_no" property="idolNo"/>
+		<result column="pd_category" property="pdCategory"/>
+		<result column="pd_name" property="pdName"/>
+		<result column="pd_content" property="pdContent"/>
+		<result column="price" property="price"/>
+		<result column="pd_stock" property="pdStock"/>
+		<result column="pd_sales" property="pdSales"/>
+		<result column="sales_date" property="salesDate"/>
+		<result column="idol_name" property="idolName"/>
+		
+		<collection property="pdImgList" ofType="productImg">
+		 	<id column ="pd_img_no" property="pdImgNo"/>
+		 	<result column="pd_no" property="pdNo"/>
+		 	<result column="img_category" property="pdCategory"/>
+		 	<result column="original_filename" property="originalFilename"/>
+		 	<result column="renamed_filename" property="renamedFilename"/>
+		 	<result column="upload_date" property="uploadDate"/>
+		</collection>
+		
+		
+		<collection property="pdOptionList" ofType="productOption">
+		 	<id column ="option_no" property="optionNo"/>
+		 	<result column="pd_no" property="pdNo"/>
+		 	<result column="option_name" property="optionName"/>
+		</collection>
+	</resultMap>
+	
+  	<select id="selectProductTotalContents" resultType="_int">
+		select 
+    		count(*)
+		from product p 
+		    left join idol i
+		        on p.idol_no = i.idol_no
+		where i.agency_no = (select agency_no from agency where fan_no =#{fanNo})
+  	</select>
+  	
+ 	<select id="selectOneProduct" resultMap="productCollectionMap">
+		select 
+		    p.*,
+   			pi.pd_img_no,
+		    pi.pd_category img_category,
+		    pi.original_filename,
+		    pi.renamed_filename,
+            po.option_no,
+            po.option_name,
+		    i.idol_name
+		from product p 
+		    left join pd_img pi
+		        on p.pd_no = pi.pd_no
+            left join pd_option po
+		        on p.pd_no = po.pd_no
+		    left join idol i
+		        on p.idol_no = i.idol_no
+		where p.pd_no = #{pdNo}
+	</select>
+  	
+  	
+	<update id="updateIdolMv">
+		update 
+			product
+		set 
+			idol_no = #{idolNo},
+			pd_category = #{pdCategory},
+			pd_name = #{pdName},
+			pd_content = #{pdContent},
+			price = #{price},
+			pd_stock = #{pdStock}
+		where 
+			pd_no = #{pdNo}
+	</update>
+	
+	<update id="updateProductImg">
+		update 
+			pd_img
+		set 
+			original_filename = #{originalFilename},
+			renamed_filename = #{renamedFilename}
+		where 
+			pd_category = #{pdCategory} and
+			pd_no = #{pdNo}
+	</update>
+	
+	
+	<update id="updateProductOption">
+		update 
+			pd_option
+		set 
+			option_name = #{optionName},
+		where 
+			option_no = #{optionNo},
+			pd_no = #{pdNo}
+	</update>
+	<delete id="deleteProduct">
+		delete from product 
+		where pd_no = #{pdNo}
+	</delete>
+	<delete id="deleteOption">
+		delete from pd_option 
+		where option_no = #{optionNum}
+	</delete>
+</mapper>

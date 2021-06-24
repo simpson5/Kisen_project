@@ -5,9 +5,15 @@ import java.util.Map;
 
 import com.simpson.kisen.agency.model.vo.Agency;
 import com.simpson.kisen.idol.model.vo.Idol;
+import com.simpson.kisen.product.model.vo.ProductImgExt;
 
 public interface AgencyService {
+	public static String[] PRODUCT_CATEGORY = {"앨범","응원봉","기타"};
 
+	public static String PRODUCT_IMG_CATEGORY_THUMBNAIL = "R";
+
+	public static String PRODUCT_IMG_CATEGORY_DETAIL = "D";
+	
 	List<Idol> selectIdolList(String fanNo, Map<String, Object> param);
 
 	int insertIdol(Idol idol);
@@ -23,5 +29,21 @@ public interface AgencyService {
 	int selectPdCnt(int no);
 
 	int updateIdol(Idol idol);
+
+	int insertProduct(ProductImgExt product);
+
+	List<ProductImgExt> selectProductList(String fanNo, Map<String, Object> param);
+
+	int selectProductTotalContents(String fanNo);
+
+	ProductImgExt selectOneProduct(String pdNo);
+
+	List<Idol> selectIdolNameList(String fanNo);
+
+	int updateProduct(ProductImgExt product);
+
+	int deleteProduct(String pdNo);
+
+	int deleteOption(int optionNum);
 
 }

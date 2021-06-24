@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="agency">
+	<select id="selectAgency" resultType="agency">
+		select * from agency where fan_no = #{fanNo}
+	</select>
+	
+	
+	<select id="selectPdCnt" resultType="_int">
+		select count(*) from product where idol_no = #{idolNo}
+	</select>
+
+</mapper>

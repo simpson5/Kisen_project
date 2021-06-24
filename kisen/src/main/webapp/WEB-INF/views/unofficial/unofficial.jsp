@@ -61,11 +61,11 @@
 
 		<script>
 			function goDemandForm() {
-				location.href = "${pageContext.request.contextPath}/unofficial/demandForm.do";
+				location.href = "${pageContext.request.contextPath}/unofficial/demandEnroll.do";
 			}
 
 			function goDepositForm() {
-				location.href = "${pageContext.request.contextPath}/unofficial/depositForm.do";
+				location.href = "${pageContext.request.contextPath}/unofficial/depositEnroll.do";
 			}
 
 			function goDepositSubmit() {
