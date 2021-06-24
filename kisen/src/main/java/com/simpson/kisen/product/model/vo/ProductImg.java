@@ -9,11 +9,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductImg {
+public class ProductImg { 
 	private int pdImgNo;
 	private int pdNo;
 	private String pdCategory;
 	private String originalFilename;
 	private String renamedFilename;
 	private Date uploadDate;
+	
+	//테이블 이름 pd_img
 }

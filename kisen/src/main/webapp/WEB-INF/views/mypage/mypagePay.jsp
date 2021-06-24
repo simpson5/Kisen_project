@@ -201,9 +201,9 @@ img#productImg{
     </div>
     <div class="col " id="innerContent">
       <ul>
-      	<li>취소 : 0</li>
-      	<li>교한 : 0</li>
-      	<li>반품 : 0</li>
+      	<li><a href="#">참여 폼 : 0</a></li>
+      	<li><a href="#">만든 폼 : 0</a></li>
+      	<li><a href="#">취소 : 0</a></li>
       </ul>
     </div>
   </div>
@@ -238,14 +238,16 @@ img#productImg{
  -->
 <div class="border border-0 mx-auto p-3 rounded " id="paymentHistory">
 	<ul class="list-unstyled">
+	
+	<c:forEach items="${payList}" var="payList">
 	  <li class="media border border-left-0 border-top-0 border-right-0">
-	    <img class="mr-3" src="${pageContext.request.contextPath}/resources/images/moonju/rv.jpg" alt="상품 이미지" id="productImg" >
+	    <img class="mr-3" src="${pageContext.request.contextPath}/resources/upload/product/${payList.productImg.renamedFilename}" alt="상품 이미지" id="productImg" >
 	    <div class="media-body col-6 mb-3 ">
-	      <h5 class="mt-0 mb-1">Red Velvet 1st 앨범</h5>
+	     <!--  <h5 class="mt-0 mb-1">Red Velvet 1st 앨범</h5> -->
 		      <div class="py-3">
-		      <span>Red Velvet 1st 앨범/포토카드증정</span>
+		      <span>${payList.payContent}</span>
 		      </div>
-		      <span>시즌그리팅(day)</span>
+		      <span>띠용용</span>
 	    </div>
 	    <div class="col-2" id="payInfo">
 	    	<h5 class="mt-0 mb-1">가격</h5>
@@ -268,68 +270,7 @@ img#productImg{
 		      </div>
 	    </div>
 	  </li>
-
-	  <li class="media my-4 border border-left-0 border-top-0 border-right-0">
-	     <img class="mr-3" src="${pageContext.request.contextPath}/resources/images/moonju/shinee.jpg" alt="상품 이미지" id="productImg" >
-	     <div class="media-body col-6 mb-3">
-	      <h5 class="mt-0 mb-1">SHINEE 정규 앨범</h5>
-		      <div class="py-3">
-		      <span>정규 앨범</span>
-		      </div>
-		      <span></span>
-	    </div>
-	    <div class="col-2" id="payInfo">
-	    	<h5 class="mt-0 mb-1">가격</h5>
-		      <div class="py-0">
-		      <span>10000원</span>
-		      </div>
-	    </div>
-	    <div class="col-2 " id="payInfo">
-	    	<h5 class="mt-0 mb-1">수량</h5>
-		      <div class="py-0">
-		      <span>1</span>
-		      </div>
-	    </div>
-	    <div class="col-2" id="payInfo">
-		      <div class="py-2">
-		      	<button type="submit" class="btn btn-outline-warning" >구매후기</button>
-		      </div>
-		      <div class="py-2">
-		      	<button type="submit" class="btn btn-outline-warning" >배송조회</button>
-		      </div>
-	    </div>
-	   </li>
-
-	  <li class="media border border-left-0 border-top-0 border-right-0">
-	     <img class="mr-3" src="${pageContext.request.contextPath}/resources/images/moonju/twice.jpg" alt="상품 이미지" id="productImg" >
-	    <div class="media-body col-6 mb-3">
-	      <h5 class="mt-0 mb-1">TWICE 브로마이드</h5>
-		      <div class="py-3">
-		      <span>공식응원봉</span>
-		      </div>
-		      <span>브로마이드 패키지(A타입)</span>
-	    </div>
-	    <div class="col-2" id="payInfo">
-	    	<h5 class="mt-0 mb-1">가격</h5>
-		      <div class="py-0">
-		      <span>10000원</span>
-		      </div>
-	    </div>
-	    <div class="col-2 " id="payInfo">
-	    	<h5 class="mt-0 mb-1">수량</h5>
-		      <div class="py-0">
-		      <span>1</span>
-		      </div>
-	    </div>
-	    <div class="col-2" id="payInfo">
-		      <div class="py-2">
-		      	<button type="submit" class="btn btn-outline-warning" >구매후기</button>
-		      </div>
-		      <div class="py-2">
-		      	<button type="submit" class="btn btn-outline-warning" >배송조회</button>
-		      </div>
-	    </div>
-	    </li>
+	</c:forEach>
 	   </ul>	    
 </div>
 
