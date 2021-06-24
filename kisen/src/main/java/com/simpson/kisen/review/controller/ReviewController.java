@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -87,10 +88,15 @@ public class ReviewController {
 	}
 	
 	@PostMapping("/reviewInsert")
-	public String reviewInsert() {
-		int no = 1;
+	public void reviewInsert(
+			@ModelAttribute ReviewExt reviewExt,
+			Model model 						
+				) {		
+		log.info("model = {}" , model);
+		log.info("reviewExt = {}", reviewExt);
 		
-		return "redirect:/review/reviewForm.do?no="+no;
+		int result = reviewService.insertReview(reviewExt);
+		System.out.println("result = " + result);
 	}
 
 	
