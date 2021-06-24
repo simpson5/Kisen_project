@@ -122,7 +122,7 @@
                             <a class="nav-link" href="${pageContext.request.contextPath}/unofficial/unofficial.do">비공식굿즈</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/artist/artistInfo" onclick="artistClick()">아티스트별</a>
+                            <a class="nav-link" onclick="artistClick()">아티스트별</a>
                         </li>
                         <li class="nav-item ">
                             <a class="nav-link" href="${pageContext.request.contextPath}/notice">NOTICE</a>
@@ -169,10 +169,23 @@
         <div class="artistLisContainer d-none d-sm-block">
           <div class=" memu-div d-none d-sm-block" >  
               <ul class="d-flex justify-content-around menu-ul">
-                  <li class="nav-item active "></li>
-                  <li class="nav-item "> </li>
+                  <li class="nav-item"></li>
+                  <li class="nav-item"> </li>
                   <li class="nav-item">
-                    <div class="artistListDiv bg-light rounded"></div>
+                    <div class="artistListDiv bg-light rounded text-start">
+                        <ul id="list1" style="display: inline-block; margin: 0.3rem 2rem;">
+                        	<!-- 12개 -->
+                        </ul>
+                        <ul id="list2" style="display: inline-block; margin: 0.3rem 2rem;">
+                        </ul>
+                        <ul id="list3" style="display: inline-block; margin: 0.3rem 2rem;">
+                        </ul>
+                        <ul id="list4" style="display: inline-block; margin: 0.3rem 2rem;">
+                        </ul>
+
+
+
+                    </div>
                   </li>
                   <li class="nav-item "></li>
               </ul>
@@ -187,11 +200,58 @@
           console.log("click")
           if(count%2 == 0){
               $(".artistLisContainer").css("visibility","visible");   
+              searchIdol(count);
           }
           else{
               $(".artistLisContainer").css("visibility","hidden");  
           }
           count++;
+      }
+
+
+      function searchIdol(count){
+		$.ajax({
+			url : "${pageContext.request.contextPath}/artist/allArtist",
+			method : "get",
+			success(data){
+				console.log(data);
+				console.log(data.length);
+				var $list1 = $("#list1");
+				var $list2 = $("#list2");
+				var $list3 = $("#list3");
+				var $list4 = $("#list4");
+				for(var i=0; i<data.length; i++) {
+					var htmlStr = '<li><a href="${pageContext.request.contextPath}/artist/artistDetail/'+data[i].idolNo+'" class="idolList text-start">'+data[i].idolName+'</a></li>';
+					console.log(htmlStr);
+					if( 0<i && i<12){
+						if(!$list1.hasClass("hasList"))
+							$list1.append(htmlStr);
+					}
+					
+					else if(12<= i && i< 24){
+						if(!$list2.hasClass("hasList"))
+							$list2.append(htmlStr);
+					}
+					else if(24<= i && i< 36){
+						if(!$list3.hasClass("hasList"))
+							$list3.append(htmlStr);
+					}
+					else if(36<= i && i< 48){
+						if(!$list4.hasClass("hasList"))
+							$list4.append(htmlStr);
+					}
+				}
+				if($list1.children('li'))
+					$list1.addClass("hasList");
+				if($list2.children('li'))
+					$list2.addClass("hasList");
+				if($list3.children('li'))
+					$list3.addClass("hasList");
+				if($list4.children('li'))
+					$list4.addClass("hasList");
+			},
+			error : console.log
+		});
       }
   </script>
   <section>
