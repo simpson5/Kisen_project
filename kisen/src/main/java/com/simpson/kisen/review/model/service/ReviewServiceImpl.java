@@ -51,7 +51,7 @@ public class ReviewServiceImpl implements ReviewService {
 		//2.attachment 등록
 		if(review.getAttachList().size() > 0) {
 			for(Attachment attach : review.getAttachList()) {
-				attach.setReview_No(review.getReviewNo()); // board no fk 세팅
+				attach.setReviewNo(review.getReviewNo()); // board no fk 세팅
 				result = insertAttachment(attach);
 			}
 		}

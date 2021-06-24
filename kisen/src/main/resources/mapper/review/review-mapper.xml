@@ -36,6 +36,44 @@
 		<result column="review_title" property="reviewTitle"/>
 		<result column="fanId" property="fanId"/>
 	</resultMap>
+	
+	<insert id="insertReview">
+	insert into
+		review(
+			review_no,
+			review_title,
+			review_content,
+			review_date
+		)
+	values(
+		seq_review_no.nextval,
+		#{reviewTitle},
+		#{reviewContent},
+		#{reviewDate}
+	)
+	</insert>
+	<insert id="insertBoard">
+		insert into
+			board(
+				no,
+				title,
+				member_id,
+				content
+			)
+		values (
+			seq_board_no.nextval,
+			#{title},
+			#{memberId},
+			#{content}
+		)
+		<!-- 발급받은 board pk no값을 파라미터 board객체의 property no에 저장한다. -->
+		<selectKey keyProperty="no" resultType="_int" order="AFTER">
+			select
+				seq_board_no.currval
+			from 
+				dual
+		</selectKey>
+	</insert>
 </mapper>
 
 

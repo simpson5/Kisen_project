@@ -38,8 +38,8 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public int insertReview(ReviewExt board) {
-		return session.insert("review.insertReview", insertReview(null));
+	public int insertReview(ReviewExt review) {
+		return session.insert("review.insertReview", review);
 	}
 
 	@Override
