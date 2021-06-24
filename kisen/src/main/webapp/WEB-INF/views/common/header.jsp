@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!-- security관련 taglib -->
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>	
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>   
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +21,7 @@
     <!-- bootstrap css -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     
-	<title>${param.title}</title>
+   <title>${param.title}</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
@@ -32,56 +32,91 @@
         <div class="box  ">
             <div class="d-none d-sm-block">  
                 <ul class=" search-ul d-flex justify-content-end">
-                	<!-- security : 로그인한 경우 -->
-				    <sec:authorize access="isAuthenticated()">
-				    <!-- property : principal.username -> 인증한 객체의 아이디 -->
-				    <li class="user-id">
-				    	<sec:authentication property="principal.username"/>
-				    </li>
-				    <span class="divide">|</span>
-			    	<li>
-			    	<sec:authentication property="authorities" var="authority"/>
-			    	<c:if test="${fn:contains(authority , 'ROLE_AGENCY')}">
-			    		<li>
-							<a href="${pageContext.request.contextPath}/agency/agencyMain.do">기획사</a>
-						</li>
-			    	</c:if>
-			    	<c:if test="${fn:contains(authority , 'ROLE_ADMIN')}">
-			    		<li>
-			    			<a href="${pageContext.request.contextPath}/admin/adminMain.do">관리자</a>
-			    		</li>
-			    	</c:if>
-			    		<a href="${pageContext.request.contextPath}/member/memberTest.do">memberTest</a>
-				    </sec:authorize>
-                	<!-- security : 로그인하지 않은 경우 -->
-                	<sec:authorize access="isAnonymous()">
-                    <li>
-                        <a href="${pageContext.request.contextPath}/member/login.do">LOGIN </span></a>
-                    </li>
-                    <span class="divide">|</span>
-                    <li>
-                        <a href="${pageContext.request.contextPath}/member/signupTerm.do">JOIN</a>
-                    </li>
-                    </sec:authorize>
+                   <!-- security : 로그인한 경우 -->
+                <sec:authorize access="isAuthenticated()">
+                <!-- property : principal.username -> 인증한 객체의 아이디 -->
+                <li class="user-id">
+                   <sec:authentication property="principal.username"/>
+                </li>
+                <span class="divide">|</span>
+                <li>
+                <sec:authentication property="authorities" var="authority"/>
+                <c:if test="${fn:contains(authority , 'ROLE_AGENCY')}">
+                   <li>
+                     <a href="${pageContext.request.contextPath}/agency/agencyMain.do">기획사</a>
+                  </li>
+                </c:if>
+                <c:if test="${fn:contains(authority , 'ROLE_ADMIN')}">
+                   <li>
+                      <a href="${pageContext.request.contextPath}/admin/adminMain.do">관리자</a>
+                   </li>
+                </c:if>
+                </sec:authorize>
+                
+                <!-- 소셜로그인 -->
+                <!-- property : principal.username -> 인증한 객체의 아이디 -->
+                <c:if test="${loginMember.oauth eq 'kakao' || loginMember.oauth eq 'google'}">
+                <li class="user-id">
+                   ${loginMember.fanId}
+                </li>
+                </c:if>
+                <c:forEach items="${loginMemberAuthorities}" var="authorities" varStatus="vs">
+                   <c:if test="${fn:contains(authorities.authority, 'ROLE_AGENCY')}">
+                   <span class="divide">|</span>
+                  <li>
+                     <a href="${pageContext.request.contextPath}/agency/agencyMain.do">기획사</a>
+                  </li>          
+                   </c:if>
+                   <c:if test="${fn:contains(authorities.authority, 'ROLE_ADMIN')}">
+                   <span class="divide">|</span>
+                  <li>
+                     <a href="${pageContext.request.contextPath}/admin/adminMain.do">관리자</a>
+                  </li>          
+                   </c:if>
+                </c:forEach>
+                    
+                <!-- security : 로그인하지 않은 경우 -->
+                <c:if test="${loginMember.oauth ne 'kakao' && loginMember.oauth ne 'google'}">
+                <sec:authorize access="isAnonymous()">
+                <li>
+                    <a href="${pageContext.request.contextPath}/member/login.do">LOGIN </span></a>
+                </li>
+                <span class="divide">|</span>
+                <li>
+                    <a href="${pageContext.request.contextPath}/member/signupTerm.do">JOIN</a>
+                </li>
+                </sec:authorize>
+                </c:if>
+
+                    
                     <span class="divide">|</span>
                     <li >
                         <a href="${pageContext.request.contextPath}/mypage/mypagePay.do">MYPAGE</a>
                     </li>
                     <span class="divide">|</span>
-     				<li>
+                    <li>
                         <a href="${pageContext.request.contextPath}/basket/cart.do">장바구니</a>
                     </li>
                     <span class="divide">|</span>
                     <sec:authorize access="isAuthenticated()">
-                    <li>	
-				    	<form:form class="d-inline"
-				    				action="${pageContext.request.contextPath}/member/logout.do"
-				    				method="POST">
-			    			<button class="logout-btn" type="submit">LOGOUT</button>
-			    		</form:form>
-			    	</li>
+                    <li>   
+                   <form:form class="d-inline"
+                            action="${pageContext.request.contextPath}/member/logout.do"
+                            method="POST">
+                      <button class="logout-btn" type="submit">LOGOUT</button>
+                   </form:form>
+                </li>
                     <span class="divide">|</span>
                     </sec:authorize>
+                    <c:if test="${loginMember.oauth eq 'kakao' || loginMember.oauth eq 'google'}">
+                    <li>   
+                   <form:form class="d-inline"
+                            action="${pageContext.request.contextPath}/member/logout.do"
+                            method="POST">
+                      <button class="logout-btn" type="submit">LOGOUT</button>
+                   </form:form>
+                </li>
+                    </c:if>
                 </ul>
             </div>
           
@@ -169,10 +204,20 @@
         <div class="artistLisContainer d-none d-sm-block">
           <div class=" memu-div d-none d-sm-block" >  
               <ul class="d-flex justify-content-around menu-ul">
-                  <li class="nav-item active "></li>
-                  <li class="nav-item "> </li>
+                  <li class="nav-item"></li>
+                  <li class="nav-item"> </li>
                   <li class="nav-item">
-                    <div class="artistListDiv bg-light rounded"></div>
+                    <div class="artistListDiv bg-light rounded text-start">
+                        <ul id="list1" style="display: inline-block; margin: 0.3rem 2rem;">
+                        	<!-- 12개 -->
+                        </ul>
+                        <ul id="list2" style="display: inline-block; margin: 0.3rem 2rem;">
+                        </ul>
+                        <ul id="list3" style="display: inline-block; margin: 0.3rem 2rem;">
+                        </ul>
+                        <ul id="list4" style="display: inline-block; margin: 0.3rem 2rem;">
+                        </ul>
+                    </div>
                   </li>
                   <li class="nav-item "></li>
               </ul>
@@ -181,17 +226,64 @@
     </header>
 
 
-    <script>
-      let count =0;
-      function artistClick(){
-          console.log("click")
-          if(count%2 == 0){
-              $(".artistLisContainer").css("visibility","visible");   
-          }
-          else{
-              $(".artistLisContainer").css("visibility","hidden");  
-          }
-          count++;
-      }
-  </script>
+<script>
+let count =0;
+function artistClick(){
+    console.log("click")
+    if(count%2 == 0){
+        $(".artistLisContainer").css("visibility","visible");   
+        searchIdol(count);
+    }
+    else{
+        $(".artistLisContainer").css("visibility","hidden");  
+    }
+    count++;
+}
+
+
+function searchIdol(count){
+    $.ajax({
+        url : "${pageContext.request.contextPath}/artist/allArtist",
+        method : "get",
+        success(data){
+            console.log(data);
+            console.log(data.length);
+            var $list1 = $("#list1");
+            var $list2 = $("#list2");
+            var $list3 = $("#list3");
+            var $list4 = $("#list4");
+            for(var i=0; i<data.length; i++) {
+                var htmlStr = '<li><a href="${pageContext.request.contextPath}/artist/artistDetail/'+data[i].idolNo+'" class="idolList text-start">'+data[i].idolName+'</a></li>';
+                console.log(htmlStr);
+                if( 0<i && i<12){
+                    if(!$list1.hasClass("hasList"))
+                        $list1.append(htmlStr);
+                }
+                
+                else if(12<= i && i< 24){
+                    if(!$list2.hasClass("hasList"))
+                        $list2.append(htmlStr);
+                }
+                else if(24<= i && i< 36){
+                    if(!$list3.hasClass("hasList"))
+                        $list3.append(htmlStr);
+                }
+                else if(36<= i && i< 48){
+                    if(!$list4.hasClass("hasList"))
+                        $list4.append(htmlStr);
+                }
+            }
+            if($list1.children('li'))
+                $list1.addClass("hasList");
+            if($list2.children('li'))
+                $list2.addClass("hasList");
+            if($list3.children('li'))
+                $list3.addClass("hasList");
+            if($list4.children('li'))
+                $list4.addClass("hasList");
+        },
+        error : console.log
+    });
+}
+</script>
   <section>
