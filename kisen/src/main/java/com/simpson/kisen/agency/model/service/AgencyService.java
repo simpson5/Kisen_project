@@ -32,7 +32,7 @@ public interface AgencyService {
 
 	int insertProduct(ProductImgExt product);
 
-	List<ProductImgExt> selectProductList(String fanNo);
+	List<ProductImgExt> selectProductList(String fanNo, Map<String, Object> param);
 
 	int selectProductTotalContents(String fanNo);
 
@@ -43,5 +43,7 @@ public interface AgencyService {
 	int updateProduct(ProductImgExt product);
 
 	int deleteProduct(String pdNo);
+
+	int deleteOption(int optionNum);
 
 }

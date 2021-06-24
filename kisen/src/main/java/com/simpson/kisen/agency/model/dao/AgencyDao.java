@@ -9,6 +9,7 @@ import com.simpson.kisen.idol.model.vo.IdolImg;
 import com.simpson.kisen.idol.model.vo.IdolMv;
 import com.simpson.kisen.product.model.vo.ProductImg;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
+import com.simpson.kisen.product.model.vo.ProductOption;
 
 public interface AgencyDao {
 
@@ -41,7 +42,7 @@ public interface AgencyDao {
 
 	int insertProductImg(ProductImg productImg);
 
-	List<ProductImgExt> selectProductList(String fanNo);
+	List<ProductImgExt> selectProductList(String fanNo, Map<String, Object> param);
 
 	int selectProductTotalContents(String fanNo);
 
@@ -54,5 +55,11 @@ public interface AgencyDao {
 	int updateProductImg(ProductImg productImg);
 
 	int deleteProduct(String pdNo);
+
+	int insertProductOption(ProductOption productOption);
+
+	int updateProductOption(ProductOption productOption);
+
+	int deleteOption(int optionNum);
 
 }

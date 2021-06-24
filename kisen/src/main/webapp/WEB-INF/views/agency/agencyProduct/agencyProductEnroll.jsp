@@ -45,7 +45,12 @@
 	            </div>
 	        </div>
 	    </div>
-	
+	    <div class="mb-4 row">
+	        <label class="col-md-3 col-form-label" for="pdCategory">옵션</label>
+	        <div class="col-md-9 option">
+            	<button type="button" onclick="optionPlus()" class="btn btn-sm">옵션 추가</button>
+	        </div>
+	    </div>
 	    <div class="mb-4 row">
 	        <label class="col-md-3 col-form-label" for="pdContent">상품 설명</label>
 	        <div class="col-md-9">
@@ -109,7 +114,11 @@
 	                <button type="submit" class="btn btn-lg btn-main" style="width: 100%;" >등록하기</button>
 	            </div>
 	        </div>
-	    </div>
+	    </div>    
+	    <!-- <div class="input-group ">
+		    <input type="text" class="form-control" name="pdOption" id="pdOption" data-no="">
+		    <button class="btn btn-outline-danger" type="button" onclick="optionMinus();" data-no="">-</button>	  
+	    </div> -->
 	</form:form>
 
 </div>
@@ -138,6 +147,21 @@
 			reader.readAsDataURL(f);
 		});
     }
-    
+
+	var count=1;
+    function  optionPlus(){
+		const option = $(".option");
+		var text = '<div class="input-group mt-2">';
+		text += '<input type="text" class="form-control" name="pdOption" id="pdOption">';
+		text+= '<button class="btn btn-outline-danger" id="minus" type="button" onclick="optionMinus(event);">-</button>	</div>';
+		option.append(text);
+		count = count+1;
+    }
+
+    function optionMinus(event){
+        const target = event.target;
+		const parent = $("#"+target.id).parent();
+		parent.remove();
+    }
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
