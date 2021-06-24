@@ -6,16 +6,44 @@
 
 	<select id="selectAllList" resultMap="paymentResultMap">
 		select
-			*
+			pp.*,
+			ph.payment_no,
+			ph.pay_content,
+			ph.pay_type,
+			ph.amount,
+			ph.point,
+			ph.waybill,
+			pi.pd_category,
+			pi.renamed_filename
 		from
-			payment_history
+			payment_product pp
+		left join
+			pd_img pi
+		on 
+			pp.pd_no = pi.pd_no
+		left join 
+			payment_history ph
+		on
+			pp.payment_no = ph.payment_no
+	
+			
 	</select>
-	<resultMap type="payment" id="paymentResultMap">
+	<resultMap type="paymentProduct" id="paymentResultMap">
 	 <id column ="payment_no" property="paymentNo"/>
 	  <result column ="fan_no" property="fanNo"/>
       <result column="pay_type" property="payType"/>
       <result column="pay_content" property="payContent"/>
       <result column="pay_date" property="payDate"/>
-     
+      <result column="pd_no" property="pdNo"/>
+      <result column="order_no" property="orderNo"/>
+      
+     <collection property="productImg" ofType="ProductImg">
+          <id column="pd_no" property="pdNo"/>
+          <result column="pd_img_no" property="pdImgNo"/>
+          <result column="pd_category" property="pdCategory"/>
+          <result column="original_filename" property="originalFilename"/>
+          <result column="renamed_filename" property="renamedFilename"/>
+          <result column="upload_date" property="uploadDate"/>
+      </collection>
 	</resultMap>
 </mapper>

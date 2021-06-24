@@ -198,7 +198,7 @@ div#myArtist img{
 	  	<img src="${pageContext.request.contextPath}/resources/upload/idol/${dipList.idolImg.renamedFilename}" />
 	  	 <br /><br />
 	  	 <div class=" mx-auto font-weight-bold text-center">${dipList.idolName}</div>
-	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
+	  	 <div class=" mx-auto font-weight-bold text-center" id="hearts">
      		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;" onclick="delidol(this);" data-no="${dipList.idolNo}" name="delidols"></i>
 	  	 </div>
 	  </div>
@@ -263,7 +263,7 @@ div#myArtist img{
 	  	style="width: 150px; height: 165px;"/>
 	  	 <br /><br />
 	  	 <div class=" mx-auto font-weight-bold text-center">${idolList.idolName}</div>
-	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
+	  	 <div class=" mx-auto font-weight-bold text-center" id="hearts">
      		<i class="far fa-heart heartBtn" style="font-size: 20px; color: red;" onclick="inidol(this);" data-string="${loginMember.fanNo}" data-no="${idolList.idolNo}"></i>
 	  	 </div>
 	  </div>

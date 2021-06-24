@@ -93,7 +93,7 @@ public class IdolController {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);			
 			}
 		} catch (Exception e) {
-			log.error("메뉴 삭제 실패!", e);
+			log.error("아이돌 삭제 실패!", e);
 			throw e;
 		}
 	}
