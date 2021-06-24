@@ -21,7 +21,7 @@ import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.service.IdolService;
 import com.simpson.kisen.idol.model.vo.DipIdol;
 import com.simpson.kisen.idol.model.vo.Idol;
-
+import com.simpson.kisen.payment.model.service.PaymentService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +33,7 @@ public class IdolController {
 	
 	@Autowired
 	private IdolService idolService;
+	
 		
 	@GetMapping("/mypageArtist.do")
 	public void selectOneIdolCollection( @RequestParam(required = true, defaultValue = "1") int cpage, Authentication authentication, Model model
@@ -64,8 +65,9 @@ public class IdolController {
 		public Map<String, Object> insertIdol(@RequestBody DipIdol dip){
 			try {
 				log.info("dip = {}", dip);
-				int result = idolService.insertIdol(dip);
-				
+			
+			int result = idolService.insertIdol(dip);			
+			
 				Map<String, Object> map = new HashMap<>();
 				map.put("msg", "찜하기 성공!");
 				

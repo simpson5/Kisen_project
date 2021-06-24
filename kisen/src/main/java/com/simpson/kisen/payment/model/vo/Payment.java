@@ -11,15 +11,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Payment {
-	private int paymentNo; //°áÁ¦¹øÈ£
-	private int fanNo; //°íÀ¯¹øÈ£?
-	private String payType; //°áÁ¦Å¸ÀÔ
-	private String payContent; //°áÁ¦³»¿ë
-	private Date payDate; //°áÁ¦ ³»¿ë
-	private int amount; //°áÁ¦±İ¾×
-	private int point; //»ç¿ëÆ÷ÀÎÆ®
-	private String waybill; //¿î¼ÛÀå¹øÈ£
+	private int paymentNo; //ê²°ì œë²ˆí˜¸
+	private int fanNo; //ì‚¬ìš©ì ê³ ìœ ë²ˆí˜¸
+	private String payType; //ê²°ì œíƒ€ì…
+	private String payContent; //ê²°ì œë‚´ìš©
+	private Date payDate; //ê²°ì œë‚ ì§œ
+	private int amount; //ê²°ì œê¸ˆì•¡
+	private int point; //ì‚¬ìš©í¬ì¸íŠ¸
+	private String waybill; //ìš´ì†¡ì¥ë²ˆí˜¸
 	
-	// new git repository  test
+	// new git repository  test payment_history
 	
 }

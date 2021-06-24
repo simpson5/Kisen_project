@@ -199,7 +199,7 @@ div#myArtist img{
 	  	 <br /><br />
 	  	 <div class=" mx-auto font-weight-bold text-center">${dipList.idolName}</div>
 	  	 <div class=" mx-auto font-weight-bold text-center" id="heart">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;" onclick="delidol(this);" data-no="${dipList.idolNo}"></i>
+     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;" onclick="delidol(this);" data-no="${dipList.idolNo}" name="delidols"></i>
 	  	 </div>
 	  </div>
 	</c:forEach>
@@ -317,9 +317,12 @@ $(".heartBtn").click (e => {
  function inidol(obj){
 	const fanNo = $(obj).data("string");
 	console.log(fanNo);
+	
 	const idolNo = $(obj).data("no");
 	console.log(idolNo);
-
+//중복처리 못함 해야함
+	const dipIdol = $("[name=delidols]").data("no");
+	console.log(dipIdol);
 	const dip = {
 			fanNo,
 			idolNo		

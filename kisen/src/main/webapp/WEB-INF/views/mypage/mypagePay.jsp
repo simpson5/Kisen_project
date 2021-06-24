@@ -201,9 +201,9 @@ img#productImg{
     </div>
     <div class="col " id="innerContent">
       <ul>
+      	<li>참여 폼 : 0</li>
+      	<li>만든 폼 : 0</li>
       	<li>취소 : 0</li>
-      	<li>교한 : 0</li>
-      	<li>반품 : 0</li>
       </ul>
     </div>
   </div>
