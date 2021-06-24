@@ -24,7 +24,8 @@
 
 <!-- 카톡 로그인 -->
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-
+<!-- 구글 로그인 -->
+<meta name="google-signin-scope" content="profile email">
 <script>
 // modal : bootstrap이 제공하는 디자인된 팝업창
 $(() => {
@@ -71,10 +72,10 @@ $(() => {
 						<p id="chkNoticeId" class="chkNotice"></p>
 						<input type="password" class="fill-in-area" name="password" id="password" placeholder="비밀번호">
 						<p id="chkNoticePwd" class="chkNotice"></p>
+						<c:if test="${param.error != null}">
+							<p class="loginNotice">아이디 또는 비밀번호가 일치하지 않습니다.</p>
+						</c:if>
 					</div>
-					<c:if test="${param.error != null}">
-						<p class="text-danger">아이디 또는 비밀번호가 일치하지 않습니다.</p>
-					</c:if>
 					<div>
 						<button type="submit" class="btn btn-block">로그인</button>
 					</div>
@@ -90,24 +91,20 @@ $(() => {
 					<span>|</span>
 					<a href="${pageContext.request.contextPath}/member/signupTerm.do">회원가입</a>
 					</div>
-					<form:form action="${pageContext.request.contextPath}/member/loginProcess2.do"
-								method="post">
-					<c:if test="${not empty kakaoMember.password}">
-					<input type="hidden" name="fanId" value="${kakaoMember.fanId}" />
-					<input type="hidden" name="password" value="${kakaoMember.password}" />
-					</c:if>
-					<button type="submit">
-					<a href="https://kauth.kakao.com/oauth/authorize?client_id=fd88614f9ea0303ee10198eee2c817e1&redirect_uri=http://localhost:9090/kisen/member/kakao/callback&response_type=code">
-						<img src="${pageContext.request.contextPath}/resources/images/member/kakao_login_medium_wide.png"> </a>
-					</button>
-					</form:form>
+					<div class="text-center">
+					<a href="https://kauth.kakao.com/oauth/authorize?client_id=fd88614f9ea0303ee10198eee2c817e1&redirect_uri=http://localhost:9090/kisen/member/kakao/callback&response_type=code" alt="kakao login">
+						<img width="300" style="margin-bottom:3px" src="${pageContext.request.contextPath}/resources/images/member/kakao_login_large_wide.png" alt="kakao login btn"> </a>
+					</div>
+					<div class="text-center">
+					<a href="${googleUrl }">
+						<img width="309" height="55" src="${pageContext.request.contextPath}/resources/images/member/btn_google_signin_dark_pressed_web@2x.png" alt="google login btn"/></a>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- Modal 끝-->
-</body>
-</html>
+
 <script>
 $("[name=loginFrm]").submit(function(){
 
@@ -137,3 +134,7 @@ $("[name=loginFrm]").submit(function(){
 	}
 });
 </script>
+<script>
+
+</script>
+<script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>

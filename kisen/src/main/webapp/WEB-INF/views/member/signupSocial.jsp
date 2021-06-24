@@ -86,31 +86,20 @@
 	name="signupFrm"
 	method="post"
 >
+	<input type="hidden" name="password" value="${socialMember.password}"/>
+	<input type="hidden" name="oauth" value="${socialMember.oauth}"/>
     <div>
         <label for="id">아이디<span class="required-mark"> *</span></label>
-        <input type="text" class="fill-in-area" name="fanId" id="id" placeholder="5자~11자">
-        <p id="chkNoticeIdDuplicate" class="chkNotice"></p>
-        <input type="hidden" id="idValid" value="0"/> <!-- 이걸 보고 memberForm을 submit하는지 마는지의 여부를 결정 -->
-    </div>
-    <div>
-        <label for="password">패스워드<span class="required-mark"> *</span></label>
-        <input type="password" class="fill-in-area" name="password" id="password" placeholder="숫자,영문,특수문자 조합 최소8자">
-        <p id="chkNoticePwd1" class="chkNotice"></p>
-    </div>
-    <div>
-        <label for="password">패스워드 재확인<span class="required-mark"> *</span></label>
-        <input type="password" class="fill-in-area" name="passwordCheck" id="passwordCheck">
-        <p id="chkNoticePwd2" class="chkNotice"></p>
+        <input type="text" class="fill-in-area" name="fanId" id="id" placeholder="5자~11자" value="${socialMember.fanId}" readonly>
     </div>
     <div>
         <label for="name">이름<span class="required-mark"> *</span></label>
-        <input type="text" class="fill-in-area" name="fanName" id="fan-name">
-        <p id="chkNoticeName" class="chkNotice"></p>
+        <input type="text" class="fill-in-area" name="fanName" id="fan-name" value="${socialMember.fanName}" readonly>
     </div>
     <div>
         <div>
         <label id="email-offset" for="email">이메일<span class="required-mark"> *</span></label>
-        <input type="text" class="fill-in-area add1" name="email" id="email"><span id="email-span">@</span>
+        <input type="text" class="fill-in-area add1" name="email" id="email" value="${socialMember.email}"><span id="email-span">@</span>
         <select class="selectEmail" name="selectEmail" id="selectEmail">
             <option value="1" selected>직접입력</option>
             <option value="naver.com">naver.com</option> 
@@ -129,13 +118,13 @@
         <input type="tel" class="fill-in-area" name="phone" id="phone" placeholder="-없이 번호만 입력">
         <div id="phone-authentication">
             <input type="text" class="fill-in-area add1" placeholder="인증번호">
-            <input type="button" class="add-btn" onclick="send_message()" value="인증번호 요청"><br>
+            <input type="button" class="add-btn" onclick="requestEmail()" value="인증번호 요청"><br>
         </div>
         <p id="chkNoticePhone" class="chkNotice"></p>
     </div>
     <div>
         <label for="birthday">생년월일</label>
-        <input type="date" class="fill-in-area" name="birthday" id="birthday">
+        <input type="date" class="fill-in-area" name="birthday" id="birthday" value="${socialMember.birthday}">
     </div>
     <!-- 주소 -->
     <div>
@@ -169,123 +158,11 @@ function requestEmail(){
     $('#chkNoticeEmail').html('인증번호를 발송했습니다. 인증번호가 오지 않으면 입력하신 정보가 정확한지 확인하여 주세요. 이미 가입된 이메일이거나, 가상이메일은 인증번호를 받을 수 없습니다.').css("color","red");
 }
 
-//아이디 중복검사 및 유효성검사
-$("#id").keyup(e => {
-	const id = $(e.target).val();
-	const $chkNoticeDupl = $("#chkNoticeIdDuplicate");
-	const $idValid = $("#idValid"); // 0 -> 1 (중복검사 성공시)
-
-	if(id.length < 6 || id.length > 20) {
-		// 4글자 이상을 썼다가 지우는 경우를 대비해서
-		$chkNoticeDupl.html('아이디는 6자리 이상 20자리 이하여야 합니다.').css("color","red");
-		$idValid.val(0); // 다시 작성하는 경우를 대비, idValid를 다시 0으로 만들기
-		return; // 네글자 이상일 때만 검사할 수 있도록 return
-	}
-	// {id:id} -> {id}로 줄여쓸 수 있음 -> {id : "abcde"}
-	$.ajax({
-		url : "${pageContext.request.contextPath}/member/checkIdDuplicate.do",
-		data : {id},
-		success : data => {
-		// success : ({available}) => {
-			console.log(data); // {"available" : true} 이런식으로 json으로 넘어올 것
-			const {available} = data;
-		    
-			// 사용가능한 경우
-			// if(data.available){
-			if(available) {
-				$chkNoticeDupl.html('이 아이디는 사용가능합니다.').css("color","rgb(117, 59, 93)");
-				$idValid.val(1);
-			}
-			// 사용불가한 경우
-			else {
-				$chkNoticeDupl.html('이 아이디는 사용하실 수 없습니다.').css("color","red");
-				$idValid.val(0);
-			}
-		},
-		error : (xhr, stautsText, err) => {
-			console.log(xhr, statusText, err);
-		}
-	});
-	}
-});
-
 // 실시간 유효성검사
-// password 블러 시 유효성검사
-$('#password').blur(function(){
 
-	var pwdReg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
-	var pwd1 = $("#password").val();
-  	var pwd2 = $('#passwordCheck').val();
-  	var pwdTest = pwdReg.test(pwd1);
-    if(!pwdTest){
-		$('#chkNoticePwd1').html('비밀번호는 숫자,영문,특수문자 조합 최소8자여야 합니다.').css("color","red");            
-	} else {
-		$('#chkNoticePwd1').html('');       
-	}
-  	}
-});
-
-// passwordChk 유효성 검사
-$('#passwordCheck').keyup(function(){
-
-  	var pwd1 = $("#password").val();
-  	var pwd2 = $('#passwordCheck').val();
-       
-	// 1. 패스워드 체크부터 진행할 경우
-    if(pwd1 == ''){
-		$('#chkNoticePwd1').html('패스워드부터 입력해주세요.').css("color","red");
-        $('#password').select();
-    }
-	// 2. 패스워드 일치 여부 검사
-	if(pwd2.length > 3){
-		if(pwd1 != pwd2){
-			$('#chkNoticePwd2').html('패스워드가 일치하지 않습니다.').css("color","red");
-		} else{
-			$('#chkNoticePwd2').html('패스워드가 일치합니다.').css("color","rgb(117, 59, 93)");
-       }
-   }
-});
 
 // 제출시 유효성 검사
 $("[name=signupFrm]").submit(function(){
-
-	// 아이디 중복검사 완료전에는 제출되지 않도록
-	var $idValid = $("#idValid");
-	var $id = $("#id");
-	var $idOffset = $("#id").offset();
-	if($idValid.val() == 0) {
-		$("html body").animate({scrollTop:$idOffset.top},2000);
-		$id.focus();
-		return false;
-	}
-    // 패스워드 유효성검사
-    var pwd1 = $("#password");
-  	var pwd2 = $('#passwordCheck');
-	var $pwdOffset = $("#password").offset();
-  	// 1. 패스워드 입력하지 않은 경우
-  	if(pwd1.val() == ''){
-		$("html body").animate({scrollTop:$pwdOffset.top},2000);
-		pwd1.focus();
-		$('#chkNoticePwd1').html('패스워드를 입력해주세요.').css("color","red");
-		return false;
-  	}
-  	// 2. 패스워드 체크를 하지 않은 경우
-  	if(pwd1.val() != pwd2.val()){
-		$("html body").animate({scrollTop:$pwdOffset.top},2000);
-		pwd2.focus();
-		$('#chkNoticePwd2').html('패스워드가 일치하지 않습니다.').css("color","red");
-        return false;
-	}
-
-	// 이름 유효성검사
-	var name = $("#fan-name");
-	var $nameOffset = $("#fan-name").offset();
-	if (name.val() == ''){
-		$("html body").animate({scrollTop:$nameOffset.top},2000);
-		name.focus();
-		$('#chkNoticeName').html('이름을 입력하세요.').css("color","red");
-		return false;
-	}
 
     // 이메일 유효성검사
     var emailReg1 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;

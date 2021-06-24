@@ -1,14 +1,33 @@
 package com.simpson.kisen.member.controller;
 
 import java.beans.PropertyEditor;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.crypto.Mac;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
+import org.springframework.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpEntity;
@@ -16,7 +35,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.social.google.api.plus.PlusOperations;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.oauth2.GrantType;
 import org.springframework.social.oauth2.OAuth2Operations;
@@ -31,43 +52,42 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.simpson.kisen.agency.model.vo.Agency;
+import com.simpson.kisen.fan.model.vo.Authority;
 import com.simpson.kisen.fan.model.vo.Fan;
-import com.simpson.kisen.member.auth.SNSLogin;
-import com.simpson.kisen.member.auth.SnsValue;
 import com.simpson.kisen.member.model.KakaoProfile;
 import com.simpson.kisen.member.model.OAuthToken;
 import com.simpson.kisen.member.model.service.MemberService;
 
+import lombok.Builder;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
-@RequestMapping("/member")
 @Slf4j
-@SessionAttributes({"loginMember", "kakaoMember"})
+@RequestMapping("/member")
+@SessionAttributes({"loginMember", "socialMember", "loginMemberAuthorities"})
 public class MemberController {
    
    private String pwdKey = "pwd1234";
    
    @Autowired
    private MemberService memberService;
-   
-   @Inject
-   private SnsValue googleSns; 
-   
-   @Inject
-   private GoogleConnectionFactory googleConnectionFactory; 
-   
-   @Inject
-   private OAuth2Parameters googleOAuth2Parameters;
    
    // 암호화 처리
    @Autowired
@@ -76,12 +96,18 @@ public class MemberController {
    @GetMapping("/login.do")
    // @RequestHeader를 통해 Referer를 가져옴, referer가 없는 경우를 대비해 required는 false로 설정
    public void memberLogin(Model model) throws Exception {
-
-		/* 구글code 발행을 위한 URL 생성 */
-		OAuth2Operations oauthOperations = googleConnectionFactory.getOAuthOperations();
-		String url = oauthOperations.buildAuthorizeUrl(GrantType.AUTHORIZATION_CODE, googleOAuth2Parameters);
-
-		model.addAttribute("google_url", url);
+	   
+       // 구글 로그인 URL 생성
+       String googleUrl = "https://accounts.google.com/o/oauth2/v2/auth?" 
+               + "scope=email profile openid" 
+               + "&response_type=code" 
+               + "&state=security_token%3D138r5719ru3e1%26url%3Dhttps://oauth2.example.com/token" 
+               + "&client_id=" + "641021112982-qigvjsrvvjorg2dojtiqbu98gfbto16t.apps.googleusercontent.com"
+               + "&redirect_uri=" + "http%3A%2F%2Flocalhost%3A9090%2Fkisen%2Fmember%2Flogin%2Fgoogle"
+               + "&access_type=offline";
+               
+       model.addAttribute("googleUrl", googleUrl);
+      
    }
    
    @GetMapping("/signupTerm.do")
@@ -99,6 +125,11 @@ public class MemberController {
    @GetMapping("/searchPwd.do")
    public void searchPwd() {}
    
+   @GetMapping("/signupSocialAgency.do")
+   public void signupSocialAgency() {}
+   
+   @GetMapping("/signupSocial.do")
+   public void signupSocial() {}
    
    /**
     * 아이디 중복검사
@@ -233,6 +264,9 @@ public class MemberController {
       return "redirect:/";
    }
 
+   /**
+    * 카카오 로그인
+    */
    @GetMapping("/kakao/callback")
    public String kakaoCallback(@RequestParam String code, Model model, RedirectAttributes redirectAttr) { // data를 리턴해주는 컨트롤러 함수
       // POST방식으로 key=value 데이터를 카카오쪽으로 요청
@@ -330,10 +364,11 @@ public class MemberController {
       String birth2 = kakaoBirthday.substring(2, 4);
       String bday = "1900-" + birth1 + "-" + birth2;
       java.sql.Date birthday = java.sql.Date.valueOf(bday);
+      String fanId = "k_" + kakaoProfile.getKakao_account().getEmail() + "_" + kakaoProfile.getId();
       
       // user object
       Fan kakaoMember = Fan.builder()
-            .fanId(kakaoProfile.getKakao_account().getEmail() + "_" + kakaoProfile.getId())
+            .fanId(fanId)
             .password(pwdKey)
             .email(kakaoProfile.getKakao_account().getEmail())
             .oauth("kakao")
@@ -347,17 +382,160 @@ public class MemberController {
       Fan originMember = memberService.selectOneMember(kakaoMember.getFanId());
       if(originMember == null) {
          // 비가입자 -> 회원가입 -> 로그인처리
-         log.info("기존 회원이 아닙니다. 자동 회원가입을 진행합니다.");
-         // memberService.insertMember(kakaoMember);
-         // model.addAttribute("kakaoMember", kakaoMember);
-         redirectAttr.addFlashAttribute("kakaoMember", kakaoMember);
-         return "redirect:/member/signup.do";
+         model.addAttribute("socialMember", kakaoMember);
+         redirectAttr.addFlashAttribute("msg", "기존 회원이 아닙니다. 회원가입을 진행해주세요.");
+         return "redirect:/member/signupTerm.do";
       } else {
          // 가입자 -> 로그인처리
-         model.addAttribute("kakaoMember", kakaoMember);
-         return "/member/login";
+         model.addAttribute("loginMember", kakaoMember);
+         
+         List<Authority> loginMemberAuthorities = memberService.selectOneAuthoriy(fanId);
+         log.info("list = {}", loginMemberAuthorities);
+         model.addAttribute("loginMemberAuthorities", loginMemberAuthorities);
+         return "redirect:/";
       }
    }
+   
+   // 구글 로그인 콜백
+   @RequestMapping(value = "/login/google")
+   public String googleLogin(@RequestParam("code") String code, HttpSession session, Model model, RedirectAttributes redirectAttr) throws Exception {
 
+       // 코드 확인
+       System.out.println("code : " + code);
+       
+       // Access Token 발급
+       JsonNode jsonToken = MemberController.getAccessToken(code);
+       String accessToken = jsonToken.get("access_token").toString();
+       String refreshToken = "";
+       if(jsonToken.has("refresh_token")) {
+           refreshToken = jsonToken.get("refresh_token").toString();
+       }
+       String expiresTime = jsonToken.get("expires_in").toString();
+       System.out.println("Access Token : " + accessToken);
+       System.out.println("Refresh Token : " + refreshToken);
+       System.out.println("Expires Time : " + expiresTime);
+
+       // Access Token으로 사용자 정보 반환
+       JsonNode userInfo = MemberController.getGoogleUserInfo(accessToken);
+       System.out.println(userInfo.toString());
+       
+       String email = userInfo.get("email").asText();
+       String fanName = userInfo.get("name").asText();
+       String fanId = "g_" + email + "_" + (userInfo.get("id").asText()).substring(0, 10);
+              
+       // user object
+       Fan googleMember = Fan.builder()
+             .fanId("g_" + email + "_" + (userInfo.get("id").asText()).substring(0, 10))
+             .password(pwdKey)
+             .email(email)
+             .oauth("google")
+             .fanName(fanName)
+             .build();
+       
+       // 가입자 혹은 비가입자 체크해서 처리
+       Fan originMember = memberService.selectOneMember(googleMember.getFanId());
+       if(originMember == null) {
+          // 비가입자 -> 회원가입 -> 로그인처리
+          log.info("기존 회원이 아닙니다. 자동 회원가입을 진행합니다.");
+          model.addAttribute("socialMember", googleMember);
+          redirectAttr.addFlashAttribute("msg", "기존 회원이 아닙니다. 회원가입을 진행해주세요.");
+          return "redirect:/member/signupTerm.do";
+       } else {
+          // 가입자 -> 로그인처리
+          model.addAttribute("loginMember", googleMember);
+          
+          List<Authority> loginMemberAuthorities = memberService.selectOneAuthoriy(fanId);
+          log.info("list = {}", loginMemberAuthorities);
+          model.addAttribute("loginMemberAuthorities", loginMemberAuthorities);
+          return "redirect:/";
+       }
+   }
+   
+   public static JsonNode getAccessToken(String autorize_code) {
+	   
+       final String RequestUrl = "https://www.googleapis.com/oauth2/v4/token";
+
+       final List<NameValuePair> postParams = new ArrayList<NameValuePair>();
+       postParams.add(new BasicNameValuePair("grant_type", "authorization_code"));
+       postParams.add(new BasicNameValuePair("client_id", "641021112982-qigvjsrvvjorg2dojtiqbu98gfbto16t.apps.googleusercontent.com"));
+       postParams.add(new BasicNameValuePair("client_secret", "asd_jNrIPXxXujNqf2JlyCVL"));
+       postParams.add(new BasicNameValuePair("redirect_uri", "http://localhost:9090/kisen/member/login/google")); // 리다이렉트 URI
+       postParams.add(new BasicNameValuePair("code", autorize_code)); // 로그인 과정중 얻은 code 값
+
+       final HttpClient client = HttpClientBuilder.create().build();
+       final HttpPost post = new HttpPost(RequestUrl);
+       JsonNode returnNode = null;
+
+       try {
+           post.setEntity(new UrlEncodedFormEntity(postParams));
+           final HttpResponse response = client.execute(post);
+           final int responseCode = response.getStatusLine().getStatusCode();
+
+           System.out.println("\nSending 'POST' request to URL : " + RequestUrl);
+           System.out.println("Post parameters : " + postParams);
+           System.out.println("Response Code : " + responseCode);
+
+           // JSON 형태 반환값 처리
+           ObjectMapper mapper = new ObjectMapper();
+           returnNode = mapper.readTree(response.getEntity().getContent());
+
+
+       } catch (UnsupportedEncodingException e) {
+           e.printStackTrace();
+       } catch (ClientProtocolException e) {
+           e.printStackTrace();
+       } catch (IOException e) {
+           e.printStackTrace();
+       } finally {
+           // clear resources
+       }
+
+       return returnNode;
+
+   }
+   
+   public static JsonNode getGoogleUserInfo(String autorize_code) {
+	   
+       final String RequestUrl = "https://www.googleapis.com/oauth2/v2/userinfo";
+
+       final HttpClient client = HttpClientBuilder.create().build();
+       final HttpGet get = new HttpGet(RequestUrl);
+
+       JsonNode returnNode = null;
+       
+       // add header
+       get.addHeader("Authorization", "Bearer " + autorize_code);
+
+       try {
+           final HttpResponse response = client.execute(get);
+           final int responseCode = response.getStatusLine().getStatusCode();
+           
+           ObjectMapper mapper = new ObjectMapper();
+           returnNode = mapper.readTree(response.getEntity().getContent());
+           
+           System.out.println("\nSending 'GET' request to URL : " + RequestUrl);
+           System.out.println("Response Code : " + responseCode);
+
+
+       } catch (UnsupportedEncodingException e) {
+           e.printStackTrace();
+       } catch (ClientProtocolException e) {
+           e.printStackTrace();
+       } catch (IOException e) {
+           e.printStackTrace();
+       } finally {
+           // clear resources
+       }
+       return returnNode;
+   }
+   
+   
+   
+   
+   
+   
+   
+   
+   
 
 }

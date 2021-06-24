@@ -16,6 +16,13 @@
 <resultMap type="fan" id="memberMap">
 	<result column="certification" property="certification" typeHandler="booleanYNTypeHandler"/>
 </resultMap>
+<select id="selectOneAuthority" resultType="authority">
+	select
+		*
+	from
+		authority
+	where fan_id = #{fanId}
+</select>
 <!-- =========================== [ (일반) 회원가입 - 회원등록 ] =========================== -->
 <insert id="insertMember">
 	insert into
@@ -33,7 +40,29 @@
 		'N',
 		default,
 		#{fanName},
+		1,
 		null
+	)
+</insert>
+<!-- =========================== [ (소셜) 회원가입 - 회원등록 ] =========================== -->
+<insert id="insertOauthMember">
+	insert into
+		fan
+	values (
+		seq_fan_no.nextval,
+		#{fanId},
+		#{password},
+		#{phone},
+		#{address},
+		#{email},
+		#{birthday},
+		null,
+		null,
+		'N',
+		default,
+		#{fanName},
+		null,
+		#{oauth}
 	)
 </insert>
 <!-- =========================== [ 회원가입 - 회원등록 - authority설정 ] =========================== -->
@@ -71,6 +100,7 @@
 		'N',
 		default,
 		#{fanName},
+		1,
 		null
 	)
 	<selectKey keyProperty="fanNo" resultType="string" order="AFTER">
@@ -137,4 +167,34 @@
 		where
 			fan_id = #{fanId}
 	</delete>
+	
+<insert id="insertOauthAgencyMember">
+	insert into
+		fan
+	values (
+		#{fanNo},
+		#{fanId},
+		#{password},
+		#{phone},
+		#{address},
+		#{email},
+		#{birthday},
+		null,
+		null,
+		'N',
+		default,
+		#{fanName},
+		1,
+		#{oauth}
+	)
+	<selectKey keyProperty="fanNo" resultType="string" order="AFTER">
+		select f.*
+		from (
+		    select fan_no
+		    from fan
+		    order by enroll_date desc
+		    ) f
+		where rownum = 1
+	 </selectKey>
+</insert>
 </mapper>

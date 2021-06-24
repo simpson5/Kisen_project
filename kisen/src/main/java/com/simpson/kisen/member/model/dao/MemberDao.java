@@ -1,6 +1,9 @@
 package com.simpson.kisen.member.model.dao;
 
+import java.util.List;
+
 import com.simpson.kisen.agency.model.vo.Agency;
+import com.simpson.kisen.fan.model.vo.Authority;
 import com.simpson.kisen.fan.model.vo.Fan;
 
 public interface MemberDao {
@@ -17,6 +20,10 @@ public interface MemberDao {
 
 	int insertOauthMember(Fan member);
 
-	// int insertAgencyAuthority(Fan member);
+	List<Authority> selectOneAuthority(String fanId);
+
+	int insertOauthAgencyMember(Fan member);
+
+	int insertAgencyAuthority(Fan member);
 
 }
