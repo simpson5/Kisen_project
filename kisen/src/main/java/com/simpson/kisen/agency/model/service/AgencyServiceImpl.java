@@ -14,6 +14,7 @@ import com.simpson.kisen.idol.model.vo.IdolImg;
 import com.simpson.kisen.idol.model.vo.IdolMv;
 import com.simpson.kisen.product.model.vo.ProductImg;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
+import com.simpson.kisen.product.model.vo.ProductOption;
 
 
 @Service
@@ -109,7 +110,7 @@ public class AgencyServiceImpl implements AgencyService {
 			result = updateIdolImg(idolImg);
 		}
 		
-		if(idol.getIdolMv().size()>0) {
+		if(idol.getIdolMv() !=null) {
 			//3. 해당 idol의 뮤비 등록
 			for(IdolMv mv : idol.getIdolMv()) {
 				mv.setIdolNo(idol.getIdolNo());
@@ -143,7 +144,14 @@ public class AgencyServiceImpl implements AgencyService {
 				result = insertProductImg(pdImg);
 			}
 		}
-		
+
+		if(product.getPdOptionList() !=null) {
+			//3. 해당 idol의 뮤비 등록
+			for(ProductOption po: product.getPdOptionList()) {
+				po.setPdNo(product.getPdNo());
+				result = insertProductOption(po);
+			}
+		}
 		return result;
 	}
 	@Transactional(rollbackFor = Exception.class)
@@ -151,9 +159,14 @@ public class AgencyServiceImpl implements AgencyService {
 		return agencyDao.insertProductImg(productImg);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
+	public int insertProductOption(ProductOption productOption) {
+		return agencyDao.insertProductOption(productOption);
+	}
+
 	@Override
-	public List<ProductImgExt> selectProductList(String fanNo) {
-		return agencyDao.selectProductList(fanNo);
+	public List<ProductImgExt> selectProductList(String fanNo, Map<String, Object> param) {
+		return agencyDao.selectProductList(fanNo,param);
 	}
 
 	@Override
@@ -171,6 +184,7 @@ public class AgencyServiceImpl implements AgencyService {
 		return agencyDao.selectIdolNameList(fanNo);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int updateProduct(ProductImgExt product) {
 		int result =0;
@@ -182,6 +196,12 @@ public class AgencyServiceImpl implements AgencyService {
 				pdImg.setPdNo(product.getPdNo());
 				result = updateProductImg(pdImg);
 			}
+		}		
+		if(product.getPdOptionList() !=null) {
+			for(ProductOption po: product.getPdOptionList()) {
+				po.setPdNo(product.getPdNo());
+				result = insertProductOption(po);
+			}
 		}
 		
 		return result;
@@ -190,10 +210,16 @@ public class AgencyServiceImpl implements AgencyService {
 	public int updateProductImg(ProductImg productImg) {
 		return agencyDao.updateProductImg(productImg);
 	}
-
+	
+	
 	@Override
 	public int deleteProduct(String pdNo) {
 		return agencyDao.deleteProduct(pdNo);
+	}
+
+	@Override
+	public int deleteOption(int optionNum) {
+		return agencyDao.deleteOption(optionNum);
 	}
 	
 	

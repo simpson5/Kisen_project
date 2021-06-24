@@ -14,6 +14,7 @@ import com.simpson.kisen.idol.model.vo.IdolImg;
 import com.simpson.kisen.idol.model.vo.IdolMv;
 import com.simpson.kisen.product.model.vo.ProductImg;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
+import com.simpson.kisen.product.model.vo.ProductOption;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -113,7 +114,7 @@ public class AgencyDaoImpl implements AgencyDao {
 	}
 
 	@Override
-	public List<ProductImgExt> selectProductList(String fanNo) {
+	public List<ProductImgExt> selectProductList(String fanNo, Map<String, Object> param) {
 		return session.selectList("agency-product.selectProductList", fanNo);
 	}
 
@@ -140,6 +141,21 @@ public class AgencyDaoImpl implements AgencyDao {
 	@Override
 	public int deleteProduct(String pdNo) {
 		return session.delete("agency-product.deleteProduct",pdNo);
+	}
+
+	@Override
+	public int insertProductOption(ProductOption productOption) {
+		return session.insert("agency-product.insertProductOption", productOption);
+	}
+
+	@Override
+	public int updateProductOption(ProductOption productOption) {
+		return session.update("agency-product.updateProductOption", productOption);
+	}
+
+	@Override
+	public int deleteOption(int optionNum) {
+		return session.update("agency-product.deleteOption", optionNum);
 	}
 
 	

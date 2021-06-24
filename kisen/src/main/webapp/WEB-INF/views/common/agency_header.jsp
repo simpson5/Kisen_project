@@ -101,7 +101,7 @@
         <hr>
     </header>
 
-    <!-- 관리자 메인페이지 -->
+    <!-- 기획사 메인페이지 -->
     <section>
    	<c:if test="${not empty msg}">
 		<div class="alert alert-warning alert-dismissible fade show" role="alert">
