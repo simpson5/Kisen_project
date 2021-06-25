@@ -1,13 +1,20 @@
 package com.simpson.kisen.unofficial.model.service;
 
-import java.lang.reflect.Member;
-
 import com.simpson.kisen.unofficial.model.vo.UnofficialDemand;
+import com.simpson.kisen.unofficial.model.vo.UnofficialDeposit;
 
 public interface UnOfficialService {
 
-//	Member selectMember(String fanNo);
-//
-//	int insertdemandEnroll(UnofficialDemand unofficialdemand);
+
+
+	int insertdemandEnroll(UnofficialDemand unofficialdemand);
+
+	int insertdepositEnroll(UnofficialDeposit unofficialdeposit);
+	
+
+	
+	
+
+
 
 }
