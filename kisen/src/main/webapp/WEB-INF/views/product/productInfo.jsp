@@ -318,9 +318,11 @@ textarea.autosize {
 	<div class="container" id="container">
 		<div class="detail row">
 			<div class="media  product_img">
-				<img
-					src="${pageContext.request.contextPath}/resources/images/kisen_logo.png"
-					class="img-thumbnail" alt="...">
+			<c:forEach items="${product.pdImgList}" var="pdImg">
+		        <c:if test="${pdImg.pdCategory eq 'R'}">
+					<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+			   	</c:if>
+		    </c:forEach>
 			</div>
 			<div class="media-body col-5 ">
 				<table class="table">
@@ -342,6 +344,8 @@ textarea.autosize {
 							<th>배송정보</th>
 							<td colspan="3" style="border: 0; outline: 0;">영업일 기준 3일</td>
 						</tr>
+						<c:forEach items="${product.pdOptionList}" var="pdOp">
+						<c:if test="${!empty pdOp.optionName}">
 						<tr>
 							<th>옵션</th>
 							<td colspan="3" style="border: 0; outline: 0;"><select
@@ -353,6 +357,8 @@ textarea.autosize {
 									<option value="3">옵션 3</option>
 							</select></td>
 						</tr>
+						</c:if>
+						</c:forEach>
 					</tbody>
 				</table>
 				<p
@@ -388,9 +394,12 @@ textarea.autosize {
 		</div>
 
 		<div class="pd-detail">
-			<img
-				src="${pageContext.request.contextPath}/resources/images/kisen_logo.png"
-				class="col-9" />
+			<p>${product.pdContent}</p>
+	       	<c:forEach items="${product.pdImgList}" var="pdImg">
+		        <c:if test="${pdImg.pdCategory eq 'D'}">
+					<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+			   	</c:if>
+		    </c:forEach>
 		</div>
 
 		<div class="pd-review mx-auto" style="display: none;">
@@ -542,7 +551,7 @@ $("[name=option-select]").change(function(e){
 	var $table = $("<table></table>");
 	$table
 	.append(`<tr>
-			<td><p class="pt-1">상품명<br /> <span class="add-option">옵션명</span>	</p></td>
+			<td><p class="pt-1">${product.pdName}<br /> <span class="add-option">옵션명</span>	</p></td>
 			<td colspan="1" class="col-1"><span
 			style="position: relative; display: inline-block;"> <input
 				type="text" class="form-control" name="stock" value="1" min="1" size="3"/>
@@ -576,7 +585,7 @@ function total(){
 	});
 	
 	var $total = $(".total");
-	var price = 10000;
+	var price = ${product.price};
 	var total = price * cnt;
 
 	console.log(typeof(cnt));

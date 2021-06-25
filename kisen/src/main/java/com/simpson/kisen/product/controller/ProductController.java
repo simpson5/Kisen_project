@@ -38,6 +38,7 @@ public class ProductController {
 						HttpServletRequest request,
 						Model model) {
 		ProductImgExt product = productService.selectOneProduct(no);
+		log.info("product = {}", product);
 		try {
 			log.debug("cpage = {}", cpage);
 			final int limit = 10;
