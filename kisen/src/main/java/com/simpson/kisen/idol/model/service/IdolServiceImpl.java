@@ -19,15 +19,9 @@ public class IdolServiceImpl implements IdolService {
 	@Autowired
 	private IdolDao idolDao;
 
-
 	@Override
-	public List<DipIdol> selectOneCollection(Map<String, Object> param) {
-		return idolDao.selectOneCollection(param);
-	}
-
-	@Override
-	public List<Idol> selectAllIdole(Map<String, Object> param) {
-		return idolDao.selectAllIdole(param);
+	public List<Idol> selectAllIdole() {
+		return idolDao.selectAllIdole();
 	}
 
 	@Override
@@ -38,6 +32,11 @@ public class IdolServiceImpl implements IdolService {
 	@Override
 	public int deleteidol(int idolNo) {
 		return idolDao.deleteidol(idolNo);
+	}
+
+	@Override
+	public List<DipIdol> selectOneCollection(String fanNo) {
+		return idolDao.selectOneCollection(fanNo);
 	}
 
 	

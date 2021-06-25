@@ -19,7 +19,6 @@ public class Product {
 	private int idolNo; // ���̵���ȣ
  	private String pdCategory; // �з�
 	private String pdName; // ��ǰ�̸�
-	private String pdImg; // ��ǰ�̹���
 	private String pdContent; //��ǰ ����
 	private int price; // ��ǰ����
 	private int pdStock; // ���
