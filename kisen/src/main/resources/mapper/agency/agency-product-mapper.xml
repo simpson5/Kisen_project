@@ -182,14 +182,22 @@
 		    left join idol i
 		        on p.idol_no = i.idol_no
 		where i.agency_no = (select agency_no from agency where fan_no =#{fanNo})
-        <choose>
-            <when test="idolNoList != null">
-                and p.idol_no in 
-                <foreach collection="idolNoList" item="idolNo" index="index" separator="," open="(" close=")">
-                    #{idolNo}
-                </foreach>
-            </when>
-        </choose>
+        <if test="idolNo != null">
+            and p.idol_no in 
+            <foreach collection="idolNo" item="no" index="index" separator="," open="(" close=")">
+                #{no}
+            </foreach>
+        </if>
+        <if test="category != null">
+            and p.pd_category in 
+            <foreach collection="category" item="c" index="index" separator="," open="(" close=")">
+                #{c}
+            </foreach>
+        </if>
+        <if test="searchString neq ''">
+            and p.pd_name like
+              	 '%'||#{searchString}||'%'
+        </if>
 		order by i.idol_name desc
 	</select>
 	

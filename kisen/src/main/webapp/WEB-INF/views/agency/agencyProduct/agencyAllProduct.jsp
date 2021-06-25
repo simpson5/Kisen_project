@@ -20,26 +20,33 @@
     
     <!-- 검색  -->
 	<form:form 
-		name="searchFrm" 
-		onsubmit="return formValidate();"> 
-		<div class="d-flex justify-content-center mb-3" >
-	        <input type="search" placeholder="Search" aria-label="Search" style="width: 150px"  class="form-control me-2" >
+		name="searchFrm"
+		id="searchFrm" 
+		class="border mb-3"> 
+			<div class="d-flex justify-content-center mb-3" >
+			
+			<div>
+		        <input type="search" placeholder="Search" aria-label="검색어를 입력하세요" name="searchString" class="form-control mb-3 mt-3" >
+			    <div class="searchlist-div mb-3"> 
+					<span>아이돌 : </span>
+		   			<c:forEach items="${idolList}" var="idol">
+		           	<button type="button" class="btn btn-outline-info"  id="idol${idol.idolNo}" data-no="${idol.idolNo}" onclick="idolSearch(event);">${idol.idolName }</button>
+		    		</c:forEach>
+			    </div>
+			    
+			    <div class="searchlist-div mb-3"> 
+					<span>종류 : </span>
+		    		<c:forEach items="${category}" var="category">
+		            <button type="button" class="btn btn-outline-dark" id="category${category}" data-category="${category}" onclick="categorySearch(event);">${category }</button>
+		    		</c:forEach>
+			    </div>	
+			</div>
+	
+		    <div>
+	        <button class="btn mt-3" type="button" onclick="searchFrmClick(event);" style="margin-left: 2rem; height:70% ; width: 80%">검색하기</button>
+	        <button class="btn mt-3" type="button" onclick="resetClick(event);" style="margin-left: 2rem; height:20%; width: 80%">초기화</button>
+		    </div>
 		</div>
-		
-	    <div class="searchlist-div mb-3"> 
-			<span>아이돌 : </span>
-   			<c:forEach items="${idolList}" var="idol">
-           	<button type="button" class="btn btn-outline-info"  id="idol${idol.idolNo}" data-no="${idol.idolNo}" onclick="idolSearch(event);">${idol.idolName }</button>
-    		</c:forEach>
-	    </div>
-	    
-	    <div class="searchlist-div mb-3"> 
-			<span>종류 : </span>
-    		<c:forEach items="${category}" var="category">
-            <button type="button" class="btn btn-outline-dark" id="category${category}" data-category="${category}" onclick="categorySearch(event);">${category }</button>
-    		</c:forEach>
-	    </div>	
-        <button class="btn" type="submit"><img src="${pageContext.request.contextPath }/resources/images/search.png" style="height: 25px"></button>
 	</form:form>
 	
 	
@@ -130,8 +137,9 @@
 		location.reload();
 	}
 
-	var arrNumber = new Array();
-	
+	var idol_arrNumber = new Array();
+
+	var category_arrNumber = new Array();
 	/* 검색 */
 	function idolSearch(event){
         const target = event.target;
@@ -145,43 +153,28 @@
             //css 변경
         	id.removeClass("btn-outline-info");
         	id.addClass("btn-info");
+        	id.addClass("checked");
 
-    		arrNumber.push(idolNo);
-    		console.log(arrNumber);
+        	idol_arrNumber.push(idolNo);
+    		console.log(idol_arrNumber);
         }
         else{
             //css 변경
         	id.removeClass("btn-info");
         	id.addClass("btn-outline-info");
+        	id.removeClass("checked");
 
         	//배열 삭제
-    		for(let i = 0; i < arrNumber.length; i++) {
-   			  if(arrNumber[i] === idolNo)  {
-   				arrNumber.splice(i, 1);
+    		for(let i = 0; i < idol_arrNumber.length; i++) {
+   			  if(idol_arrNumber[i] === idolNo)  {
+   				idol_arrNumber.splice(i, 1);
    			    i--;
    			  }
    			}
-    		console.log(arrNumber);
+    		console.log(idol_arrNumber);
         }
-		searchIdolNo(arrNumber);	
 	}
 
-	//비동기 처리 후 html 대입
-	function searchIdolNo(arrNumber){
-		$.ajax({
-			url: `${pageContext.request.contextPath}/agency/searchIdolProduct`,
-			method : "get",
-			data : {idolNoList : arrNumber},
-		    dataType : 'json',
-			success: function (data){
-				forDiv("product", data);
-				
-			},
-			error(xhr, statusText, err){
-				console.log(err);
-			}
-		});
-	}
 
 	function categorySearch(event){
         const target = event.target;
@@ -192,66 +185,54 @@
         if(categoryId.hasClass("btn-outline-dark")){
         	categoryId.removeClass("btn-outline-dark");
         	categoryId.addClass("btn-dark");
-        	$
+        	categoryId.addClass("checked");
+        	
+        	category_arrNumber.push(category);
+    		console.log(category_arrNumber);
         }
 
         //버튼 취소
         else{
         	categoryId.removeClass("btn-dark");
         	categoryId.addClass("btn-outline-dark");
+        	categoryId.removeClass("checked");
+
+        	//배열 삭제
+    		for(let i = 0; i < category_arrNumber.length; i++) {
+   			  if(category_arrNumber[i] === category)  {
+   				category_arrNumber.splice(i, 1);
+   			    i--;
+   			  }
+   			}
+    		console.log(category_arrNumber);
+        	
         }
 	}
 
-	
-	function forDiv(id, data){
-		const productId = $("."+id);	//product
-		if(productId.length){
-			productId.remove();
-		}
 
-		for(var i=0;i<data.length;i++){
-			displayResultDiv(data[i])
-		}
-		
-		
+
+	function searchFrmClick(event){
+		var $searchFrm = $("#searchFrm");
+		var idolHidden ='';
+		var categoryHidden='' ;
+		for(var i = 0; i < idol_arrNumber.length; i++) {
+			idolHidden+= '<input type="hidden" value="'+idol_arrNumber[i] +'" name="idolNo"/>'
+	    }
+		for(var i = 0; i < category_arrNumber.length; i++) {
+			categoryHidden+= '<input type="hidden" value="'+category_arrNumber[i] +'" name="category"/>'
+	    }
+		console.log(categoryHidden);
+		$searchFrm.append(idolHidden).append(categoryHidden);
+
+		$searchFrm
+			.attr("action", `${pageContext.request.contextPath}/agency/searchProduct`)
+			.attr("method", 'get')
+			.submit();
 	}
-	function getContextPath(){
-		var hostIndex = location.href.indexOf(location.host)+location.host.length;
-		return location.href.substring(hostIndex,location.href.indexOf('/',hostIndex+1));
-	}
-	
-	function displayResultDiv(data){
-		var renamedfile;
-		for(var i=0;i<data.pdImgList.length; i++){
-			if(data.pdImgList[i].pdCategory == 'R')
-				renamedfile = data.pdImgList[i].renamedFilename;
-		}
-		console.log(renamedfile);
-
-		var optionHtml;
-		for(var i=0;i<data.pdOptionList.length; i++){
-			optionHtml += 'span class="badge bg-light text-dark">'+data.pdOptionList[i].optionName+'</span> ';
-		}
-		console.log(getContextPath());
-		const img = '<img src='+getContextPath()+'/resources/upload/product/'+renamedfile +' class="card-img mt-1" alt="tree" style="width:250px; height: 100%;">';
-
-		
-		var html = '<div class="card mb-3 item product"><div class="row g-0 idol-img"><div class="col-4 idol-img"><div class="idol-img ">' + img+ ' </div></div>';
-		html+= '<div class="col-8"><div class="card-body"><h6 class="card-title">  <span class=" fw-bold">'+data.pdName+'</span> <span class="badge bg-info" style="color:white;">'+data.idolName+' </span></h6>';
-		html+= '<p class="card-text badge bg-s" > '+ data.pdContent+'</p>';
-		html+= ' <p class="card-text"> <span class="badge bg-dark">' + data.pdCategory+' </span>';
-		html+= '<span class="badge bg-s bg-warning ">재고 :  '+ data.pdStock + ' </span>';
-		html+= '<span class="badge bg-s bg-warning ">판매량  : ' + data.pdSales +'</span></p>';
-		html+= '<p class="card-text">  <span class="badge">옵션 : </span> ' +optionHtml+'</p>';
-		html+=' <p class="card-text badge bg-s"> 가격  : '+data.price+'원</p> <br />';
-		html+= '<div class="btn-group" role="group" aria-label="Basic example">';
-		html+= ' <button type="button" class="btn btn-sm btn-outline-main"  data-no="'+data.pdNo+'" onclick="productDetail(event);" >상세보기</button>';
-		html+= ' <button type="button" class="btn btn-sm btn-outline-main"  data-no="'+data.pdNo+'" onclick="productUpdate(event);" >수정</button>';
-		html+= ' <button type="button" class="btn btn-sm btn-outline-main"  data-no="'+data.pdNo+'" onclick="productDelete(event);" >삭제</button>';
-		html += '</div></div></div></div></div>'   ; 
 
 
-		$(".container").append(html);
+	function resetClick(event){
+        location.href=`${pageContext.request.contextPath}/agency/agencyProduct`
 	}
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
