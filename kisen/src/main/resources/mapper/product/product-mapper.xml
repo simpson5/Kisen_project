@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
-	<select id="selectProductList" resultMap="productMap">
+	<select id="selectProductList" resultMap="ProductImgExt">
 		select 
 		    p.*,
 		    i.idol_name idolName
@@ -13,7 +13,7 @@
 		    idol i
 		      on p.idol_no = i.idol_no
 	</select>
-	<resultMap type="productExt" id="productMap">
+	<resultMap type="productExt" id="ProductImgExt">
 		<id column="idol_no" property="idolNo"/>
 		<result column="pd_no" property="pdNo"/>
 		<result column="pd_category" property="pdCategory"/>
@@ -24,13 +24,15 @@
 		<result column="pd_sales" property="pdSales"/>
 		<result column="sales_date" property="salesDate"/>
 		<result column="idolName" property="idolName"/>
+		<result column="" property="pdOptionList"/>
+		
 	</resultMap>
 	
-	<select id="selectOneProduct" resultType="productExt">
+	<select id="selectOneProduct" resultType="ProductImgExt">
 		select
-			*
+			p.*
 		from
-			product
+			product p
 		where
 			pd_no = #{no}
 	</select>
