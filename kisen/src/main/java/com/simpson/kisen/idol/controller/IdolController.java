@@ -39,15 +39,20 @@ public class IdolController {
 	public void selectOneIdolCollection(Authentication authentication, Model model
 			) {
 		
-		Fan principal = (Fan) authentication.getPrincipal();
-			log.info("fanNo ={}", principal.getFanNo());
-		List<Idol> idolList = idolService.selectAllIdole();
-		List<DipIdol> dipList = idolService.selectOneCollection(principal.getFanNo());
-		model.addAttribute("loginMember", principal);
-		model.addAttribute("idolList", idolList);
-		model.addAttribute("dipList", dipList);
-		log.info("idolList = {}", idolList);
-		log.info("dipList = {}", dipList);
+		try {
+			Fan principal = (Fan) authentication.getPrincipal();
+				log.info("fanNo ={}", principal.getFanNo());
+			List<Idol> idolList = idolService.selectAllIdole();
+			List<DipIdol> dipList = idolService.selectOneCollection(principal.getFanNo());
+			model.addAttribute("loginMember", principal);
+			model.addAttribute("idolList", idolList);
+			model.addAttribute("dipList", dipList);
+			log.info("idolList = {}", idolList);
+			log.info("dipList = {}", dipList);
+		} catch (Exception e) {
+			log.error("회원 정보 불러오기 오류!", e);
+			throw e;
+		}
 	
 	}		
 	
