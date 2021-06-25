@@ -18,9 +18,10 @@
         	idol i
         on
         	di.idol_no = i.idol_no
+        where
+     		di.fan_no = #{fanNo}
         order by 
      		di.idol_no desc	
-        
 	</select>
 	<resultMap type="dipidol" id="idolCollectionMap">
 		<id column="fan_no" property="fanNo"/>
@@ -56,6 +57,7 @@
       	i.idol_no = ii.idol_no
      order by 
      	i.idol_no desc
+   
    </select>
 
    <resultMap type="idol" id="idolCollectionMaptwo">

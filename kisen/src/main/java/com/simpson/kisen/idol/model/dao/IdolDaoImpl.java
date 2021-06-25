@@ -20,22 +20,13 @@ public class IdolDaoImpl implements IdolDao {
 	@Autowired
 	private SqlSessionTemplate session;
 
-
 	@Override
-	public List<DipIdol> selectOneCollection(Map<String, Object> param) {
-		int offset = (int)param.get("offset");
-		int limit = (int)param.get("limit");
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		return session.selectList("idol.selectOneCollection",null, rowBounds);
-	}
-
-
-	@Override
-	public List<Idol> selectAllIdole(Map<String, Object> param) {
-		int offset = (int)param.get("offset");
-		int limit = (int)param.get("limit");
-		RowBounds rowBounds = new RowBounds(offset, limit);
-		return session.selectList("idol.selectAllIdole",null, rowBounds);
+	public List<Idol> selectAllIdole() {
+		/*
+		 * int offset = (int)param.get("offset"); int limit = (int)param.get("limit");
+		 * RowBounds rowBounds = new RowBounds(offset, limit);
+		 */
+		return session.selectList("idol.selectAllIdole");
 	}
 
 
@@ -49,6 +40,12 @@ public class IdolDaoImpl implements IdolDao {
 	public int deleteidol(int idolNo) {
 		return session.delete("idol.deleteidol",idolNo);
 	}
+
+
+		@Override
+		public List<DipIdol> selectOneCollection(String fanNo) {
+			return session.selectList("idol.selectOneCollection",fanNo);
+		}
 
 	
 

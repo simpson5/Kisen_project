@@ -158,5 +158,10 @@ public class AgencyDaoImpl implements AgencyDao {
 		return session.update("agency-product.deleteOption", optionNum);
 	}
 
+	@Override
+	public List<ProductImgExt> selectIdolProductList(Map<String, Object> param) {
+		return session.selectList("agency-product.selectIdolProductList", param);
+	}
+
 	
 }
