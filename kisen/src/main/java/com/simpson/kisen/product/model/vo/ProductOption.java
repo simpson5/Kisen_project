@@ -9,7 +9,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @NoArgsConstructor
-public class ProductOption {
+public class ProductOption extends Product{
 	private int optionNo;
 	private int pdNo;
 	private String optionName;

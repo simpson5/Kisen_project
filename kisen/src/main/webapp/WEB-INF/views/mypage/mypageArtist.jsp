@@ -377,7 +377,8 @@ $(".heartBtn").click (e => {
 			}, 
 			breakpoints: {  
 			640: { 
-				slidesPerView: 5, spaceBetween: 40 
+				slidesPerView: 5, 
+				spaceBetween: 40 
 				} 
 			} ,
 			navigation : { // 네비게이션
