@@ -15,8 +15,8 @@ public class PaymentDaoImpl implements PaymentDao{
 	private SqlSessionTemplate session;
 
 	@Override
-	public List<Payment> selectAllList() {
-		return session.selectList("payment.selectAllList");
+	public List<Payment> selectAllList(String fanNo) {
+		return session.selectList("payment.selectAllList",fanNo);
 	}
 
 }

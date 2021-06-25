@@ -8,9 +8,9 @@ import com.simpson.kisen.idol.model.vo.Idol;
 
 public interface IdolDao {
 
-	List<DipIdol> selectOneCollection(Map<String, Object> param);
+	List<DipIdol> selectOneCollection(String fanNo);
 
-	List<Idol> selectAllIdole(Map<String, Object> param);
+	List<Idol> selectAllIdole();
 
 	int insertIdol(DipIdol dip);
 
