@@ -28,17 +28,21 @@
 			<div>
 		        <input type="search" placeholder="Search" aria-label="검색어를 입력하세요" name="searchString" class="form-control mb-3 mt-3" >
 			    <div class="searchlist-div mb-3"> 
-					<span>아이돌 : </span>
+					<span>아이돌</span>
+					<div class="mt-2">
 		   			<c:forEach items="${idolList}" var="idol">
 		           	<button type="button" class="btn btn-outline-info"  id="idol${idol.idolNo}" data-no="${idol.idolNo}" onclick="idolSearch(event);">${idol.idolName }</button>
 		    		</c:forEach>
+		    		</div>
 			    </div>
 			    
 			    <div class="searchlist-div mb-3"> 
-					<span>종류 : </span>
+					<span>종류</span>
+					<div class="mt-2">
 		    		<c:forEach items="${category}" var="category">
 		            <button type="button" class="btn btn-outline-dark" id="category${category}" data-category="${category}" onclick="categorySearch(event);">${category }</button>
 		    		</c:forEach>
+		    		</div>
 			    </div>	
 			</div>
 	
