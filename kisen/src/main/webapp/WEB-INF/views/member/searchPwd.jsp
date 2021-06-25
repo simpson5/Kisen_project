@@ -38,10 +38,10 @@
     <!-- 비밀번호 찾기, 아이디 찾기 nav -->
     <ul class="nav nav-tabs">
         <li class="nav-item">
-        <a class="nav-link active" href="${pageContext.request.contextPath}/member/searchId.do">아이디 찾기</a>
+        <a class="nav-link inactive" href="${pageContext.request.contextPath}/member/searchId.do">아이디 찾기</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link inactive" href="${pageContext.request.contextPath}/member/searchPwd.do">비밀번호 찾기</a>
+        <a class="nav-link active" href="${pageContext.request.contextPath}/member/searchPwd.do">비밀번호 찾기</a>
         </li>
     </ul>
     <!-- 이메일로 찾기, 휴대폰으로 찾기 선택 radio -->
@@ -58,7 +58,7 @@
     <div class="search-area-container">
         <!-- 이메일로 찾기 진행 입력 폼 -->
         <form name="searchEmailFrm"
-        	  action="${pageContext.request.contextPath}/member/searchIdSendMail.do">
+        	  action="${pageContext.request.contextPath}/member/searchPwdSendMail.do">
             <p class="fill-in-type">이름</p>
             <input type="text" class="search-area searchEmail" name="name" id="emailName">
             <p id="chkNoticeName" class="chkNotice"></p>
@@ -174,7 +174,7 @@ $("[name=searchEmailFrm]").submit(function(){
 			// 사용가능한 경우
 			// if(data.available){
 			if(available) {
-				alert("이메일을 발송하였습니다. 이메일을 확인하여 주세요.");
+				alert("고객님의 비밀번호를 임의의 비밀번호로 변경하였습니다. 이메일을 확인하여 주세요.");
 			}
 			// 사용불가한 경우
 			else {
@@ -212,19 +212,20 @@ $("[name=searchPhoneFrm]").submit(function(){
   	}
 	// {id:id} -> {id}로 줄여쓸 수 있음 -> {id : "abcde"}
 	$.ajax({
-		url : "${pageContext.request.contextPath}/member/checkInfoPhone.do",
+		url : "${pageContext.request.contextPath}/member/checkInfoPhoneForPwd.do",
 		data : {
 				name:name,
 				phone:phone},
+
 		success : data => {
 			console.log(data); 
 			const {available} = data;
-			const {fanId} = data;
+			const {tempPwd} = data;
 		    
 			// 사용가능한 경우
 			// if(data.available){
 			if(available) {
-				alert("고객님의 아이디는 " + fanId + "입니다.");
+				alert("고객님의 비밀번호를 [ " + tempPwd + " ] 로 임의로 변경하였습니다. 해당 비밀번호로 로그인 한 후 비밀번호를 변경하세요.");
 			}
 			// 사용불가한 경우
 			else {

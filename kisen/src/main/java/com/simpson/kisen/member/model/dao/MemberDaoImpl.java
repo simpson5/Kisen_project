@@ -1,6 +1,7 @@
 package com.simpson.kisen.member.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,4 +61,25 @@ public class MemberDaoImpl implements MemberDao {
 	public int insertAgencyAuthority(Fan member) {
 		return session.insert("member.insertAgencyAuthority", member);
 	}
+
+	@Override
+	public Fan searchOneMember(Map<String, Object> param) {
+		return session.selectOne("member.searchOneMember", param);
+	}
+
+	@Override
+	public Fan selectOneMemberByEmail(String email) {
+		return session.selectOne("member.selectOneMemberByEmail", email);
+	}
+
+	@Override
+	public Fan selectOneMemberByPhone(Map<String, Object> param) {
+		return session.selectOne("member.selectOneMemberByPhone", param);
+	}
+
+	@Override
+	public int updatePwdToTempPwd(Fan member) {
+		return session.update("member.updatePwdToTempPwd", member);
+	}
+	
 }
