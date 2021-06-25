@@ -3,6 +3,7 @@ package com.simpson.kisen.member.model.service;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,5 +75,25 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public List<Authority> selectOneAuthoriy(String fanId) {
 		return memberDao.selectOneAuthority(fanId);
+	}
+
+	@Override
+	public Fan searchOneMember(Map<String, Object> param) {
+		return memberDao.searchOneMember(param);
+	}
+
+	@Override
+	public Fan selectOneMemberByEmail(String email) {
+		return memberDao.selectOneMemberByEmail(email);
+	}
+
+	@Override
+	public Fan selectOneMemberByPhone(Map<String, Object> param) {
+		return memberDao.selectOneMemberByPhone(param);
+	}
+
+	@Override
+	public int updatePwdToTempPwd(Fan member) {
+		return memberDao.updatePwdToTempPwd(member);
 	}
 }
