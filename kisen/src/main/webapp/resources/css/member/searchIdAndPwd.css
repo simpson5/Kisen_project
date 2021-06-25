@@ -55,7 +55,7 @@ select:focus {
     background-color: rgb(146, 105, 146);
     width: 80%;
     height: 45px;
-    margin: 15px auto 40px;
+    margin: 14px auto 13px;
     color: snow;
 }
 
@@ -100,18 +100,18 @@ select:focus {
     transform: translateX(-1px);
     text-align: center;
   }
-[name="email"]{
-    width: 54.4% !important;
+[name="email"] {
+    width: 49.3% !important;
 }
 [name="selectEmail"] {
-    width: 23%;
+    width: 24%;
     height: 37.3px;
     border-top: none;
     border-left: none;
     border-right: none;
     border-bottom: 1.9px solid rgb(180, 144, 180);
     font-size: smaller;
-    transform: translateX(-11px);
+    transform: translateX(-7.5px);
 }
 
 label {
@@ -129,4 +129,23 @@ label {
     text-align: left;
     margin: 5px auto 0;
     transform: translateY(12px);
+}
+
+.chkNotice {
+	width: 78%;
+    color: red;
+}
+
+.login-a {
+    width: 90%;
+    padding-bottom: 13px;
+}
+
+.login-a a{
+	color: #4f4e4e;
+	text-decoration: none;
+}
+
+.login-a a:hover{
+	color: black;
 }
