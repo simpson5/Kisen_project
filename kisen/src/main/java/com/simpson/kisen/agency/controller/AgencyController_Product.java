@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -348,6 +349,34 @@ public class AgencyController_Product {
 		model.addAttribute("productList", productList);
 		return "agency/agencyProduct/agencyAllProduct";
 	}
+	
+	
+	@PutMapping("/productStockUpdate/{pdNo}/{pdStock}")
+	@ResponseBody
+	public int productStockUpdate(
+			@PathVariable int pdNo,
+			@PathVariable int pdStock
+		) {
+		log.info("pdNo@stockupdate={}",pdNo);
+		log.info("pdNo@stockupdate={}",pdStock);
+		Map<String, Integer> map =new  HashMap<String, Integer>();
+		
+		map.put("pdNo", pdNo);
+		map.put("pdStock", pdStock);
+		
+		int result = agencyService.updateStock(map);
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/**
 	 * product option 관련

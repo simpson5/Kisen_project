@@ -164,5 +164,25 @@ public class AgencyDaoImpl implements AgencyDao {
 		return session.selectList("agency-product.selectIdolProductList", param);
 	}
 
+	@Override
+	public List<ProductImgExt> selectBestProductList(String fanNo) {
+		return session.selectList("agency-product.selectBestProductList", fanNo);
+	}
+
+	@Override
+	public List<ProductImgExt> selectSoldOutProductList(String fanNo) {
+		return session.selectList("agency-product.selectSoldOutProductList", fanNo);
+	}
+
+	@Override
+	public List<ProductImgExt> selectRandomProductList(String fanNo) {
+		return session.selectList("agency-product.selectRandomProductList", fanNo);
+	}
+
+	@Override
+	public int updateStock(Map<String, Integer> map) {
+		return session.update("agency-product.updateStock", map);
+	}
+
 	
 }
