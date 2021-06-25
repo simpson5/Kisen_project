@@ -91,8 +91,6 @@ public class AgencyController {
 	
 	
 
-	@GetMapping("/agencySales")
-	public String agencySales() { return "agency/agencyPayment_Sales";}
 	
 	
 	
