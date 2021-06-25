@@ -4,61 +4,69 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  <mapper namespace="unofficial">
  
- <insert id="insertunofficialdemand">
+ <insert id="insertdemandEnroll">
 		INSERT INTO 
-		unofficial_demand(
-			demand_no, 
-    		pd_name, 
-   		 	idol_name,
-    		pd_category, 
-    		price, 
-    		delivery_price,
-    		pd_stock,
-    		pd_sales,
-    		pd_content,
-    		demand_start_date,
-    		demand_end_date,
-    		question
-		)
+			unofficial_demand
 		VALUES(  
-		    #{demandNo}
+		seq_demand_no.nextval
 		  , #{pdName}
 		  , #{idolName}
 		  , #{pdCategory}
 		  , #{price}
 		  , #{deliveryPrice}
 		  , #{pdStock}
-		  , #{pdSales}
+		  , 0
 		  , #{pdContent}
 		  , #{demandstartDate}
 		  , #{demandendDate}
 		  , #{question}
 		)
+		
+			
+	</insert>
+	
+	<insert id="insertdepositEnroll">
+		INSERT INTO 
+			unofficial_deposit
+		VALUES(  
+		seq_d_no.nextval
+		, #{pdName}
+		, #{idolName}
+		, #{pdContent}
+		, #{price}
+		, #{deliveryOption}
+		, #{deliveryPrice}
+		, #{pdStock}
+		, 0
+		, #{deliveryNotice}
+		, #{pdCategory}
+		, #{depositStartDate}
+		, #{bankName}
+		, #{accountNo}
+		, #{accountHolder}
+		, #{depositEndDate}
+	  )
+		
+			
 	</insert>
 	
 	
 	
-	<insert id="unofficialpdimg"> 
+	<insert id="insertProductImg"> 
 		insert into 
-		unofficial_pd_img
+		pd_img
 		values( 
-				seq_unofficial_pd_img.nextval
-				, #{no}
-				, #{pdNo}
-				, #{pdCategory}
-				, #{originalFilename}
-				, #{renamedFilename},default 
-				) 
+		seq_pd_img_no.nextval
+		, #{pdNo}
+		, #{pdCategory}
+		, #{originalFilename}
+		, #{renamedFilename}
+		,default
+		) 
 	</insert>
 	
 	
-	<!-- <collection property="unofficialpdimg" ofType="unofficialpdimg">
-		 	<id column ="unofficial_pd_img" property="pdNo"/>
-		 	<result column="pd_no" property="pdNo"/>
-		 	<result column="pd_category" property="pdCategory"/>
-		 	<result column="original_filename" property="originalFilename"/>
-		 	<result column="renamed_filename" property="renamedFilename"/>
-		</collection> -->
+	
 	
 
 	</mapper>

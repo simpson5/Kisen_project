@@ -174,28 +174,30 @@ color:  #9033b5;
     </tr>
   </thead>
   <tbody>
+  <c:forEach items="${basketList}" var="basketList">
     <tr>
      <th scope="row" class="border border-left-0 border-top-0  border-right-0 ">
      	<input class="" type="checkbox" id="checkboxs" name="selectProduct"/>
      </th>
       <td class=" border border-left-0 border-top-0 ">
       	<div class="media">
-		  <img class="mr-2" src="${pageContext.request.contextPath}/resources/images/moonju/blackpink.jpg" id="productImg">
+		  <img class="mr-2" src="${pageContext.request.contextPath}/resources/upload/product/${basketList.productImg.renamedFilename}" id="productImg">
 		  <div class="media-body">
-		    <a href=""><h6 class="mt-0">BLACK PINK 5TH ALBUM</h6></a> <!--이름 누를시 상품 상세페이지 -->
-		    28,000원
+		    <a href=""><h6 class="mt-0">${basketList.pdName}</h6></a> <!--이름 누를시 상품 상세페이지 -->
+		    ${babasketList.price}
 		  </div>
 		</div>
       </td>
+      
       <td class="border border-left-0 border-top-0">
       	<div class="d-flex flex-column">
-		  <div class="p-2" style="font-size: 12px;">상품 주문 수량: 1개 </div><hr />
-		  <div class="p-2" style="font-size: 12px;">옵션: 멤버별 포카 4종 증정</div>
+		  <div class="p-2" style="font-size: 12px;">상품 주문 수량: ${basketList.pdAmount}</div><hr />
+		  <div class="p-2" style="font-size: 12px;">옵션: ${basketList.productOption.optionName} </div>
 		</div>
       </td>
       <td class="border border-left-0 border-top-0 ">
       	<div class="d-flex flex-column">
-		  <div class="p-2" style="font-size:20px; color:#bc73d6">28,000원</div>
+		  <div class="p-2" style="font-size:20px; color:#bc73d6">${babasketList.price}</div>
 		  <div class="p-2" style="font-size: 12px;">
 		  	<button type="button" class="btn btn-outline p-0 font-weight-bold" id="btnOrder">주문하기</button>
 		  </div>
@@ -212,8 +214,8 @@ color:  #9033b5;
 		 </div>
       </td>
     </tr>
-
-    <tr>
+</c:forEach>
+   <%--  <tr>
       <th scope="row" class="border border-left-0 border-top-0 border-right-0 ">
       	<input type="checkbox" id="checkboxs" name="selectProduct"/>
       </th>
@@ -289,7 +291,8 @@ color:  #9033b5;
 		   <div class="p-1 font-weight-bold" style="font-size:9px;color:#bc73d6">오늘 바로 발송</div>
 		 </div>
       </td>
-    </tr>
+    </tr> --%>
+    
 
     <tr>
        <th scope="row" class="border border-left-0 border-top-0 border-right-0 ">
@@ -310,7 +313,7 @@ color:  #9033b5;
       		<dl class="py-2 px-3 mb-0">
       			<dt>총 상품 금액</dt>
       			<dd>
-      				<span>84,000</span>원
+      				<span>${basketList.total}</span>원
       			</dd>
       		</dl>
 
@@ -344,7 +347,7 @@ color:  #9033b5;
       </td>
       <td class="border border-right-0 border-top-0" colspan="2">
       	<span class="font-weight-bold" >총 주문금액</span>
-      	<span class="font-weight-bold" style="font-size:20px; color:#bc73d6"> 8,4000원</span>
+      	<span class="font-weight-bold" style="font-size:20px; color:#bc73d6"> ${basketList.total}</span>
       </td>
     </tr>
   </tbody>
