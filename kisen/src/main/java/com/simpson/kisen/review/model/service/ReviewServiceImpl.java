@@ -49,12 +49,12 @@ public class ReviewServiceImpl implements ReviewService {
 		result = reviewDao.insertReview(review);
 		log.debug("review = {}", review);
 		//2.attachment 등록
-		if(review.getAttachList().size() > 0) {
-			for(Attachment attach : review.getAttachList()) {
-				attach.setReviewNo(review.getReviewNo()); // board no fk 세팅
-				result = insertAttachment(attach);
-			}
-		}
+//		if(review.getAttachList().size() > 0) {
+//			for(Attachment attach : review.getAttachList()) {
+//				attach.setReviewNo(review.getReviewNo()); // board no fk 세팅
+//				result = insertAttachment(attach);
+//			}
+//		}
 		
 		return result; 
 	}

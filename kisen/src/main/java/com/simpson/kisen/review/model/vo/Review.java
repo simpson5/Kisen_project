@@ -14,6 +14,7 @@ public class Review {
 	private int reviewNo; //리뷰번호
 	private String reviewTitle; // 리뷰제목
 	private String fanNo; // 회원 번호
+	private String orderNo;
 	private int paymentNo; //결제번호
 	private int pdNo; //상품번호
 	private String fanId; //작성자
