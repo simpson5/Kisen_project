@@ -36,30 +36,21 @@ public class IdolController {
 	
 		
 	@GetMapping("/mypageArtist.do")
-	public void selectOneIdolCollection( @RequestParam(required = true, defaultValue = "1") int cpage, Authentication authentication, Model model
+	public void selectOneIdolCollection(Authentication authentication, Model model
 			) {
 		
 		Fan principal = (Fan) authentication.getPrincipal();
-		
-		log.info("cpage = {}", cpage);
-		final int limit = 5;
-		final int offset = (cpage - 1) * limit;
-		Map<String, Object> param = new HashMap<>();
-		param.put("limit", limit);
-		param.put("offset", offset);
-			
-		List<Idol> idolList = idolService.selectAllIdole(param);
-		List<DipIdol> dipList = idolService.selectOneCollection(param);
-		
+			log.info("fanNo ={}", principal.getFanNo());
+		List<Idol> idolList = idolService.selectAllIdole();
+		List<DipIdol> dipList = idolService.selectOneCollection(principal.getFanNo());
 		model.addAttribute("loginMember", principal);
-		model.addAttribute("dipList", dipList);
 		model.addAttribute("idolList", idolList);
-		log.info("dipList = {}", dipList);
+		model.addAttribute("dipList", dipList);
 		log.info("idolList = {}", idolList);
-		
-		log.info("cpage = {}", cpage);
+		log.info("dipList = {}", dipList);
 	
 	}		
+	
 	
 	@PostMapping("/dip")
 		public Map<String, Object> insertIdol(@RequestBody DipIdol dip){
@@ -78,6 +69,8 @@ public class IdolController {
 				throw e;
 			}
 		}
+	
+	
 	@DeleteMapping("/delIdol/{idolNo}")
 	public ResponseEntity<?> deleteMenu(@PathVariable int idolNo){
 		try {
@@ -86,6 +79,7 @@ public class IdolController {
 			if(result > 0) {
 				Map<String, Object> map = new HashMap<>();
 				map.put("msg", "찜한 아이돌 삭제 성공!");
+				
 				return  new ResponseEntity<Map<String, Object>>(map,HttpStatus.OK);
 			
 			}

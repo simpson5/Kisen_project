@@ -7,6 +7,7 @@
 	<select id="selectAllList" resultMap="paymentResultMap">
 		select
 			pp.*,
+			p.pd_name,
 			ph.payment_no,
 			ph.pay_content,
 			ph.pay_type,
@@ -25,7 +26,12 @@
 			payment_history ph
 		on
 			pp.payment_no = ph.payment_no
-	
+		left join
+			product p
+		on
+			pp.pd_no = p.pd_no
+		where
+			pp.fan_no = #{fanNo}
 			
 	</select>
 	<resultMap type="paymentProduct" id="paymentResultMap">
@@ -44,6 +50,18 @@
           <result column="original_filename" property="originalFilename"/>
           <result column="renamed_filename" property="renamedFilename"/>
           <result column="upload_date" property="uploadDate"/>
+      </collection>
+      
+     <collection property="product" ofType="Product">
+          <id column="pd_no" property="pdNo"/>
+          <result column="idol_no" property="idolNo"/>
+          <result column="pd_category" property="pdCategory"/>
+          <result column="pd_name" property="pdName"/>
+          <result column="pd_content" property="pdContent"/>
+          <result column="price" property="price"/>
+          <result column="pd_stock" property="pdStock"/>
+          <result column="pd_sales" property="pdSales"/>
+          <result column="sales_date" property="salesDate"/>
       </collection>
 	</resultMap>
 </mapper>

@@ -6,6 +6,6 @@ import com.simpson.kisen.payment.model.vo.Payment;
 
 public interface PaymentService {
 
-	List<Payment> selectAllList();
+	List<Payment> selectAllList(String fanNo);
 
 }
