@@ -46,4 +46,6 @@ public interface AgencyService {
 
 	int deleteOption(int optionNum);
 
+	List<ProductImgExt> selectIdolProductList(Map<String, Object> param);
+
 }

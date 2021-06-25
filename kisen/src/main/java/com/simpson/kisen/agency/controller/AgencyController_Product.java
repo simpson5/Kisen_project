@@ -123,7 +123,6 @@ public class AgencyController_Product {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);			//status: 404 에러 보냄
 			}
 		} catch (Exception e) {
-			log.error("메뉴 조회 오류 : " + pdNo, e);
 			throw e;
 		}
 	}
@@ -236,7 +235,6 @@ public class AgencyController_Product {
 	
 	@PostMapping("/agencyProductEnroll")
 	public String productEnroll(
-			Authentication authentication,
 			@ModelAttribute ProductImgExt product,
 			@RequestParam(name="thumbnailFile", required = false) MultipartFile thumbnailFile,
 			@RequestParam(name="detailFile", required = false) MultipartFile detailFile,
@@ -289,6 +287,27 @@ public class AgencyController_Product {
 			redirectAttr.addFlashAttribute("msg","상품 등록성공");
 		return "redirect:agencyProduct";
 	}
+	
+	@GetMapping("/searchIdolProduct")
+	@ResponseBody
+	public List<ProductImgExt> searchIdolProduct(
+			Authentication authentication,
+			@RequestParam(value="idolNoList[]",required = false) List<Integer> idolNoList){
+		log.info("idolNoList= {}",idolNoList);
+		Map<String, Object> param = new HashMap<String, Object>();
+		List<ProductImgExt> productList =null;
+	    Fan loginMember = (Fan) authentication.getPrincipal();
+		try {
+			param.put("idolNoList", idolNoList);
+			param.put("fanNo", loginMember.getFanNo());
+			productList = agencyService.selectIdolProductList(param);
+		} catch (Exception e) {
+			throw e;
+		}
+		return productList;
+	}
+	
+	
 	
 	
 	/**

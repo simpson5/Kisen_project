@@ -162,4 +162,35 @@
 		delete from pd_option 
 		where option_no = #{optionNum}
 	</delete>
+	
+	
+	<select id="selectIdolProductList" resultMap="productCollectionMap">
+		select 
+		    p.*,
+   			pi.pd_img_no,
+		    pi.pd_category img_category,
+		    pi.original_filename,
+		    pi.renamed_filename,
+            po.option_no,
+            po.option_name,
+		    i.idol_name
+		from product p 
+		    left join pd_img pi
+		        on p.pd_no = pi.pd_no
+            left join pd_option po
+		        on p.pd_no = po.pd_no
+		    left join idol i
+		        on p.idol_no = i.idol_no
+		where i.agency_no = (select agency_no from agency where fan_no =#{fanNo})
+        <choose>
+            <when test="idolNoList != null">
+                and p.idol_no in 
+                <foreach collection="idolNoList" item="idolNo" index="index" separator="," open="(" close=")">
+                    #{idolNo}
+                </foreach>
+            </when>
+        </choose>
+		order by i.idol_name desc
+	</select>
+	
 </mapper>

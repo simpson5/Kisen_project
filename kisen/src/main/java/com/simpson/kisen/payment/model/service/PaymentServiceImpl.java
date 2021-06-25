@@ -14,8 +14,9 @@ public class PaymentServiceImpl implements PaymentService {
 	@Autowired
 	private PaymentDao paymentDao;
 
+	
 	@Override
-	public List<Payment> selectAllList() {
-		return paymentDao.selectAllList();
+	public List<Payment> selectAllList(String fanNo) {
+		return paymentDao.selectAllList(fanNo);
 	}
 }

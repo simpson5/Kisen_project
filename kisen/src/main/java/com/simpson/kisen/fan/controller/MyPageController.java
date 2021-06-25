@@ -49,8 +49,10 @@ public class MyPageController {
 	
 	@GetMapping("/mypagePay.do")
 	public void mypage(Authentication authentication, Model model){
+		
 		Fan principal = (Fan) authentication.getPrincipal();
-		List<Payment> payList = paymentService.selectAllList();
+		
+		List<Payment> payList = paymentService.selectAllList(principal.getFanNo());
 		
 		model.addAttribute("loginMember", principal);
 		model.addAttribute("payList", payList);
