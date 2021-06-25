@@ -59,7 +59,18 @@ public class AgencyController {
 	
 	
 	@GetMapping("/agencyMain.do")
-	public String agencyMain() {
+	public String agencyMain(
+			Authentication authentication,
+			Model model
+	) {
+	    Fan loginMember = (Fan) authentication.getPrincipal();
+		//상품목록 random
+	    
+	    
+		//품절 상품 모든것
+		//상품 Best10
+		
+		
 		return "agency/agencyMain";
 	}
 	

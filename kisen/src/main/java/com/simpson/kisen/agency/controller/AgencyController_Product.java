@@ -308,7 +308,46 @@ public class AgencyController_Product {
 	}
 	
 	
-	
+	@GetMapping("/searchProduct")
+	public String searchProduct(
+			Authentication authentication,
+			@RequestParam(value="idolNo",required = false) int[] idolNo,
+			@RequestParam(value="category",required = false) String[] category,
+			@RequestParam(value="searchString",required = false) String searchString,
+			HttpServletRequest request,
+			Model model
+			){
+
+		log.info("category@search= {}",category);	//null
+	    Fan loginMember = (Fan) authentication.getPrincipal();
+
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("fanNo", loginMember.getFanNo());
+		param.put("idolNo", idolNo);
+		param.put("category", category);
+		param.put("searchString", searchString);
+
+		List<ProductImgExt> productList = agencyService.selectIdolProductList(param);
+		log.info("productList@search= {}",productList);	//null
+		
+		
+//		int totalContents = agencyService.selectProductTotalContents(loginMember.getFanNo());
+		
+//		String url = request.getRequestURI();
+//		log.info("totalContents = {}, url = {}", totalContents, url);
+//	    log.info("productList={}",productList);
+
+		//1.업무로직 : pageBar영역 
+//		String pageBar = HelloSpringUtils.getPageBar(totalContents, cpage, limit, url);
+		List<Idol> idolList = agencyService.selectIdolNameList(loginMember.getFanNo());
+
+
+		model.addAttribute("pageBar", null);
+		model.addAttribute("category", AgencyService.PRODUCT_CATEGORY);
+		model.addAttribute("idolList", idolList);
+		model.addAttribute("productList", productList);
+		return "agency/agencyProduct/agencyAllProduct";
+	}
 	
 	/**
 	 * product option 관련

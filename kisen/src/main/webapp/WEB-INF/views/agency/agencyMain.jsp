@@ -12,7 +12,7 @@
         <button type="button" class="btn btn-secondary" onclick="productEnroll()"> 상품등록</button>
     </div>
     <!-- 상품 목록 -->
-    <h5 style="font-weight: bold; margin-top: 3rem;"> 상품목록 <a href="/admin/adminProduct/adminAllProduct.html" class="more">더보기</a></h5>
+    <h5 style="font-weight: bold; margin-top: 3rem;"> 상품목록 <a href="${pageContext.request.contextPath }/agency/agencyProduct" class="more">더보기</a></h5>
     <hr>
     <div class="adminMain"> 
         <div class="slide-card">

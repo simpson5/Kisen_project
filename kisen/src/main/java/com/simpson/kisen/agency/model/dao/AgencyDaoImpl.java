@@ -160,6 +160,7 @@ public class AgencyDaoImpl implements AgencyDao {
 
 	@Override
 	public List<ProductImgExt> selectIdolProductList(Map<String, Object> param) {
+		log.info("param@dao={}",param);
 		return session.selectList("agency-product.selectIdolProductList", param);
 	}
 
