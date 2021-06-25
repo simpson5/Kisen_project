@@ -221,6 +221,11 @@ public class AgencyServiceImpl implements AgencyService {
 	public int deleteOption(int optionNum) {
 		return agencyDao.deleteOption(optionNum);
 	}
+
+	@Override
+	public List<ProductImgExt> selectIdolProductList(Map<String, Object> param) {
+		return agencyDao.selectIdolProductList(param);
+	}
 	
 	
 	
