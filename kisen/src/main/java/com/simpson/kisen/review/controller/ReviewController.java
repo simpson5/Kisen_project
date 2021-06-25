@@ -1,14 +1,16 @@
 package com.simpson.kisen.review.controller;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.http.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.simpson.kisen.common.util.HelloSpringUtils;
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.product.model.service.ProductService;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.review.model.service.ReviewService;
@@ -29,11 +32,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/review")
 @Slf4j
 public class ReviewController {
-	@Autowired
-	private ServletContext application;
-	
-	@Autowired
-	private ResourceLoader resourceLoader;
 	
 	@Autowired
 	private ReviewService reviewService;
@@ -50,7 +48,7 @@ public class ReviewController {
 			) {
 		try {
 			log.debug("cpage = {}", cpage);
-			final int limit = 10;
+			final int limit = 5;
 			final int offset = (cpage - 1) * limit;
 			Map<String, Object> param = new HashMap<>();
 			param.put("limit", limit);
@@ -82,15 +80,24 @@ public class ReviewController {
 	}
 	
 	@PostMapping("/reviewInsert")
-	public void reviewInsert(
+	public String reviewInsert(
 			@ModelAttribute ReviewExt reviewExt,
+			HttpServletRequest request,
 			Model model 						
 				) {		
+		String fanId = request.getParameter("fanId");
+		String fanNo = request.getParameter("fanNo");
 		log.info("model = {}" , model);
 		log.info("reviewExt = {}", reviewExt);
-		
+		log.info("fanId = {}", fanId);
+		log.info("fanNo = {}", fanNo);
+				
+		reviewExt.setFanId(fanId);
+		reviewExt.setFanNo(fanNo);
 		int result = reviewService.insertReview(reviewExt);
 		System.out.println("result = " + result);
+		
+		return "redirect:/review/reviewForm.do?no=" + reviewExt.getPdNo();
 	}
 
 	

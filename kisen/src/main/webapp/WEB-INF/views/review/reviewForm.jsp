@@ -41,7 +41,7 @@ div#container{
 		method="post" 
 		enctype="multipart/form-data" >
 		<div class="pd-info">
-			<p>상품 정보 : <span style="color: #0066ff; font-size: 15px;">${product.pdName}</span></p><br />
+			<p>상품 정보 : <span id="pdName" style="color: #0066ff; font-size: 15px;">${product.pdName}</span></p><br />
 		</div>
 		<div class="form-group">
 			<label for="title">title:</label> <input type="text"
@@ -54,6 +54,8 @@ div#container{
 		<div id="edit" style="margin:0 auto;">
 			<div class="py-2" style="text-align:center;">
 				<input type="hidden" name="pdNo" value="${product.pdNo}"/>
+				<input type="hidden" name="fanId" value="${loginMember.fanId}"/>
+				<input type="hidden" name="fanNo" value="${loginMember.fanNo}"/>
 				<button type="submit" id="saveBtn" class="btn btn-outline-warning mx-auto">글쓰기등록</button>
 				<button type="button" id="backBtn" class="btn btn-outline-warning mx-auto">취소</button>	
 			</div>
@@ -87,6 +89,10 @@ $(document).ready(function () {
       fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36',
         '50', '72']
     });
+  });
+  
+  $("#pdName").click(function(){
+  	location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + ${product.pdNo};
   });
 </script>
 
