@@ -318,9 +318,11 @@ textarea.autosize {
 	<div class="container" id="container">
 		<div class="detail row">
 			<div class="media  product_img">
-				<img
-					src="${pageContext.request.contextPath}/resources/images/kisen_logo.png"
-					class="img-thumbnail" alt="...">
+			<c:forEach items="${product.pdImgList}" var="pdImg">
+		        <c:if test="${pdImg.pdCategory eq 'R'}">
+					<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+			   	</c:if>
+		    </c:forEach>
 			</div>
 			<div class="media-body col-5 ">
 				<table class="table">
@@ -342,6 +344,8 @@ textarea.autosize {
 							<th>배송정보</th>
 							<td colspan="3" style="border: 0; outline: 0;">영업일 기준 3일</td>
 						</tr>
+						<c:forEach items="${product.pdOptionList}" var="pdOp">
+						<c:if test="${!empty pdOp.optionName}">
 						<tr>
 							<th>옵션</th>
 							<td colspan="3" style="border: 0; outline: 0;"><select
@@ -353,6 +357,8 @@ textarea.autosize {
 									<option value="3">옵션 3</option>
 							</select></td>
 						</tr>
+						</c:if>
+						</c:forEach>
 					</tbody>
 				</table>
 				<p
@@ -381,17 +387,19 @@ textarea.autosize {
 		</div>
 		<div class="pd-detail-menu">
 			<div class="row text-center" style="width: 100%;">
-				<div class="col-md-3 select pd-nav" id="nav1">Detail</div>
-				<div class="col-md-3 pd-nav" id="nav2">Review</div>
-				<div class="col-md-3 pd-nav" id="nav3">Another</div>
-				<div class="col-md-3 pd-nav" id="nav4">QnA</div>
+				<div class="col-md-4 select pd-nav" id="nav1">Detail</div>
+				<div class="col-md-4 pd-nav" id="nav2">Review</div>
+				<div class="col-md-4 pd-nav" id="nav3">Another</div>
 			</div>
 		</div>
 
 		<div class="pd-detail">
-			<img
-				src="${pageContext.request.contextPath}/resources/images/kisen_logo.png"
-				class="col-9" />
+			<p>${product.pdContent}</p>
+	       	<c:forEach items="${product.pdImgList}" var="pdImg">
+		        <c:if test="${pdImg.pdCategory eq 'D'}">
+					<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+			   	</c:if>
+		    </c:forEach>
 		</div>
 
 		<div class="pd-review mx-auto" style="display: none;">
@@ -491,67 +499,6 @@ textarea.autosize {
 				class="sr-only">Next</span>
 			</a>
 		</div>
-
-
-		<div class="pd-qna" style="display: none;">
-			<p class="h5"
-				style="color: #353535; font-size: 16px; line-height: 18px; font-family: 'Lato', 'Nanum Gothic', 'verdana', '돋움', '굴림';">QnA</p>
-			<table class="table pd-review-board table table-hover">
-				<thead>
-					<tr>
-						<th scope="col" class="col-1 table-primary">번호</th>
-						<th scope="col" class="col-6 table-primary">제목</th>
-						<th scope="col" class="col-1 table-primary">작성자</th>
-						<th scope="col" class="col-1 table-primary">작성일</th>
-						<th scope="col" class="col-1 table-primary">조회</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td><a href="#">Mark</a></td>
-						<td>dsadasd</td>
-						<td>@mdo</td>
-						<td>@mdo</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td><a href="#">Mark</a></td>
-						<td>Thornton</td>
-						<td>@fat</td>
-						<td>@fat</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td><a href="#">Mark</a></td>
-						<td>@twitter</td>
-						<td>@twitter</td>
-						<td>@twitter</td>
-					</tr>
-				</tbody>
-			</table>
-			<div class="btn-area">
-				<div class="btn-group" role="group" aria-label="Basic example">
-					<button type="button" class="btn btn-dark write">글 작성</button>
-					<button type="button" class="btn btn-secondary">전체보기</button>
-				</div>
-			</div>
-			<div class="paging-area">
-				<nav class="review-paging-nav" aria-label="Page navigation example">
-					<ul class="pagination col-2">
-						<li class="page-item"><a class="page-link" href="#"
-							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-						</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#"
-							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-						</a></li>
-					</ul>
-				</nav>
-			</div>
-		</div>
 	</div>
 </div>
 <script>
@@ -564,24 +511,16 @@ $(".pd-nav").click(function(e){
 		$('.pd-detail').show();
 		$('.pd-review').hide();
 		$('.pd-another').hide();
-		$('.pd-qna').hide();
 	}
 	else if(id =='nav2'){
 		$('.pd-detail').hide();
 		$('.pd-review').show();
 		$('.pd-another').hide();
-		$('.pd-qna').hide();
 	}
 	else if(id=='nav3'){
 		$('.pd-detail').hide();
 		$('.pd-review').hide();
 		$('.pd-another').show();
-		$('.pd-qna').hide();
-	}else if(id=='nav4'){
-		$('.pd-detail').hide();
-		$('.pd-review').hide();
-		$('.pd-another').hide();
-		$('.pd-qna').show();
 	}
 });
 /**
@@ -612,7 +551,7 @@ $("[name=option-select]").change(function(e){
 	var $table = $("<table></table>");
 	$table
 	.append(`<tr>
-			<td><p class="pt-1">상품명<br /> <span class="add-option">옵션명</span>	</p></td>
+			<td><p class="pt-1">${product.pdName}<br /> <span class="add-option">옵션명</span>	</p></td>
 			<td colspan="1" class="col-1"><span
 			style="position: relative; display: inline-block;"> <input
 				type="text" class="form-control" name="stock" value="1" min="1" size="3"/>
@@ -646,7 +585,7 @@ function total(){
 	});
 	
 	var $total = $(".total");
-	var price = 10000;
+	var price = ${product.price};
 	var total = price * cnt;
 
 	console.log(typeof(cnt));

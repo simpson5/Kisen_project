@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.simpson.kisen.product.model.dao.ProductDao;
-import com.simpson.kisen.product.model.vo.Product;
-import com.simpson.kisen.product.model.vo.ProductExt;
+import com.simpson.kisen.product.model.vo.ProductImgExt;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,12 +18,12 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDao productDao;
 
 	@Override
-	public List<Product> selectProductList() {
+	public List<ProductImgExt> selectProductList() {
 		return productDao.selectProductList();
 	}
 
 	@Override
-	public ProductExt selectOneProduct(int no) {
+	public ProductImgExt selectOneProduct(int no) {
 		return productDao.selectOneProduct(no);
 	}
 }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.simpson.kisen.common.util.HelloSpringUtils;
 import com.simpson.kisen.product.model.service.ProductService;
-import com.simpson.kisen.product.model.vo.ProductExt;
+import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.review.model.service.ReviewService;
 import com.simpson.kisen.review.model.vo.ReviewExt;
 
@@ -37,7 +37,8 @@ public class ProductController {
 						@RequestParam(required = true, defaultValue = "1") int cpage,
 						HttpServletRequest request,
 						Model model) {
-		ProductExt product = productService.selectOneProduct(no);
+		ProductImgExt product = productService.selectOneProduct(no);
+		log.info("product = {}", product);
 		try {
 			log.debug("cpage = {}", cpage);
 			final int limit = 10;
