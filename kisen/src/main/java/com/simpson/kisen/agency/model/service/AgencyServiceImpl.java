@@ -226,6 +226,27 @@ public class AgencyServiceImpl implements AgencyService {
 	public List<ProductImgExt> selectIdolProductList(Map<String, Object> param) {
 		return agencyDao.selectIdolProductList(param);
 	}
+
+	@Override
+	public List<ProductImgExt> selectBestProductList(String fanNo) {
+		return agencyDao.selectBestProductList(fanNo);
+	}
+
+	@Override
+	public List<ProductImgExt> selectSoldOutProductList(String fanNo) {
+		return agencyDao.selectSoldOutProductList(fanNo);
+	}
+
+	@Override
+	public List<ProductImgExt> selectRandomProductList(String fanNo) {
+		return agencyDao.selectRandomProductList(fanNo);
+	}
+
+	@Override
+	public int updateStock(Map<String, Integer> map) {
+		return agencyDao.updateStock(map);
+	}
+
 	
 	
 	

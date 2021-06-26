@@ -64,4 +64,12 @@ public interface AgencyDao {
 
 	List<ProductImgExt> selectIdolProductList(Map<String, Object> param);
 
+	List<ProductImgExt> selectBestProductList(String fanNo);
+
+	List<ProductImgExt> selectSoldOutProductList(String fanNo);
+
+	List<ProductImgExt> selectRandomProductList(String fanNo);
+
+	int updateStock(Map<String, Integer> map);
+
 }
