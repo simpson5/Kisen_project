@@ -142,7 +142,7 @@ a:hover {
 	height: 15px;
 }
 
-.form-control {
+.form-controller {
 	width: 50px;
 	height: 23px;
 	padding: 0 2px 0 3px;
@@ -344,27 +344,44 @@ textarea.autosize {
 							<th>배송정보</th>
 							<td colspan="3" style="border: 0; outline: 0;">영업일 기준 3일</td>
 						</tr>
-						<c:forEach items="${product.pdOptionList}" var="pdOp">
-						<c:if test="${!empty pdOp.optionName}">
 						<tr>
 							<th>옵션</th>
 							<td colspan="3" style="border: 0; outline: 0;"><select
 								class="form-select" aria-label="Default select example"
 								name="option-select">
+							
 									<option selected disabled>- [필수] 옵션을 선택해 주세요 -</option>
-									<option value="1">옵션 1</option>
-									<option value="2">옵션 2</option>
-									<option value="3">옵션 3</option>
+							<c:forEach items="${product.pdOptionList}" var="pdOp" varStatus="cnt">
+									<option value="cnt">${pdOp.optionName}</option>
+							</c:forEach>
 							</select></td>
 						</tr>
-						</c:if>
-						</c:forEach>
 					</tbody>
 				</table>
+				<c:if test="${!empty pdOp.optionName}">
 				<p
 					style="font-size: 11px; color: #f76560; margin: 10px auto; text-align: center; padding-bottom: 5px; border-bottom: 1px solid #d4d8d9">
 					위 옵션선택 박스를 선택하시면 아래에 상품이 추가됩니다.</p>
-				<div class="select-option"></div>
+				</c:if>
+				<div class="select-option">
+				<c:if test="${empty pdOp.optionName}">
+				<table>
+				<tr>
+					<td><p class="pt-1">${product.pdName}<br /></p></td>
+					<td colspan="1" class="col-1"><span
+					style="position: relative; display: inline-block;"> <input
+						type="text" class="form-controller" name="stock" value="1" min="1" size="5"/>
+					<img class="up"
+							src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"
+							alt="수량증가">
+					<img class="down"
+							src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_down.gif"
+							alt="수량감소">
+					</span></td>
+				</tr>
+				</table>
+				</c:if>
+				</div>
 				<div class="total-pd">
 					<table class="pd-option-tbl">
 						<tbody>
@@ -554,7 +571,7 @@ $("[name=option-select]").change(function(e){
 			<td><p class="pt-1">${product.pdName}<br /> <span class="add-option">옵션명</span>	</p></td>
 			<td colspan="1" class="col-1"><span
 			style="position: relative; display: inline-block;"> <input
-				type="text" class="form-control" name="stock" value="1" min="1" size="3"/>
+				type="text" class="form-controller" name="stock" value="1" min="1" size="3"/>
 			<img class="up"
 					src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"
 					alt="수량증가">
@@ -570,16 +587,17 @@ $("[name=option-select]").change(function(e){
 	$(".select-option").append($table);
 	total();
 	$(".delete").click(function(){
-		console.log($(this).parent().parent().parent());
 		$this = $(this).parent().parent().parent();
 		$this.remove();
 		total();
 	});
 });
 
+
+
 function total(){
 	var cnt = 0;
-	var get_input = $(".form-control");
+	var get_input = $(".form-controller");
 	$.each(get_input, function (index, value) {
 		cnt += Number($(value).val());
 	});
@@ -588,12 +606,9 @@ function total(){
 	var price = ${product.price};
 	var total = price * cnt;
 
-	console.log(typeof(cnt));
-	console.log($total);
-	console.log(cnt);
-	console.log(total);
 	$total += $total.html("<strong>"+total+"</strong>"+"("+cnt+"개)");
 }
+window.onload=total;
 
 /* $(() => {
 	$("button[name=reviewWrite]").click(e => {

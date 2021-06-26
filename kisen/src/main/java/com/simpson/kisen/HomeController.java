@@ -46,10 +46,14 @@ public class HomeController {
 		log.info("home 지나감!");
 		// product 조회
 		try {
-			List<ProductImgExt> list = productService.selectProductList();
+			List<ProductImgExt> list = productService.selectRandomProductList(); // 추천상품 - 랜덤상품 추천
+			List<ProductImgExt> newGoodsList = productService.selectNewGoodsProductList(); // new goods
+			List<ProductImgExt> bestSellList = productService.selectBestSellProductList(); // 인기상품 - 판매량 순
 			log.info("list = {}",list);
 			
 			model.addAttribute("list", list);
+			model.addAttribute("bestSellList", bestSellList);
+			model.addAttribute("newGoodsList", newGoodsList);
 		} catch (Exception e) {
 			log.debug("product 조회 오류",e);
 			throw e;

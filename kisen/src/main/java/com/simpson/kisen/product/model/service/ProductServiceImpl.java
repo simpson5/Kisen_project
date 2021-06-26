@@ -18,12 +18,22 @@ public class ProductServiceImpl implements ProductService {
 	private ProductDao productDao;
 
 	@Override
-	public List<ProductImgExt> selectProductList() {
-		return productDao.selectProductList();
+	public ProductImgExt selectOneProduct(int no) {
+		return productDao.selectOneProduct(no);
 	}
 
 	@Override
-	public ProductImgExt selectOneProduct(int no) {
-		return productDao.selectOneProduct(no);
+	public List<ProductImgExt> selectRandomProductList() {
+		return productDao.selectRandomProductList();
+	}
+
+	@Override
+	public List<ProductImgExt> selectBestSellProductList() {
+		return productDao.selectBestSellProductList();
+	}
+
+	@Override
+	public List<ProductImgExt> selectNewGoodsProductList() {
+		return productDao.selectNewGoodsProductList();
 	}
 }

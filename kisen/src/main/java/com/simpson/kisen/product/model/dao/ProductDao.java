@@ -6,9 +6,13 @@ import com.simpson.kisen.product.model.vo.ProductImgExt;
 
 public interface ProductDao {
 
-	List<ProductImgExt> selectProductList();
+	List<ProductImgExt> selectNewGoodsProductList();
 
 	ProductImgExt selectOneProduct(int no);
+
+	List<ProductImgExt> selectRandomProductList();
+
+	List<ProductImgExt> selectBestSellProductList();
 
 	
 	
