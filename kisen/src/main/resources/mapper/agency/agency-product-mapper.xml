@@ -201,4 +201,85 @@
 		order by i.idol_name desc
 	</select>
 	
+	
+	
+	<!-- mainPage -->
+	<select id="selectRandomProductList" resultMap="productCollectionMap">
+	select 
+		*
+	from(
+		select 
+		    p.*,
+   			pi.pd_img_no,
+		    pi.pd_category img_category,
+		    pi.original_filename,
+		    pi.renamed_filename,
+		    i.idol_name
+		from product p 
+		    left join pd_img pi
+		        on p.pd_no = pi.pd_no
+		    left join idol i
+		        on p.idol_no = i.idol_no
+		where 
+			i.agency_no = (select agency_no from agency where fan_no =#{fanNo})
+			and pi.pd_category = 'R'
+		order by DBMS_RANDOM.RANDOM
+	)
+	where 
+		rownum <![CDATA[ <= ]]> 12
+	</select>
+	
+	<select id="selectBestProductList" resultMap="productCollectionMap">
+	select 
+		*
+	from(
+		select 
+		    p.*,
+   			pi.pd_img_no,
+		    pi.pd_category img_category,
+		    pi.original_filename,
+		    pi.renamed_filename,
+		    i.idol_name
+		from product p 
+		    left join pd_img pi
+		        on p.pd_no = pi.pd_no
+		    left join idol i
+		        on p.idol_no = i.idol_no
+		where 
+			i.agency_no = (select agency_no from agency where fan_no =#{fanNo})
+			and pi.pd_category = 'R'
+		order by p.pd_sales
+	)
+	where 
+		rownum <![CDATA[ <= ]]> 12
+	</select>
+	
+	
+	
+	<select id="selectSoldOutProductList" resultMap="productCollectionMap">
+	select 
+	    p.*,
+ 		pi.pd_img_no,
+	    pi.pd_category img_category,
+	    pi.original_filename,
+	    pi.renamed_filename,
+	    i.idol_name
+	from product p 
+	    left join pd_img pi
+	        on p.pd_no = pi.pd_no
+	    left join idol i
+	        on p.idol_no = i.idol_no
+	where 
+		i.agency_no = (select agency_no from agency where fan_no =#{fanNo})
+		and pi.pd_category = 'R'
+		and p.pd_stock = 0
+	</select>
+	<update id="updateStock">
+		update 
+			product
+		set 
+			pd_stock = #{pdStock}
+		where 
+			pd_no = #{pdNo}
+	</update>
 </mapper>
