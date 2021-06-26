@@ -442,7 +442,7 @@ textarea.autosize {
 				<c:forEach items="${list}" var="review" varStatus="status">
 					<tr data-no="${review.reviewNo}">
 						<td>${status.count}</td>
-						<td>${review.reviewTitle}</td>
+						<td onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail.do?no=${no}&reviewNo=${review.reviewNo}'">${review.reviewTitle}</td>
 						<td>${review.fanId}</td>
 						<td><fmt:formatDate value="${review.reviewDate}" pattern="YYYY-MM-dd"/></td>
 						<td>${review.readCnt}</td>
@@ -455,7 +455,6 @@ textarea.autosize {
 			<div class="btn-area">
 				<div class="btn-group" role="group" aria-label="Basic example" onclick="location.href='${pageContext.request.contextPath}/review/reviewForm.do?no=${no}'">
 					<button type="button" class="btn btn-dark write" name="reviewWrite">글 작성</button>
-					<button type="button" class="btn btn-secondary">전체보기</button>
 				</div>
 			</div>
 			<div class="paging-area">
@@ -610,15 +609,6 @@ function total(){
 }
 window.onload=total;
 
-/* $(() => {
-	$("button[name=reviewWrite]").click(e => {
-		//var $no = $(e.target).parent();
-		//var no = $no.data("no");
-		console.log('${no}');
-		
-		//location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + no;
-	});
-}); */
 
 </script>
 

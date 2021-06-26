@@ -66,6 +66,15 @@
 				dual
 		</selectKey>
 	</insert>
+	
+	<select id="selectOneReview" resultType="review">
+		select
+			*
+		from
+			review
+		where
+			review_no = #{no}
+	</select>
 </mapper>
 
 

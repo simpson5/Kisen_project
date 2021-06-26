@@ -19,7 +19,7 @@ public interface ReviewDao {
 
 	int insertAttachment(Attachment attach);
 
-	ReviewExt selectOneReview(int no);
+	Review selectOneReview(int no);
 
 	List<Attachment> selectAttachList(int no);
 

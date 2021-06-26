@@ -5,12 +5,13 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import com.simpson.kisen.review.model.dao.ReviewDao;
 import com.simpson.kisen.review.model.vo.Attachment;
 import com.simpson.kisen.review.model.vo.Review;
 import com.simpson.kisen.review.model.vo.ReviewExt;
+import com.simpson.kisen.review.model.vo.UploadFile;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -66,10 +67,10 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public ReviewExt selectOneReview(int no) {
-		ReviewExt review = reviewDao.selectOneReview(no);
+	public Review selectOneReview(int no) {
+		Review review = reviewDao.selectOneReview(no);
 		List<Attachment> attachList = reviewDao.selectAttachList(no); // boardNo로 조회
-		review.setAttachList(attachList);
+//		review.setAttachList(attachList);
 		return review;
 	}
 
@@ -86,6 +87,12 @@ public class ReviewServiceImpl implements ReviewService {
 	@Override
 	public List<Review> searchTitle(String searchTitle) {
 		return reviewDao.searchTitle(searchTitle);
+	}
+
+	@Override
+	public UploadFile imgUpload(MultipartFile file) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

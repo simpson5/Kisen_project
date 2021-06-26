@@ -1,16 +1,18 @@
 package com.simpson.kisen.review.controller;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpRequest;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +20,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.simpson.kisen.common.util.HelloSpringUtils;
 import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.product.model.service.ProductService;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.review.model.service.ReviewService;
+import com.simpson.kisen.review.model.vo.Review;
 import com.simpson.kisen.review.model.vo.ReviewExt;
 
 import lombok.extern.slf4j.Slf4j;
@@ -32,12 +37,16 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/review")
 @Slf4j
 public class ReviewController {
+	@Autowired
+	private ServletContext application;
 	
 	@Autowired
 	private ReviewService reviewService;
 
 	@Autowired
 	private ProductService productService;
+	
+
 	
 	@GetMapping("/reviewList.do")
 	public String reviewList(
@@ -83,15 +92,17 @@ public class ReviewController {
 	public String reviewInsert(
 			@ModelAttribute ReviewExt reviewExt,
 			HttpServletRequest request,
+			Authentication authentication,
 			Model model 						
 				) {		
-		String fanId = request.getParameter("fanId");
-		String fanNo = request.getParameter("fanNo");
+		Fan loginMember = (Fan) authentication.getPrincipal();
+		String fanId = loginMember.getFanId();
+		String fanNo = loginMember.getFanNo();
 		log.info("model = {}" , model);
 		log.info("reviewExt = {}", reviewExt);
 		log.info("fanId = {}", fanId);
 		log.info("fanNo = {}", fanNo);
-				
+		
 		reviewExt.setFanId(fanId);
 		reviewExt.setFanNo(fanNo);
 		int result = reviewService.insertReview(reviewExt);
@@ -100,14 +111,59 @@ public class ReviewController {
 		return "redirect:/review/reviewForm.do?no=" + reviewExt.getPdNo();
 	}
 
+	@PostMapping("/reviewImages")
+	@ResponseBody
+	public Map<String, Object> handleFileUpload(
+								@RequestParam(name="file") MultipartFile file,
+								@RequestParam(name="no") int no,
+								HttpServletResponse response,
+								HttpServletRequest request
+								) throws Exception{
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			
+			String saveDirectory = application.getRealPath("/resources/upload/review");
+			log.info("saveDir = {} " ,saveDirectory);
+			String originalFileName = file.getOriginalFilename();
+			String renamedFilename = 
+					HelloSpringUtils.getRenamedFilename(originalFileName);
+			File dir = new File(saveDirectory);
+			if(!dir.exists())
+				dir.mkdirs(); // 복수개의 디렉토리를 생성
+			log.info("dir = {}" , dir);
+			String buildPath = saveDirectory+"/"+renamedFilename;
+			File dest = new File(saveDirectory, renamedFilename);
+		try {
+			InputStream fileStream = file.getInputStream();
+			FileUtils.copyInputStreamToFile(fileStream, dest);
+
+			map.put("renamedFilename", renamedFilename);
+			map.put("url", buildPath);
+		}catch(Exception e) {
+			FileUtils.deleteQuietly(dest);
+			throw e;
+		}
+		return map;
+	}
 	
-	
+
 	@GetMapping("/revieweditForm.do")
 	public void revieweditForm() {}
 	
 	
-	@GetMapping("/reviewDetail.do")
-	public void reviewDetail() {}
+	@GetMapping("/reviewDetail")
+	public String reviewDetail(
+				@RequestParam(value="no", required = false) int no,
+				@RequestParam(value="reviewNo", required = false) int reviewNo,
+				Model model) {
+			ProductImgExt product = productService.selectOneProduct(no);
+			Review review = reviewService.selectOneReview(reviewNo);
+			log.info("review = {}", review);
+			
+			model.addAttribute("review",review);
+			model.addAttribute("product",product);
+			return "review/reviewForm";
+	}
 
 	
 	

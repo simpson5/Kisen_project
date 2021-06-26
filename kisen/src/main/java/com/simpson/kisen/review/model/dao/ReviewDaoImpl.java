@@ -48,7 +48,7 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public ReviewExt selectOneReview(int no) {
+	public Review selectOneReview(int no) {
 		return session.selectOne("review.selectOneReview", no);
 	}
 
