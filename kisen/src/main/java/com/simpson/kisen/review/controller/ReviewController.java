@@ -2,6 +2,7 @@ package com.simpson.kisen.review.controller;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.product.model.service.ProductService;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.review.model.service.ReviewService;
+import com.simpson.kisen.review.model.vo.Attachment;
 import com.simpson.kisen.review.model.vo.Review;
 import com.simpson.kisen.review.model.vo.ReviewExt;
 
@@ -105,10 +107,11 @@ public class ReviewController {
 		
 		reviewExt.setFanId(fanId);
 		reviewExt.setFanNo(fanNo);
+		
 		int result = reviewService.insertReview(reviewExt);
 		System.out.println("result = " + result);
 		
-		return "redirect:/review/reviewForm.do?no=" + reviewExt.getPdNo();
+		return "redirect:/review/reviewDetail?no=" + reviewExt.getPdNo()+"&reviewNo="+reviewExt.getReviewNo();
 	}
 
 	@PostMapping("/reviewImages")
@@ -139,6 +142,7 @@ public class ReviewController {
 
 			map.put("renamedFilename", renamedFilename);
 			map.put("url", buildPath);
+			
 		}catch(Exception e) {
 			FileUtils.deleteQuietly(dest);
 			throw e;
@@ -147,22 +151,58 @@ public class ReviewController {
 	}
 	
 
-	@GetMapping("/revieweditForm.do")
-	public void revieweditForm() {}
+	@GetMapping("/reviewUpdate")
+	public void reviewUpdate(
+			@RequestParam(value="no", required = false) int no,
+			@RequestParam(value="reviewNo", required = false) int reviewNo,
+			Authentication authentication,
+			Model model) {
+		ProductImgExt product = productService.selectOneProduct(no);
+		Review review = reviewService.selectOneReview(reviewNo);
+		log.info("review = {}", review);
+		Fan loginMember = (Fan) authentication.getPrincipal();
+		
+		model.addAttribute("loginMember",loginMember);
+		model.addAttribute("review",review);
+		model.addAttribute("product",product);
+	}
 	
+	@PostMapping("/reviewUpdate")
+	public String reviewUpdate(
+			@ModelAttribute Review review,
+			HttpServletRequest request,
+			Authentication authentication,
+			Model model 
+			) {
+		Fan loginMember = (Fan) authentication.getPrincipal();
+		String fanId = loginMember.getFanId();
+		String fanNo = loginMember.getFanNo();
+		log.info("model = {}" , model);
+		log.info("reviewExt = {}", review);
+		
+	
+		review.setFanId(fanId);
+		review.setFanNo(fanNo);
+		
+		int result = reviewService.updateReview(review);
+		System.out.println("result = " + result);
+		
+		return "redirect:/review/reviewDetail?no=" + review.getPdNo()+"&reviewNo="+review.getReviewNo();
+	}
 	
 	@GetMapping("/reviewDetail")
-	public String reviewDetail(
+	public void reviewDetail(
 				@RequestParam(value="no", required = false) int no,
 				@RequestParam(value="reviewNo", required = false) int reviewNo,
+				Authentication authentication,
 				Model model) {
 			ProductImgExt product = productService.selectOneProduct(no);
 			Review review = reviewService.selectOneReview(reviewNo);
 			log.info("review = {}", review);
-			
+			Fan loginMember = (Fan) authentication.getPrincipal();
+			model.addAttribute("loginMember",loginMember);
 			model.addAttribute("review",review);
 			model.addAttribute("product",product);
-			return "review/reviewForm";
 	}
 
 	

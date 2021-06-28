@@ -6,126 +6,124 @@
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 	<jsp:param value="구매 후기 - ${product.pdName}" name="title" />
 </jsp:include>
-
-  
    <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>.
   <script src="${pageContext.request.contextPath}/resources/js/summernote/summernote-lite.js"></script>
   <script src="${pageContext.request.contextPath}/resources/js/summernote/lang/summernote-ko-KR.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/summernote/summernote-lite.css">
-  
 <style>
-.btn-outline-warning {
-	color: #9033b5;
-	background-color: transparent;
-	background-image: none;
-	border-color: #9033b5;
-}
-
-.btn-outline-warning:hover {
-	color: white;
-	background-color: #c7a2e0;
-	background-image: none;
-	border-color: #c7a2e0;
-}
-div#container{
-	margin-top: 50px;
-}
+    .btn-main{
+        background-color: #C8A9C8;
+        color: white;
+        font-weight: bold;
+    }
+    .notice{
+        height: 600px;
+        width: 100%;
+    }
 </style>
 <div id="wrap">
-	<div class="container" id="container">
-	<form 
-		role="form"
-		action="${pageContext.request.contextPath}/review/reviewInsert" 
-		method="post" 
-		enctype="multipart/form-data" >
-		<div class="pd-info">
-			<p>상품 정보 : <span id="pdName" style="color: #0066ff; font-size: 15px;">${product.pdName}</span></p><br />
-		</div>
-		<div class="form-group">
-			<label for="title"></label> <input type="text"
-				class="form-control" placeholder="제목을 입력해주세요" id="title" name="reviewTitle" required="required" />
-		</div>
-		<div class="form-group">
-			<label for="content">content:</label>
-			<textarea class="form-control" id="summernote" rows="5" name="reviewContent" style="width: 100%"></textarea>
-		</div>
-		<div id="edit" style="margin:0 auto;">
-			<div class="py-2" style="text-align:center;">
-				<input type="hidden" name="pdNo" value="${product.pdNo}"/>
-				<input type="hidden" name="fanId" value="${loginMember.fanId}"/>
-				<input type="hidden" name="fanNo" value="${loginMember.fanNo}"/>
-				<button type="submit" id="saveBtn" class="btn btn-outline-warning mx-auto">글쓰기등록</button>
-				<button type="button" id="backBtn" class="btn btn-outline-warning mx-auto">취소</button>	
-			</div>
-			
-		</div>
-	</form>
+	<div class="container">
+	    <h5 class="mt-5" style="font-weight: bold;">| 상품명 : ${product.pdName}</h5>
+	    <hr>
+	    <table class="table">
+	        <thead>
+	            <tr>
+	                <th>제목</th>
+	                <th>${review.reviewTitle}</th>
+	            </tr>
+	            <tr>
+	                <th>작성자</th>
+	                <th>${review.fanId}</th>
+	            </tr>
+	            <tr>
+	                <th>작성일</th>
+	                <th>${review.reviewDate}</th>
+	            </tr>
+	            <tr>
+	                <th>조회수</th>
+	                <th>${review.readCnt}</th>
+	            </tr>
+	            <tr>
+	                <th>추천수</th>
+	                <th>${review.recoCnt}</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr>
+	                <td colspan="2">
+	                    <textarea class="form-control" id="summernote" rows="5" name="reviewContent" style="width: 100%; background-color: #fff">
+	                    ${review.reviewContent }
+	                    </textarea>
+	                </td>
+	            </tr>
+	            <tr>
+	                <td colspan="2">
+	                <div class=" text-center">
+	                    <div class="mt-1 row">
+	                        <div class="col-6 d-grid">
+	                        <c:if test="${loginMember.fanId eq review.fanId}">
+	                            <button type="button" class="btn btn-sm btn-dark" style="width: 100%;" onclick="location.href='${pageContext.request.contextPath}/review/reviewUpdate?no=${review.pdNo}&reviewNo=${review.reviewNo}'">수정하기</button>	                        	
+	                        </c:if>
+	                        <c:if test="${loginMember.fanId ne review.fanId}">
+	                            <button type="button" class="btn btn-sm btn-dark" style="width: 100%;">추천하기</button>
+	                        </c:if>
+	                        </div>
+	                        <div class="col-6 d-grid">
+	                            <button type="button" class="btn btn-sm btn-main" style="width: 100%;" onclick="location.href='${pageContext.request.contextPath}/product/productInfo?no=${review.pdNo}'">목록으로</button>
+	                        </div>
+	                    </div>
+	                </div>
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
 	</div>
-</div>
+</div>    
+<%@ include file="/WEB-INF/views/common/footer.jsp"%>
+
 <script>
 $(document).ready(function () {
-    $('#summernote').summernote({
-      height: 500,                 
-      minHeight: 500,            
-      maxHeight: 500,            
-      focus: true,                  
-      lang: "ko-KR",					
-      placeholder: '내용을 입력해주세요.',
-      disableResizeEditor: true,	// 크기 조절 기능 삭제
-      callbacks: {
-       		onImageUpload : function(files, editor, welEditable){
-       			for(var i = files.length -1 ; i >= 0; i--){
-       				sendFile(files[i], this);
-       			}
-       		}
-      },	
-      toolbar: [
-        ['fontname', ['fontname']],
-        ['fontsize', ['fontsize']],
-        ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
-        ['color', ['forecolor', 'color']],
-        ['table', ['table']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['height', ['height']],
-        ['insert', ['picture', 'link', 'video']],
-        ['view', ['fullscreen', 'help']]
-      ],
-      fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', '맑은 고딕', '궁서', '굴림체',
-        '굴림', '돋음체', '바탕체'],
-      fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36',
-        '50', '72']
-      
-    });
-  });
+ 	$('#summernote').summernote({
+ 	 disableResizeEditor: true,
+ 	 disableGrammar: false,
+ 		toolbar : []
+ 	});
+	$('#summernote').summernote('disable');
+	$('#summernote').summernote('backColor','white');
+	
+
+});
   
-function sendFile(file, el){
-	console.log(file);  
-	console.log(el);
-	var data = new FormData();
-	data.append("file",file);
-	data.append("no",${product.pdNo});
-	console.log(data);
-	 $.ajax({
-        data: data,
-        type: "POST",
-        url: '${pageContext.request.contextPath}/review/reviewImages',
-        cache: false,
-        contentType: false,
-        enctype: 'multipart/form-data',
-        processData: false,
-        success: function(res) {
-        	const url = "${pageContext.request.contextPath}/resources/upload/review/"+res.renamedFilename;
-      		$('#summernote').summernote('editor.insertImage',url);
-        }
-      });
-}
-  
-  $("#pdName").click(function(){
-  	location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + ${product.pdNo};
-  });
+$(".reply_delete_btn").click(function(){
+	
+	var reply_no = $(this).next().val();
+	
+	console.log(reply_no);
+	
+	var comment_no = $("[name=reply_no]").val();
+	$.ajax({
+		url: "${pageContext.request.contextPath}/review/",
+		data : {
+			no : reply_no
+		},
+		seccess : function(data){
+			console.log(1);
+			if(data > 0){
+				swal("삭제 성공");
+			} else {
+				swal("삭제 실패");
+			}
+			
+		},
+		error : function(xhr, status, err){
+			console.log(xhr,status, err);
+		}
+	})
+	
+})
 </script>
 
-<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
+<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

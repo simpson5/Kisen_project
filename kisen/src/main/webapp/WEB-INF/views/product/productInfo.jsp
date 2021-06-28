@@ -442,7 +442,7 @@ textarea.autosize {
 				<c:forEach items="${list}" var="review" varStatus="status">
 					<tr data-no="${review.reviewNo}">
 						<td>${status.count}</td>
-						<td onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail.do?no=${no}&reviewNo=${review.reviewNo}'">${review.reviewTitle}</td>
+						<td onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail?no=${no}&reviewNo=${review.reviewNo}'">${review.reviewTitle}</td>
 						<td>${review.fanId}</td>
 						<td><fmt:formatDate value="${review.reviewDate}" pattern="YYYY-MM-dd"/></td>
 						<td>${review.readCnt}</td>

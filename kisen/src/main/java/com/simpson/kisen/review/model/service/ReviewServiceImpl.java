@@ -45,70 +45,25 @@ public class ReviewServiceImpl implements ReviewService {
 //	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int insertReview(ReviewExt review) {
-		int result = 0; 
-		//1.board 등록
+		int result = 0;
+
 		result = reviewDao.insertReview(review);
 		log.debug("review = {}", review);
-		//2.attachment 등록
-//		if(review.getAttachList().size() > 0) {
-//			for(Attachment attach : review.getAttachList()) {
-//				attach.setReviewNo(review.getReviewNo()); // board no fk 세팅
-//				result = insertAttachment(attach);
-//			}
-//		}
+		
 		
 		return result; 
 	}
 	
-//	@Transactional(rollbackFor = Exception.class)
-	@Override
-	public int insertAttachment(Attachment attach) {
-		return reviewDao.insertAttachment(attach);
-	}
-
 	@Override
 	public Review selectOneReview(int no) {
-		Review review = reviewDao.selectOneReview(no);
-		List<Attachment> attachList = reviewDao.selectAttachList(no); // boardNo로 조회
-//		review.setAttachList(attachList);
-		return review;
+		return reviewDao.selectOneReview(no);
 	}
 
 	@Override
-	public ReviewExt selectOneReviewCollection(int no) {
-		return reviewDao.selectOneReviewCollection(no);
+	public int updateReview(Review review) {
+		int result = reviewDao.updateReview(review);
+		return result;
 	}
 
-	@Override
-	public Attachment selectOneAttachment(int no) {
-		return reviewDao.selectOneAttachment(no);
-	}
-
-	@Override
-	public List<Review> searchTitle(String searchTitle) {
-		return reviewDao.searchTitle(searchTitle);
-	}
-
-	@Override
-	public UploadFile imgUpload(MultipartFile file) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	
-
-
-	
-
-
-
-	
-	
-	
-	
-	
-	
-	
 
 }

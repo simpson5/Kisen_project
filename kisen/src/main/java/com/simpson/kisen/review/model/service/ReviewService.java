@@ -20,17 +20,10 @@ public interface ReviewService {
 	int selectReviewTotalContents(int no);
 
 	int insertReview(ReviewExt review);
-	
-	int insertAttachment(Attachment attach);
 
 	Review selectOneReview(int no);
 
-	ReviewExt selectOneReviewCollection(int no);
+	int updateReview(Review review);
 
-	Attachment selectOneAttachment(int no);
-
-	List<Review> searchTitle(String searchTitle);
-
-	UploadFile imgUpload(MultipartFile file);
 
 }

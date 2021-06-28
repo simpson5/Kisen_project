@@ -37,7 +37,7 @@ div#container{
 	<div class="container" id="container">
 	<form 
 		role="form"
-		action="${pageContext.request.contextPath}/review/reviewInsert" 
+		action="${pageContext.request.contextPath}/review/reviewUpdate" 
 		method="post" 
 		enctype="multipart/form-data" >
 		<div class="pd-info">
@@ -45,18 +45,21 @@ div#container{
 		</div>
 		<div class="form-group">
 			<label for="title">title:</label> <input type="text"
-				class="form-control" placeholder="제목을 입력해주세요" id="title" name="reviewTitle" required="required" />
+				class="form-control" placeholder="제목을 입력해주세요" id="title" name="reviewTitle" required="required" value="${review.reviewTitle}" />
 		</div>
 		<div class="form-group">
 			<label for="content">content:</label>
-			<textarea class="form-control" id="summernote" rows="5" name="reviewContent" style="width: 100%"></textarea>
+			<textarea class="form-control" id="summernote" rows="5" name="reviewContent" style="width: 100%">${review.reviewContent}</textarea>
 		</div>
 		<div id="edit" style="margin:0 auto;">
 			<div class="py-2" style="text-align:center;">
 				<input type="hidden" name="pdNo" value="${product.pdNo}"/>
 				<input type="hidden" name="fanId" value="${loginMember.fanId}"/>
 				<input type="hidden" name="fanNo" value="${loginMember.fanNo}"/>
-				<button type="submit" id="saveBtn" class="btn btn-outline-warning mx-auto">글쓰기등록</button>
+				<input type="hidden" name="reviewNo" value="${review.reviewNo}" />
+			<c:if test="${loginMember.fanNo eq review.fanNo}">
+				<button type="submit" id="saveBtn" class="btn btn-outline-warning mx-auto">수정</button>			
+			</c:if>
 				<button type="button" id="backBtn" class="btn btn-outline-warning mx-auto">취소</button>	
 			</div>
 			
@@ -118,7 +121,6 @@ function sendFile(file, el){
         success: function(res) {
         	const url = "${pageContext.request.contextPath}/resources/upload/review/"+res.renamedFilename;
       		$('#summernote').summernote('editor.insertImage',url);
-      		console.log(res);
         }
       });
 }
