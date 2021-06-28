@@ -338,6 +338,7 @@ public class AgencyController_Product {
 	 */
 	public ProductImg productImgUpload(MultipartFile img) throws IllegalStateException, IOException {
 		String saveDir = application.getRealPath("/resources/upload/product");
+		log.info(saveDir);
 		
 		File dir = new File(saveDir);
 		if(!dir.exists())
