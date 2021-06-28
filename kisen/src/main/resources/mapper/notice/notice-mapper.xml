@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="notice">
+	
+	<insert id="insertNotice"> 
+		insert into 
+		notice
+		values(seq_notice_no.nextval, #{noticeTitle}, #{noticeContent}, #{noticeWriter},default,default ) 
+		
+	  	<selectKey keyProperty="noticeNo" resultType="_int" order="AFTER">
+	  		select 
+	  			seq_notice_no.currval
+	  		from
+	  		 	dual
+	  	</selectKey>
+	</insert>
+  
+	<insert id="insertNoticeImg"> 
+		insert into 
+		notice_img
+		values( seq_notice_img_no.nextval, #{noticeNo}, #{originalFilename}, #{renamedFilename},default ) 
+	</insert>
+	
+	
+	<select id="selectNotice" resultMap="noticeCollectionMap">
+		SELECT 
+		    A.*
+		FROM (
+		    SELECT
+		        n.*,
+		        ni.notice_img_no,
+		        ni.original_filename,
+		        ni.renamed_filename,
+		        ni.upload_date img_upload_date,
+		        LEAD(n.notice_no, 1) OVER (ORDER BY n.notice_no DESC) AS PRE_NO,
+		        LEAD(n.notice_title, 1, '이전글이 없습니다') OVER (ORDER BY n.notice_no DESC) AS PRE_TITLE,
+		        
+		        LAG(n.notice_no, 1) OVER (ORDER BY n.notice_no DESC) AS NEXT_NO,
+		        LAG(n.notice_title, 1, '다음글이 없습니다') OVER (ORDER BY n.notice_no DESC) AS NEXT_TITLE
+		    FROM notice n 
+		        left join notice_img ni
+		            on n.notice_no = ni.notice_no
+		) A
+			where a.notice_no= #{noticeNo}
+	</select>
+	
+
+	<resultMap type="noticeExt" id="noticeCollectionMap">
+		<id column ="notice_no" property="noticeNo"/>
+		<result column="notice_title" property="noticeTitle"/>
+		<result column="notice_content" property="noticeContent"/>
+		<result column="notice_writer" property="noticeWriter"/>
+		<result column="upload_date" property="uploadDate"/>
+		<result column="read_cnt" property="readCnt"/>
+		
+	
+		<result column="pre_no" property="preNo"/>
+		<result column="pre_title" property="preTitle"/>
+		<result column="next_no" property="nextNo"/>
+		<result column="next_title" property="nextTitle"/>
+		
+		
+		<collection property="noticeImg" ofType="noticeImg">
+		 	<id column ="notice_img_no" property="noticeImgNo"/>
+		 	<result column="notice_no" property="noticeNo"/>
+		 	<result column="original_filename" property="originalFilename"/>
+		 	<result column="renamed_filename" property="renamedFilename"/>
+		 	<result column="img_upload_date" property="uploadDate"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectNoticeList" resultType="notice">
+		select 
+		    *
+		from notice 
+		order by upload_date desc
+	</select>
+	
+	<delete id="deleteNotice">
+		delete from notice 
+		where notice_no = #{noticeNo}
+	</delete>
+	<delete id="deleteNoticeImg">
+		delete from notice_img 
+		where notice_no = #{noticeNo}
+	</delete>
+	
+	
+	<update id="updateNotice">
+		update 
+			notice
+		set 
+			notice_title = #{noticeTitle},
+			notice_content = #{noticeContent},
+			notice_writer = #{noticeWriter},
+			upload_date = sysdate
+		where 
+			notice_no = #{noticeNo}
+	</update>
+
+	<update id="updateNoticeImg">
+		update 
+			notice_img
+		set 
+			original_filename = #{originalFilename},
+			renamed_filename = #{renamedFilename},
+			upload_date = sysdate
+		where 
+			notice_no = #{noticeNo}
+	</update>
+	
+	
+	<update id="updateNoticeReadCnt">
+		update 
+			notice
+		set 
+			read_cnt = read_cnt +1
+		where 
+			notice_no = #{noticeNo}
+	</update>
+	
+	<select id="selectSearchNoticeList" resultType="notice">
+		select 
+		    *
+		from notice 
+		where notice_title like'%'||#{search}||'%'
+		order by upload_date desc
+	</select>
+              	 
+</mapper>

@@ -65,11 +65,23 @@ public class AgencyController {
 	) {
 	    Fan loginMember = (Fan) authentication.getPrincipal();
 		//상품목록 random
-	    
+	    List<ProductImgExt> p_productList= agencyService.selectRandomProductList(loginMember.getFanNo());
+	    log.info("p_productList={}",p_productList);
+	    log.info("p_productList size={}",p_productList.size());
 	    
 		//품절 상품 모든것
+	    List<ProductImgExt> SoldOut_productList= agencyService.selectSoldOutProductList(loginMember.getFanNo());
+	    log.info("SoldOut_productList={}",SoldOut_productList);
+
+	    
+	    
 		//상품 Best10
-		
+	    List<ProductImgExt> best_productList= agencyService.selectBestProductList(loginMember.getFanNo());
+	    log.info("best_productList={}",best_productList);
+
+		model.addAttribute("p_productList", p_productList);
+		model.addAttribute("SoldOut_productList", SoldOut_productList);
+		model.addAttribute("best_productList", best_productList);
 		
 		return "agency/agencyMain";
 	}
@@ -79,8 +91,6 @@ public class AgencyController {
 	
 	
 
-	@GetMapping("/agencySales")
-	public String agencySales() { return "agency/agencyPayment_Sales";}
 	
 	
 	

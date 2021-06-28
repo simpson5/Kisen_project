@@ -90,7 +90,7 @@
         <div class="col-md-9">
            	<c:forEach items="${product.pdImgList}" var="pdImg">
            		<c:if test="${pdImg.pdCategory eq 'D'}">
-  			        	<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img" alt="tree" style="width:300px; height: 100%">
+					<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img" alt="tree" style="width:300px; height: 100%">
            		</c:if>
            	</c:forEach>
         </div>

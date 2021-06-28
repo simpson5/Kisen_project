@@ -26,21 +26,24 @@
         <thead>
             <tr>
                 <th>SUBJECT</th>
-                <th> 엑소 이벤트 공지사항입니다.</th>
+                <th> ${notice.noticeTitle }</th>
             </tr>
             <tr>
                 <th>WRITER</th>
-                <th>관리자</th>
+                <th>${notice.noticeWriter }</th>
             </tr>
             <tr>
                 <th>DATE</th>
-                <th>2021-05-21</th>
+                <th>${notice.uploadDate }</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td colspan="2">
-                    <textarea class="notice" name="notice" readonly></textarea>
+                <td colspan="2" class="text-center">
+                	${notice.noticeContent}
+                	<c:if test="${not empty notice.noticeImg.renamedFilename}">
+		        	<img src="<c:url value='/resources/upload/notice/${notice.noticeImg.renamedFilename}'/>" class="card-img"  style="height: 100%">
+                	</c:if>
                 </td>
             </tr>
             <tr>
@@ -51,7 +54,7 @@
                             <button type="button" class="btn btn-sm btn-dark" style="width: 100%;">취소하기</button>
                         </div>
                         <div class="col-6 d-grid">
-                            <button type="button" class="btn btn-sm btn-main" style="width: 100%;" onclick="artistUpdate();" >수정하기</button>
+                            <button type="button" class="btn btn-sm btn-main" style="width: 100%;" onclick="noticeUpdate(event);" data-no="${notice.noticeNo}" >수정하기</button>
                         </div>
                     </div>
                 </div>
@@ -60,7 +63,7 @@
         </tbody>
     </table>
     <hr>
-    <button type="button" class="btn btn-light"> 목록</button>
+    <button type="button" class="btn btn-light" onclick="list();"> 목록</button>
     <hr>
     <div>
         <table class="table">
@@ -71,6 +74,16 @@
                 </tr>
         </table>
     </div>
-    
 </div>
+
+<script>
+function list(){
+	location.href=`${pageContext.request.contextPath}/admin/adminNotice`
+}
+function noticeUpdate(event){
+	const target = event.target;
+	const noticeNo = target.dataset.no;
+	location.href=`${pageContext.request.contextPath}/admin/adminNoticeUpdate/`+noticeNo
+}
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
