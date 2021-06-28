@@ -5,10 +5,15 @@ import java.util.Map;
 
 import com.simpson.kisen.agency.model.vo.Agency;
 import com.simpson.kisen.idol.model.vo.Idol;
+import com.simpson.kisen.payment.model.vo.Payment;
+import com.simpson.kisen.payment.model.vo.PaymentExt;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 
 public interface AgencyService {
 	public static String[] PRODUCT_CATEGORY = {"앨범","응원봉","기타"};
+	public static String SEARCH_OPTION_ALL = "all";
+	public static String SEARCH_OPTION_INCOMPLETE = "incomplete";
+	public static String SEARCH_OPTION_COMPLETE = "complete";
 
 	public static String PRODUCT_IMG_CATEGORY_THUMBNAIL = "R";
 
@@ -55,5 +60,9 @@ public interface AgencyService {
 	List<ProductImgExt> selectRandomProductList(String fanNo);
 
 	int updateStock(Map<String, Integer> map);
+
+	List<PaymentExt> selectSalesList(Map<String, String> param);
+
+	int updateWaybill(Payment payment);
 
 }
