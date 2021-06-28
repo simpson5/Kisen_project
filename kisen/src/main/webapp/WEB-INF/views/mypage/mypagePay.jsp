@@ -266,7 +266,10 @@ img#productImg{
 		      	<button type="submit" class="btn btn-outline-warning" >구매후기</button>
 		      </div>
 		      <div class="py-2">
-		      	<button type="submit" class="btn btn-outline-warning" >배송조회</button>
+		      <a href="https://tracker.delivery/#/:carrier_id/:track_id" target="_blank">
+		      <button type="submit" class="btn btn-outline-warning" >배송조회
+		      </button>
+		      </a>	
 		      </div>
 	    </div>
 	  </li>
