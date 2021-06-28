@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!-- security관련 taglib -->
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>	
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,19 +26,39 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/adminProduct.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sideBanner.css">
+    
+	<!-- include summernote css/js-->
+	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    
+    <!-- swiper  -->
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+ 	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 </head>
 <body>
 	
     <header>
         <div class="box  ">
-            <div class="d-none d-sm-block">  
+            <div class="d-none d-sm-block">
                 <ul class=" search-ul d-flex justify-content-end">
-                    <li>
-                        <a href="#">  <strong>관리자</strong> 님</span></a>
-                    </li>
-                    <li>
-                        <a href="${pageContext.request.contextPath}">  <strong>SITE</strong></span></a>
-                    </li>
+                	<!-- security : 로그인한 경우 -->
+				    <sec:authorize access="isAuthenticated()">
+                    	<li>
+				    		<sec:authentication property="principal.username"/>님
+                    	</li>
+				    	<span class="divide">|</span>
+				    	<li>
+					    	<form:form class="d-inline"
+					    				action="${pageContext.request.contextPath}/member/logout.do"
+					    				method="POST">
+				    			<button class="logout-btn" type="submit">LOGOUT</button>
+				    		</form:form>
+				    	</li>
+				    	<span class="divide">|</span>
+ 	                    <li>
+				    		<a href="${pageContext.request.contextPath}">HOME</a>
+                    	</li>
+			    	</sec:authorize>
                 </ul>
             </div>
         </div>

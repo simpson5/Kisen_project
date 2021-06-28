@@ -15,7 +15,7 @@
 </jsp:include>
 <div class="container ">
     <div class="d-flex justify-content-end mt-3 mb-3" >
-        <button type="button" class="btn btn-secondary" onclick="productEnroll()"> 상품등록</button>
+        <button type="button" class="btn btn-secondary" onclick="productEnroll()">상품등록</button>
     </div>
     
     <!-- 검색  -->
@@ -26,7 +26,7 @@
 			<div class="d-flex justify-content-center mb-3" >
 			
 			<div>
-		        <input type="search" placeholder="Search" aria-label="검색어를 입력하세요" name="searchString" class="form-control mb-3 mt-3" >
+		        <input type="search" placeholder="상품명를 입력하세요" name="searchString" class="form-control mb-3 mt-3" >
 			    <div class="searchlist-div mb-3"> 
 					<span>아이돌</span>
 					<div class="mt-2">
