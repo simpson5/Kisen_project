@@ -245,17 +245,6 @@ img#productImg{
 	  <div class="col-4 mb-3 text-center"><h5 class="mx-auto"> Other Artist </h5></div>
 	  <div class="col-4"></div>
 	</div>
-	<!-- 검색창 부분 -->
-	<div class="row">
-	  <div class="col-4"></div>
-	  <div class="col-4 mb-3 text-center " >
-	  	<form class="form-inline d-flex justify-content-center">
-		    <input class="form-control " type="search" placeholder="Search" aria-label="Search">
-		    <button class="btn btn-outline-success mx-2" type="submit">Search</button>
-		 </form>
-	   </div>
-	  <div class="col-4"></div>
-	</div>
 
 <!-- 아티스트 사진 부분 -->
 <!-- 여기 서 부터 반복인데 class 안에 swiper-container 는 지우지 말고 변경하지 마시고 두개 이상 사용하실거면 클래스이 이름을 따로 추가해주세용-->
