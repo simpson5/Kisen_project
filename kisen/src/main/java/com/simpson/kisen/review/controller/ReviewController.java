@@ -199,13 +199,27 @@ public class ReviewController {
 			ProductImgExt product = productService.selectOneProduct(no);
 			Review review = reviewService.selectOneReview(reviewNo);
 			log.info("review = {}", review);
-			Fan loginMember = (Fan) authentication.getPrincipal();
-			model.addAttribute("loginMember",loginMember);
+			if(authentication != null) {
+				Fan loginMember = (Fan) authentication.getPrincipal();				
+				model.addAttribute("loginMember",loginMember);
+			}
 			model.addAttribute("review",review);
 			model.addAttribute("product",product);
 	}
 
-	
+	@PostMapping("/reviewDelete")
+	public String reviewDelete(
+			@RequestParam(value="pdNo", required = false) int no,
+			@RequestParam(value="reviewNo", required = false) int reviewNo,
+			Authentication authentication,
+			Model model
+			) {
+		int result = reviewService.deleteReview(reviewNo);
+		Fan loginMember = (Fan) authentication.getPrincipal();		
+		model.addAttribute("loginMember",loginMember);
+		log.info("result = {}", result);
+		return "redirect:/product/productInfo?no="+no;
+	}
 	
 	
 	

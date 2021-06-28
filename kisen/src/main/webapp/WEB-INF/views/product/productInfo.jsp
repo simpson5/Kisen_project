@@ -453,8 +453,10 @@ textarea.autosize {
 			</table>
 			
 			<div class="btn-area">
-				<div class="btn-group" role="group" aria-label="Basic example" onclick="location.href='${pageContext.request.contextPath}/review/reviewForm.do?no=${no}'">
-					<button type="button" class="btn btn-dark write" name="reviewWrite">글 작성</button>
+				<div class="btn-group" role="group" aria-label="Basic example">
+				<c:if test="${not empty loginMember}">
+					<button type="button" class="btn btn-dark write" name="reviewWrite"  onclick="location.href='${pageContext.request.contextPath}/review/reviewForm.do?no=${no}'">글 작성</button>
+				</c:if>
 				</div>
 			</div>
 			<div class="paging-area">

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.simpson.kisen.common.util.HelloSpringUtils;
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.product.model.service.ProductService;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.review.model.service.ReviewService;
@@ -36,8 +38,10 @@ public class ProductController {
 	public void pdInfo(@RequestParam int no, 
 						@RequestParam(required = true, defaultValue = "1") int cpage,
 						HttpServletRequest request,
+						Authentication authentication,
 						Model model) {
 		ProductImgExt product = productService.selectOneProduct(no);
+		Fan loginMember = (Fan) authentication.getPrincipal();
 		log.info("product = {}", product);
 		try {
 			log.debug("cpage = {}", cpage);
@@ -56,6 +60,7 @@ public class ProductController {
 			String pageBar = HelloSpringUtils.getPageBar(totalContents, cpage, limit, url);
 			
 			//2. jsp에 위임
+			model.addAttribute("loginMember", loginMember);
 			model.addAttribute("list", list);
 			model.addAttribute("pageBar", pageBar);
 			model.addAttribute("no",no);

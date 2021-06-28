@@ -118,4 +118,11 @@
 		 	<result column="option_name" property="optionName"/>
 		</collection>
 	</resultMap>
+	
+	<select id="selectSlideList" resultType="slideImg">
+		select
+			*
+		from
+			slide_img
+	</select>
 </mapper>

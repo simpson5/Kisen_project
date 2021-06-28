@@ -62,17 +62,29 @@
 	                <td colspan="2">
 	                <div class=" text-center">
 	                    <div class="mt-1 row">
-	                        <div class="col-6 d-grid">
-	                        <c:if test="${loginMember.fanId eq review.fanId}">
+	                        <c:if test="${!empty loginMember && loginMember.fanId eq review.fanId}">
+	                        <div class="col-4 d-grid">
 	                            <button type="button" class="btn btn-sm btn-dark" style="width: 100%;" onclick="location.href='${pageContext.request.contextPath}/review/reviewUpdate?no=${review.pdNo}&reviewNo=${review.reviewNo}'">수정하기</button>	                        	
-	                        </c:if>
-	                        <c:if test="${loginMember.fanId ne review.fanId}">
-	                            <button type="button" class="btn btn-sm btn-dark" style="width: 100%;">추천하기</button>
-	                        </c:if>
 	                        </div>
-	                        <div class="col-6 d-grid">
+	                        <div class="col-4 d-grid">
+	                        <form action="${pageContext.request.contextPath}/review/reviewDelete?reviewNo=${review.reviewNo}" method="POST" id="deleteForm">
+	                        <input type="hidden" name="reviewNo" value="${review.reviewNo}"/>
+	                        <input type="hidden" name="pdNo" value="${review.pdNo}"/>
+	                            <button type="submit" class="btn btn-sm btn-blue" style="width: 100%;" onclick="reviewDelete();">삭제하기</button>
+	                        </form>
+	                        </div>    
+	                        <div class="col-4 d-grid">
 	                            <button type="button" class="btn btn-sm btn-main" style="width: 100%;" onclick="location.href='${pageContext.request.contextPath}/product/productInfo?no=${review.pdNo}'">목록으로</button>
 	                        </div>
+	                        </c:if>
+	                        <c:if test="${empty loginMember || loginMember.fanId ne review.fanId}">
+		                        <div class="col-6 d-grid">
+		                            <button type="button" class="btn btn-sm btn-dark" style="width: 100%;" onclick="recom();">추천하기</button>
+		                        </div>
+		                        <div class="col-6 d-grid">
+	                            	<button type="button" class="btn btn-sm btn-main" style="width: 100%;" onclick="location.href='${pageContext.request.contextPath}/product/productInfo?no=${review.pdNo}'">목록으로</button>
+	                        	</div>
+	                        </c:if>
 	                    </div>
 	                </div>
 	                </td>
@@ -96,33 +108,17 @@ $(document).ready(function () {
 
 });
   
-$(".reply_delete_btn").click(function(){
+function recom(){
+	console.log(1);
+}
+
+$("#deleteForm").submit(e => {
+	e.preventDefault();
+	var con = confirm('정말 삭제하시겠습니까?');
+	if(!con) return;
 	
-	var reply_no = $(this).next().val();
-	
-	console.log(reply_no);
-	
-	var comment_no = $("[name=reply_no]").val();
-	$.ajax({
-		url: "${pageContext.request.contextPath}/review/",
-		data : {
-			no : reply_no
-		},
-		seccess : function(data){
-			console.log(1);
-			if(data > 0){
-				swal("삭제 성공");
-			} else {
-				swal("삭제 실패");
-			}
-			
-		},
-		error : function(xhr, status, err){
-			console.log(xhr,status, err);
-		}
-	})
-	
-})
+	e.target.submit();
+});
 </script>
 
 
