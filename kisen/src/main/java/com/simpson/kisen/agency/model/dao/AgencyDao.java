@@ -7,6 +7,8 @@ import com.simpson.kisen.agency.model.vo.Agency;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.idol.model.vo.IdolImg;
 import com.simpson.kisen.idol.model.vo.IdolMv;
+import com.simpson.kisen.payment.model.vo.Payment;
+import com.simpson.kisen.payment.model.vo.PaymentExt;
 import com.simpson.kisen.product.model.vo.ProductImg;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.product.model.vo.ProductOption;
@@ -71,5 +73,9 @@ public interface AgencyDao {
 	List<ProductImgExt> selectRandomProductList(String fanNo);
 
 	int updateStock(Map<String, Integer> map);
+
+	List<PaymentExt> selectSalesList(Map<String, String> param);
+
+	int updateWaybill(Payment payment);
 
 }

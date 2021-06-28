@@ -7,9 +7,6 @@
 	<jsp:param value="Agency" name="title"/>
 </jsp:include>
 
-
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <div class="container">
     <div class="d-flex justify-content-end mt-3" >
         <button type="button" class="btn btn-secondary" onclick="productEnroll()"> 상품등록</button>

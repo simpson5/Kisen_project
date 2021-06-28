@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="agency-sales">
+
+
+	<select id="selectSalesList" resultMap="salesList">
+		select 
+		    ph.payment_no,
+		    ph.fan_no,
+		    (select fan_id from fan where fan_no = ph.fan_no) fan_id,
+		    pp.pd_cnt,
+		    pp.pd_no,
+		    ph.amount,
+		    ph.pay_date,
+		    ph.point,
+		    ph.waybill,
+		    p.idol_no,
+		    (select idol_name from idol where idol_no = p.idol_no) idol_name,
+		    p.pd_name,
+		    p.price,
+		    p.pd_stock,
+		    p.pd_sales,
+		    po.option_no,
+		    po.option_name
+		from payment_history ph
+		    left join payment_product pp
+		        on ph.payment_no = pp.payment_no
+		    left join product p
+		        on pp.pd_no = p.pd_no
+		    left join pd_option po
+		        on pp.option_no = po.option_no
+		where pp.pd_no in (
+		select pd_no from product  where idol_no in(
+		    select idol_no from idol where agency_no=(
+		        select agency_no from agency where fan_no = #{fanNo}))
+		)    
+		<if test="searchString !=null">
+			and p.pd_name like '%'||#{searchString}||'%'
+		</if>
+		<if test='searchOption.equals("incomplete")'>
+			and waybill is null
+		</if>
+		<if test='searchOption.equals("complete")'>
+			and waybill is not null
+		</if>
+		order by ph.pay_date desc
+	</select>
+	
+	
+	<resultMap type="paymentExt" id="salesList">
+		<id column="payment_no" property="paymentNo" />
+		<result column="fan_no" property="fanNo" />
+		<result column="pay_type" property="payType" />
+		<result column="pay_content" property="payContent" />
+		<result column="pd_cnt" property="pdCnt" />
+		<result column="pay_date" property="payDate" />
+		<result column="point" property="point" />
+		<result column="amount" property="amount" />
+		<result column="waybill" property="waybill" />
+		<result column="pd_no" property="pdNo" />
+		<result column="order_no" property="orderNo" />
+	
+		<result column="fan_id" property="fanId" />
+
+		<collection property="product" ofType="ProductImgExt">
+			<id column="pd_no" property="pdNo" />
+			<result column="idol_no" property="idolNo" />
+			<result column="pd_category" property="pdCategory" />
+			<result column="pd_name" property="pdName" />
+			<result column="pd_content" property="pdContent" />
+			<result column="price" property="price" />
+			<result column="pd_stock" property="pdStock" />
+			<result column="pd_sales" property="pdSales" />
+			<result column="sales_date" property="salesDate" />
+			<result column="idol_name" property="idolName" />
+			<collection property="pdOptionList" ofType="ProductOption">
+				<id column="option_no" property="optionNo" />
+				<result column="pd_no" property="pdNo" />
+				<result column="option_name" property="optionName" />
+			</collection>
+		</collection>
+	</resultMap>
+	
+
+	<update id="updateWaybill">
+		update 
+			payment_history
+		set
+			waybill= #{waybill}
+		where 
+			payment_no = #{paymentNo}
+	</update>
+</mapper>

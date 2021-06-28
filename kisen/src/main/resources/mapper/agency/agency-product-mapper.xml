@@ -119,7 +119,7 @@
 	</select>
   	
   	
-	<update id="updateIdolMv">
+	<update id="updateProduct">
 		update 
 			product
 		set 

@@ -21,6 +21,13 @@
     <!-- bootstrap css -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.0/chart.min.js"></script> 
+    
+    <!-- swiper  -->
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+ 	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
 	<title>${param.title}</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
@@ -46,6 +53,10 @@
 				    			<button class="logout-btn" type="submit">LOGOUT</button>
 				    		</form:form>
 				    	</li>
+				    	<span class="divide">|</span>
+ 	                    <li>
+				    		<a href="${pageContext.request.contextPath}">HOME</a>
+                    	</li>
 			    	</sec:authorize>
                 </ul>
             </div>
