@@ -66,45 +66,39 @@
 	</resultMap>
 	
 	<select id="selectBasketList" resultMap="basketMap">
-		select
+		 select
+            b.*,
 			p.pd_name,
 			p.pd_content,
 			p.price,
 			pi.pd_category,
 			pi.renamed_filename,
-			po.option_no,
-			po.option_name,
-			b.pd_amount,
-			sum(p.price) total
+			po.option_name
 		from
 			basket b
 		left join
 			product p
 		on
 			b.product_no = p.pd_no
-		left join 
+	left join 
 			pd_img pi
 		on
 			b.product_no = pi.pd_no
-		left join
+   left join
 			pd_option po
 		on
-			b.product_no = po.pd_no
-		where 
+			b.option_no = po.option_no
+	<where> 
 			b.fan_no = #{fanNo}
-		group by( 
-				p.pd_name, 
-				p.pd_content, 
-				p.price, 
-				pi.pd_category, 
-				pi.renamed_filename, 
-				po.option_no, 
-				po.option_name, 
-				b.pd_amount)
 			
+        and 
+            pi.pd_category is null 
+       or 
+       	pi.pd_category= 'D'
+	</where>	
 	</select>
 		<resultMap type="basket" id="basketMap">
-	 <id column="pd_no" property="pdNo"/>  
+	 <id column="product_no" property="pdNo"/>  
           <result column="idol_no" property="idolNo"/>
           <result column="pd_category" property="pdCategory"/>
           <result column="pd_name" property="pdName"/>
@@ -114,7 +108,9 @@
           <result column="pd_stock" property="pdStock"/>
           <result column="pd_sales" property="pdSales"/>
           <result column="sales_date" property="salesDate"/>
-          <result column="total" property="total"/>
+          <result column="option_no" property="opNo"/>
+          <result column="fan_no" property="fanNo"/>
+          
       
      <collection property="productImg" ofType="ProductImg">
           <id column="pd_no" property="pdNo"/>
