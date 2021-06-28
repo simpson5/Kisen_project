@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.simpson.kisen.artist.model.service.ArtistService;
@@ -23,7 +24,9 @@ public class ArtistController {
 	
 	
 	@GetMapping("/artistInfo")
-	public void artistInfo() {}
+	public void artistInfo(@RequestParam(name="no") int no) {
+		
+	}
 
 
 	@GetMapping("/allArtist")

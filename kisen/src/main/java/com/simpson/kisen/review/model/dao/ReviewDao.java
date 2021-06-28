@@ -16,24 +16,12 @@ public interface ReviewDao {
 	int selectReviewTotalContents(int no);
 
 	int insertReview(ReviewExt review);
-
-	int insertAttachment(Attachment attach);
-
-	ReviewExt selectOneReview(int no);
-
-	List<Attachment> selectAttachList(int no);
-
-	ReviewExt selectOneReviewCollection(int no);
-
-	Attachment selectOneAttachment(int no);
-
-	List<Review> searchTitle(String searchTitle);
-
-
 	
+	Review selectOneReview(int no);
 
+	int updateReview(Review review);
 
-
+	int deleteReview(int no);
 
 
 
