@@ -29,9 +29,7 @@
 }
 </style>
 <script>
-function goDepositSubmit(event) {
-	const target = event.target;
-	const dno = target.dataset.no;
+function goDepositSubmit(dno) {
 	console.log(dno);
 	location.href = "${pageContext.request.contextPath}/unofficial/depositDetail.do?dno="+dno;
 }
@@ -46,12 +44,13 @@ function goDepositSubmit(event) {
 		<div id="" class="boxWrapper">
 		</c:if>
 			<div class="card" style="width: 18rem;">
+					
 				<c:forEach items="${unofficialdeposit.depositpdImgList}" var="pdImg">
             		<c:if test="${pdImg.pdCategory eq 'R'}">
-   			        	<img src="<c:url value='/resources/upload/unofficial/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="tree" style="cursor: pointer;" onclick="goDepositSubmit(${unofficialdeposit.dNo});"
+   			        	<img src="<c:url value='/resources/upload/unofficial/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="tree" style="cursor: pointer;" onclick="goDepositSubmit(${unofficialdeposit.dno});"
    			        	>
             		</c:if>
-            	</c:forEach>
+				</c:forEach>
 
 				<div class="card-body">
 					<h5 class="card-title">${unofficialdeposit.pdName}</h5>

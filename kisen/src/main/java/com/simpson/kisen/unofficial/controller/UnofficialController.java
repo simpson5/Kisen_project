@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -31,16 +32,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simpson.kisen.agency.model.service.AgencyService;
 import com.simpson.kisen.common.util.HelloSpringUtils;
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.product.model.vo.ProductImg;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.unofficial.model.service.UnOfficialService;
 import com.simpson.kisen.unofficial.model.vo.DemandpdImg;
 import com.simpson.kisen.unofficial.model.vo.DepositpdImg;
+import com.simpson.kisen.unofficial.model.vo.MailSendService;
 import com.simpson.kisen.unofficial.model.vo.UnofficialDemand;
 import com.simpson.kisen.unofficial.model.vo.UnofficialDeposit;
 import com.simpson.kisen.unofficial.model.vo.UnofficialPdImgExt;
@@ -56,6 +60,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/unofficial")
 @Slf4j
+
 public class UnofficialController {
 	@InitBinder
 	protected void initBinder(WebDataBinder binder){
@@ -72,11 +77,36 @@ public class UnofficialController {
 	@Autowired
 	UnOfficialService unofficialService; 
 	
+	 @Autowired
+	 private MailSendService mss;
+	 
+	 /*@RequestMapping("/member/signUp")
+     public void signUp(@ModelAttribute MemberDTO memberDTO){
+        // DB에 기본정보 insert
+        memberService.signUp(memberDTO);
+
+        //임의의 authKey 생성 & 이메일 발송
+        String authKey = mss.sendAuthMail(memberDTO.getEmail());
+        memberDTO.setAuthKey(authKey);
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("email", memberDTO.getEmail());
+        map.put("authKey", memberDTO.getAuthKey());
+        System.out.println(map);
+
+      //DB에 authKey 업데이트
+      memberService.updateAuthKey(map);
+
+  	}*/
+	
 	@GetMapping("/unofficial.do")
 	public String unofficial(
+		 
 		HttpServletRequest request,
 		Model model
 		) {
+		
+
 		
 	List<UnofficialPdImgExt2> unofficialdepositList = new ArrayList<UnofficialPdImgExt2>();
 	unofficialdepositList = unofficialService.selectunofficialdepositList();
@@ -84,6 +114,8 @@ public class UnofficialController {
 		
 	List<UnofficialPdImgExt> unofficialdemandList = new ArrayList<UnofficialPdImgExt>();
 	unofficialdemandList = unofficialService.selectunofficialdemandList();
+	
+	
 	
 	model.addAttribute("unofficialdemandList", unofficialdemandList);
 	model.addAttribute("unofficialdepositList", unofficialdepositList);
@@ -94,11 +126,14 @@ public class UnofficialController {
 
 	@GetMapping("/demandFormEnroll.do")
 	public void demandFormEnroll() {
+		 
 	}
 	
 	@PostMapping("/demandEnroll.do")
-	@ResponseBody
+	
 	public String demandEnroll(
+			Authentication authentication,
+			
 //			@RequestBody UnofficialPdImgExt unofficialdemand,
 			@ModelAttribute UnofficialPdImgExt unofficialdemand,
 			@RequestParam(name="thumbnailFile", required = false) MultipartFile thumbnailFile,
@@ -107,6 +142,7 @@ public class UnofficialController {
 		log.info("unofficialDemand = {}", unofficialdemand);
 		log.info("thumbnailFile = {}", thumbnailFile);
 		log.info("detailFile = {}", detailFile);
+		 Fan loginMember = (Fan) authentication.getPrincipal();
 		
         //파일
 		Map<String, Object> upFile = new HashMap<String, Object>();
@@ -135,11 +171,12 @@ public class UnofficialController {
         }
 
         UnofficialPdImgExt pd = unofficialdemand;
+        pd.setFanNo(loginMember.getFanNo());
 		pd.setDemandpdImgList(demandpdImgList);
 		log.info("product={}", pd);
 		
 		// 업무로직
-		int result = unofficialService.insertdemandEnroll(unofficialdemand);
+		int result = unofficialService.insertdemandEnroll(pd);
 		
 		return "redirect:demandFormlist.do";
 	}
@@ -235,9 +272,16 @@ public class UnofficialController {
 			) {
 		log.info(demandNo);
 		UnofficialPdImgExt unofficialdemand = unofficialService.selectunofficialdemand(demandNo);
+		log.info("unofficialdemand@controller={}",unofficialdemand);
 		
 		model.addAttribute("unofficialdemand", unofficialdemand);
 		return "unofficial/demandDetail";
+	}
+	@PostMapping("/demandDetail.do")
+	public void demandhhfh6f(
+			@RequestParam(name="email") String email
+			) {
+		log.info("email={}",email);
 	}
 
 	@GetMapping("/demandFormlist.do")
@@ -258,9 +302,9 @@ public class UnofficialController {
 				HttpServletRequest request,
 				Model model
 				) {
-			List<UnofficialPdImgExt2> unofficialdepositList = new ArrayList<UnofficialPdImgExt2>();
-			unofficialdepositList = unofficialService.selectunofficialdepositList();
+			List<UnofficialPdImgExt2> unofficialdepositList = unofficialService.selectunofficialdepositList();
 			
+			log.info("unofficialdepositlist={}" ,unofficialdepositList);
 			model.addAttribute("unofficialdepositList", unofficialdepositList);
 			return "unofficial/depositFormlist";
 	}

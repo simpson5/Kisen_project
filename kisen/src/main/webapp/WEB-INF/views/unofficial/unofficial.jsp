@@ -206,11 +206,15 @@ div#btn{
 		<c:if test="${vs.index % 5 == 0}">
 		<div id="ingdepositlist" class="boxWrapper">
 		</c:if>
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/2.png"
-					alt="Card image cap" onclick="goDepositSubmit(event);" data-no="${unofficialdeposit.dno}"
-					style="cursor: pointer;">
+		<div class="card" style="width: 18rem;">
+					
+				<c:forEach items="${unofficialdeposit.depositpdImgList}" var="pdImg">
+            		<c:if test="${pdImg.pdCategory eq 'R'}">
+   			        	<img src="<c:url value='/resources/upload/unofficial/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="tree" style="cursor: pointer;" onclick="goDepositSubmit(event);" data-no="${unofficialdeposit.dno}"
+   			        	>
+            		</c:if>
+				</c:forEach>
+			
 				<div class="card-body">
 					<h5 class="card-title">${unofficialdeposit.pdName}</h5>
 					<p class="card-text">
