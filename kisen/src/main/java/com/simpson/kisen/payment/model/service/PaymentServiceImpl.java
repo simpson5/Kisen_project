@@ -34,4 +34,10 @@ public class PaymentServiceImpl implements PaymentService {
 	public List<UnofficialDemand> selectUdList(String fanNo) {
 		return paymentDao.selectUdList(fanNo);
 	}
+
+
+	@Override
+	public List<Basket> selectPaymentList(int bNo) {
+		return paymentDao.selectPaymentList(bNo);
+	}
 }

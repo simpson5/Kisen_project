@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.controller.IdolController;
@@ -49,10 +50,16 @@ public class PaymentController {
 	}
 	
 	@GetMapping("/payment.do")
-	public void payment(Authentication authentication, Model model) {
+	public void payment(@RequestParam int bNo, Authentication authentication, Model model ) {
 		try {
 			Fan principal = (Fan) authentication.getPrincipal();
+			log.info("bNo = {}",bNo);
+			
+			List<Basket> PaymentList = paymentService.selectPaymentList(bNo);
+			
 			model.addAttribute("loginMember", principal);
+			model.addAttribute("PaymentList", PaymentList);
+	
 			log.info("authentication = {}", authentication);
 			log.info("principal = {}", principal);
 		} catch (Exception e) {

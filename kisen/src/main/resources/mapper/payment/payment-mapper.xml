@@ -171,5 +171,34 @@
 		<result column="demand_end_date" property="demandendDate"/>
 	</resultMap>
 	
+	<select id="selectPaymentList" resultMap="basketMap">
+			 select
+            b.*,
+			p.pd_name,
+			p.pd_content,
+			p.price,
+			pi.pd_category,
+			pi.renamed_filename,
+			po.option_name
+		from
+			basket b
+		left join
+			product p
+		on
+			b.product_no = p.pd_no
+	left join 
+			pd_img pi
+		on
+			b.product_no = pi.pd_no
+   left join
+			pd_option po
+		on
+			b.option_no = po.option_no
+	<where> 
+			b.product_no = #{bNo}
+			
+      
+	</where>
+	</select>
 	
 </mapper>

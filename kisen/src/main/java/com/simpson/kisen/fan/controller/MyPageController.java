@@ -119,7 +119,7 @@ public class MyPageController {
 			String encodedPassword = bcryptPasswordEncoder.encode(rawPassword);
 			// member에 암호화된 비밀번호 다시 세팅
 			updateFan.setPassword(encodedPassword);
-			updateFan.setAddress(updateFan.getAddress() + ") " + addressExt1 + addressExt2 + " " + addressExt3);
+			updateFan.setAddress(updateFan.getAddress() + "-" + addressExt1 + "-" + addressExt2 + "-" + addressExt3);
 				
 			Collection<? extends GrantedAuthority> oldAuthorities = 
 						oldAuthentication.getAuthorities();

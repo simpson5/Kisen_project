@@ -176,11 +176,11 @@ color:  #9033b5;
     </tr>
   </thead>
   <tbody>
-<form name="orderFrm" method="GET"  >
 	<c:forEach items="${basketList}" var ="basketList" >
 	 <tr>
      <th scope="row" class="border border-left-0 border-top-0  border-right-0 "> 
      	<input class="selectProduct" type="checkbox" id="checkboxOne" name="selectProduct" onclick="select(this);" />
+     	<input type="hidden"  name="productNo" value="${basketList.pdNo}">
      </th>
       <td class=" border border-left-0 border-top-0 ">
       	<div class="media">
@@ -217,6 +217,7 @@ color:  #9033b5;
 		   </div>
 		  <div class="p-2" style="font-size: 12px;">
 		  	<button class="btn btn-outline p-0 font-weight-bold" id="btnOrder" >주문하기</button>
+		  	 
 		  </div>
 		 </div>
 
@@ -232,7 +233,7 @@ color:  #9033b5;
       </td>
     </tr>
 	</c:forEach>
-</form>
+
     <tr>
        <th scope="row" class="border border-left-0 border-top-0 border-right-0 ">
        <input type="checkbox" id="checkboxDel" name="checkboxdel" />
@@ -295,9 +296,15 @@ color:  #9033b5;
 		  	<button class="btn btn-outline py-2" id="cartAgain">쇼핑 계속하기</button>
 		  	<%-- <a href="${pageContext.request.contextPath}/basket/payment.do"> --%>
 		  	<button class="btn btn-outline py-2 " id="cartOder" onclick="order(this);"> 주문하기</button>
-		  	<!-- </a>  -->
 		  </div>
-	</div>
+<form 
+	name="orderFrm" 
+	method="GET" 
+	id="orderFrm"
+	action="${pageContext.request.contextPath}/basket/payment.do">
+</form> 
+		
+</div>
 
 <script>
 //선택시 장바구니 내역 삭제
@@ -309,110 +316,45 @@ color:  #9033b5;
 	
 	
 }
-/* //폼으로 보내기
- $("[name=orderFrm]").submit(e=>{
-	 e.preventDefault();
-		console.log(e.target);
 
-		const $frm = $(e.target);
-		const $one = $(".selectProduct:checked");
-		console.log($one);
-		if($one.prop("checked") == true){
-		const pdName = $frm.find("input:hidden[name=pdName]").val();
-		console.log(pdName); 
+//유효성 검사  토탈값 넘겨주는거
+function order(obj){
+	//유효성 검사 하기 체크가 되었을 시 폼에다가 히든값을...담는다...
+	// 체크 
+	//데이터는 int 배열 
+	const total = Number($(".total").text());//전체 금액값
+	console.log(total);
+	const totalHtml ='<input type="hidden" name ="total" value="'+total+'"/>';
 
-		}
-		/*  var name_str = "";
-
-		var get_input = $one.parent().next().children().children().next().children().children();//제목
-		$.each(get_input, function (index, value) {
-			name_str += $(value).val()+",";
-			
-			console.log(value);
-			console.log(name_str);
-		});
-
-	});  */
-
-
-
-//보낼값
-  function order(obj){
+	var $formId = $(document.orderFrm);
+	 console.log("formId= "+ $formId);
 	
-	const order = Number($(".total").text());//전체 금액값
-	console.log(order);
-	/*  var name_str = "";
-	 var content_str = "";
-	 var amount_str = "";
-	 var optionName_str = ""; */
-	 var orderList = "";
-	 var buyList="";
-	/*  $("[name=orderFrm]").submit(e=>{
-		console.log(e.target);
-
-		const $frm = $(e.target);
-		const pdName = $frm.find("[name=pdName]").val();
-		console.log(pdName);
-		
-
-	}); */
-		
-	const checked_length = $(".selectProduct:checked").length;
-	console.log(checked_length);
-	const $one = $(".selectProduct:checked");
+    var bNoHtml='';
+    
+    //체크된 것의 bNo가져오기
+    const $one = $(".selectProduct:checked");
 	console.log($one);
-
+   
+    
 	if($one.prop("checked") == true){
-		
-		const checked_length = $(".selectProduct:checked").length;
-		console.log(checked_length);
 
-		
-		var get_input = $one.parent().next().children().children().next().children().children();//제목
-		
-		var get_input2 = $one.parent().next().children().children().next().children().next();//컨탠츠
-		/* $.each(get_input2, function (index, value) {
-			content_str += $(value).val()+",";
-			
-			console.log(value);
-			console.log(content_str);
-		}); */
-		
-		var get_input3 = $one.parent().next().next().children().children().children();//수량
-		/* $.each(get_input3, function (index, value) {
-			amount_str += $(value).val()+",";
-			
-			console.log(value);
-			console.log(amount_str);
-		}); */
-		
-		var get_input4 = $one.parent().next().next().children().children().next().next().children();//옵션네임
-		/* $.each(get_input4, function (index, value) {
-			optionName_str += $(value).val()+",";
-			
-			console.log(value);
-			console.log(optionName_str);
-		}); */
-		var get_input5 = $one.parent().next().next().next().children().children().children();//금액
-		var buy = {
-				 get_input,
-				 get_input2,
-				 get_input3,
-				 get_input4,
-				 get_input5
+		 var bNo = $one.next();
+		 console.log(bNo);
+		 
+		   $.each(bNo, function (index, value){
+			    console.log(value);
 
-				 };
-		console.log(buy);
-		 $.each(buy, function (index, value) {
-			 orderList += $(value).val();
-				
-				console.log(value);
-				console.log(orderList);
-			});  
-			
-	
+			    bNoHtml +='<input type="hidden" name ="bNo" value="'+$(value).val()+'"/>';
+
+			    console.log(bNoHtml);
+			    });
+
 	}//if절 끝
-	  
+	 $formId.append(bNoHtml);
+		$formId.append(totalHtml);
+		$formId.submit();
+	console.log("formId= "+ $formId);
+	
 
 } 
 
