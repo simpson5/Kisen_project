@@ -15,13 +15,13 @@ public class UnofficialDeposit {
 	private String pdName; //상품이름
 	private String idolName; //아이돌이름
 	private String pdCategory; //상품카테고리
-	private String thumbnailFile; // 대표이미지
-	private String detailFile; //상세이미지
+//	private String thumbnailFile; // 대표이미지
+//	private String detailFile; //상세이미지
 	private String pdContent; // 상세내용
 	private Date depositStartDate; //입금시작일
 	private Date depositEndDate; //마감일
 	private String bankName; //은행명
-	private int accountNo; //계좌번호
+	private String accountNo; //계좌번호
 	private String accountHolder; //예금주
 	private int price; //상품 가격
 	private String deliveryOption; //배송방법

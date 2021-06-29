@@ -13,17 +13,16 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @NoArgsConstructor
-public class UnofficialPdImgExt extends UnofficialDemand {
-	private List<DemandpdImg> demandpdImgList;
-	private List<DepositpdImg> depositpdImgList;
-	private List<ProductOption> pdOptionList;
-	private String idolName;
+public class UnofficialPdImgExt2 extends UnofficialDeposit {
+private List<DepositpdImg> depositpdImgList;
+
 	public int getdNo() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
 		
-	public int demandNo() {
+	public int dNo() {
 		return 0;
 	}
 	
