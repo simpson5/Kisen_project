@@ -22,7 +22,19 @@
 		  , #{question}
 		)
 		
+		<selectKey keyProperty="demandNo" resultType="_int" order="AFTER">
+			select 
+				seq_demand_no.currval
+			from
+			 	dual
+		</selectKey>
 			
+	</insert>
+	
+	<insert id="insertDepositpdImg">
+		insert into 
+		deposit_pd_img
+		values( seq_deposit_pd_img_no.nextval, #{dNo},#{pdCategory}, #{originalFilename}, #{renamedFilename})
 	</insert>
 	
 	<insert id="insertdepositEnroll">
@@ -46,7 +58,12 @@
 		, #{accountHolder}
 		, #{depositEndDate}
 	  )
-		
+		<selectKey keyProperty="dno" resultType="_int" order="AFTER">
+			select 
+				seq_d_no.currval
+			from
+			 	dual
+		</selectKey>
 			
 	</insert>
 	
@@ -65,8 +82,121 @@
 		) 
 	</insert>
 	
+	<insert id="insertDemandpdImg">
+		insert into 
+		demand_pd_img
+		values( seq_demand_pd_img_no.nextval, #{demandNo},#{pdCategory}, #{originalFilename}, #{renamedFilename})
+	</insert>
 	
+	<select id="selectunofficialdemandList" resultMap="demandCollectionMap">
+		select 
+		    d.*,
+   			di.no,
+		    di.pd_category img_category,
+		    di.original_filename,
+		    di.renamed_filename
+		from unofficial_demand d
+		    left join demand_pd_img di
+		        on d.demand_no = di.demand_no
+		order by demand_start_date desc
+	</select>
 	
+	<select id="selectunofficialdemand" resultMap="demandCollectionMap">
+		select 
+		    d.*,
+   			di.no,
+		    di.pd_category,
+		    di.original_filename,
+		    di.renamed_filename
+		from unofficial_demand d
+		    left join demand_pd_img di
+		        on d.demand_no = di.demand_no
+		where d.demand_no = #{demandNo}
+	</select>
+	
+	<resultMap type="unofficialPdImgExt" id="demandCollectionMap">
+		<id column ="demand_no" property="demandNo"/>
+		<result column="pd_name" property="pdName"/>
+		<result column="idol_name" property="idolName"/>
+		<result column="pd_category" property="pdCategory"/>
+		<result column="price" property="price"/>
+		<result column="delivery_price" property="deliveryPrice"/>
+		<result column="pd_stock" property="pdStock"/>
+		<result column="pd_sales" property="pdSales"/>
+		<result column="pd_content" property="pdContent"/>
+		<result column="demand_start_date" property="demandstartDate"/>
+		<result column="demand_end_date" property="demandendDate"/>
+		<result column="question" property="question"/>
+		
+		
+		
+		
+		
+		
+		
+		
+		<collection property="demandpdImgList" ofType="demandpdImg">
+		 	<id column ="no" property="No"/>
+		 	<result column="demand_no" property="demandNo"/>
+		 	<result column="img_category" property="pdCategory"/>
+		 	<result column="original_filename" property="originalFilename"/>
+		 	<result column="renamed_filename" property="renamedFilename"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectunofficialdepositList" resultMap="depositCollectionMap">
+		select 
+		    dp.*,
+   			dpi.d_no,
+		    dpi.pd_category,
+		    dpi.original_filename,
+		    dpi.renamed_filename
+		from unofficial_deposit dp
+		    left join deposit_pd_img dpi
+		        on dp.d_no = dpi.d_no
+		order by deposit_start_date desc
+	</select>
+	
+	<select id="selectunofficialdeposit" resultMap="depositCollectionMap">
+		   select 
+		    dp.*,
+   			dpi.d_no,
+		    dpi.pd_category,
+		    dpi.original_filename,
+		    dpi.renamed_filename
+		from unofficial_deposit dp
+		    left join deposit_pd_img dpi
+		        on dp.d_no = dpi.d_no
+		where dp.d_no = #{dno}
+	</select>
+	
+	<resultMap type="unofficialPdImgExt2" id="depositCollectionMap">
+		<id column ="d_no" property="dno"/>
+		<result column="pd_name" property="pdName"/>
+		<result column="idol_name" property="idolName"/>
+		<result column="pd_content" property="pdContent"/>
+		<result column="price" property="price"/>
+		<result column="delivery_option" property="deliveryOption"/>
+		<result column="delivery_price" property="deliveryPrice"/>
+		<result column="pd_stock" property="pdStock"/>
+		<result column="pd_sales" property="pdSales"/>
+	    <result column="delivery_notice" property="deliveryNotice"/>
+		<result column="pd_category" property="pdCategory"/>
+		<result column="deposit_start_date" property="depositStartDate"/>
+		<result column="bank_name" property="bankName"/>
+		<result column="account_no" property="accountNo"/>
+		<result column="account_holder" property="accountHolder"/>
+		<result column="deposit_end_date" property="depositEndDate"/>
+		
+		
+		<collection property="depositpdImgList" ofType="depositpdImg">
+		 	<id column ="no" property="No"/>
+		 	<result column="d_no" property="dNo"/>
+		 	<result column="img_category" property="pdCategory"/>
+		 	<result column="original_filename" property="originalFilename"/>
+		 	<result column="renamed_filename" property="renamedFilename"/>
+		</collection>
+	</resultMap>
 	
 
 	</mapper>
