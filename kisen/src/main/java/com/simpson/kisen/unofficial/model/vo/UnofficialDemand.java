@@ -26,6 +26,7 @@ public class UnofficialDemand {
 	private Date demandstartDate; //수요조사시작날짜
 	private Date demandendDate; //수요조사끝날짜
 	private String question; //추가질문
+	private String fanNo;
 	
 	
 	

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.simpson.kisen.payment.model.dao.PaymentDao;
 import com.simpson.kisen.payment.model.vo.Payment;
 import com.simpson.kisen.product.model.vo.Basket;
+import com.simpson.kisen.unofficial.model.vo.UnofficialDemand;
 
 @Service
 public class PaymentServiceImpl implements PaymentService {
@@ -26,5 +27,11 @@ public class PaymentServiceImpl implements PaymentService {
 	public List<Basket> selectBasketList(String fanNo) {
 		// TODO Auto-generated method stub
 		return paymentDao.selectBasketList(fanNo);
+	}
+
+
+	@Override
+	public List<UnofficialDemand> selectUdList(String fanNo) {
+		return paymentDao.selectUdList(fanNo);
 	}
 }

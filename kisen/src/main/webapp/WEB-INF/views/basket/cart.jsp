@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>	
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 
 	<jsp:param value="결제페이지" name="title"/>
@@ -160,8 +161,9 @@ color:  #9033b5;
 </div>
 <br /><br /><br />
  <hr />
+  
+<!-- 장바구니 내역 action="${pageContext.request.contextPath}/basket/payment.do"-->
 
-<!-- 장바구니 내역 -->
 <div class="border border-0 mx-auto p-3 rounded " id="cartHistory">
 	<table class="table">
   <thead class="thead " id="thead">
@@ -174,12 +176,9 @@ color:  #9033b5;
     </tr>
   </thead>
   <tbody>
-<form:form
-	name="orderFrm" 
-	action="${pageContext.request.contextPath}/basket/payment.do" 
-	method="GET">
-	 <c:forEach items="${basketList}" var ="basketList" >
-    <tr>
+<form name="orderFrm" method="GET"  >
+	<c:forEach items="${basketList}" var ="basketList" >
+	 <tr>
      <th scope="row" class="border border-left-0 border-top-0  border-right-0 "> 
      	<input class="selectProduct" type="checkbox" id="checkboxOne" name="selectProduct" onclick="select(this);" />
      </th>
@@ -188,24 +187,24 @@ color:  #9033b5;
 		  <img class="mr-2" src="${pageContext.request.contextPath}/resources/upload/product/${basketList.productImg.renamedFilename}" id="productImg">
 		  <div class="media-body pContent">
 		    <h6 class="mt-0 "> 
-		    <input type="hidden" value="${basketList.pdName}" name="pdName">
+		    	<input type="hidden" name="pdName" value="${basketList.pdName}">
 		    	${basketList.pdName} 
 		    </h6>
-		    <input type="hidden" value="${basketList.pdContent}" name= "pContent">
-		    ${basketList.pdContent} 
+		    <input type="hidden" name="pContent" value="${basketList.pdContent}" >
+		    ${basketList.pdContent}
 		  </div>
 		</div>
       </td>
-      
+  
       <td class="border border-left-0 border-top-0" >
       	<div class="d-flex flex-column">
 		  <div class="p-2 amount" style="font-size: 12px;">
-			  <input type="hidden" value="${basketList.pdAmount}" name="amount">
+			  <input type="hidden" name="amount" value="${basketList.pdAmount}" >
 			  상품 주문 수량: ${basketList.pdAmount} 
 		  </div>
 		  <hr />
 		  <div class="p-2 " style="font-size: 12px;">
-			   <input type="hidden" value="${basketList.productOption.optionName} }" name="option">
+			   <input type="hidden" name="option" value="${basketList.productOption.optionName}">
 			  옵션: ${basketList.productOption.optionName} 
 		  </div>
 		</div>
@@ -213,13 +212,14 @@ color:  #9033b5;
       <td class="border border-left-0 border-top-0 ">
       	<div class="d-flex flex-column">
 		  <div class="p-2" style="font-size:20px; color:#bc73d6" >
-		   <input type="hidden" value="${basketList.price}" name="price">
+		   <input type="hidden"  name="price" value="${basketList.price}">
+		   ${basketList.price}
 		   </div>
 		  <div class="p-2" style="font-size: 12px;">
-		  	<button type="button" class="btn btn-outline p-0 font-weight-bold" id="btnOrder" onclick="order(this);">주문하기</button>
+		  	<button class="btn btn-outline p-0 font-weight-bold" id="btnOrder" >주문하기</button>
 		  </div>
 		 </div>
-	  </td>
+
       <td class="border border-right-0 border-top-0">
       	<div class="d-flex flex-column ">
 		  <div class="p-1" style="font-size:18px;">무료</div>
@@ -232,20 +232,19 @@ color:  #9033b5;
       </td>
     </tr>
 	</c:forEach>
- </form:form>
+</form>
     <tr>
        <th scope="row" class="border border-left-0 border-top-0 border-right-0 ">
        <input type="checkbox" id="checkboxDel" name="checkboxdel" />
        </th>
-      <td class="border border-left-0 border-top-0 border-right-0 " colspan="4">
+       <td class="border border-left-0 border-top-0 border-right-0 " colspan="4">
       	<div class="p-1" style="width:100px;">
-		  	<button class="btn btn-outline p-2" id="checkboxAll" >선택 상품 삭제</button>
-		  
-		  </div>
+		  	<button class="btn btn-outline p-2" id="checkboxAll" onclick="cartDel(this);" >선택 상품 삭제</button>	  
+		 </div>
       </td>
     </tr>
 
-      <tr>
+    <tr>
       <th scope="row" class="border border-left-0 border-top-0 border-right-0"></th>
       <td class="border border-left-0 border-top-0 " colspan="2">
       	<div class="d-flex justify-content-center">
@@ -291,31 +290,73 @@ color:  #9033b5;
     </tr>
   </tbody>
 </table>
+
 		<div class="py-3 d-flex justify-content-around" >
 		  	<button class="btn btn-outline py-2" id="cartAgain">쇼핑 계속하기</button>
 		  	<%-- <a href="${pageContext.request.contextPath}/basket/payment.do"> --%>
-		  	<button class="btn btn-outline py-2 " id="cartOder" onclick="order(this);" >주문하기</button>
+		  	<button class="btn btn-outline py-2 " id="cartOder" onclick="order(this);"> 주문하기</button>
 		  	<!-- </a>  -->
 		  </div>
-
-</div>
+	</div>
 
 <script>
-function amount(){
+//선택시 장바구니 내역 삭제
+ function cartDel(obj){
+	const $one = $(".selectProduct:checked");
+	console.log($one);
+	const pdName = $one.find("[name=pdName]").val();
+	console.log(pdName);
 	
 	
 }
+/* //폼으로 보내기
+ $("[name=orderFrm]").submit(e=>{
+	 e.preventDefault();
+		console.log(e.target);
 
-//보낼 값
-function order(obj){
+		const $frm = $(e.target);
+		const $one = $(".selectProduct:checked");
+		console.log($one);
+		if($one.prop("checked") == true){
+		const pdName = $frm.find("input:hidden[name=pdName]").val();
+		console.log(pdName); 
+
+		}
+		/*  var name_str = "";
+
+		var get_input = $one.parent().next().children().children().next().children().children();//제목
+		$.each(get_input, function (index, value) {
+			name_str += $(value).val()+",";
+			
+			console.log(value);
+			console.log(name_str);
+		});
+
+	});  */
+
+
+
+//보낼값
+  function order(obj){
 	
 	const order = Number($(".total").text());//전체 금액값
 	console.log(order);
-
-	/* $("[name=orderFrm]").submit(e=>{
+	/*  var name_str = "";
+	 var content_str = "";
+	 var amount_str = "";
+	 var optionName_str = ""; */
+	 var orderList = "";
+	 var buyList="";
+	/*  $("[name=orderFrm]").submit(e=>{
 		console.log(e.target);
 
+		const $frm = $(e.target);
+		const pdName = $frm.find("[name=pdName]").val();
+		console.log(pdName);
+		
+
 	}); */
+		
 	const checked_length = $(".selectProduct:checked").length;
 	console.log(checked_length);
 	const $one = $(".selectProduct:checked");
@@ -323,15 +364,58 @@ function order(obj){
 
 	if($one.prop("checked") == true){
 		
-		const $frm = $("[name=orderFrm]");
-		var pName = $frm.find("[name=pName]").val();
-		console.log(pName);
-		
-	}
-		
-	
+		const checked_length = $(".selectProduct:checked").length;
+		console.log(checked_length);
 
-}
+		
+		var get_input = $one.parent().next().children().children().next().children().children();//제목
+		
+		var get_input2 = $one.parent().next().children().children().next().children().next();//컨탠츠
+		/* $.each(get_input2, function (index, value) {
+			content_str += $(value).val()+",";
+			
+			console.log(value);
+			console.log(content_str);
+		}); */
+		
+		var get_input3 = $one.parent().next().next().children().children().children();//수량
+		/* $.each(get_input3, function (index, value) {
+			amount_str += $(value).val()+",";
+			
+			console.log(value);
+			console.log(amount_str);
+		}); */
+		
+		var get_input4 = $one.parent().next().next().children().children().next().next().children();//옵션네임
+		/* $.each(get_input4, function (index, value) {
+			optionName_str += $(value).val()+",";
+			
+			console.log(value);
+			console.log(optionName_str);
+		}); */
+		var get_input5 = $one.parent().next().next().next().children().children().children();//금액
+		var buy = {
+				 get_input,
+				 get_input2,
+				 get_input3,
+				 get_input4,
+				 get_input5
+
+				 };
+		console.log(buy);
+		 $.each(buy, function (index, value) {
+			 orderList += $(value).val();
+				
+				console.log(value);
+				console.log(orderList);
+			});  
+			
+	
+	}//if절 끝
+	  
+
+} 
+
 
 //체크박스 전체 선택 이밴트
 var sum = 0;
@@ -340,14 +424,16 @@ var sum = 0;
  $("#checkboxAll").change(function(e){
 	 $("[type=checkbox]").prop("checked", this.checked);
 	 const check = $("[type=checkbox]").prop("checked");
-
+		 const $one = $(".selectProduct:checked");
+		console.log($one);
+		
 		if(check==true){
 		var $total = $(".total");
 		var price = $("[type=hidden]").val();
 		console.log(price);             
 		var total = 0;
 
-	   	var get_input = $("[type=hidden]");
+	   	var get_input = $one.parent().next().next().next().children().children().children();
 		$.each(get_input, function (index, value) {
 			total +=Number($(value).val());
 			
@@ -355,7 +441,7 @@ var sum = 0;
 			console.log(total);
 		});
 		
-			sum=total;
+			sum = total;
 			 console.log("sum = "+ sum);
 	   	   $total  += $total.html("<strong>"+total+"</strong>");
 	}
@@ -376,6 +462,8 @@ $("#checkboxDel").click(function(e){
 	
 	 $("[type=checkbox]").prop("checked", this.checked);
 	  const check = $("[type=checkbox]").prop("checked");	
+	  const $one = $(".selectProduct:checked");
+		console.log($one);
 	 if(check==true){
 			var $total = $(".total");
 			var $totalO = $(".totalOne");
@@ -383,7 +471,7 @@ $("#checkboxDel").click(function(e){
 			console.log(price);             
 			var total = 0;
 
-		   	var get_input = $("[type=hidden]");
+			var get_input = $one.parent().next().next().next().children().children().children();
 			$.each(get_input, function (index, value) {
 				total +=Number($(value).val());
 				
@@ -400,8 +488,7 @@ $("#checkboxDel").click(function(e){
 			console.log(price);             
 		
 			var total =0;
-				/* total -=price; */ 
-			
+							
 		   	   $total  += $total.html("<strong>"+total+"</strong>");
 		}
 }); 
@@ -448,5 +535,6 @@ $(".selectProduct").change(e => {
 		
 	
 });
+
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
