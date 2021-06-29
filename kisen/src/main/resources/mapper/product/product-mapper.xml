@@ -20,9 +20,10 @@
 			left join
 				pd_img g
 					on p.pd_no = g.pd_no
+			where g.pd_category = 'R'
 			order by p.pd_sales desc
 			) A
-		where rownum &lt; 9
+		where rownum &lt; 5
 	</select>
 	<select id="selectNewGoodsProductList" resultMap="productCollectionMap">
 		select
@@ -41,9 +42,10 @@
 			left join
 				pd_img g
 					on p.pd_no = g.pd_no
+			where g.pd_category = 'R'
 			order by p.sales_date desc
 			) A
-		where rownum &lt; 9
+		where rownum &lt; 5
 	</select>
 	
 	<select id="selectRandomProductList" resultMap="productCollectionMap">
@@ -63,9 +65,10 @@
 		left join
 			pd_img g
 				on p.pd_no = g.pd_no
+        where g.pd_category = 'R'
 		order by DBMS_RANDOM.RANDOM
 		) A
-		where rownum &lt; 5
+		where rownum &lt; 5 
 	</select>
 	
 	

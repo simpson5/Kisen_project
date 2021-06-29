@@ -47,15 +47,17 @@ public class HomeController {
 		log.info("home 지나감!");
 		// product 조회
 		try {
-			List<ProductImgExt> list = productService.selectRandomProductList(); // 추천상품 - 랜덤상품 추천
+			List<ProductImgExt> randomList = productService.selectRandomProductList(); // 추천상품 - 랜덤상품 추천
 			List<ProductImgExt> newGoodsList = productService.selectNewGoodsProductList(); // new goods
 			List<ProductImgExt> bestSellList = productService.selectBestSellProductList(); // 인기상품 - 판매량 순
 			List<SlideImg> slideList = productService.selectSlideList();
 			log.info("slideList={}",slideList);
-			log.info("list = {}",list);
+			log.info("Randomlist = {}",randomList);
+			log.info("newGoodsList = {}",newGoodsList);
+			log.info("bestSellList = {}",bestSellList);
 			
 			model.addAttribute("slideList",slideList);
-			model.addAttribute("list", list);
+			model.addAttribute("randomList", randomList);
 			model.addAttribute("bestSellList", bestSellList);
 			model.addAttribute("newGoodsList", newGoodsList);
 		} catch (Exception e) {

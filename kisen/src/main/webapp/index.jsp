@@ -36,12 +36,12 @@
   </div>
 
   <!-- 추천상품 -->
-  <c:if test="${!empty list}">
+  <c:if test="${!empty randomList}">
   <h5 style="font-weight: bold;">추천상품</h5>
   <hr>
   <div class="idol-item row d-none d-sm-block">
     <div class="row g-3 ">
-      <c:forEach items="${list}" var="product">
+      <c:forEach items="${randomList}" var="product">
       <div class="col-lg-3 col-md-4 col-sm-6 ">
         <div class="card" style="width: 13rem;">
             	<c:forEach items="${product.pdImgList}" var="pdImg">
