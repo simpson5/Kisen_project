@@ -37,9 +37,8 @@ function goDepositSubmit(event) {
 }
 </script>
 
-</head>
-<body>
-	<section>
+<div class="container">
+
 		<h2 class="text-center m-4" style="font-weight: bold;">입금폼목록</h2>
 		<br /> <br />
 		<c:forEach items="${unofficialdepositList}" var="unofficialdeposit" varStatus="vs">
@@ -47,10 +46,13 @@ function goDepositSubmit(event) {
 		<div id="" class="boxWrapper">
 		</c:if>
 			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/2.png"
-					alt="Card image cap" onclick="goDepositSubmit(event);" data-no="${unofficialdeposit.dno}"
-					style="cursor: pointer;">
+				<c:forEach items="${unofficialdeposit.depositpdImgList}" var="pdImg">
+            		<c:if test="${pdImg.pdCategory eq 'R'}">
+   			        	<img src="<c:url value='/resources/upload/unofficial/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="tree" style="cursor: pointer;" onclick="goDepositSubmit(${unofficialdeposit.dNo});"
+   			        	>
+            		</c:if>
+            	</c:forEach>
+
 				<div class="card-body">
 					<h5 class="card-title">${unofficialdeposit.pdName}</h5>
 					<p class="card-text">
@@ -73,9 +75,7 @@ function goDepositSubmit(event) {
 		</div>
 		</c:if>
 		</c:forEach>
-	</section>
-</body>
-</html>
+</div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
 

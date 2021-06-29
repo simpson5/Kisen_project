@@ -15,7 +15,7 @@
 			method="post">
 			
 					
-		<h2 class="text-center m-4" style="font-weight: bold;">수요조사 상세보기</h2>
+		<h2 class="text-center m-4" style="font-weight: bold;">${unofficialdemand.pdName} 수요조사 상세보기</h2>
 		
 		
 

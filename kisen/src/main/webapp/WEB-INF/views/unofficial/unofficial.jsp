@@ -13,6 +13,7 @@
 	background-color: transparent;
 	background-image: none;
 	border-color: #9033b5;
+	display: flex;
 }
 
 .btn-outline-warning:hover {
@@ -20,6 +21,7 @@
 	background-color: #c7a2e0;
 	background-image: none;
 	border-color: #c7a2e0;
+	display: flex;
 }
 
 .card {
@@ -36,52 +38,55 @@ div#ingdepositlist {
 	display: flex;
 }
 
+div#btn{
+	display: flex;
+	margin-right: 30px;
+}
+
 </style>
 
-</head>
-<body>
-
-
-
-	<section>
 
 
 
 
 
-		<div class="col-2" id="edit">
-			<div class="py-2">
+<div class="container">
+
+		<div class="col-2" id="btn">
+			<div class="py-2" id="btn">
 				<button type="button" class="btn btn-outline-warning"
 					onclick="goDemandForm();">수요조사폼만들기</button>
 
 			</div>
-			<div class="py-2">
+			<div class="py-2" id="btn">
 				<button type="button" class="btn btn-outline-warning"
 					onclick="goDepositForm();">입금폼만들기</button>
 			</div>
-		</div>
+		
 
-		<div class="col-2" id="edit">
-			<div class="py-2">
+		
+			<div class="py-2" id="btn">
 				<button type="button" class="btn btn-outline-warning"
 					onclick="goDemandFormlist();">수요조사폼목록</button>
 
 			</div>
-			<div class="py-2">
+			<div class="py-2" id="btn">
 				<button type="button" class="btn btn-outline-warning"
 					onclick="goDepositFormlist();">입금폼목록</button>
 			</div>
 			
-				<div class="py-2">
+				<div class="py-2" id="btn">
 				<button type="button" class="btn btn-outline-warning"
 					onclick="goDemandFormUpdate();">수요조사폼 수정</button>
 			</div>
 			
-				<div class="py-2">
+				<div class="py-2" id="btn">
 				<button type="button" class="btn btn-outline-warning"
 					onclick="goDepositFormUpdate();">입금폼 수정</button>
 			</div>
 		</div>
+		<br /><br />
+		
 
 		<script>
 			function goDemandForm() {
@@ -153,6 +158,7 @@ div#ingdepositlist {
 
 		<section>
 		<h2 class="text-center m-4" style="font-weight: bold;"> 진행중인 수요조사폼</h2>
+		<hr>
 		<br /> <br />
 		<c:forEach items="${unofficialdemandList}" var="unofficialdemand" varStatus="vs">
 		<c:if test="${vs.index % 5 == 0}">
@@ -194,6 +200,7 @@ div#ingdepositlist {
 		
 		<section>
 		<h2 class="text-center m-4" style="font-weight: bold;">진행중인 입금폼</h2>
+		<hr>
 		<br /> <br />
 		<c:forEach items="${unofficialdepositList}" var="unofficialdeposit" varStatus="vs">
 		<c:if test="${vs.index % 5 == 0}">
@@ -226,10 +233,7 @@ div#ingdepositlist {
 		</div>
 		</c:if>
 		</c:forEach>
-	</section>
-
-</body>
-</html>
+		</div>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 

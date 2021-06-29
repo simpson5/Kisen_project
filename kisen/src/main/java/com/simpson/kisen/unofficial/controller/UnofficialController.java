@@ -141,7 +141,7 @@ public class UnofficialController {
 		// 업무로직
 		int result = unofficialService.insertdemandEnroll(unofficialdemand);
 		
-		return "unofficial/demendFormlist.do";
+		return "redirect:demandFormlist.do";
 	}
 
 	@GetMapping("/depositFormEnroll.do")
@@ -192,7 +192,7 @@ public class UnofficialController {
 		// 업무로직
 		int result = unofficialService.insertdepositEnroll(unofficialdeposit);
 		
-		return "unofficial/unofficial.do";
+		return "redirect:depositFormlist.do";
 		
 	}
 	

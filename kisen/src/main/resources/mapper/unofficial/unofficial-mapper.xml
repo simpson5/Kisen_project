@@ -34,7 +34,11 @@
 	<insert id="insertDepositpdImg">
 		insert into 
 		deposit_pd_img
-		values( seq_deposit_pd_img_no.nextval, #{dNo},#{pdCategory}, #{originalFilename}, #{renamedFilename})
+		values( seq_deposit_pd_img_no.nextval, 
+		#{dNo},
+		#{pdCategory}, 
+		#{originalFilename}, 
+		#{renamedFilename})
 	</insert>
 	
 	<insert id="insertdepositEnroll">
@@ -85,7 +89,11 @@
 	<insert id="insertDemandpdImg">
 		insert into 
 		demand_pd_img
-		values( seq_demand_pd_img_no.nextval, #{demandNo},#{pdCategory}, #{originalFilename}, #{renamedFilename})
+		values( seq_demand_pd_img_no.nextval, 
+		#{demandNo},
+		#{pdCategory}, 
+		#{originalFilename}, 
+		#{renamedFilename})
 	</insert>
 	
 	<select id="selectunofficialdemandList" resultMap="demandCollectionMap">
