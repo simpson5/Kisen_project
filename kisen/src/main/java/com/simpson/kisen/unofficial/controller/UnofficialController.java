@@ -44,7 +44,7 @@ import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.unofficial.model.service.UnOfficialService;
 import com.simpson.kisen.unofficial.model.vo.DemandpdImg;
 import com.simpson.kisen.unofficial.model.vo.DepositpdImg;
-import com.simpson.kisen.unofficial.model.vo.MailSendService;
+
 import com.simpson.kisen.unofficial.model.vo.UnofficialDemand;
 import com.simpson.kisen.unofficial.model.vo.UnofficialDeposit;
 import com.simpson.kisen.unofficial.model.vo.UnofficialPdImgExt;
@@ -77,8 +77,7 @@ public class UnofficialController {
 	@Autowired
 	UnOfficialService unofficialService; 
 	
-	 @Autowired
-	 private MailSendService mss;
+	
 	 
 	 /*@RequestMapping("/member/signUp")
      public void signUp(@ModelAttribute MemberDTO memberDTO){
