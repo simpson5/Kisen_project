@@ -41,8 +41,10 @@ public class ProductController {
 						Authentication authentication,
 						Model model) {
 		ProductImgExt product = productService.selectOneProduct(no);
-		Fan loginMember = (Fan) authentication.getPrincipal();
-		log.info("product = {}", product);
+		if(authentication != null) {
+			Fan loginMember = (Fan) authentication.getPrincipal();
+			model.addAttribute("loginMember", loginMember);		
+		}
 		try {
 			log.debug("cpage = {}", cpage);
 			final int limit = 10;
@@ -60,7 +62,6 @@ public class ProductController {
 			String pageBar = HelloSpringUtils.getPageBar(totalContents, cpage, limit, url);
 			
 			//2. jsp에 위임
-			model.addAttribute("loginMember", loginMember);
 			model.addAttribute("list", list);
 			model.addAttribute("pageBar", pageBar);
 			model.addAttribute("no",no);
