@@ -36,8 +36,10 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 
+
 	@Override
-	public List<Basket> selectPaymentList(int bNo) {
+	public List<Basket> selectPaymentList(int[] bNo) {
+	
 		return paymentDao.selectPaymentList(bNo);
 	}
 }

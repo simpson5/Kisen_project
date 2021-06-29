@@ -32,8 +32,9 @@ public class PaymentDaoImpl implements PaymentDao{
 		return session.selectList("payment.selectUdList",fanNo);
 	}
 
+
 	@Override
-	public List<Basket> selectPaymentList( int bNo) {
+	public List<Basket> selectPaymentList(int[] bNo) {
 		return session.selectList("payment.selectPaymentList",bNo);
 	}
 
