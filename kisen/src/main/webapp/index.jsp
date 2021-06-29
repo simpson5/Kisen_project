@@ -11,15 +11,18 @@
   <!-- 슬라이드 이미지 -->
   <div id="carouselExampleControls" class="carousel slide slide-img" data-ride="carousel">
     <div class="carousel-inner">
+      <c:forEach items="${slideList}" var="slideImg" varStatus="status">
+      <c:if test="${status.index eq 0}">      
       <div class="carousel-item active idol" onclick="artistDetail();">
-        <img src="${pageContext.request.contextPath}/resources/images/idol/bts.jpg" class="d-block w-100 idol-img" alt="...">
+        <img src="${pageContext.request.contextPath}/resources/upload/slide/${slideImg.renamedFilename}" class="d-block w-100 idol-img" alt="...">
       </div>
+      </c:if>
+      <c:if test="${status.index ne 0}">      
       <div class="carousel-item idol" onclick="artistDetail();">
-        <img src="${pageContext.request.contextPath}/resources/images/idol/itzy.png " class="d-block w-100 idol-img"  alt="...">
+        <img src="${pageContext.request.contextPath}/resources/upload/slide/${slideImg.renamedFilename}" class="d-block w-100 idol-img" alt="...">
       </div>
-      <div class="carousel-item idol" onclick="artistDetail();">
-        <img src="${pageContext.request.contextPath}/resources/images/idol/monstax.jpg" class="d-block w-100 idol-img " alt="...">
-      </div>
+      </c:if>
+	  </c:forEach>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
