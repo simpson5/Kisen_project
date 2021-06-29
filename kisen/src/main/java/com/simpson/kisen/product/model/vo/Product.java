@@ -26,3 +26,4 @@ public class Product {
 	private Date salesDate;
 	//git test
 }
+
