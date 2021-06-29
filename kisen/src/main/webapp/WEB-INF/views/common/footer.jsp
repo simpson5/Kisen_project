@@ -37,6 +37,7 @@
             <li><h6> <span class="span-color-h">반품주소</span></h6></li>
             <li>  서울특별시 강남구 테헤란로10길 9 그랑프리 빌딩</li>
             <li> 반드시 지정택배사를 이용해 주세요.</li>
+            <li><span class="span-color rounded">지정택배사</span> CJ대한통운</li>
         </ul>
     </div>
     <hr>

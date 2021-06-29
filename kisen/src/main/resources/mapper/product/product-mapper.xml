@@ -3,36 +3,126 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
-	<select id="selectProductList" resultMap="productMap">
-		select 
-		    p.*,
-		    i.idol_name idolName
-		from  
-		    product p
-		  left join 
-		    idol i
-		      on p.idol_no = i.idol_no
+	<select id="selectBestSellProductList" resultMap="productCollectionMap">
+		select
+			A.*,
+			rank() over(order by A.sales_date desc)
+		from
+			(
+			select
+				p.*,
+	   			g.pd_img_no,
+			    g.pd_category img_category,
+			    g.original_filename,
+			    g.renamed_filename
+			from
+				product p
+			left join
+				pd_img g
+					on p.pd_no = g.pd_no
+			order by p.pd_sales desc
+			) A
+		where rownum &lt; 9
 	</select>
-	<resultMap type="productExt" id="productMap">
-		<id column="idol_no" property="idolNo"/>
-		<result column="pd_no" property="pdNo"/>
+	<select id="selectNewGoodsProductList" resultMap="productCollectionMap">
+		select
+			A.*,
+			rank() over(order by A.sales_date desc)
+		from
+			(
+			select
+				p.*,
+	   			g.pd_img_no,
+			    g.pd_category img_category,
+			    g.original_filename,
+			    g.renamed_filename
+			from
+				product p
+			left join
+				pd_img g
+					on p.pd_no = g.pd_no
+			order by p.sales_date desc
+			) A
+		where rownum &lt; 9
+	</select>
+	
+	<select id="selectRandomProductList" resultMap="productCollectionMap">
+		 select
+			A.*,
+			rank() over(order by A.sales_date desc)
+		from
+		(
+		select
+			p.*,
+   			g.pd_img_no,
+		    g.pd_category img_category,
+		    g.original_filename,
+		    g.renamed_filename
+		from
+			product p
+		left join
+			pd_img g
+				on p.pd_no = g.pd_no
+		order by DBMS_RANDOM.RANDOM
+		) A
+		where rownum &lt; 5
+	</select>
+	
+	
+	<select id="selectOneProduct" resultMap="productCollectionMap">
+		select
+			p.*,
+   			g.pd_img_no,
+		    g.pd_category img_category,
+		    g.original_filename,
+		    g.renamed_filename,
+            o.option_no,
+            o.option_name
+		from
+			product p
+		left join
+			pd_img g
+				on p.pd_no = g.pd_no
+		left join
+			pd_option o
+				on o.pd_no = p.pd_no
+		where
+			p.pd_no = #{no}
+	</select>
+	
+	<resultMap type="productImgExt" id="productCollectionMap">
+		<id column ="pd_no" property="pdNo"/>
+		<result column="idol_no" property="idolNo"/>
 		<result column="pd_category" property="pdCategory"/>
 		<result column="pd_name" property="pdName"/>
-		<result column="pd_img" property="pdImg"/>
+		<result column="pd_content" property="pdContent"/>
 		<result column="price" property="price"/>
 		<result column="pd_stock" property="pdStock"/>
 		<result column="pd_sales" property="pdSales"/>
 		<result column="sales_date" property="salesDate"/>
-		<result column="idolName" property="idolName"/>
+		<result column="idol_name" property="idolName"/>
+		
+		<collection property="pdImgList" ofType="productImg">
+		 	<id column ="pd_img_no" property="pdImgNo"/>
+		 	<result column="pd_no" property="pdNo"/>
+		 	<result column="img_category" property="pdCategory"/>
+		 	<result column="original_filename" property="originalFilename"/>
+		 	<result column="renamed_filename" property="renamedFilename"/>
+		 	<result column="upload_date" property="uploadDate"/>
+		</collection>
+		
+		
+		<collection property="pdOptionList" ofType="productOption">
+		 	<id column ="option_no" property="optionNo"/>
+		 	<result column="pd_no" property="pdNo"/>
+		 	<result column="option_name" property="optionName"/>
+		</collection>
 	</resultMap>
 	
-	<select id="selectOneProduct" resultType="productExt">
+	<select id="selectSlideList" resultType="slideImg">
 		select
 			*
 		from
-			product
-		where
-			pd_no = #{no}
+			slide_img
 	</select>
-
 </mapper>

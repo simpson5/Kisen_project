@@ -12,6 +12,8 @@ import com.simpson.kisen.agency.model.vo.Agency;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.idol.model.vo.IdolImg;
 import com.simpson.kisen.idol.model.vo.IdolMv;
+import com.simpson.kisen.payment.model.vo.Payment;
+import com.simpson.kisen.payment.model.vo.PaymentExt;
 import com.simpson.kisen.product.model.vo.ProductImg;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.product.model.vo.ProductOption;
@@ -130,7 +132,7 @@ public class AgencyDaoImpl implements AgencyDao {
 
 	@Override
 	public int updateProduct(ProductImgExt product) {
-		return session.update("agency-product.updateIdolMv",product);
+		return session.update("agency-product.updateProduct",product);
 	}
 
 	@Override
@@ -160,8 +162,42 @@ public class AgencyDaoImpl implements AgencyDao {
 
 	@Override
 	public List<ProductImgExt> selectIdolProductList(Map<String, Object> param) {
+		log.info("param@dao={}",param);
 		return session.selectList("agency-product.selectIdolProductList", param);
 	}
+
+	@Override
+	public List<ProductImgExt> selectBestProductList(String fanNo) {
+		return session.selectList("agency-product.selectBestProductList", fanNo);
+	}
+
+	@Override
+	public List<ProductImgExt> selectSoldOutProductList(String fanNo) {
+		return session.selectList("agency-product.selectSoldOutProductList", fanNo);
+	}
+
+	@Override
+	public List<ProductImgExt> selectRandomProductList(String fanNo) {
+		return session.selectList("agency-product.selectRandomProductList", fanNo);
+	}
+
+	@Override
+	public int updateStock(Map<String, Integer> map) {
+		return session.update("agency-product.updateStock", map);
+	}
+
+	@Override
+	public List<PaymentExt> selectSalesList(Map<String, String> param) {
+		return session.selectList("agency-sales.selectSalesList", param);
+	}
+
+	@Override
+	public int updateWaybill(Payment payment) {
+		return session.update("agency-sales.updateWaybill", payment);
+	}
+	
+	
+	
 
 	
 }

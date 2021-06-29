@@ -1,6 +1,7 @@
 package com.simpson.kisen.member.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.simpson.kisen.agency.model.vo.Agency;
 import com.simpson.kisen.fan.model.vo.Authority;
@@ -25,5 +26,13 @@ public interface MemberDao {
 	int insertOauthAgencyMember(Fan member);
 
 	int insertAgencyAuthority(Fan member);
+
+	Fan searchOneMember(Map<String, Object> param);
+
+	Fan selectOneMemberByEmail(String email);
+
+	Fan selectOneMemberByPhone(Map<String, Object> param);
+
+	int updatePwdToTempPwd(Fan member);
 
 }

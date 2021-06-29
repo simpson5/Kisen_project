@@ -253,7 +253,7 @@ function searchIdol(count){
             var $list3 = $("#list3");
             var $list4 = $("#list4");
             for(var i=0; i<data.length; i++) {
-                var htmlStr = '<li><a href="${pageContext.request.contextPath}/artist/artistDetail/'+data[i].idolNo+'" class="idolList text-start">'+data[i].idolName+'</a></li>';
+                var htmlStr = '<li><a href="${pageContext.request.contextPath}/artist/artistInfo?no='+data[i].idolNo+'" class="idolList text-start">'+data[i].idolName+'</a></li>';
                 console.log(htmlStr);
                 if( 0<i && i<12){
                     if(!$list1.hasClass("hasList"))

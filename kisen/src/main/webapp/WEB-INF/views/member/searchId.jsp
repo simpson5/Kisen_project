@@ -57,11 +57,13 @@
     </div>
     <div class="search-area-container">
         <!-- 이메일로 찾기 진행 입력 폼 -->
-        <form action="" name="searchEmailFrm">
+        <form name="searchEmailFrm"
+        	  action="${pageContext.request.contextPath}/member/searchIdSendMail.do">
             <p class="fill-in-type">이름</p>
-            <input type="text" class="search-area searchEmail" name="name" id="name">
+            <input type="text" class="search-area searchEmail" name="name" id="emailName">
+            <p id="chkNoticeName" class="chkNotice"></p>
             <p class="fill-in-type">이메일</p>
-            <input type="email" class="search-area searchEmail" name="email" id="email">
+            <input type="text" class="search-area searchEmail" name="email" id="emailEmail"><span id="email-span">@</span>
             <select class="searchEmail" name="selectEmail" id="selectEmail">
                 <option value="1" selected>직접입력</option>
                 <option value="naver.com">naver.com</option> 
@@ -72,29 +74,28 @@
                 <option value="gmail.com">gmail.com</option>
                 <option value="paran.com">paran.com</option>
             </select>
-            <input type="text" class="search-area email-authentication" placeholder="휴대전화">
-            <input type="button" class="add-btn" value="인증요청">
-            <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+            <p id="chkNoticeEmail" class="chkNotice"></p>
             <button type="submit" class="btn btn-block search-btn">아이디 찾기</button>
         </form>
         <!-- 휴대폰으로 찾기 진행 입력 폼 -->
-        <form action="" name="searchPhoneFrm" style="display: none;">
+        <form  
+        	  name="searchPhoneFrm"
+        	  style="display: none;">
             <p class="fill-in-type">이름</p>
-            <input type="text" class="search-area" name="name" id="name">
+            <input type="text" class="search-area" name="name" id="phoneName">
+            <p id="chkNoticeNamePhone" class="chkNotice"></p>
             <p class="fill-in-type">휴대전화</p>
-            <input type="tel" class="search-area searchPhone" name="phone1">-
-            <input type="tel" class="search-area searchPhone" name="phone2" >-
-            <input type="tel" class="search-area searchPhone" name="phone3" >
+            <input type="text" class="search-area searchPhone" name="phone1" id="phone1" maxlength="3">-
+            <input type="text" class="search-area searchPhone" name="phone2" id="phone2" maxlength="4">-
+            <input type="text" class="search-area searchPhone" name="phone3" id="phone3" maxlength="4">
+            <p id="chkNoticePhone" class="chkNotice"></p>
             <button type="submit" class="btn btn-block search-btn">아이디 찾기</button>
-            
         </form>
+        <div class="text-right login-a">
+        <a href="${pageContext.request.contextPath}/member/login.do">로그인하러 가기</a>
+        </div>
     </div>
 </div>
-    
-<style>
-.grecaptcha-badge { visibility: hidden; }
-</style>
-
 
 <script>
 $(() => {
@@ -115,5 +116,127 @@ $(() => {
 });
 </script>
 
+<!-- 이메일로 찾기 script -->
+<script>
+$('#emailName').keyup(function(){
+	$('#chkNoticeName').html('');
+});
+
+$('#emailEmail').keyup(function(){
+	$('#chkNoticeEmail').html('');
+});
+
+// 제출 전 검사
+$("[name=searchEmailFrm]").submit(function(){
+	console.log("여기 지나감!");
+	var name = $("#emailName").val();
+	var email = $("#emailEmail").val();
+    var selectEmail = $("#selectEmail option:selected").val();
+	var searchEmailFrm = $("[name=searchEmailFrm]");
+    var emailReg1 = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+
+    if(selectEmail != 1) {
+        var email = email + "@" + selectEmail;
+    } 
+
+    console.log(name);
+    console.log(email);
+    console.log(selectEmail);
+   
+  	// 1. 이름을 입력하지 않은 경우
+  	if(name == ''){
+		$("#emailName").focus();
+		$('#chkNoticeName').html('이름을 입력해주세요.');
+		return false;
+  	}
+  	// 1. 이메일을 입력하지 않은 경우
+  	if(email == ''){
+  		$("#emailEmail").focus();
+		$('#chkNoticeEmail').html('이메일을 입력해주세요.');
+		return false;
+  	}
+    // 1. @이후를 직접작성한 경우
+	if(!emailReg1.test(email)){
+		$("#emailEmail").focus();
+		$('#chkNoticeEmail').html('이메일을 바르게 입력하세요.');
+        return false;
+	}
+	// {id:id} -> {id}로 줄여쓸 수 있음 -> {id : "abcde"}
+	$.ajax({
+		url : "${pageContext.request.contextPath}/member/checkInfoEmail.do",
+		data : {
+				name:name,
+				email:email},
+		success : data => {
+			console.log(data); 
+			const {available} = data;
+		    
+			// 사용가능한 경우
+			// if(data.available){
+			if(available) {
+				alert("이메일을 발송하였습니다. 이메일을 확인하여 주세요.");
+			}
+			// 사용불가한 경우
+			else {
+				alert("입력된 정보로 정확한 회원정보가 조회되지 않습니다. 정보를 다시 입력하거나 휴대전화로 찾기를 이용하세요.");
+				return false;
+			}
+		},
+		error : (xhr, stautsText, err) => {
+			console.log(xhr, statusText, err);
+		}
+	});
+});
+</script>
+
+<!-- 휴대폰으로 찾기 script -->
+<script>
+$("[name=searchPhoneFrm]").submit(function(){
+	console.log("여기 지나감!");
+	var name = $("#phoneName").val();
+	var phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
+	var searchPhoneFrm = $("[name=searchPhoneFrm]");
+    var patternPhone = new RegExp("01[016789][^0][0-9]{2,3}[0-9]{3,4}");  
+   
+  	// 1. 이름을 입력하지 않은 경우
+  	if(name == ''){
+		$("#phoneName").focus();
+		$('#chkNoticeNamePhone').html('이름을 입력해주세요.');
+		return false;
+  	}
+  	// 2. 핸드폰번호 유효성검사	
+  	if(!patternPhone.test(phone)){
+  		$("#phone1").focus();
+		$('#chkNoticePhone').html('핸드폰 번호를 바르게 입력해주세요.');
+		return false;
+  	}
+	// {id:id} -> {id}로 줄여쓸 수 있음 -> {id : "abcde"}
+	$.ajax({
+		url : "${pageContext.request.contextPath}/member/checkInfoPhone.do",
+		data : {
+				name:name,
+				phone:phone},
+		success : data => {
+			console.log(data); 
+			const {available} = data;
+			const {fanId} = data;
+		    
+			// 사용가능한 경우
+			// if(data.available){
+			if(available) {
+				alert("고객님의 아이디는 " + fanId + "입니다.");
+			}
+			// 사용불가한 경우
+			else {
+				alert("입력된 정보로 정확한 회원정보가 조회되지 않습니다. 정보를 다시 입력하거나 이메일로 찾기를 이용하세요.");
+				return false;
+			}
+		},
+		error : (xhr, stautsText, err) => {
+			console.log(xhr, statusText, err);
+		}
+	});
+});
+</script>
 <!-- section end -->
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

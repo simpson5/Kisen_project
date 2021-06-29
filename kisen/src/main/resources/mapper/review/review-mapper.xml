@@ -34,46 +34,64 @@
 		<result column="read_cnt" property="readCnt"/>
 		<result column="reco_cnt" property="recoCnt"/>
 		<result column="review_title" property="reviewTitle"/>
-		<result column="fanId" property="fanId"/>
+		<result column="fan_id" property="fanId"/>
+		<result column="fan_no" property="fanNo"/>
 	</resultMap>
 	
 	<insert id="insertReview">
 	insert into
 		review(
 			review_no,
+			fan_no,
+			order_no,
+			pd_no,
+			fan_id,
 			review_title,
-			review_content,
-			review_date
+			review_content
 		)
 	values(
 		seq_review_no.nextval,
+		#{fanNo},
+		'1',
+		#{pdNo},
+		#{fanId},
 		#{reviewTitle},
-		#{reviewContent},
-		#{reviewDate}
+		#{reviewContent}
 	)
-	</insert>
-	<insert id="insertBoard">
-		insert into
-			board(
-				no,
-				title,
-				member_id,
-				content
-			)
-		values (
-			seq_board_no.nextval,
-			#{title},
-			#{memberId},
-			#{content}
-		)
-		<!-- 발급받은 board pk no값을 파라미터 board객체의 property no에 저장한다. -->
-		<selectKey keyProperty="no" resultType="_int" order="AFTER">
+	<!-- 발급받은 board pk no값을 파라미터 board객체의 property no에 저장한다. -->
+		<selectKey keyProperty="reviewNo" resultType="_int" order="AFTER">
 			select
-				seq_board_no.currval
+				seq_review_no.currval
 			from 
 				dual
 		</selectKey>
 	</insert>
+	
+	<select id="selectOneReview" resultType="review">
+		select
+			*
+		from
+			review
+		where
+			review_no = #{no}
+	</select>
+	
+	<update id="updateReview">
+		update
+			review 
+		set 
+			review_title = #{reviewTitle}, 
+			review_content = #{reviewContent}
+		where 
+			review_no = #{reviewNo}
+	</update>
+	
+	<delete id="deleteReview"> 
+		delete from
+			review
+		where
+			review_no = #{no}
+	</delete>
 </mapper>
 
 

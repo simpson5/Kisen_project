@@ -142,7 +142,7 @@ a:hover {
 	height: 15px;
 }
 
-.form-control {
+.form-controller {
 	width: 50px;
 	height: 23px;
 	padding: 0 2px 0 3px;
@@ -318,9 +318,11 @@ textarea.autosize {
 	<div class="container" id="container">
 		<div class="detail row">
 			<div class="media  product_img">
-				<img
-					src="${pageContext.request.contextPath}/resources/images/kisen_logo.png"
-					class="img-thumbnail" alt="...">
+			<c:forEach items="${product.pdImgList}" var="pdImg">
+		        <c:if test="${pdImg.pdCategory eq 'R'}">
+					<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+			   	</c:if>
+		    </c:forEach>
 			</div>
 			<div class="media-body col-5 ">
 				<table class="table">
@@ -347,18 +349,39 @@ textarea.autosize {
 							<td colspan="3" style="border: 0; outline: 0;"><select
 								class="form-select" aria-label="Default select example"
 								name="option-select">
+							
 									<option selected disabled>- [필수] 옵션을 선택해 주세요 -</option>
-									<option value="1">옵션 1</option>
-									<option value="2">옵션 2</option>
-									<option value="3">옵션 3</option>
+							<c:forEach items="${product.pdOptionList}" var="pdOp" varStatus="cnt">
+									<option value="cnt">${pdOp.optionName}</option>
+							</c:forEach>
 							</select></td>
 						</tr>
 					</tbody>
 				</table>
+				<c:if test="${!empty pdOp.optionName}">
 				<p
 					style="font-size: 11px; color: #f76560; margin: 10px auto; text-align: center; padding-bottom: 5px; border-bottom: 1px solid #d4d8d9">
 					위 옵션선택 박스를 선택하시면 아래에 상품이 추가됩니다.</p>
-				<div class="select-option"></div>
+				</c:if>
+				<div class="select-option">
+				<c:if test="${empty pdOp.optionName}">
+				<table>
+				<tr>
+					<td><p class="pt-1">${product.pdName}<br /></p></td>
+					<td colspan="1" class="col-1"><span
+					style="position: relative; display: inline-block;"> <input
+						type="text" class="form-controller" name="stock" value="1" min="1" size="5"/>
+					<img class="up"
+							src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"
+							alt="수량증가">
+					<img class="down"
+							src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_down.gif"
+							alt="수량감소">
+					</span></td>
+				</tr>
+				</table>
+				</c:if>
+				</div>
 				<div class="total-pd">
 					<table class="pd-option-tbl">
 						<tbody>
@@ -381,17 +404,19 @@ textarea.autosize {
 		</div>
 		<div class="pd-detail-menu">
 			<div class="row text-center" style="width: 100%;">
-				<div class="col-md-3 select pd-nav" id="nav1">Detail</div>
-				<div class="col-md-3 pd-nav" id="nav2">Review</div>
-				<div class="col-md-3 pd-nav" id="nav3">Another</div>
-				<div class="col-md-3 pd-nav" id="nav4">QnA</div>
+				<div class="col-md-4 select pd-nav" id="nav1">Detail</div>
+				<div class="col-md-4 pd-nav" id="nav2">Review</div>
+				<div class="col-md-4 pd-nav" id="nav3">Another</div>
 			</div>
 		</div>
 
 		<div class="pd-detail">
-			<img
-				src="${pageContext.request.contextPath}/resources/images/kisen_logo.png"
-				class="col-9" />
+			<p>${product.pdContent}</p>
+	       	<c:forEach items="${product.pdImgList}" var="pdImg">
+		        <c:if test="${pdImg.pdCategory eq 'D'}">
+					<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+			   	</c:if>
+		    </c:forEach>
 		</div>
 
 		<div class="pd-review mx-auto" style="display: none;">
@@ -417,7 +442,7 @@ textarea.autosize {
 				<c:forEach items="${list}" var="review" varStatus="status">
 					<tr data-no="${review.reviewNo}">
 						<td>${status.count}</td>
-						<td>${review.reviewTitle}</td>
+						<td onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail?no=${no}&reviewNo=${review.reviewNo}'">${review.reviewTitle}</td>
 						<td>${review.fanId}</td>
 						<td><fmt:formatDate value="${review.reviewDate}" pattern="YYYY-MM-dd"/></td>
 						<td>${review.readCnt}</td>
@@ -428,9 +453,10 @@ textarea.autosize {
 			</table>
 			
 			<div class="btn-area">
-				<div class="btn-group" role="group" aria-label="Basic example" onclick="location.href='${pageContext.request.contextPath}/review/reviewForm.do?no=${no}'">
-					<button type="button" class="btn btn-dark write" name="reviewWrite">글 작성</button>
-					<button type="button" class="btn btn-secondary">전체보기</button>
+				<div class="btn-group" role="group" aria-label="Basic example">
+				<c:if test="${not empty loginMember}">
+					<button type="button" class="btn btn-dark write" name="reviewWrite"  onclick="location.href='${pageContext.request.contextPath}/review/reviewForm.do?no=${no}'">글 작성</button>
+				</c:if>
 				</div>
 			</div>
 			<div class="paging-area">
@@ -491,67 +517,6 @@ textarea.autosize {
 				class="sr-only">Next</span>
 			</a>
 		</div>
-
-
-		<div class="pd-qna" style="display: none;">
-			<p class="h5"
-				style="color: #353535; font-size: 16px; line-height: 18px; font-family: 'Lato', 'Nanum Gothic', 'verdana', '돋움', '굴림';">QnA</p>
-			<table class="table pd-review-board table table-hover">
-				<thead>
-					<tr>
-						<th scope="col" class="col-1 table-primary">번호</th>
-						<th scope="col" class="col-6 table-primary">제목</th>
-						<th scope="col" class="col-1 table-primary">작성자</th>
-						<th scope="col" class="col-1 table-primary">작성일</th>
-						<th scope="col" class="col-1 table-primary">조회</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>1</td>
-						<td><a href="#">Mark</a></td>
-						<td>dsadasd</td>
-						<td>@mdo</td>
-						<td>@mdo</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td><a href="#">Mark</a></td>
-						<td>Thornton</td>
-						<td>@fat</td>
-						<td>@fat</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td><a href="#">Mark</a></td>
-						<td>@twitter</td>
-						<td>@twitter</td>
-						<td>@twitter</td>
-					</tr>
-				</tbody>
-			</table>
-			<div class="btn-area">
-				<div class="btn-group" role="group" aria-label="Basic example">
-					<button type="button" class="btn btn-dark write">글 작성</button>
-					<button type="button" class="btn btn-secondary">전체보기</button>
-				</div>
-			</div>
-			<div class="paging-area">
-				<nav class="review-paging-nav" aria-label="Page navigation example">
-					<ul class="pagination col-2">
-						<li class="page-item"><a class="page-link" href="#"
-							aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-						</a></li>
-						<li class="page-item"><a class="page-link" href="#">1</a></li>
-						<li class="page-item"><a class="page-link" href="#">2</a></li>
-						<li class="page-item"><a class="page-link" href="#">3</a></li>
-						<li class="page-item"><a class="page-link" href="#"
-							aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-						</a></li>
-					</ul>
-				</nav>
-			</div>
-		</div>
 	</div>
 </div>
 <script>
@@ -564,24 +529,16 @@ $(".pd-nav").click(function(e){
 		$('.pd-detail').show();
 		$('.pd-review').hide();
 		$('.pd-another').hide();
-		$('.pd-qna').hide();
 	}
 	else if(id =='nav2'){
 		$('.pd-detail').hide();
 		$('.pd-review').show();
 		$('.pd-another').hide();
-		$('.pd-qna').hide();
 	}
 	else if(id=='nav3'){
 		$('.pd-detail').hide();
 		$('.pd-review').hide();
 		$('.pd-another').show();
-		$('.pd-qna').hide();
-	}else if(id=='nav4'){
-		$('.pd-detail').hide();
-		$('.pd-review').hide();
-		$('.pd-another').hide();
-		$('.pd-qna').show();
 	}
 });
 /**
@@ -612,10 +569,10 @@ $("[name=option-select]").change(function(e){
 	var $table = $("<table></table>");
 	$table
 	.append(`<tr>
-			<td><p class="pt-1">상품명<br /> <span class="add-option">옵션명</span>	</p></td>
+			<td><p class="pt-1">${product.pdName}<br /> <span class="add-option">옵션명</span>	</p></td>
 			<td colspan="1" class="col-1"><span
 			style="position: relative; display: inline-block;"> <input
-				type="text" class="form-control" name="stock" value="1" min="1" size="3"/>
+				type="text" class="form-controller" name="stock" value="1" min="1" size="3"/>
 			<img class="up"
 					src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"
 					alt="수량증가">
@@ -631,40 +588,29 @@ $("[name=option-select]").change(function(e){
 	$(".select-option").append($table);
 	total();
 	$(".delete").click(function(){
-		console.log($(this).parent().parent().parent());
 		$this = $(this).parent().parent().parent();
 		$this.remove();
 		total();
 	});
 });
 
+
+
 function total(){
 	var cnt = 0;
-	var get_input = $(".form-control");
+	var get_input = $(".form-controller");
 	$.each(get_input, function (index, value) {
 		cnt += Number($(value).val());
 	});
 	
 	var $total = $(".total");
-	var price = 10000;
+	var price = ${product.price};
 	var total = price * cnt;
 
-	console.log(typeof(cnt));
-	console.log($total);
-	console.log(cnt);
-	console.log(total);
 	$total += $total.html("<strong>"+total+"</strong>"+"("+cnt+"개)");
 }
+window.onload=total;
 
-/* $(() => {
-	$("button[name=reviewWrite]").click(e => {
-		//var $no = $(e.target).parent();
-		//var no = $no.data("no");
-		console.log('${no}');
-		
-		//location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + no;
-	});
-}); */
 
 </script>
 

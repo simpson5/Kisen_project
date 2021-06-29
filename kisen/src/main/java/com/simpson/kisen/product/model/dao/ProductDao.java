@@ -2,14 +2,20 @@ package com.simpson.kisen.product.model.dao;
 
 import java.util.List;
 
-import com.simpson.kisen.product.model.vo.Product;
-import com.simpson.kisen.product.model.vo.ProductExt;
+import com.simpson.kisen.admin.model.vo.SlideImg;
+import com.simpson.kisen.product.model.vo.ProductImgExt;
 
 public interface ProductDao {
 
-	List<Product> selectProductList();
+	List<ProductImgExt> selectNewGoodsProductList();
 
-	ProductExt selectOneProduct(int no);
+	ProductImgExt selectOneProduct(int no);
+
+	List<ProductImgExt> selectRandomProductList();
+
+	List<ProductImgExt> selectBestSellProductList();
+
+	List<SlideImg> selectSlideList();
 
 	
 	

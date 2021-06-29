@@ -119,7 +119,7 @@
 	</select>
   	
   	
-	<update id="updateIdolMv">
+	<update id="updateProduct">
 		update 
 			product
 		set 
@@ -182,15 +182,104 @@
 		    left join idol i
 		        on p.idol_no = i.idol_no
 		where i.agency_no = (select agency_no from agency where fan_no =#{fanNo})
-        <choose>
-            <when test="idolNoList != null">
-                and p.idol_no in 
-                <foreach collection="idolNoList" item="idolNo" index="index" separator="," open="(" close=")">
-                    #{idolNo}
-                </foreach>
-            </when>
-        </choose>
+        <if test="idolNo != null">
+            and p.idol_no in 
+            <foreach collection="idolNo" item="no" index="index" separator="," open="(" close=")">
+                #{no}
+            </foreach>
+        </if>
+        <if test="category != null">
+            and p.pd_category in 
+            <foreach collection="category" item="c" index="index" separator="," open="(" close=")">
+                #{c}
+            </foreach>
+        </if>
+        <if test="searchString neq ''">
+            and p.pd_name like
+              	 '%'||#{searchString}||'%'
+        </if>
 		order by i.idol_name desc
 	</select>
 	
+	
+	
+	<!-- mainPage -->
+	<select id="selectRandomProductList" resultMap="productCollectionMap">
+	select 
+		*
+	from(
+		select 
+		    p.*,
+   			pi.pd_img_no,
+		    pi.pd_category img_category,
+		    pi.original_filename,
+		    pi.renamed_filename,
+		    i.idol_name
+		from product p 
+		    left join pd_img pi
+		        on p.pd_no = pi.pd_no
+		    left join idol i
+		        on p.idol_no = i.idol_no
+		where 
+			i.agency_no = (select agency_no from agency where fan_no =#{fanNo})
+			and pi.pd_category = 'R'
+		order by DBMS_RANDOM.RANDOM
+	)
+	where 
+		rownum <![CDATA[ <= ]]> 12
+	</select>
+	
+	<select id="selectBestProductList" resultMap="productCollectionMap">
+	select 
+		*
+	from(
+		select 
+		    p.*,
+   			pi.pd_img_no,
+		    pi.pd_category img_category,
+		    pi.original_filename,
+		    pi.renamed_filename,
+		    i.idol_name
+		from product p 
+		    left join pd_img pi
+		        on p.pd_no = pi.pd_no
+		    left join idol i
+		        on p.idol_no = i.idol_no
+		where 
+			i.agency_no = (select agency_no from agency where fan_no =#{fanNo})
+			and pi.pd_category = 'R'
+		order by p.pd_sales
+	)
+	where 
+		rownum <![CDATA[ <= ]]> 12
+	</select>
+	
+	
+	
+	<select id="selectSoldOutProductList" resultMap="productCollectionMap">
+	select 
+	    p.*,
+ 		pi.pd_img_no,
+	    pi.pd_category img_category,
+	    pi.original_filename,
+	    pi.renamed_filename,
+	    i.idol_name
+	from product p 
+	    left join pd_img pi
+	        on p.pd_no = pi.pd_no
+	    left join idol i
+	        on p.idol_no = i.idol_no
+	where 
+		i.agency_no = (select agency_no from agency where fan_no =#{fanNo})
+		and pi.pd_category = 'R'
+		and p.pd_stock = 0
+	</select>
+	<update id="updateStock">
+		update 
+			product
+		set 
+			pd_stock = #{pdStock}
+		where 
+			pd_no = #{pdNo}
+	</update>
 </mapper>

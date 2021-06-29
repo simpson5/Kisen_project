@@ -112,5 +112,29 @@ public class HelloSpringUtils {
 		
 		return pageBar.toString();
 	}
+	
+	
+	/**
+	 * 특별한 paymentNo(orderNo) 생성
+	 * @param fanNo
+	 * @return
+	 */
+	public static String getPaymentNo(String fanNo) {
+		//string에서 t숫자만 출력
+		String fanNum = fanNo.replaceAll("[^0-9]", "");
+		
+		
+		//년월일_난수 format
+		DecimalFormat df = new DecimalFormat("000"); // 정수부 3자리
+		
+		
+		Date now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		DecimalFormat df1 = new DecimalFormat("0000"); // 정수부 3자리
+		
+		
+		return "k"+sdf.format(new Date())+ fanNum+ df1.format(Math.random() * 10000) ;
+	}
+
 
 }

@@ -6,8 +6,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.simpson.kisen.product.model.vo.Product;
-import com.simpson.kisen.product.model.vo.ProductExt;
+import com.simpson.kisen.admin.model.vo.SlideImg;
+import com.simpson.kisen.product.model.vo.ProductImgExt;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,13 +19,28 @@ public class ProductDaoImpl implements ProductDao {
 	private SqlSessionTemplate session;
 
 	@Override
-	public List<Product> selectProductList() {
-		return session.selectList("product.selectProductList");
+	public ProductImgExt selectOneProduct(int no) {
+		return session.selectOne("product.selectOneProduct",no);
 	}
 
 	@Override
-	public ProductExt selectOneProduct(int no) {
-		return session.selectOne("product.selectOneProduct",no);
+	public List<ProductImgExt> selectRandomProductList() {
+		return session.selectList("product.selectRandomProductList");
+	}
+
+	@Override
+	public List<ProductImgExt> selectNewGoodsProductList() {
+		return session.selectList("product.selectNewGoodsProductList");
+	}
+
+	@Override
+	public List<ProductImgExt> selectBestSellProductList() {
+		return session.selectList("product.selectBestSellProductList");
+	}
+
+	@Override
+	public List<SlideImg> selectSlideList() {
+		return session.selectList("product.selectSlideList");
 	}
 	
 	

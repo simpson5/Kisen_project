@@ -41,7 +41,7 @@ div#container{
 		method="post" 
 		enctype="multipart/form-data" >
 		<div class="pd-info">
-			<p>상품 정보 : <span style="color: #0066ff; font-size: 15px;">${product.pdName}</span></p><br />
+			<p>상품 정보 : <span id="pdName" style="color: #0066ff; font-size: 15px;">${product.pdName}</span></p><br />
 		</div>
 		<div class="form-group">
 			<label for="title">title:</label> <input type="text"
@@ -54,6 +54,8 @@ div#container{
 		<div id="edit" style="margin:0 auto;">
 			<div class="py-2" style="text-align:center;">
 				<input type="hidden" name="pdNo" value="${product.pdNo}"/>
+				<input type="hidden" name="fanId" value="${loginMember.fanId}"/>
+				<input type="hidden" name="fanNo" value="${loginMember.fanNo}"/>
 				<button type="submit" id="saveBtn" class="btn btn-outline-warning mx-auto">글쓰기등록</button>
 				<button type="button" id="backBtn" class="btn btn-outline-warning mx-auto">취소</button>	
 			</div>
@@ -70,7 +72,15 @@ $(document).ready(function () {
       maxHeight: 500,            
       focus: true,                  
       lang: "ko-KR",					
-      placeholder: '내용을 입력해주세요.',	
+      placeholder: '내용을 입력해주세요.',
+      disableResizeEditor: true,	// 크기 조절 기능 삭제
+      callbacks: {
+       		onImageUpload : function(files, editor, welEditable){
+       			for(var i = files.length -1 ; i >= 0; i--){
+       				sendFile(files[i], this);
+       			}
+       		}
+      },	
       toolbar: [
         ['fontname', ['fontname']],
         ['fontsize', ['fontsize']],
@@ -86,7 +96,35 @@ $(document).ready(function () {
         '굴림', '돋음체', '바탕체'],
       fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36',
         '50', '72']
+      
     });
+  });
+  
+function sendFile(file, el){
+	console.log(file);  
+	console.log(el);
+	var data = new FormData();
+	data.append("file",file);
+	data.append("no",${product.pdNo});
+	console.log(data);
+	 $.ajax({
+        data: data,
+        type: "POST",
+        url: '${pageContext.request.contextPath}/review/reviewImages',
+        cache: false,
+        contentType: false,
+        enctype: 'multipart/form-data',
+        processData: false,
+        success: function(res) {
+        	const url = "${pageContext.request.contextPath}/resources/upload/review/"+res.renamedFilename;
+      		$('#summernote').summernote('editor.insertImage',url);
+      		console.log(res);
+        }
+      });
+}
+  
+  $("#pdName").click(function(){
+  	location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + ${product.pdNo};
   });
 </script>
 

@@ -57,7 +57,6 @@ $(document).ready(function(){
       </div>
     </div>
   </div>
-</div>
 </c:if>
 <div class="term-container">
     <!-- 로고 -->

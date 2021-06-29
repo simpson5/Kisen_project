@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="admin-product">
+	<select id="selectProductList" resultMap="productCollectionMap">
+		select 
+		    p.*,
+   			pi.pd_img_no,
+		    pi.pd_category img_category,
+		    pi.original_filename,
+		    pi.renamed_filename,
+            po.option_no,
+            po.option_name,
+		    i.idol_name
+		from product p 
+		    left join pd_img pi
+		        on p.pd_no = pi.pd_no
+            left join pd_option po
+		        on p.pd_no = po.pd_no
+		    left join idol i
+		        on p.idol_no = i.idol_no
+		order by sales_date desc
+	</select>
+
+	<resultMap type="productImgExt" id="productCollectionMap">
+		<id column ="pd_no" property="pdNo"/>
+		<result column="idol_no" property="idolNo"/>
+		<result column="pd_category" property="pdCategory"/>
+		<result column="pd_name" property="pdName"/>
+		<result column="pd_content" property="pdContent"/>
+		<result column="price" property="price"/>
+		<result column="pd_stock" property="pdStock"/>
+		<result column="pd_sales" property="pdSales"/>
+		<result column="sales_date" property="salesDate"/>
+		<result column="idol_name" property="idolName"/>
+		
+		<collection property="pdImgList" ofType="productImg">
+		 	<id column ="pd_img_no" property="pdImgNo"/>
+		 	<result column="pd_no" property="pdNo"/>
+		 	<result column="img_category" property="pdCategory"/>
+		 	<result column="original_filename" property="originalFilename"/>
+		 	<result column="renamed_filename" property="renamedFilename"/>
+		 	<result column="upload_date" property="uploadDate"/>
+		</collection>
+		
+		
+		<collection property="pdOptionList" ofType="productOption">
+		 	<id column ="option_no" property="optionNo"/>
+		 	<result column="pd_no" property="pdNo"/>
+		 	<result column="option_name" property="optionName"/>
+		</collection>
+	</resultMap>
+	
+  	<select id="selectProductTotalContents" resultType="_int">
+		select 
+    		count(*)
+		from product p 
+		    left join idol i
+		        on p.idol_no = i.idol_no
+  	</select>
+
+
+	<delete id="deleteSlideImg">
+		delete from slide_img 
+		where slide_img_no = #{slideImgNo}
+	</delete>
+
+	
+	<select id="selectIdolProductList" resultMap="productCollectionMap">
+		select 
+		    p.*,
+   			pi.pd_img_no,
+		    pi.pd_category img_category,
+		    pi.original_filename,
+		    pi.renamed_filename,
+            po.option_no,
+            po.option_name,
+		    i.idol_name
+		from product p 
+		    left join pd_img pi
+		        on p.pd_no = pi.pd_no
+            left join pd_option po
+		        on p.pd_no = po.pd_no
+		    left join idol i
+		        on p.idol_no = i.idol_no
+		<where>
+	        <if test="idolNo != null">
+	            and p.idol_no in 
+	            <foreach collection="idolNo" item="no" index="index" separator="," open="(" close=")">
+	                #{no}
+	            </foreach>
+	        </if>
+	        <if test="category != null">
+	            and p.pd_category in 
+	            <foreach collection="category" item="c" index="index" separator="," open="(" close=")">
+	                #{c}
+	            </foreach>
+	        </if>
+	        <if test="searchString neq ''">
+	            and p.pd_name like
+	              	 '%'||#{searchString}||'%'
+	        </if>
+        </where>
+		order by i.idol_name desc
+	</select>
+	
+	
+	
+	<!-- mainPage -->
+	<select id="selectRandomProductList" resultMap="productCollectionMap">
+	select 
+		*
+	from(
+		select 
+		    p.*,
+   			pi.pd_img_no,
+		    pi.pd_category img_category,
+		    pi.original_filename,
+		    pi.renamed_filename,
+		    i.idol_name
+		from product p 
+		    left join pd_img pi
+		        on p.pd_no = pi.pd_no
+		    left join idol i
+		        on p.idol_no = i.idol_no
+		where 
+			pi.pd_category = 'R'
+		order by DBMS_RANDOM.RANDOM
+	)
+	where 
+		rownum <![CDATA[ <= ]]> 12
+	</select>
+	
+	<select id="selectBestProductList" resultMap="productCollectionMap">
+	select 
+		*
+	from(
+		select 
+		    p.*,
+   			pi.pd_img_no,
+		    pi.pd_category img_category,
+		    pi.original_filename,
+		    pi.renamed_filename,
+		    i.idol_name
+		from product p 
+		    left join pd_img pi
+		        on p.pd_no = pi.pd_no
+		    left join idol i
+		        on p.idol_no = i.idol_no
+		where 
+			pi.pd_category = 'R'
+		order by p.pd_sales
+	)
+	where 
+		rownum <![CDATA[ <= ]]> 12
+	</select>
+	
+	
+	
+	<select id="selectSoldOutProductList" resultMap="productCollectionMap">
+	select 
+	    p.*,
+ 		pi.pd_img_no,
+	    pi.pd_category img_category,
+	    pi.original_filename,
+	    pi.renamed_filename,
+	    i.idol_name
+	from product p 
+	    left join pd_img pi
+	        on p.pd_no = pi.pd_no
+	    left join idol i
+	        on p.idol_no = i.idol_no
+	where 
+		pi.pd_category = 'R'
+		and p.pd_stock = 0
+	</select>
+
+	<select id="selectIdolNameList" resultMap ="idolNameList">
+		select 
+			idol_no, 
+			idol_name 
+		from idol
+	</select>
+	
+	
+	<resultMap type="idol" id="idolNameList">
+		<id column ="idol_no" property="idolNo"/>
+		<result column="idol_name" property="idolName"/>
+	</resultMap>
+	
+	
+	<update id="updateStock">
+		update 
+			product
+		set 
+			pd_stock = #{pdStock}
+		where 
+			pd_no = #{pdNo}
+	</update>
+	
+	
+	
+	<insert id="insertSlideImg"> 
+		insert into 
+		slide_img
+		values(seq_slide_img_no.nextval, #{originalFilename}, #{renamedFilename},default ) 
+	</insert>
+	
+	<select id="selectSlideImgList" resultType ="slideImg">
+		select * from slide_img order by  upload_date desc
+	</select>
+	
+	
+	<insert id="insertNotice"> 
+		insert into 
+		notice
+		values(seq_notice_no.nextval, #{noticeTitle}, #{noticeContent}, #{noticeWriter},default,default ) 
+		
+	  	<selectKey keyProperty="noticeNo" resultType="_int" order="AFTER">
+	  		select 
+	  			seq_notice_no.currval
+	  		from
+	  		 	dual
+	  	</selectKey>
+	</insert>
+  
+	<insert id="insertNoticeImg"> 
+		insert into 
+		notice_img
+		values( seq_notice_img_no.nextval, #{noticeNo}, #{originalFilename}, #{renamedFilename},default ) 
+	</insert>
+	
+	
+	<select id="selectNotice" resultMap="noticeCollectionMap">
+		select 
+		    n.*,
+	 		ni.notice_img_no,
+		    ni.original_filename,
+		    ni.renamed_filename,
+		    ni.upload_date img_upload_date
+		from notice n 
+		    left join notice_img ni
+		        on n.notice_no = ni.notice_no
+		where n.notice_no= #{noticeNo}
+	</select>
+	
+
+	<resultMap type="noticeExt" id="noticeCollectionMap">
+		<id column ="notice_no" property="noticeNo"/>
+		<result column="notice_title" property="noticeTitle"/>
+		<result column="notice_content" property="noticeContent"/>
+		<result column="notice_writer" property="noticeWriter"/>
+		<result column="upload_date" property="uploadDate"/>
+		<result column="read_cnt" property="readCnt"/>
+		
+		<collection property="noticeImg" ofType="noticeImg">
+		 	<id column ="notice_img_no" property="noticeImgNo"/>
+		 	<result column="notice_no" property="noticeNo"/>
+		 	<result column="original_filename" property="originalFilename"/>
+		 	<result column="renamed_filename" property="renamedFilename"/>
+		 	<result column="img_upload_date" property="uploadDate"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectNoticeList" resultType="notice">
+		select 
+		    *
+		from notice 
+		order by upload_date desc
+	</select>
+	
+	<delete id="deleteNotice">
+		delete from notice 
+		where notice_no = #{noticeNo}
+	</delete>
+	<delete id="deleteNoticeImg">
+		delete from notice_img 
+		where notice_no = #{noticeNo}
+	</delete>
+	
+	
+	<update id="updateNotice">
+		update 
+			notice
+		set 
+			notice_title = #{noticeTitle},
+			notice_content = #{noticeContent},
+			notice_writer = #{noticeWriter},
+			upload_date = sysdate
+		where 
+			notice_no = #{noticeNo}
+	</update>
+
+	<update id="updateNoticeImg">
+		update 
+			notice_img
+		set 
+			original_filename = #{originalFilename},
+			renamed_filename = #{renamedFilename},
+			upload_date = sysdate
+		where 
+			notice_no = #{noticeNo}
+	</update>
+</mapper>

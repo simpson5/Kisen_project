@@ -12,6 +12,8 @@ import com.simpson.kisen.agency.model.vo.Agency;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.idol.model.vo.IdolImg;
 import com.simpson.kisen.idol.model.vo.IdolMv;
+import com.simpson.kisen.payment.model.vo.Payment;
+import com.simpson.kisen.payment.model.vo.PaymentExt;
 import com.simpson.kisen.product.model.vo.ProductImg;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.product.model.vo.ProductOption;
@@ -226,6 +228,43 @@ public class AgencyServiceImpl implements AgencyService {
 	public List<ProductImgExt> selectIdolProductList(Map<String, Object> param) {
 		return agencyDao.selectIdolProductList(param);
 	}
+
+	@Override
+	public List<ProductImgExt> selectBestProductList(String fanNo) {
+		return agencyDao.selectBestProductList(fanNo);
+	}
+
+	@Override
+	public List<ProductImgExt> selectSoldOutProductList(String fanNo) {
+		return agencyDao.selectSoldOutProductList(fanNo);
+	}
+
+	@Override
+	public List<ProductImgExt> selectRandomProductList(String fanNo) {
+		return agencyDao.selectRandomProductList(fanNo);
+	}
+
+	@Override
+	public int updateStock(Map<String, Integer> map) {
+		return agencyDao.updateStock(map);
+	}
+
+	
+	
+	
+	/**
+	 * Sales 관련
+	 */
+	@Override
+	public List<PaymentExt> selectSalesList(Map<String, String> param) {
+		return agencyDao.selectSalesList(param);
+	}
+
+	@Override
+	public int updateWaybill(Payment payment) {
+		return agencyDao.updateWaybill(payment);
+	}
+
 	
 	
 	
