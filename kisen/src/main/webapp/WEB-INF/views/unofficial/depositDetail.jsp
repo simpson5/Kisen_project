@@ -53,6 +53,7 @@
     <div class="mb-4 row">
         <label class="col-md-3 col-form-label">상품 설명 이미지</label>
         <div class="col-md-9">
+           <c:out value="${unofficialdemand.demandpdImgList}"></c:out>
            	<c:forEach items="${unofficialdeposit.depositpdImgList}" var="pdImg">
            		<c:if test="${pdImg.pdCategory eq 'D'}">
   			        	<img src="<c:url value='/resources/upload/unofficial/${pdImg.renamedFilename}'/>" class="card-img" alt="tree" style="width:300px; height: 100%">

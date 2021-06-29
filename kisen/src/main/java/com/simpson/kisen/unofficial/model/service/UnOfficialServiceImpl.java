@@ -8,13 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.simpson.kisen.product.model.vo.ProductImg;
-import com.simpson.kisen.product.model.vo.ProductOption;
 import com.simpson.kisen.unofficial.model.dao.UnOfficialDao;
 import com.simpson.kisen.unofficial.model.vo.DemandpdImg;
 import com.simpson.kisen.unofficial.model.vo.DepositpdImg;
-import com.simpson.kisen.unofficial.model.vo.UnofficialDemand;
-import com.simpson.kisen.unofficial.model.vo.UnofficialDeposit;
 import com.simpson.kisen.unofficial.model.vo.UnofficialPdImgExt;
 import com.simpson.kisen.unofficial.model.vo.UnofficialPdImgExt2;
 
@@ -49,7 +45,8 @@ public class UnOfficialServiceImpl implements UnOfficialService {
 		
 		if(unofficialdeposit.getDepositpdImgList().size()>0) {
 			for(DepositpdImg pdImg : unofficialdeposit.getDepositpdImgList()) {
-				pdImg.setDNo(unofficialdeposit.getdNo());
+				log.info("unofficialdeposit@service ={}",unofficialdeposit.getDno());
+				pdImg.setDNo(unofficialdeposit.getDno());
 				result = insertDepositpdImg(pdImg);
 			}
 		}

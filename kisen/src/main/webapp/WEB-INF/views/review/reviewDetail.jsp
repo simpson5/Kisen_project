@@ -53,9 +53,9 @@
 	        <tbody>
 	            <tr>
 	                <td colspan="2">
-	                    <textarea class="form-control" id="summernote" rows="5" name="reviewContent" style="width: 100%; background-color: #fff">
+	                    <div class="form-control" id="summernote" style="width: 100%; background-color: #fff; height:auto">
 	                    ${review.reviewContent }
-	                    </textarea>
+	                    </div>
 	                </td>
 	            </tr>
 	            <tr>
@@ -97,13 +97,9 @@
 
 <script>
 $(document).ready(function () {
- 	$('#summernote').summernote({
- 	 disableResizeEditor: true,
- 	 disableGrammar: false,
- 		toolbar : []
- 	});
-	$('#summernote').next().find(".note-editable").attr("contenteditable", false);
-
+ 	//$('#summernote').summernote("code","ddddddd");
+	//$('#summernote').next().find(".note-editable").attr("contenteditable", false);
+	$("#summernote").html("${review.reviewContent }");
 });
   
 function recom(){
