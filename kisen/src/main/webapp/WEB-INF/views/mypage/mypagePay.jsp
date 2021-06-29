@@ -173,45 +173,35 @@ img#productImg{
 	     나의 주문 처리 현황
 	    </div>
 	    <div class="col mx-auto my-1" >
-	     내가 쓴 글
+	    
 	    </div>
   	</div>
 
 	<br />
   <div class="row mx-auto" >
     <div class="col border border-dark border-left-0 border-top-0 border-bottom-0" id="innerContent">
-     입금전
+     <a href="${pageContext.request.contextPath}/mypage/mypageform.do">만든폼 </a>
      <br /><br />
      <span class="font-weight-bold" >0</span>
     </div>
-    <div class="col border border-dark border-left-0 border-top-0 border-bottom-0" id="innerContent">
-      배송준비중
-       <br /><br />
-     <span class="font-weight-bold" >0</span>
-    </div>
-    <div class="col border border-dark border-left-0 border-top-0 border-bottom-0" id="innerContent">
-      배송중
-       <br /><br />
-     <span class="font-weight-bold" >0</span>
-    </div>
+ 
     <div class="col border border-dark border-left-0 border-top-0 border-bottom-0" id="innerContent">
       배송완료
         <br /><br />
      <span class="font-weight-bold" >0</span>
     </div>
-    <div class="col " id="innerContent">
-      <ul>
-      	<li><a href="#">참여 폼 : 0</a></li>
-      	<li><a href="#">만든 폼 : 0</a></li>
-      	<li><a href="#">취소 : 0</a></li>
-      </ul>
+    <div class="col border border-dark border-0" id="innerContent">
+      취소
+        <br /><br />
+     <span class="font-weight-bold" >0</span>
     </div>
+   
   </div>
 </div>
  <br />
  <hr />
 <!-- 구매내역 결과 -->
- <div class="row mx-auto my-3" >
+ <!-- <div class="row mx-auto my-3" >
 	<div class="btn-group col" ></div>
 	<div class="btn-group col " ></div>
 	<div class="btn-group col " ></div>
@@ -230,7 +220,7 @@ img#productImg{
 	<div class="btn-group col" ></div>
 	<div class="btn-group col" ></div>
 	<div class="btn-group col" ></div>
-</div>
+</div> -->
 
 
 <!-- 결제내역 이것도 약간 수저어엉ㅇ
@@ -241,24 +231,24 @@ img#productImg{
 	
 	<c:forEach items="${payList}" var="payList">
 	  <li class="media border border-left-0 border-top-0 border-right-0">
-	    <img class="mr-3" src="${pageContext.request.contextPath}/resources/upload/product/${payList.productImg.renamedFilename}" alt="상품 이미지" id="productImg" >
+	    <img class="mr-3 mt-2" src="${pageContext.request.contextPath}/resources/upload/product/${payList.productImg.renamedFilename}" alt="상품 이미지" id="productImg" >
 	    <div class="media-body col-6 mb-3 ">
 	     <!--  <h5 class="mt-0 mb-1">Red Velvet 1st 앨범</h5> -->
 		      <div class="py-3">
 		      <span>${payList.payContent}</span>
 		      </div>
-		      <span>띠용용</span>
+		      <span>${payList.product.pdName}</span>
 	    </div>
 	    <div class="col-2" id="payInfo">
-	    	<h5 class="mt-0 mb-1">가격</h5>
+	    	<h5 class="mt-0 mb-1 mt-3">가격</h5>
 		      <div class="py-0">
-		      <span>10000원</span>
+		      <span>${payList.product.price}</span>
 		      </div>
 	    </div>
 	    <div class="col-2 " id="payInfo">
-	    	<h5 class="mt-0 mb-1">수량</h5>
+	    	<h5 class="mt-0 mb-1 mt-3">수량</h5>
 		      <div class="py-0">
-		      <span>1</span>
+		      <span>${payList.amount}</span>
 		      </div>
 	    </div>
 	    <div class="col-2" id="payInfo">
@@ -266,7 +256,7 @@ img#productImg{
 		      	<button type="submit" class="btn btn-outline-warning" >구매후기</button>
 		      </div>
 		      <div class="py-2">
-		      <a href="https://tracker.delivery/#/:carrier_id/:track_id" target="_blank">
+		      <a href="https://tracker.delivery/#/kr.cjlogistics/${payList.waybill}" target="_blank">
 		      <button type="submit" class="btn btn-outline-warning" >배송조회
 		      </button>
 		      </a>	
