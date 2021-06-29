@@ -4,10 +4,12 @@ import java.util.List;
 
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
 
 import com.simpson.kisen.review.model.vo.Attachment;
 import com.simpson.kisen.review.model.vo.Review;
 import com.simpson.kisen.review.model.vo.ReviewExt;
+import com.simpson.kisen.review.model.vo.UploadFile;
 
 public interface ReviewService {
 	
@@ -18,15 +20,12 @@ public interface ReviewService {
 	int selectReviewTotalContents(int no);
 
 	int insertReview(ReviewExt review);
-	
-	int insertAttachment(Attachment attach);
 
-	ReviewExt selectOneReview(int no);
+	Review selectOneReview(int no);
 
-	ReviewExt selectOneReviewCollection(int no);
+	int updateReview(Review review);
 
-	Attachment selectOneAttachment(int no);
+	int deleteReview(int no);
 
-	List<Review> searchTitle(String searchTitle);
 
 }

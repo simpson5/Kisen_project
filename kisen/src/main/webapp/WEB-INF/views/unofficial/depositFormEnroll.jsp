@@ -3,8 +3,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="depositForm" name="title" />
+	<jsp:param value="depositFrm" name="title" />
 </jsp:include>
 
 <!-- include summernote css/js-->
@@ -15,8 +18,9 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
 <!-- include summernote-ko-KR -->
 
-		<form id="depositFrm" name="depositFrm"
-			action="${pageContext.request.contextPath}/unofficial//depositEnroll.do"
+		<form:form id="depositFrm" name="depositFrm"
+		enctype="multipart/form-data"
+			action="${pageContext.request.contextPath}/unofficial/depositEnroll.do"
 			method="post">
 			
 					
@@ -44,9 +48,9 @@
 						<div class="col-auto">
 							<select name="pdCategory" id="pdCategory"
 								class="form-select">
-								<option value="unOfficalProd_doll">인형</option>
-								<option value="unOfficalProd_photocard">포토카드</option>
-								<option value="unOfficalProd_goods">기타</option>
+								<option value="인형">인형</option>
+								<option value="포토카드">포토카드</option>
+								<option value="기타">기타</option>
 							</select>
 						</div>
 					</div>
@@ -159,7 +163,7 @@
 				<div class="container text-center">
 					<div class="mb-4 row">
 						<div class="col-6 d-grid p-1">
-							<button type="button" class="btn btn-lg btn-dark"
+							<button type="reset" class="btn btn-lg btn-dark"
 								style="width: 100%;">취소하기</button>
 						</div>
 						<div class="col-6 d-grid p-1">
@@ -168,7 +172,7 @@
 						</div>
 					</div>
 				</div>
-		</form>
+		</form:form>
 
 <script>
 
@@ -185,6 +189,8 @@ function() {
 			});
 });
 
+
+/*
 $("#depositFrm").submit(e =>{
 	  e.preventDefault();
 	  const $frm = $(e.target);
@@ -264,7 +270,7 @@ $("#depositFrm").submit(e =>{
 			 
 	  	});
 	});
-
+*/
 
 function setThumbnail(event){
 	var file = event.target.files;
