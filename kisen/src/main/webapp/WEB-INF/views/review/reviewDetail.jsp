@@ -102,9 +102,7 @@ $(document).ready(function () {
  	 disableGrammar: false,
  		toolbar : []
  	});
-	$('#summernote').summernote('disable');
-	$('#summernote').summernote('backColor','white');
-	
+	$('#summernote').next().find(".note-editable").attr("contenteditable", false);
 
 });
   
