@@ -5,17 +5,19 @@
 <mapper namespace="payment">
 
 	<select id="selectAllList" resultMap="paymentResultMap">
-		select
+		 	select
 			pp.*,
-			p.pd_name,
 			ph.payment_no,
+            ph.pay_date,
 			ph.pay_content,
 			ph.pay_type,
 			ph.amount,
 			ph.point,
 			ph.waybill,
 			pi.pd_category,
-			pi.renamed_filename
+			pi.renamed_filename,
+			p.pd_name,
+			p.price
 		from
 			payment_product pp
 		left join
@@ -32,16 +34,24 @@
 			pp.pd_no = p.pd_no
 		where
 			pp.fan_no = #{fanNo}
+         order by 
+     		ph.pay_date desc
 			
 	</select>
 	<resultMap type="paymentProduct" id="paymentResultMap">
-	 <id column ="payment_no" property="paymentNo"/>
-	  <result column ="fan_no" property="fanNo"/>
+	 <id column ="pd_no" property="pdNo"/>
+      <result column="order_no" property="orderNo"/>
+      <result column="fan_no" property="fanNo"/>
+	  <result column ="payment_no" property="paymentNo"/>
+	  <result column ="pd_cnt" property="pdCnt"/>
+      <result column="option_no" property="opNo"/>
       <result column="pay_type" property="payType"/>
       <result column="pay_content" property="payContent"/>
       <result column="pay_date" property="payDate"/>
-      <result column="pd_no" property="pdNo"/>
-      <result column="order_no" property="orderNo"/>
+      <result column="amount" property="amount"/>
+      <result column="point" property="point"/>
+      <result column="waybill" property="waybill"/>
+   
       
      <collection property="productImg" ofType="ProductImg">
           <id column="pd_no" property="pdNo"/>
@@ -127,5 +137,39 @@
           <result column="option_name" property="optionName"/>
       </collection>
 	</resultMap>
+	
+	<select id="selectUdList" resultMap="udMap">
+		select
+			u.pd_name,
+			u.idol_name,
+			u.pd_category,
+			u.price,
+			u.delivery_price,
+			u.pd_stock,
+			u.pd_sales,
+			u.pd_content,
+			u.demand_start_date,
+			u.demand_end_date
+			
+		from
+			 unofficial_demand u
+		where
+			u.fan_no = #{fanNo}	
+	
+	</select>
+	<resultMap type="unofficialDemand" id="udMap">
+		<id column="demand_no" property="demandNo"/>
+		<result column="pd_name" property="pdName"/>
+		<result column="idol_name" property="idolName"/>
+		<result column="pd_category" property="pdCategory"/>
+		<result column="price" property="price"/>
+		<result column="delivery_price" property="deliveryPrice"/>
+		<result column="pd_stock" property="pdStock"/>
+		<result column="pd_sales" property="pdSales"/>
+		<result column="pd_content" property="pdContent"/>
+		<result column="demand_start_date" property="demandstartDate"/>
+		<result column="demand_end_date" property="demandendDate"/>
+	</resultMap>
+	
 	
 </mapper>

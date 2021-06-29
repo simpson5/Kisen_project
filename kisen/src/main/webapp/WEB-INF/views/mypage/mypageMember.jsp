@@ -193,12 +193,13 @@ div#mypage1{
   	<button type="submit" class="btn btn-outline-success" >수정하기</button>
     </div>
     <div class="col-3 mt-2 p-0"></div>
-   </form:form>
+  	 </form:form>
     <div class="col-3 col-lg-2 mt-2">
      <button class="btn btn-outline-danger" onclick="deleteFan(this);" data-string="${loginMember.fanId}">탈퇴하기</button>
     </div>
-  </div>
-</div>
+  	</div>
+ </div>
+
     <form:form
 	name="FanDelFrm" 
 	action="${pageContext.request.contextPath}/mypage/deleteFan.do" 
@@ -206,8 +207,6 @@ div#mypage1{
 	<input type="hidden" name="fanId" value="" />
 	</form:form>
     
-
-
 	<br />
 	<br />
 	<br />

@@ -152,7 +152,7 @@ img#productImg{
 	  <!-- 내부 네브바  -->
 		   <ul class="nav nav-tabs justify-content-center">
 		  <li class="nav-item col-md-2 p-0">
-		    <a class="nav-link active" href="#" id="payNav">결제내역</a>
+		    <a class="nav-link active" href="${pageContext.request.contextPath}/mypage/mypagePay.do" id="payNav">결제내역</a>
 		  </li>
 		  <li class="nav-item col-md-2 p-0">
 		    <a class="nav-link" href="${pageContext.request.contextPath}/mypage/mypageArtist.do" id="payNav">찜 아티스트</a>
@@ -173,14 +173,14 @@ img#productImg{
 	     나의 주문 처리 현황
 	    </div>
 	    <div class="col mx-auto my-1" >
-	    
+	     내가 쓴 글
 	    </div>
   	</div>
 
 	<br />
   <div class="row mx-auto" >
     <div class="col border border-dark border-left-0 border-top-0 border-bottom-0" id="innerContent">
-     <a href="${pageContext.request.contextPath}/mypage/mypageform.do">만든폼 </a>
+     <a href="">만든폼 </a>
      <br /><br />
      <span class="font-weight-bold" >0</span>
     </div>
@@ -200,68 +200,49 @@ img#productImg{
 </div>
  <br />
  <hr />
-<!-- 구매내역 결과 -->
- <!-- <div class="row mx-auto my-3" >
-	<div class="btn-group col" ></div>
-	<div class="btn-group col " ></div>
-	<div class="btn-group col " ></div>
-	<div class="btn-group col mx-5" >
-	  <button type="button" class="btn btn-danger dropdown-toggle " 
-	  			data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-	  			id="searchBtn" >
-	    조회기간
-	  </button>
-	  <div class="dropdown-menu">
-	    <a class="dropdown-item" href="#">1개월</a>
-	    <a class="dropdown-item" href="#">3개월</a>
-	    <a class="dropdown-item" href="#">6개월</a> 
-	  </div>
-	</div>
-	<div class="btn-group col" ></div>
-	<div class="btn-group col" ></div>
-	<div class="btn-group col" ></div>
-</div> -->
 
-
-<!-- 결제내역 이것도 약간 수저어엉ㅇ
-
- -->
 <div class="border border-0 mx-auto p-3 rounded " id="paymentHistory">
 	<ul class="list-unstyled">
 	
-	<c:forEach items="${payList}" var="payList">
+	<c:forEach items="${udList}" var="udList">
 	  <li class="media border border-left-0 border-top-0 border-right-0">
-	    <img class="mr-3 mt-2" src="${pageContext.request.contextPath}/resources/upload/product/${payList.productImg.renamedFilename}" alt="상품 이미지" id="productImg" >
+	    
 	    <div class="media-body col-6 mb-3 ">
 	     <!--  <h5 class="mt-0 mb-1">Red Velvet 1st 앨범</h5> -->
 		      <div class="py-3">
-		      <span>${payList.payContent}</span>
+		     <h5 class="mt-0 mb-1 mt-3">${udList.pdName}</h5>
 		      </div>
-		      <span>${payList.product.pdName}</span>
+		      <span></span>
 	    </div>
+	   
 	    <div class="col-2" id="payInfo">
 	    	<h5 class="mt-0 mb-1 mt-3">가격</h5>
 		      <div class="py-0">
-		      <span>${payList.product.price}</span>
+		      <span>${udList.price}</span>
 		      </div>
 	    </div>
 	    <div class="col-2 " id="payInfo">
-	    	<h5 class="mt-0 mb-1 mt-3">수량</h5>
+	    	<h5 class="mt-0 mb-1 mt-3">재고량</h5>
 		      <div class="py-0">
-		      <span>${payList.amount}</span>
+		      <span>${udList.pdStock}</span>
 		      </div>
 	    </div>
-	    <div class="col-2" id="payInfo">
-		      <div class="py-2">
-		      	<button type="submit" class="btn btn-outline-warning" >구매후기</button>
-		      </div>
-		      <div class="py-2">
-		      <a href="https://tracker.delivery/#/kr.cjlogistics/${payList.waybill}" target="_blank">
-		      <button type="submit" class="btn btn-outline-warning" >배송조회
-		      </button>
-		      </a>	
+	    <div class="col-2 " id="payInfo">
+	    	<h5 class="mt-0 mb-1 mt-3">판매량</h5>
+		      <div class="py-0">
+		      <span>${udList.pdSales}</span>
 		      </div>
 	    </div>
+	    <div class="col-2 " id="payInfo">
+	    	<h5 class="mt-0 mb-1 mt-3">판매기간</h5>
+		      <div class="py-0">
+		      <span style="font-size: 12px"> 
+		      <fmt:formatDate value="${udList.demandstartDate}" pattern="yy/MM/dd(E)"/>~ 
+		      <fmt:formatDate value="${udList.demandendDate}" pattern="yy/MM/dd(E)"/>
+		      </span>
+		      </div>
+	    </div>
+	    
 	  </li>
 	</c:forEach>
 	   </ul>	    
