@@ -20,6 +20,7 @@
 		  , #{demandstartDate}
 		  , #{demandendDate}
 		  , #{question}
+		  , #{fanNo}
 		)
 		
 		<selectKey keyProperty="demandNo" resultType="_int" order="AFTER">
@@ -34,7 +35,11 @@
 	<insert id="insertDepositpdImg">
 		insert into 
 		deposit_pd_img
-		values( seq_deposit_pd_img_no.nextval, #{dNo},#{pdCategory}, #{originalFilename}, #{renamedFilename})
+		values( seq_deposit_pd_img_no.nextval, 
+		#{dNo},
+		#{pdCategory}, 
+		#{originalFilename}, 
+		#{renamedFilename})
 	</insert>
 	
 	<insert id="insertdepositEnroll">
@@ -85,7 +90,11 @@
 	<insert id="insertDemandpdImg">
 		insert into 
 		demand_pd_img
-		values( seq_demand_pd_img_no.nextval, #{demandNo},#{pdCategory}, #{originalFilename}, #{renamedFilename})
+		values( seq_demand_pd_img_no.nextval, 
+		#{demandNo},
+		#{pdCategory}, 
+		#{originalFilename}, 
+		#{renamedFilename})
 	</insert>
 	
 	<select id="selectunofficialdemandList" resultMap="demandCollectionMap">
@@ -105,7 +114,7 @@
 		select 
 		    d.*,
    			di.no,
-		    di.pd_category,
+		    di.pd_category img_category,
 		    di.original_filename,
 		    di.renamed_filename
 		from unofficial_demand d
@@ -127,6 +136,7 @@
 		<result column="demand_start_date" property="demandstartDate"/>
 		<result column="demand_end_date" property="demandendDate"/>
 		<result column="question" property="question"/>
+		<result column="fan_no" property="fanNo"/>
 		
 		
 		
@@ -148,7 +158,7 @@
 		select 
 		    dp.*,
    			dpi.d_no,
-		    dpi.pd_category,
+		    dpi.pd_category img_category,
 		    dpi.original_filename,
 		    dpi.renamed_filename
 		from unofficial_deposit dp
@@ -161,7 +171,7 @@
 		   select 
 		    dp.*,
    			dpi.d_no,
-		    dpi.pd_category,
+		    dpi.pd_category img_category,
 		    dpi.original_filename,
 		    dpi.renamed_filename
 		from unofficial_deposit dp

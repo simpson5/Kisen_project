@@ -36,9 +36,8 @@ function goDemandSubmit(demandNo) {
 }
 </script>
 
-</head>
-<body>
-	<section>
+<div class="container">
+
 		<h2 class="text-center m-4" style="font-weight: bold;">수요조사폼목록</h2>
 		<br /> <br />
 		<c:forEach items="${unofficialdemandList}" var="unofficialdemand" varStatus="vs">
@@ -76,9 +75,7 @@ function goDemandSubmit(demandNo) {
 		</div>
 		</c:if>
 		</c:forEach>
-	</section>
-</body>
-</html>
+</div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
 
