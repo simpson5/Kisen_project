@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fanboard">
+<!-- =========================== [ 게시글 등록 - fanBoard 등록 ] =========================== -->
+<insert id="insertFanBoard">
+	insert into
+		fan_board
+	values (
+		seq_fb_no.nextval,
+		#{idolNo},
+		#{fbContent},
+		0,
+		default,
+		#{fbTitle},
+		0,
+		#{fbWriter}
+	)
+	<selectKey keyProperty="fbNo" resultType="_int" order="AFTER">
+	 	select
+	 		seq_fb_no.currval
+	 	from
+	 		dual
+	 </selectKey>
+</insert>
+<!-- =========================== [ 게시글 등록 - fbAttach 등록 ] =========================== -->
+<insert id="insertFbAttachment">
+	insert into
+		fb_attachment(
+			fb_attach_no,
+			fb_no,
+			original_filename,
+			renamed_filename
+		)
+	values(
+		seq_fb_attach_no.nextval,
+		#{fbNo},
+		#{originalFilename},
+		#{renamedFilename}		
+	)
+</insert>
+<!-- =========================== [ 게시글 전체조회 - idolNo ] =========================== -->
+<select id="selectFanBoardList" resultMap="fanBoardExtMap">
+	select
+		b.*,
+		(select count(*) from fb_attachment where fb_no = b.fb_no) attach_count
+	from
+		fan_board b
+	where
+		idol_no = #{idolNo}
+	order by
+		fb_no desc
+</select>
+<resultMap type="fanBoardExt" id="fanBoardExtMap">
+	<!-- 숫자 -> 자동으로 boolean 형변환해줌 -->
+	<result column="attach_count" property="hasAttachment"/>
+</resultMap>
+<!-- =========================== [ 게시글 전체조회 - totalContents ] =========================== -->
+<select id="selectFanBoardTotalContents" resultType="_int">
+	select
+		count(*)
+	from
+		fan_board
+	where
+		idol_no = #{idolNo}
+</select>
+<!-- =========================== [ 게시글 상세보기- 게시글, 첨부파일 조회 ] =========================== -->
+<select id="selectOneFanBoardCollection" resultMap="boardCollectionMap">
+	select
+		b.*, 
+		a.fb_attach_no,
+		a.fb_no, 
+		a.original_filename, 
+		a.renamed_filename, 
+		a.upload_date, 
+		a.download_cnt,
+		a.status
+	from
+		fan_board b
+	left join
+		fb_attachment a
+			on b.fb_no = a.fb_no
+	where
+		b.fb_no = #{no}
+</select>
+<resultMap type="fanBoardExt" id="boardCollectionMap">
+	<!-- collection태그 사용할 때는 생략없이 모든 컬럼을 매칭시켜야 한다. -->
+	<!-- 공통된 컬럼들 -->
+ 	<id column="fb_no" property="fbNo"/>
+ 	<result column="idol_no" property="idolNo"/>
+ 	<result column="fb_content" property="fbContent"/>
+ 	<result column="fb_read_count" property="fbReadCount"/>
+ 	<result column="fb_date" property="fbDate"/>
+ 	<result column="fb_title" property="fbTitle"/>
+ 	<result column="fb_like" property="fbLike"/>
+ 	<result column="fb_writer" property="fbWriter"/>
+ 	<!-- 행마다 달라지는 컬럼들 : list로 모여질 attachment에 대한 부분들 -->
+ 	<!-- property : vo클래스의 필드명, ofType : 실제 타입 -->
+ 	<collection property="attachList" ofType="fbAttachment">
+ 		<id column="fb_attach_no" property="fbAttachNo"/>
+ 		<result column="fb_no" property="fbNo"/>
+ 		<result column="original_filename" property="originalFilename"/>
+ 		<result column="renamed_filename" property="renamedFilename"/>
+ 		<result column="upload_date" property="uploadDate"/>
+ 		<result column="download_cnt" property="downloadCnt"/>
+ 		<result column="stauts" property="stauts" typeHandler="booleanYnTypeHandler"/>
+ 	</collection>
+</resultMap>
+<!-- =========================== [ 첨부파일 다운로드 - 첨부파일 조회 ] =========================== -->
+<select id="selectOneFbAttachment" resultMap="attachVoMap">
+	select
+		*
+	from
+		fb_attachment
+	where
+		fb_attach_no = #{no}
+</select>
+<resultMap type="fbAttachment" id="attachVoMap">
+	<result column="status" property="status" typeHandler="booleanYnTypeHandler"/>
+</resultMap>
+
+<select id="selectOneIdolName" resultType="string">
+	select 
+		idol_name 
+	from 
+		idol 
+	where 
+		idol_no = #{idolNo}
+</select>
+</mapper>
