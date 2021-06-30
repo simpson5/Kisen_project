@@ -171,7 +171,7 @@
 				<!-- chart -->
 				<div class="card shadow mb-4 mt-4">
 					<div class="card-header py-3">
-						<h6 class="m-0 font-weight-bold text-primary">매출 그래프</h6>
+						<h6 class="m-0 font-weight-bold text-primary">이번달 매출 그래프</h6>
 					</div>
 					<div class="card-body">
 						<canvas id="myChartOne"></canvas>

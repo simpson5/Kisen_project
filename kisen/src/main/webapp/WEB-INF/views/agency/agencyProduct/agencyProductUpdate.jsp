@@ -86,7 +86,7 @@
 	    <div class="mb-4 row">
 	        <label class="col-md-3 col-form-label" for="pdSales">판매량</label>
 	        <div class="col-md-9">
-	            <input type="number" class="form-control" name="pdSales" id="pdSales"  value="${product.pdSales}">
+	            <input type="number" class="form-control" name="pdSales" id="pdSales"  value="${product.pdSales}" readonly>
 	        </div>
 	    </div>
 	    

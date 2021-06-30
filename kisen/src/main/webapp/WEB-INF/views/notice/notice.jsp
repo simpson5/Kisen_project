@@ -8,7 +8,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="Site 관리" name="title"/>
+	<jsp:param value="공지사항" name="title"/>
 </jsp:include>
 
 <style>
