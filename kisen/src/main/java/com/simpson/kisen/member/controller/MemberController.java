@@ -1,13 +1,19 @@
 package com.simpson.kisen.member.controller;
 
 import java.beans.PropertyEditor;
-import java.io.FileInputStream;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +21,7 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.crypto.Mac;
-import javax.inject.Inject;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
+import javax.crypto.spec.SecretKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -30,7 +34,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
-import org.springframework.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.http.HttpEntity;
@@ -38,13 +41,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.social.google.api.plus.PlusOperations;
-import org.springframework.social.google.connect.GoogleConnectionFactory;
-import org.springframework.social.oauth2.GrantType;
-import org.springframework.social.oauth2.OAuth2Operations;
-import org.springframework.social.oauth2.OAuth2Parameters;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -55,21 +54,15 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.simpson.kisen.agency.model.vo.Agency;
 import com.simpson.kisen.fan.model.vo.Authority;
 import com.simpson.kisen.fan.model.vo.Fan;
@@ -78,10 +71,16 @@ import com.simpson.kisen.member.MailService;
 import com.simpson.kisen.member.model.KakaoProfile;
 import com.simpson.kisen.member.model.OAuthToken;
 import com.simpson.kisen.member.model.service.MemberService;
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.ParseException;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 @Slf4j
@@ -199,9 +198,8 @@ public class MemberController {
 			RedirectAttributes redirectAttr) {
 		log.info("member = {}", member);
 		try {
-			member.setAddress(member.getAddress() + ") " + addressExt1 + addressExt2 + " " + addressExt3);
 			// member에 모든 주소 다시 세팅
-			member.setAddress(member.getAddress() + ") " + addressExt1 + addressExt2 + " " + addressExt3);
+			member.setAddress(member.getAddress() + "-" + addressExt1 + "-" + addressExt2 + "-" + addressExt3);
 			// member에 선택여부에 따른 이메일 세팅
 			if ("1".equals(selectEmail) == false) {
 				member.setEmail(member.getEmail() + "@" + selectEmail);
@@ -235,7 +233,7 @@ public class MemberController {
 		log.info("member = {}", member);
 		try {
 			// member에 모든 주소 다시 세팅
-			member.setAddress(member.getAddress() + ") " + addressExt1 + addressExt2 + " " + addressExt3);
+			member.setAddress(member.getAddress() + "-" + addressExt1 + "-" + addressExt2 + "-" + addressExt3);
 			// member에 선택여부에 따른 이메일 세팅
 			if ("1".equals(selectEmail) == false) {
 				member.setEmail(member.getEmail() + "@" + selectEmail);
@@ -534,7 +532,7 @@ public class MemberController {
 			String fanId = member.getFanId();
 
 			// send(email, title, content)
-			mailService.send(email, "[kisen] 아이디찾기 안내메일입니다.",
+			mailService.send(email, "[(주)kisen] 아이디찾기 안내메일입니다.",
 					"<div style=\"background-color: rgb(241, 241, 241); width: 900px; text-align: center; margin: 20px; padding: 20px;\">\r\n"
 							+ "    <img src=\"https://blogfiles.pstatic.net/MjAyMTA2MjVfMjk4/MDAxNjI0NjA5ODQzMDQx.LJecEdDc183KLHTb-4MIJZd0b3Wih7dquRSJaqLYc2Mg.4hjwxApg9j2nPHj9erBQn_gw6hJP86v3rIaNdi5bwgEg.PNG.dbs7wl7/kisen_logo.png\" style=\"width: 300px;\">\r\n"
 							+ "    <p style=\"font-size: large; margin-bottom: 10px;\">안녕하세요. K-POP 굿즈 종합쇼핑몰 kisen입니다.</p>\r\n"
@@ -619,7 +617,7 @@ public class MemberController {
 			updatePwdToTempPwd(member);
 
 			// send(email, title, content)
-			mailService.send(email, "[kisen] 비밀번호찾기 안내메일입니다.",
+			mailService.send(email, "[(주)kisen] 비밀번호찾기 안내메일입니다.",
 					"<div style=\"background-color: rgb(241, 241, 241); width: 900px; text-align: center; margin: 20px; padding: 20px;\">\r\n"
 							+ "    <img src=\"https://blogfiles.pstatic.net/MjAyMTA2MjVfMjk4/MDAxNjI0NjA5ODQzMDQx.LJecEdDc183KLHTb-4MIJZd0b3Wih7dquRSJaqLYc2Mg.4hjwxApg9j2nPHj9erBQn_gw6hJP86v3rIaNdi5bwgEg.PNG.dbs7wl7/kisen_logo.png\" style=\"width: 300px;\">\r\n"
 							+ "    <p style=\"font-size: large; margin-bottom: 10px;\">안녕하세요. K-POP 굿즈 종합쇼핑몰 kisen입니다.</p>\r\n"
@@ -696,8 +694,123 @@ public class MemberController {
 		// ResponseEntity객체를 만들어서 전달
 		return ResponseEntity.ok() // 응답헤더 200번
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE) // "application/json;charset=UTF-8"
-																							// -> header값으로 json이라는 것을
-																							// 알림
 				.body(map); // body에 map담기
 	}
+	
+	@GetMapping("/sendSMS.do")
+	ResponseEntity<Map<String, Object>> sendSms(@RequestParam String phone, @RequestParam String rndStr) throws Exception { 
+		
+		  log.info("phone = {}", phone);
+		  log.info("rndStr = {}", rndStr);
+	      String hostNameUrl = "https://sens.apigw.ntruss.com";           // 호스트 URL
+	      String requestUrl= "/sms/v2/services/";                         // 요청 URL
+	      String requestUrlType = "/messages";                            // 요청 URL
+	      String accessKey = "rw5OvvURFyufoFN9ATNF";                                       // 네이버 클라우드 플랫폼 회원에게 발급되는 개인 인증키
+	      String secretKey = "n7M14qzuy9WAe31IFBZYGkBSXNqnfmPWfIsK8upB";                                // 2차 인증을 위해 서비스마다 할당되는 service secret
+	      String serviceId = "ncp:sms:kr:268856574555:kisen";                                   // 프로젝트에 할당된 SMS 서비스 ID
+	      String method = "POST";                                 // 요청 method
+	      String timestamp = Long.toString(System.currentTimeMillis());    // current timestamp (epoch)
+	      requestUrl += serviceId + requestUrlType;
+	      String apiUrl = hostNameUrl + requestUrl;
+	      
+	      // JSON 을 활용한 body data 생성
+	      
+	      org.json.simple.JSONObject bodyJson = new org.json.simple.JSONObject();
+	      org.json.simple.JSONObject toJson = new org.json.simple.JSONObject();
+	      org.json.simple.JSONArray  toArr = new org.json.simple.JSONArray();
+
+	       toJson.put("subject","");            // 메시지 제목 * LMS Type에서만 사용할 수 있습니다.
+	       toJson.put("content","[(주)kisen] 본인인증 번호는 [ " + rndStr + " ] 입니다. 정확히 입력해주세요."); // 메시지 내용 * Type별로 최대 byte 제한이 다릅니다.* SMS: 80byte / LMS: 2000byte
+	       toJson.put("to", phone);               // 수신번호 목록  * 최대 50개까지 한번에 전송할 수 있습니다.
+	       toArr.add(toJson);
+	       
+	       bodyJson.put("type","SMS");            // 메시지 Type (sms | lms)
+	       bodyJson.put("contentType","COMM");         // 메시지 내용 Type (AD | COMM) * AD: 광고용, COMM: 일반용 (default: COMM) * 광고용 메시지 발송 시 불법 스팸 방지를 위한 정보통신망법 (제 50조)가 적용됩니다.
+	       bodyJson.put("countryCode","82");      // 국가 전화번호
+	       bodyJson.put("from","01089959705");            // 발신번호 * 사전에 인증/등록된 번호만 사용할 수 있습니다.      
+	       bodyJson.put("subject","");            // 메시지 제목 * LMS Type에서만 사용할 수 있습니다.
+	       bodyJson.put("content", "[(주)kisen] 본인인증 번호는 [" + rndStr + " ] 입니다. 정확히 입력해주세요.");            // 메시지 내용 * Type별로 최대 byte 제한이 다릅니다.* SMS: 80byte / LMS: 2000byte
+	       bodyJson.put("messages", toArr);      
+	       
+	       String body = bodyJson.toJSONString();
+	       log.info(body);
+	       
+	        try {
+	            URL url = new URL(apiUrl);
+	            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+	            con.setUseCaches(false);
+	            con.setDoOutput(true);
+	            con.setDoInput(true);
+	            con.setRequestProperty("content-type", "application/json");
+	            con.setRequestProperty("x-ncp-apigw-timestamp", timestamp);
+	            con.setRequestProperty("x-ncp-iam-access-key", accessKey);
+	            con.setRequestProperty("x-ncp-apigw-signature-v2", makeSignature(requestUrl, timestamp, method, accessKey, secretKey));
+	            con.setRequestMethod(method);
+	            con.setDoOutput(true);
+	            DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+	            
+	            wr.write(body.getBytes());
+	            wr.flush();
+	            wr.close();
+
+	            int responseCode = con.getResponseCode();
+	            BufferedReader br;
+	            System.out.println("responseCode" +" " + responseCode);
+	            if(responseCode==202) { // 정상 호출
+	                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	            } else {  // 에러 발생
+	                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+	            }
+
+	            String inputLine;
+	            StringBuffer response = new StringBuffer();
+	            while ((inputLine = br.readLine()) != null) {
+	                response.append(inputLine);
+	            }
+	            br.close();
+	            log.info(response.toString());
+	        } catch (Exception e) {
+	            System.out.println(e);
+	        }
+	        
+	        // 성공
+	        Map<String, Object> map = new HashMap<>();	       
+	        map.put("success", "success");
+
+	        // ResponseEntity객체를 만들어서 전달
+			return ResponseEntity.ok() // 응답헤더 200번
+					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE) // "application/json;charset=UTF-8"
+					.body(map); // body에 map담기
+	    }
+	
+	   public static String makeSignature(String url, String timestamp, String method, String accessKey, String secretKey) throws NoSuchAlgorithmException, InvalidKeyException {
+	       String space = " ";                    // one space
+	       String newLine = "\n";                 // new line
+	       
+	       String message = new StringBuilder()
+	           .append(method)
+	           .append(space)
+	           .append(url)
+	           .append(newLine)
+	           .append(timestamp)
+	           .append(newLine)
+	           .append(accessKey)
+	           .toString();
+
+	       SecretKeySpec signingKey;
+	       String encodeBase64String;
+	      try {
+	         
+	         signingKey = new SecretKeySpec(secretKey.getBytes("UTF-8"), "HmacSHA256");
+	         Mac mac = Mac.getInstance("HmacSHA256");
+	         mac.init(signingKey);
+	         byte[] rawHmac = mac.doFinal(message.getBytes("UTF-8"));
+	          encodeBase64String = Base64.getEncoder().encodeToString(rawHmac);
+	      } catch (UnsupportedEncodingException e) {
+	         encodeBase64String = e.toString();
+	      }
+	     return encodeBase64String;
+	   }
+	  
+
 }
