@@ -8,8 +8,12 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.simpson.kisen.admin.model.vo.Sales;
+import com.simpson.kisen.admin.model.vo.SalesTotalPrice;
 import com.simpson.kisen.admin.model.vo.SlideImg;
 import com.simpson.kisen.agency.model.vo.Agency;
+import com.simpson.kisen.agency.model.vo.AgencyExt;
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.idol.model.vo.IdolImg;
 import com.simpson.kisen.idol.model.vo.IdolMv;
@@ -122,6 +126,53 @@ public class AdminDaoImpl implements AdminDao {
 		return session.update("notice.updateNoticeImg",noticeImg);
 	}
 
+	
+	
+	
+//	agency 관련
+	@Override
+	public List<Fan> selectAllFanList() {
+		return session.selectList("admin-product.selectAllFanList");
+	}
+
+	@Override
+	public List<AgencyExt> selectNCAgencyList() {
+		return session.selectList("admin-product.selectNCAgencyList");
+	}
+
+	@Override
+	public List<AgencyExt> selectCAgencyList() {
+		return session.selectList("admin-product.selectCAgencyList");
+	}
+
+	
+	
+//	sales 관련
+	@Override
+	public List<PaymentExt> selectSalesList(Map<String, String> param) {
+		return session.selectList("admin-product.selectSalesList",param);
+	}
+
+//	member 관련
+	@Override
+	public int deleteFan(String fanId) {
+		return session.delete("admin-product.deleteFan",fanId);
+	}
+
+	@Override
+	public int updateCertification(String fanNo) {
+		return session.delete("admin-product.updateCertification",fanNo);
+	}
+
+	@Override
+	public SalesTotalPrice selectTotalPrice(String strDate) {
+		return session.selectOne("admin-product.selectTotalPrice",strDate);
+	}
+
+	@Override
+	public List<Sales> salesMonthPrice(String strDate) {
+		return session.selectList("admin-product.salesMonthPrice",strDate);
+	}
 
 	
 }
