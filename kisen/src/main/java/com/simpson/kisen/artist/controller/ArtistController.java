@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.simpson.kisen.artist.model.service.ArtistService;
 import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.vo.Idol;
+import com.simpson.kisen.product.model.service.ProductService;
+import com.simpson.kisen.product.model.vo.ProductImgExt;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +26,8 @@ public class ArtistController {
 	@Autowired
 	private ArtistService artistService;
 	
+	@Autowired
+	private ProductService productService;
 	
 	@GetMapping("/artistInfo")
 	public void artistInfo(
@@ -35,9 +39,15 @@ public class ArtistController {
 			Fan loginMember = (Fan) authentication.getPrincipal();				
 			model.addAttribute("loginMember",loginMember);
 		}
+		List<ProductImgExt> idolProductList = productService.selectIdolProductList(no);
+		List<ProductImgExt> idolAlbumList = productService.selectIdolAlbumList(no);
 		List<Idol> idol = artistService.selectArtistOne(no);
 		log.info("idol = {}",idol);
+		log.info("idolProductList = {}",idolProductList);
+		log.info("idolAlbumList = {}",idolAlbumList);
 		model.addAttribute("idol", idol);
+		model.addAttribute("idolProductList",idolProductList);
+		model.addAttribute("idolAlbumList",idolAlbumList);
 	}
 
 
