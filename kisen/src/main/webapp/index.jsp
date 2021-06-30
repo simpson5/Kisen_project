@@ -54,8 +54,6 @@ opacity: 0;
 		    <div class="carousel-item active idol">
 		      <c:forEach items="${randomList}" var="product" varStatus="status">
 		      <c:if test="${status.index < 4}">
-		   
-		      </c:if>
 		      <div class="mx-auto" style="display:inline-block;">
 		        <div class="card col-xs-4" style="width:250px; display:inline-block; float: left; margin:10px; 0px; 10px; 0px;">
 		            	<c:forEach items="${product.pdImgList}" var="pdImg">
@@ -79,14 +77,14 @@ opacity: 0;
 		        </div>
 		      <!-- col-lg-3 col-md-6 End -->
 		      </div>
+		      		   
+		      </c:if>
 		      </c:forEach>
 		      </div>
 		      
 		      <div class="carousel-item idol">
 		      <c:forEach items="${randomList}" var="product" varStatus="status">
-		      <c:if test="${status.index < 4}">
-		   
-		      </c:if>
+		      <c:if test="${status.index > 3}">
 		      <div class="mx-auto" style="display:inline-block;">
 		        <div class="card col-xs-4" style="width:250px; display:inline-block; float: left; margin:10px; 0px; 10px; 0px;">
 		            	<c:forEach items="${product.pdImgList}" var="pdImg">
@@ -110,14 +108,15 @@ opacity: 0;
 		        </div>
 		      <!-- col-lg-3 col-md-6 End -->
 		      </div>
+		      </c:if>
 		      </c:forEach>
 		      </div>
 	      </div>
-		<a class="carousel-control-prev" href="#carouselExampleControlss" role="button" data-slide="prev">
+		<a class="carousel-control-prev" href="#carouselExampleControlss" role="button" data-slide="prev" style="opacity: 0;">
 	      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
 	      <span class="sr-only">Previous</span>
 	    </a>
-	    <a class="carousel-control-next" href="#carouselExampleControlss" role="button" data-slide="next">
+	    <a class="carousel-control-next" href="#carouselExampleControlss" role="button" data-slide="next" style="opacity: 0;">
 	      <span class="carousel-control-next-icon" aria-hidden="true"></span>
 	      <span class="sr-only">Next</span>
 	    </a>

@@ -505,32 +505,78 @@ textarea.autosize {
 			<c:if test="${!empty randomList}">
 				<div class="idol-item row d-none d-sm-block">
 				    <div class="row g-3 ">
-					<c:forEach items="${randomList}" var="product">
-						<div class="col-lg-3 col-md-4 col-sm-6 ">
-					        <div class="card" style="width: 13rem;">
-					            	<c:forEach items="${product.pdImgList}" var="pdImg">
-								        <c:if test="${pdImg.pdCategory eq 'R'}">
-											<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
-									   	</c:if>
-							    	</c:forEach>
-					           
-					            <div class="card-body">
-					              <h5 class="card-title">${product.pdName}</h5>
-					              <p class="card-text">  
-					                <span class="badge bg-s">${product.idolName}</span><br />
-					                <span class="badge bg-dark">공식굿즈</span>
-					                <span class="badge bg-dark">${product.pdCategory}</span>
-					              </p>
-					              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
-					                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-					                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
-					              </div>
-					            </div>
-							</div>
-					      <!-- col-lg-3 col-md-6 End -->
-						      
-						</div>
-					</c:forEach>
+						<div id="carouselExampleControlss" class="carousel slide slide-img" data-ride="carousel">
+						    <div class="carousel-inner">
+							    <div class="carousel-item active idol">
+							      <c:forEach items="${randomList}" var="product" varStatus="status">
+							      <c:if test="${status.index < 4}">
+							      <div class="mx-auto " style="display:inline-block;">
+							        <div class="card col-xs-4" style="width:15em; display:inline-block; float: left; margin:13px; 0px; 10px; 0px;">
+							            	<c:forEach items="${product.pdImgList}" var="pdImg">
+										        <c:if test="${pdImg.pdCategory eq 'R'}">
+													<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+											   	</c:if>
+									    	</c:forEach>
+							           
+							            <div class="card-body">
+							              <h5 class="card-title">${product.pdName}</h5>
+							              <p class="card-text">  
+							                <span class="badge bg-s">${product.idolName}</span><br />
+							                <span class="badge bg-dark">공식굿즈</span>
+							                <span class="badge bg-dark">${product.pdCategory}</span>
+							              </p>
+							              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
+							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
+							                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
+							              </div>
+							            </div>
+							        </div>
+							      <!-- col-lg-3 col-md-6 End -->
+							      </div>
+							      		   
+							      </c:if>
+							      </c:forEach>
+							      </div>
+							      
+							      <div class="carousel-item idol">
+							      <c:forEach items="${randomList}" var="product" varStatus="status">
+							      <c:if test="${status.index > 3}">
+							      <div class="mx-auto" style="display:inline-block;">
+							        <div class="card col-xs-4" style="width:15em; display:inline-block; float: left; margin:13px; 0px; 10px; 0px;">
+							            	<c:forEach items="${product.pdImgList}" var="pdImg">
+										        <c:if test="${pdImg.pdCategory eq 'R'}">
+													<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+											   	</c:if>
+									    	</c:forEach>
+							           
+							            <div class="card-body">
+							              <h5 class="card-title">${product.pdName}</h5>
+							              <p class="card-text">  
+							                <span class="badge bg-s">${product.idolName}</span><br />
+							                <span class="badge bg-dark">공식굿즈</span>
+							                <span class="badge bg-dark">${product.pdCategory}</span>
+							              </p>
+							              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
+							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
+							                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
+							              </div>
+							            </div>
+							        </div>
+							      <!-- col-lg-3 col-md-6 End -->
+							      </div>
+							      </c:if>
+							      </c:forEach>
+							      </div>
+						      </div>
+							<a class="carousel-control-prev" href="#carouselExampleControlss" role="button" data-slide="prev" style="opacity: 0;">
+						      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						      <span class="sr-only">Previous</span>
+						    </a>
+						    <a class="carousel-control-next" href="#carouselExampleControlss" role="button" data-slide="next" style="opacity: 0;">
+						      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+						      <span class="sr-only">Next</span>
+						    </a>
+					      </div>
 				    <!-- row g-3 End -->
 				    </div>
 			  <!-- row end -->

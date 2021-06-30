@@ -23,6 +23,10 @@ public interface ReviewDao {
 
 	int deleteReview(int no);
 
+	void readCntUp(Review review);
+
+	void recomUpCnt(Map<String, Object> map);
+
 
 
 }

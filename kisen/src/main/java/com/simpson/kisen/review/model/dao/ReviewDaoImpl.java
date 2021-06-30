@@ -57,6 +57,16 @@ public class ReviewDaoImpl implements ReviewDao {
 		return session.delete("review.deleteReview",no);
 	}
 
+	@Override
+	public void readCntUp(Review review) {
+		session.update("review.readCntUp",review);		
+	}
+
+	@Override
+	public void recomUpCnt(Map<String, Object> map) {
+		session.update("review.recomUpCnt", map);
+	}
+
 
 
 

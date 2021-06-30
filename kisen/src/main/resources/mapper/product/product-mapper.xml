@@ -68,7 +68,7 @@
         where g.pd_category = 'R'
 		order by DBMS_RANDOM.RANDOM
 		) A
-		where rownum &lt; 5 
+		where rownum &lt; 9
 	</select>
 	
 	
