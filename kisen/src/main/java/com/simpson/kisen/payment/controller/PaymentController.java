@@ -50,7 +50,7 @@ public class PaymentController {
 	}
 	
 	@GetMapping("/payment.do")
-	public void payment(@RequestParam int bNo, Authentication authentication, Model model ) {
+	public void payment(@RequestParam int[] bNo, Authentication authentication, Model model ) {
 		try {
 			Fan principal = (Fan) authentication.getPrincipal();
 			log.info("bNo = {}",bNo);

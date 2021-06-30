@@ -14,6 +14,6 @@ public interface PaymentService {
 
 	List<UnofficialDemand> selectUdList(String fanNo);
 
-	List<Basket> selectPaymentList(int bNo);
+	List<Basket> selectPaymentList(int[] bNo);
 
 }

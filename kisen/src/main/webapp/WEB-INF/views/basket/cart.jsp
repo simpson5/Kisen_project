@@ -324,7 +324,7 @@ function order(obj){
 	//데이터는 int 배열 
 	const total = Number($(".total").text());//전체 금액값
 	console.log(total);
-	const totalHtml ='<input type="hidden" name ="total" value="'+total+'"/>';
+	const totalHtml ='<input type="hidden" name ="bNo" value="'+total+'"/>';
 
 	var $formId = $(document.orderFrm);
 	 console.log("formId= "+ $formId);
