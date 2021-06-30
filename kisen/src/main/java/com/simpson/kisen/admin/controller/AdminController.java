@@ -1,6 +1,7 @@
 package com.simpson.kisen.admin.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,24 +20,32 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simpson.kisen.admin.model.service.AdminService;
+import com.simpson.kisen.admin.model.vo.Sales;
+import com.simpson.kisen.admin.model.vo.SalesTotalPrice;
 import com.simpson.kisen.admin.model.vo.SlideImg;
 import com.simpson.kisen.agency.model.service.AgencyService;
+import com.simpson.kisen.agency.model.vo.AgencyExt;
 import com.simpson.kisen.common.util.HelloSpringUtils;
 import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.notice.model.vo.Notice;
 import com.simpson.kisen.notice.model.vo.NoticeExt;
 import com.simpson.kisen.notice.model.vo.NoticeImg;
+import com.simpson.kisen.payment.model.vo.PaymentExt;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import java.io.File;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -157,7 +166,25 @@ public class AdminController {
 
 
 	@GetMapping("/adminMember")
-	public String adminMember() { return "admin/adminMember/adminMember";}
+	public String adminMember(Model model) { 
+		//일반회원
+		List<Fan> fanList = adminService.selectAllFanList();
+		log.info("fanList={}",fanList);
+		
+		//승인대기 기업 회원 
+		List<AgencyExt> nc_agencyList = adminService.selectNCAgencyList();
+		log.info("nc_agencyList={}",nc_agencyList);
+		
+		//승인완료 기업회원
+		List<AgencyExt> c_agencyList = adminService.selectCAgencyList();
+		log.info("c_agencyList={}",c_agencyList);
+		
+		
+		model.addAttribute("fanList", fanList);
+		model.addAttribute("nc_agencyList", nc_agencyList);
+		model.addAttribute("c_agencyList", c_agencyList);
+		return "admin/adminMember/adminMember";
+	}
 
 	@GetMapping("/adminArtistDetail")
 	public String adminArtistDetail() { return "admin/adminMember/adminArtistDetail";}
@@ -170,7 +197,46 @@ public class AdminController {
 	
 
 	@GetMapping("/adminSales")
-	public String adminSales() { return "admin/adminPayment_Sales";}
+	public String adminSales(
+			Model model,
+			@RequestParam(name = "searchString", required = false) String searchString,
+			@RequestParam(name = "searchOptions", defaultValue = "all") String searchOptions
+		) { 
+	    Map<String, String> param = new HashMap<String, String>();
+
+	    if(searchString !=null) 
+	    	param.put("searchString", searchString);
+	    	
+    	param.put("searchOption", searchOptions);
+		//결제 내역 조회
+		List<PaymentExt> paymentList = adminService.selectSalesList(param);
+		
+		
+		
+		
+		
+		
+		//매출조회
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		String formatDate= format1.format (System.currentTimeMillis());
+		
+		//현재 달부터 12개월만큼 조회
+		List<SalesTotalPrice> totalList = adminService.selectTotalPrice();
+		
+		
+		
+		//이번달 매출
+		List<Sales> monthList = adminService.salesMonthPrice();
+		
+
+		log.info("monthList={}",monthList);
+		log.info("totalList={}",totalList);
+		log.info("paymentList={}",paymentList);
+		model.addAttribute("totalList", totalList);
+		model.addAttribute("monthList", monthList);
+		model.addAttribute("paymentList", paymentList);
+		return "admin/adminPayment_Sales";
+	}
 	
 	
 	
@@ -384,5 +450,37 @@ public class AdminController {
 		int result = adminService.updateNotice(notice,file);
 		
 		return "redirect:adminNoticeDetail/"+notice.getNoticeNo();
+	}
+	
+	@DeleteMapping("/memberDelete/{fanId}")
+	@ResponseBody
+	public String deleteFan(@PathVariable String fanId, Model model) {
+		try {
+			log.info("fanId={}",fanId);
+			//1. 업무로직
+			int result = adminService.deleteFan(fanId);
+		
+		} catch(Exception e) {
+			log.error("회원 삭제 오류!", e);
+			throw e;
+		}
+		return "회원삭제 성공";
+	}
+	
+	@PutMapping("/agencyUpdateCertification/{fanNo}")
+	@ResponseBody
+	public String updateCertification(@PathVariable String fanNo) {
+		String msg=null;
+		try {
+			log.info("fanId={}",fanNo);
+			//1. 업무로직
+			int result = adminService.updateCertification(fanNo);
+			if(result>0)
+				msg="인증성공";
+		} catch(Exception e) {
+			msg="인증 실패";
+			throw e;
+		}
+		return msg;
 	}
 }
