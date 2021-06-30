@@ -4,9 +4,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-
-	<jsp:param value="결제페이지" name="title"/>
+<jsp:param value="결제페이지" name="title"/>
 </jsp:include>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <style>
 div#cartContainer{
 	border: 2px solid #bc73d6!important;
@@ -109,7 +112,6 @@ td{
 }
 #deliveryInfo{
 	width:1000px;
-
 	border: 4px solid #bc73d6!important;
 	
 }
@@ -154,11 +156,6 @@ td{
 	overflow: hidden;
 }
 
-.kakaoBtn{
-	border: none;
-	background-color: white;
-	cursor: pointer;
-}
 
 </style>
 
@@ -179,12 +176,12 @@ td{
 	 	<li class="float-left mx-2" id="arrow"><img src="${pageContext.request.contextPath}/resources/images/moonju/next.png" /></li>
 	 	<li class="float-left mx-2" style="color:gray;">완료</li>
 	 </ul>
+
 	</div>
 </div>
 <br /><br />
 
  <hr />
-
 <!-- 주문할 내역-->
 <form method="POST" id="payInfoFrm">
 <div class="border border-0 mx-auto p-3 rounded " id="orderHistory">
@@ -313,10 +310,10 @@ td{
  	 <hr />
  	 <!-- 기본 배송지 -->
  	 <div class="p-2 d-flex flex-column " id="nowAddress">
- 	 	<div class="p-2">고길동</div>
- 	 	<div class="p-2">010-3333-2222</div>
+ 	 	<div class="p-2">${loginMember.fanName}</div>
+ 	 	<div class="p-2">${loginMember.phone}</div>
  	 	<div class="p-2">
- 	 	(우편번호) 서울시 성북구 쌍문동 1길 33-20
+ 	 	${loginMember.address}
  	 	</div>
  	 	<div class="p-2">
  	 	<!-- 요청사항 만들긴 했는데 디비에 저정하나요? -->
@@ -338,8 +335,9 @@ td{
  	 	<input type="tel" class="ml-3" placeholder="(-없이)01012345678" name="phone" id="phone" maxlength="11" />
  	 	</div>
  	 	<div class="p-2">
- 	 	<mark id="marks">배송지 주소</mark>
- 	 	<input type="text" class="ml-3" style="width: 80px"/>
+ 	 	<mark id="marks">
+ 	 	 <label for="sample6_postcode">배송지 주소</label></mark>
+ 	 	<input type="text" class="ml-3" style="width: 80px" id="sample6_postcode"/>
  	 	<button class="btn btn-outline mb-1" id="postNum">우편번호</button>
  	 	</div>
  	 	<div class="p-2">
@@ -409,103 +407,6 @@ td{
  	 </div>
  	 <hr />
 
- 	 <!-- 결제 수단 -->
- 	  <div class="p-2 " id="pointBox">
- 	 	<h5 class="font-weight-bold my-3"><mark id="marks">결제 수단</mark> </h5>	
-	 	 	
-		 	 	<input type="radio" id ="cardPay" name="selectPay" onclick="selectPay(this);">
-		 	 	<label for="cardPay">카드 결제</label>
-		 	 	<hr />
-		 	 	
-		 	 	<div class= "hiddenCardPay"  id="hiddenCard">
-			 	 	<div class="p-2">
-				 	 	<mark id="marks" style="font-size:12px; ">카드구분</mark>
-				 	 	<input type="radio" class="ml-3 " name="chageCard" onclick="cardType(this);" id="card" checked/>
-				 	 	<label for="card" >개인카드</label>
-				 	 	<input type="radio" id="cardtype" class="ml-3 " name="chageCard" onclick="cardType(this);"/>
-				 	 	<label for="cardtype">법인카드</label>
-			 		 </div>
-					 <div class="p-2 ">
-					 	 	<label for="cardselect"><mark id="marks" style="font-size:12px; ">카드선택</mark></label>
-					 	 	<select name="cardselect" id="cardselect" class="ml-3">
-					 	 	<option value="선택해주세요." selected disabled hidden>
-		            			선택해주세요.</option>
-					 	 		<option value="">국민</option>	
-					 	 		<option value="">신한</option>	
-					 	 		<option value="">기업</option>	
-					 	 		<option value="">비씨</option>	
-					 	 		<option value="">삼성</option>	
-					 	 		<option value="">롯데</option>	
-					 	 		<option value="">하나</option>	
-					 	 		<option value="">외환</option>	
-					 	 		<option value="">우리</option>	
-					 	 		<option value="">수협</option>	
-					 	 		<option value="">씨티</option>	
-					 	 	</select>
-	 	 			</div>	
-				 	<div class="p-2" id="selectNum" >
-				 	 	<label for="selectNum"><mark id="marks" style="font-size:12px;" >할부기간</mark></label>
-				 	 	<select name="selectMonth" id="selectMonth" class="ml-3 selectMonth">
-				 	 		<option value="">일시불</option>	
-				 	 		<option value="">1개월</option>	
-				 	 		<option value="">2개월</option>	
-				 	 		<option value="">3개월</option>	
-				 	 		<option value="">4개월</option>	
-				 	 		<option value="">5개월</option>	
-				 	 		<option value="">6개월</option>	
-				 	 		<option value="">7개월</option>	
-				 	 		<option value="">8개월</option>	
-				 	 		<option value="">9개월</option>	
-				 	 		<option value="">10개월</option>	
-				 	 		<option value="">11개월</option>	
-				 	 		<option value="">12개월</option>			
-				 	 	</select>
-	 	 			</div>
-	 	 			<hr/>	
- 	 		</div>	
-	 	
-		 	 	<input type="radio" id ="kakaopay" name="selectPay" onclick="selectPay(this);">
-		 	 	<label for="kakaopay">카카오페이 결제</label>
-		 	 	<hr/>
-		 	 	<div class="hiddenKakaoPay" id="hiddenKakao">
-	 	 			<button class="kakaoBtn" id="kakaoBtn">
-   						 <img src="${pageContext.request.contextPath}/resources/images/moonju/payment_medium.png" onclick="kakaoPayment(this);" id="kakaoBtn">   							 	 			
-	 	 			</button>
-					
-	 	 			<hr/>
-		 	 	</div>
-		 	 
-		 	 	<input type="radio" id ="cashPay" name="selectPay" onclick="selectPay(this);">
-		 	 	<label for="cashPay">가상 계좌(계좌이체)</label>
-		 	 	<hr />
-		 	 	
-		 	 	<div class="hiddenCashPay" id="hiddenCash"> 
-			 	 	<div class="p-2 " >
-					 	 	<label for="cardselect"><mark id="marks" style="font-size:12px; ">입금은행</mark></label>
-					 	 	<select name="cardselect" id="cardselect" class="ml-3">
-					 	 	<option value="선택해주세요." selected disabled hidden>
-		            			선택해주세요.</option>
-					 	 		<option value="">국민</option>	
-					 	 		<option value="">신한</option>	
-					 	 		<option value="">기업</option>	
-					 	 		<option value="">비씨</option>	
-					 	 		<option value="">삼성</option>	
-					 	 		<option value="">롯데</option>	
-					 	 		<option value="">하나</option>	
-					 	 		<option value="">외환</option>	
-					 	 		<option value="">우리</option>	
-					 	 		<option value="">수협</option>	
-					 	 		<option value="">씨티</option>	
-					 	 	</select>
-		 	 		</div>
-				 	 	<div class="p-2 ">
-					 	 	<mark id="marks" style="font-size:12px; ">환불계좌</mark>
-					 	 	<input type="tel" class="ml-3" placeholder=" (-없이)" name="payback" id="payback"  />
-			 	 		</div>
-			 	 		<hr/>
-	 	 		</div>	
-	 	 				
- 	 </div>
  	 <!-- 전체 동의 -->
 	 	 	<div class="p-2">
 		 	 	<input type="checkbox" id="agreedAll" name="agreed" style="width: 20px; height: 20px;">
@@ -573,8 +474,7 @@ td{
  	</div>
  </div>	 
 <div class="border border-0 mx-auto p-3 rounded d-flex justify-content-center" >
-	 <a href="${pageContext.request.contextPath}/basket/payComplet.do">	
-	 <button type="button" class="btn btn-warning " id="payNow">결제하기</button></a>	
+	 <button type="button" class="btn btn-warning " id="payNow" onclick="payAll(this);">결제하기</button>	
 </div>
 
 <script>
@@ -603,29 +503,53 @@ function cardType(obj){
 		}
 
 }
-//라이오 체크시 목록 볼 수 있게 하는 설정
-function selectPay(obj){
-	console.log(obj);
-	const $obj = $(obj);
-	console.log($obj.attr('id'));
+//주소 찾기//
+function sample6_execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
-	if($obj.attr('id') == "cardPay"){
-		$("#hiddenCash").addClass("hiddenCashPay");
-		$("#hiddenKakao").addClass("hiddenKakaoPay");
-		$("#hiddenCard").removeClass("hiddenCardPay");
-			
-	}
-	else if($obj.attr('id') == "kakaopay") {
-		$("#hiddenCash").addClass("hiddenCashPay");
-		$("#hiddenCard").addClass("hiddenCardPay");
-		$("#hiddenKakao").removeClass("hiddenKakaoPay");
-	}
-	else if($obj.attr('id') == "cashPay") {
-		$("#hiddenCard").addClass("hiddenCardPay");
-		$("#hiddenKakao").addClass("hiddenKakaoPay");
-		$("#hiddenCash").removeClass("hiddenCashPay");
-	}
+            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+            var addr = ''; // 주소 변수
+            var extraAddr = ''; // 참고항목 변수
 
+            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                addr = data.roadAddress;
+            } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                addr = data.jibunAddress;
+            }
+
+            // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+            if(data.userSelectedType === 'R'){
+                // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraAddr += data.bname;
+                }
+                // 건물명이 있고, 공동주택일 경우 추가한다.
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                if(extraAddr !== ''){
+                    extraAddr = ' (' + extraAddr + ')';
+                }
+                // 조합된 참고항목을 해당 필드에 넣는다.
+                document.getElementById("sample6_extraAddress").value = extraAddr;
+            
+            } else {
+                document.getElementById("sample6_extraAddress").value = '';
+            }
+
+            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+            document.getElementById('sample6_postcode').value = data.zonecode;
+            document.getElementById("sample6_address").value = addr;
+            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById("sample6_detailAddress").focus();
+        }
+    }).open();
 }
 //전체선택 설정
 $("#agreedAll").change(function(e){
@@ -633,24 +557,64 @@ $("#agreedAll").change(function(e){
 	$("[name=agreed]").prop("checked", this.checked);	
 	
 });
+function payAll(obj){
 
-//카카오페이 api
-/*$("#kakaoBtn").click(() => {
+/* 	var IMP = window.IMP; */
+	IMP.init('imp92035130'); //가맹점 식별코드
+
+
+		var name = ($(".cart-li:eq(1)").find(".left").text()) + " 외"; //주문명
+		var amount = Number($("#total-price").text()); //결제 금액 
+
+				IMP.request_pay({
+				    pg : 'inicis', // version 1.1.0부터 지원.
+				    pay_method : 'card',
+				    merchant_uid : 'merchant_' + new Date().getTime(),
+				    name : name,
+				   //amount : amount
+						//파라미터 정보는 아래 깃허브에서 확인 가능
+						//https://github.com/iamport/iamport-manual/blob/master/%EC%9D%B8%EC%A6%9D%EA%B2%B0%EC%A0%9C/README.md
+				   amount : 10 //테스트용 10원 설정
+				}, function(rsp) {
+					 if ( rsp.success ) {
+					    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+					    	jQuery.ajax({
+										//아임포트 서버에 접속할 url임. 건드리면 안됨
+					    		url: "/payments/complete", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
+					    		type: 'POST',
+					    		dataType: 'json',
+					    		data: {
+						    		imp_uid : rsp.imp_uid
+						    		//기타 필요한 데이터가 있으면 추가 전달
+					    		}
+					    	}).done(function(data) {
+					    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+					    		if ( everythings_fine ) {
+					    			var msg = '결제가 완료되었습니다.';
+					    			msg += '\n고유ID : ' + rsp.imp_uid;
+					    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+					    			msg += '\결제 금액 : ' + rsp.paid_amount;
+					    			msg += '카드 승인번호 : ' + rsp.apply_num;
+
+					    			alert(msg);
+					    		} else {
+					    			//[3] 아직 제대로 결제가 되지 않았습니다.
+					    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+					    		}
+					    	});
+					    	//성공 시 이동할 페이지
+					    	location.href="${pageContext.request.contextPath}/basket/payComplet.do";
+					    } else {
+					        var msg = '결제에 실패하였습니다.';
+					        msg += '에러내용 : ' + rsp.error_msg;
+					        //실패시 이동할 페이지
+			            //location.href="${pageContext.request.contextPath}/order/payFail";
+					        alert(msg);
+					    }
+				});
 	
-	$("#payInfoFrm").submit(e =>{
-		$.ajax({
-					url:"https://kapi.kakao.com/v1/payment/approve",
-					method: "POST",
-					success(data){
-						console.log(data);
-						
-					},
-					error: console.log
-				})
-			});
-	});
-});
-*/
+}
+
 </script>
 
 

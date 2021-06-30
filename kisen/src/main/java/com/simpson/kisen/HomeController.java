@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.simpson.kisen.admin.model.vo.SlideImg;
 import com.simpson.kisen.product.model.service.ProductService;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 
@@ -46,10 +47,19 @@ public class HomeController {
 		log.info("home 지나감!");
 		// product 조회
 		try {
-			List<ProductImgExt> list = productService.selectProductList();
-			log.info("list = {}",list);
+			List<ProductImgExt> randomList = productService.selectRandomProductList(); // 추천상품 - 랜덤상품 추천
+			List<ProductImgExt> newGoodsList = productService.selectNewGoodsProductList(); // new goods
+			List<ProductImgExt> bestSellList = productService.selectBestSellProductList(); // 인기상품 - 판매량 순
+			List<SlideImg> slideList = productService.selectSlideList();
+			log.info("slideList={}",slideList);
+			log.info("Randomlist = {}",randomList);
+			log.info("newGoodsList = {}",newGoodsList);
+			log.info("bestSellList = {}",bestSellList);
 			
-			model.addAttribute("list", list);
+			model.addAttribute("slideList",slideList);
+			model.addAttribute("randomList", randomList);
+			model.addAttribute("bestSellList", bestSellList);
+			model.addAttribute("newGoodsList", newGoodsList);
 		} catch (Exception e) {
 			log.debug("product 조회 오류",e);
 			throw e;

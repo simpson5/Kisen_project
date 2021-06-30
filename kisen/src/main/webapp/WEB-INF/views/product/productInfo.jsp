@@ -142,7 +142,7 @@ a:hover {
 	height: 15px;
 }
 
-.form-control {
+.form-controller {
 	width: 50px;
 	height: 23px;
 	padding: 0 2px 0 3px;
@@ -344,27 +344,73 @@ textarea.autosize {
 							<th>배송정보</th>
 							<td colspan="3" style="border: 0; outline: 0;">영업일 기준 3일</td>
 						</tr>
-						<c:forEach items="${product.pdOptionList}" var="pdOp">
-						<c:if test="${!empty pdOp.optionName}">
-						<tr>
-							<th>옵션</th>
-							<td colspan="3" style="border: 0; outline: 0;"><select
-								class="form-select" aria-label="Default select example"
-								name="option-select">
-									<option selected disabled>- [필수] 옵션을 선택해 주세요 -</option>
-									<option value="1">옵션 1</option>
-									<option value="2">옵션 2</option>
-									<option value="3">옵션 3</option>
-							</select></td>
-						</tr>
+						
+						<c:set var="loop_flag" value="false"/>
+						
+						<c:forEach items="${product.pdOptionList}" var="pdOp" varStatus="status">
+						<c:if test="${not loop_flag}">	
+							<c:if test="${not empty pdOp.optionName}">	
+							<c:set var="loop_flag" value="true"/>
+							<tr>
+								<th>옵션</th>
+								<td colspan="3" style="border: 0; outline: 0;"><select
+									class="form-select" aria-label="Default select example"
+									name="option-select">
+									
+										<option selected disabled>- [필수] 옵션을 선택해 주세요 -</option>
+										<c:forEach items="${product.pdOptionList}" var="pdOp" varStatus="status">
+											<option value="${status.index}">${pdOp.optionName}</option>
+										</c:forEach>
+								</select></td>
+							</tr>
+							</c:if>
 						</c:if>
 						</c:forEach>
 					</tbody>
 				</table>
+				<c:set var="loop_flag" value="false"/>
+
+				<c:forEach items="${product.pdOptionList}" var="pdOp" varStatus="status">
+					<c:if test="${not loop_flag}">	
+						<c:if test="${not empty pdOp.optionName}">	
+							<c:set var="loop_flag" value="true"/> 
 				<p
 					style="font-size: 11px; color: #f76560; margin: 10px auto; text-align: center; padding-bottom: 5px; border-bottom: 1px solid #d4d8d9">
 					위 옵션선택 박스를 선택하시면 아래에 상품이 추가됩니다.</p>
-				<div class="select-option"></div>
+						</c:if>
+					</c:if>
+				</c:forEach>
+				<div class="select-option">
+				<c:set var="looop_flag" value="false"/>
+				<c:forEach items="${product.pdOptionList}" var="pdOp" varStatus="status" >
+				<c:if test="${!empty product}">
+									
+				</c:if>
+					<c:if test="${not looop_flag}">
+						<c:if test="${empty pdOp.optionName}">	
+						<c:set var="looop_flag" value="true"/>
+						<table>
+						<tr>
+							<td style="border-top: 1px solid #eee; padding: 19px 9px 10px; vertical-align: middle;">
+							<p class="pt-1">${product.pdName}<br /></p
+							></td>
+							<td colspan="1" class="col-1" style="border-top: 1px solid #eee; padding: 22px 9px 10px; vertical-align: middle;"><span
+							style="position: relative; display: inline-block;"> 
+							<input
+								type="text" class="form-controller" name="stock" value="1" min="1" size="5" />
+							<img class="up"
+									src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"
+									alt="수량증가">
+							<img class="down"
+									src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_down.gif"
+									alt="수량감소">
+							</span></td>
+						</tr>
+						</table>
+						</c:if>
+					</c:if>
+				</c:forEach>
+				</div>
 				<div class="total-pd">
 					<table class="pd-option-tbl">
 						<tbody>
@@ -373,11 +419,17 @@ textarea.autosize {
 									: <span class="total"></span></td>
 							</tr>
 							<tr>
-								<td class="btn-buy" colspan="3">
+								<td class="btn-buy" colspan="3" style="border-bottom:1px solid #eee;">
+								<!-- pdStock == 0 -> 품절상품입니다. 로 대체 -->
+								<c:if test="${product.pdStock ne 0}">
 									<button type="button" class="btn btn-dark col-5 mx-2 py-2">구매하기</button>
 									<button type="button"
 										class="btn btn-outline-secondary col-5 mx-2 py-2">장바구니
 										담기</button>
+								</c:if>
+								<c:if test="${product.pdStock eq 0}">
+									<p class="my-auto" style="color:red;">품절 상품입니다.</p>
+								</c:if>
 								</td>
 							</tr>
 						</tbody>
@@ -425,7 +477,7 @@ textarea.autosize {
 				<c:forEach items="${list}" var="review" varStatus="status">
 					<tr data-no="${review.reviewNo}">
 						<td>${status.count}</td>
-						<td>${review.reviewTitle}</td>
+						<td onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail?no=${no}&reviewNo=${review.reviewNo}'">${review.reviewTitle}</td>
 						<td>${review.fanId}</td>
 						<td><fmt:formatDate value="${review.reviewDate}" pattern="YYYY-MM-dd"/></td>
 						<td>${review.readCnt}</td>
@@ -436,9 +488,10 @@ textarea.autosize {
 			</table>
 			
 			<div class="btn-area">
-				<div class="btn-group" role="group" aria-label="Basic example" onclick="location.href='${pageContext.request.contextPath}/review/reviewForm.do?no=${no}'">
-					<button type="button" class="btn btn-dark write" name="reviewWrite">글 작성</button>
-					<button type="button" class="btn btn-secondary">전체보기</button>
+				<div class="btn-group" role="group" aria-label="Basic example">
+				<c:if test="${not empty loginMember}">
+					<button type="button" class="btn btn-dark write" name="reviewWrite"  onclick="location.href='${pageContext.request.contextPath}/review/reviewForm.do?no=${no}'">글 작성</button>
+				</c:if>
 				</div>
 			</div>
 			<div class="paging-area">
@@ -449,55 +502,40 @@ textarea.autosize {
 
 		<div class="pd-another border border-0 mx-auto p-3"
 			style="display: none;">
-			<div id="carouselExampleIndicators2" class="carousel slide"
-				data-ride="carousel">
-				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<div class="d-flex flex-row justify-content-center" id="pd-slide">
-							<br />
-							<c:forEach var="i" begin="1" end="5" step="1">
-								<div class="p-2 my-3 col-xs-1">
-									<div class=" mx-auto font-weight-bold text-center">
-										<img
-											src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
-									</div>
-									<div class=" mx-auto font-weight-bold text-center">
-										<p class="another-pd-name">상품명</p>
-										<span class="another-pd-price">상품가격</span>
-									</div>
-								</div>
-							</c:forEach>
+			<c:if test="${!empty randomList}">
+				<div class="idol-item row d-none d-sm-block">
+				    <div class="row g-3 ">
+					<c:forEach items="${randomList}" var="product">
+						<div class="col-lg-3 col-md-4 col-sm-6 ">
+					        <div class="card" style="width: 13rem;">
+					            	<c:forEach items="${product.pdImgList}" var="pdImg">
+								        <c:if test="${pdImg.pdCategory eq 'R'}">
+											<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+									   	</c:if>
+							    	</c:forEach>
+					           
+					            <div class="card-body">
+					              <h5 class="card-title">${product.pdName}</h5>
+					              <p class="card-text">  
+					                <span class="badge bg-s">${product.idolName}</span><br />
+					                <span class="badge bg-dark">공식굿즈</span>
+					                <span class="badge bg-dark">${product.pdCategory}</span>
+					              </p>
+					              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
+					                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
+					                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
+					              </div>
+					            </div>
+							</div>
+					      <!-- col-lg-3 col-md-6 End -->
+						      
 						</div>
-					</div>
-					<div class="carousel-item">
-						<div class="d-flex flex-row justify-content-center" id="pd-slide">
-							<br />
-							<c:forEach var="i" begin="1" end="5" step="1">
-								<div class="p-2 my-3 col-xs-1">
-									<div class=" mx-auto font-weight-bold text-center">
-										<img
-											src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
-									</div>
-									<div class=" mx-auto font-weight-bold text-center">
-										<p class="another-pd-name">상품명</p>
-										<span class="another-pd-price">상품가격</span>
-									</div>
-								</div>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<a class="carousel-control-prev" href="#carouselExampleIndicators2"
-				role="button" data-slide="prev" id="btnPrev"> <span
-				class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-				class="sr-only">Previous</span>
-			</a> <a class="carousel-control-next" href="#carouselExampleIndicators2"
-				role="button" data-slide="next" id="btnNext"> <span
-				class="carousel-control-next-icon" aria-hidden="true"></span> <span
-				class="sr-only">Next</span>
-			</a>
+					</c:forEach>
+				    <!-- row g-3 End -->
+				    </div>
+			  <!-- row end -->
+			 	 </div>
+		  	</c:if>
 		</div>
 	</div>
 </div>
@@ -547,14 +585,38 @@ $(".select-option").on("click", ".down", e => {
 });
 
 
+function total(){
+	var cnt = 0;
+	var get_input = $(".form-controller");
+	$.each(get_input, function (index, value) {
+		cnt += Number($(value).val());
+	});
+	
+	var $total = $(".total");
+	var price = ${product.price};
+	var total = price * cnt;
+
+	console.log(get_input);
+	console.log(price);
+	console.log($total);
+	console.log(total);
+
+	$total += $total.html("<strong>"+total+"</strong>"+"("+cnt+"개)");
+}
+window.onload=total;
+
+function Converter(str){
+	str = str.replace(/`/g,"&#96;");
+}
+
 $("[name=option-select]").change(function(e){
 	var $table = $("<table></table>");
+	
 	$table
-	.append(`<tr>
-			<td><p class="pt-1">${product.pdName}<br /> <span class="add-option">옵션명</span>	</p></td>
+		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option">옵션명</span></p></td>
 			<td colspan="1" class="col-1"><span
 			style="position: relative; display: inline-block;"> <input
-				type="text" class="form-control" name="stock" value="1" min="1" size="3"/>
+				type="text" class="form-controller" name="stock" value="1" min="1" size="3"/>
 			<img class="up"
 					src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"
 					alt="수량증가">
@@ -570,40 +632,26 @@ $("[name=option-select]").change(function(e){
 	$(".select-option").append($table);
 	total();
 	$(".delete").click(function(){
-		console.log($(this).parent().parent().parent());
 		$this = $(this).parent().parent().parent();
 		$this.remove();
 		total();
 	});
 });
 
-function total(){
-	var cnt = 0;
-	var get_input = $(".form-control");
-	$.each(get_input, function (index, value) {
-		cnt += Number($(value).val());
-	});
-	
-	var $total = $(".total");
-	var price = ${product.price};
-	var total = price * cnt;
 
-	console.log(typeof(cnt));
-	console.log($total);
-	console.log(cnt);
-	console.log(total);
-	$total += $total.html("<strong>"+total+"</strong>"+"("+cnt+"개)");
-}
 
-/* $(() => {
-	$("button[name=reviewWrite]").click(e => {
-		//var $no = $(e.target).parent();
-		//var no = $no.data("no");
-		console.log('${no}');
+
+$(() => {
+	$("button[name=pdDetail]").click(e => {
+		//화살표함수안에서는 this는 e.target이 아니다.
+		//console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
+		var $no = $(e.target).parent();
+		var no = $no.data("no");
+		console.log(no);
 		
-		//location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + no;
+		location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + no;
 	});
-}); */
+});
 
 </script>
 

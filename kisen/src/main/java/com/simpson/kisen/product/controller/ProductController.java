@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.simpson.kisen.common.util.HelloSpringUtils;
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.product.model.service.ProductService;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.review.model.service.ReviewService;
@@ -36,12 +38,18 @@ public class ProductController {
 	public void pdInfo(@RequestParam int no, 
 						@RequestParam(required = true, defaultValue = "1") int cpage,
 						HttpServletRequest request,
+						Authentication authentication,
 						Model model) {
 		ProductImgExt product = productService.selectOneProduct(no);
-		log.info("product = {}", product);
+		
+		product.setPdName(product.getPdName().replaceAll("`", "&#96;"));
+		if(authentication != null) {
+			Fan loginMember = (Fan) authentication.getPrincipal();
+			model.addAttribute("loginMember", loginMember);		
+		}
 		try {
 			log.debug("cpage = {}", cpage);
-			final int limit = 10;
+			final int limit = 5;
 			final int offset = (cpage - 1) * limit;
 			Map<String, Object> param = new HashMap<>();
 			param.put("limit", limit);
@@ -49,13 +57,18 @@ public class ProductController {
 			param.put("no", no);
 			//1.업무로직 : content영역 - Rowbounds
 			List<ReviewExt> list = reviewService.selectReviewList(param);
+			List<ProductImgExt> randomList = productService.selectRandomProductList();;
 			int totalContents = reviewService.selectReviewTotalContents(no);
 			String url = request.getRequestURI();
-			log.debug("list = {}", list);
+			
+			log.info("url = {}", url);
+			log.info("list = {}", list);
 			log.debug("totalContents = {}, url = {}", totalContents, url);
 			String pageBar = HelloSpringUtils.getPageBar(totalContents, cpage, limit, url);
 			
+			log.info("pageBar = {}", pageBar);
 			//2. jsp에 위임
+			model.addAttribute("randomList",randomList);
 			model.addAttribute("list", list);
 			model.addAttribute("pageBar", pageBar);
 			model.addAttribute("no",no);

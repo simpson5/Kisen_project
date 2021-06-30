@@ -20,455 +20,62 @@
 	background-image: none;
 	border-color: #c7a2e0;
 }
-</style>
-
-</head>
-<body>
-
-
-
-
-	<section>
-		<h2 class="text-center m-4" style="font-weight: bold;">수요조사폼목록</h2>
-
-		<br /> <br />
-
-
-
-
-
-
-		<script>
-			function goDemandSubmit() {
-				location.href = "${pageContext.request.contextPath}/unofficial/demandDetail.do";
-
-			}
-		</script>
-
-
-
-
-		<div class="titleWrapper">
-			<style>
-div#topList {
-	display: flex;
-}
-</style>
-
-		</div>
-
-		<div id="topList" class="boxWrapper">
-
-
-
-			<style>
 .card {
 	margin-right: 10px;
 	margin-left: 10px;
+	margin-top: 20px;
 }
-</style>
-
-
-
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/2.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-
-
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/3.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/4.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/5.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/6.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-
-
-
-		</div>
-
-		<br /> <br />
-
-		<!-- 카테고리별 -->
-		<div class="titleWrapper">
-			<style>
-div#ingdemandList {
+.boxWrapper {
 	display: flex;
 }
 </style>
-
-		</div>
-		<div id="ingdemandList" class="boxWrapper">
-
-
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/7.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-
-
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/8.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/9.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/10.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/11.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-
-
-		</div>
-
-		<br /> <br />
-
-
-		<div class="titleWrapper">
-			<style>
-div#ingdepositlist {
-	display: flex;
+<script>
+function goDemandSubmit(demandNo) {
+	console.log(demandNo);
+	location.href = "${pageContext.request.contextPath}/unofficial/demandDetail.do?demandNo="+demandNo;
 }
-</style>
+</script>
 
-		</div>
-		<div id="ingdepositlist" class="boxWrapper">
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/12.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
+<div class="container">
 
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/13.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/14.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/15.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/16.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-		</div>
-
+		<h2 class="text-center m-4" style="font-weight: bold;">수요조사폼목록</h2>
 		<br /> <br />
+		<c:forEach items="${unofficialdemandList}" var="unofficialdemand" varStatus="vs">
+		<c:if test="${vs.index % 5 == 0}">
+		<div id="" class="boxWrapper">
+		</c:if>
+			<div class="card" style="width: 18rem;">
+				<c:forEach items="${unofficialdemand.demandpdImgList}" var="pdImg">
+            		<c:if test="${pdImg.pdCategory eq 'R'}">
+   			        	<img src="<c:url value='/resources/upload/unofficial/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="tree" style="cursor: pointer;" onclick="goDemandSubmit(${unofficialdemand.demandNo});"
+   			        	>
+            		</c:if>
+            	</c:forEach>
 
 
-		<div class="titleWrapper">
-			<style>
-div#newdemandlist {
-	display: flex;
-}
-</style>
-
+				<div class="card-body">
+					<h5 class="card-title">${unofficialdemand.pdName}</h5>
+					<p class="card-text">
+						<span class="badge bg-dark">비공식굿즈</span>
+						<!-- 분류 -->
+						<span class="badge bg-dark">${unofficialdemand.pdCategory}</span>
+						<!-- 분류 -->
+						<span class="badge bg-s">기간 : 
+							<fmt:formatDate value="${unofficialdemand.demandstartDate}" pattern="yy/MM/dd"/>
+							~
+							<fmt:formatDate value="${unofficialdemand.demandendDate}" pattern="yy/MM/dd"/>
+						</span>
+						<span class="badge bg-s">재고 : ${unofficialdemand.pdStock}</span>
+						<span class="badge bg-s">판매량: ${unofficialdemand.pdSales}</span>
+<%-- 						<span class="badge bg-s">판매자 : ${unofficialdemand.}</span> --%>
+					</p>
+				</div>
+			</div>
+		<c:if test="${vs.index % 5 == 4}">		
 		</div>
-		<div id="newdemandlist" class="boxWrapper">
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/17.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-
-
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/18.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/19.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/20.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-			<div class="card" style="width: 18rem;">
-				<img class="card-img-top"
-					src="${pageContext.request.contextPath }/resources/images/unofficial/21.png"
-					alt="Card image cap" onclick="goDemandSubmit();" style="cursor: pointer;">
-				<div class="card-body">
-					<h5 class="card-title">방탄소년단</h5>
-                            <p class="card-text"> 
-                              <span class="badge bg-dark">비공식굿즈</span>       <!-- 분류 -->
-                              <span class="badge bg-dark">메모지</span>           <!-- 분류 -->
-                              <span class="badge bg-s">기간 : 2021-06-17~2021-06-30 </span>       
-                              <span class="badge bg-s">재고  : 100</span>
-                               <span class="badge bg-s">판매량  : 100</span>
-                               <span class="badge bg-s">판매자  : 정쿠키</span>
-                               <span class="badge bg-s">조회수  : 1234</span>
-                            </p>
-				</div>
-			</div>
-		</div>
-</body>
-</html>
+		</c:if>
+		</c:forEach>
+</div>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 
 

@@ -3,39 +3,73 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
-	<select id="selectProductList" resultMap="ProductImgExt">
-		select 
-		    p.*,
-		    i.idol_name idolName,
-		    g.renamed_filename fileName
-		from  
-		    product p
-		  left join 
-		    idol i
-		      	on p.idol_no = i.idol_no
-		  left join
-		  	pd_img g
-		  		on g.pd_no = p.pd_no
+	<select id="selectBestSellProductList" resultMap="productCollectionMap">
+		select
+			A.*,
+			rank() over(order by A.sales_date desc)
+		from
+			(
+			select
+				p.*,
+	   			g.pd_img_no,
+			    g.pd_category img_category,
+			    g.original_filename,
+			    g.renamed_filename
+			from
+				product p
+			left join
+				pd_img g
+					on p.pd_no = g.pd_no
+			where g.pd_category = 'R'
+			order by p.pd_sales desc
+			) A
+		where rownum &lt; 5
 	</select>
-	<resultMap type="productImgExt" id="ProductImgExt">
-		<id column="pd_no" property="pdNo"/>
-		<result column="idol_no" property="idolNo"/>
-		<result column="pd_category" property="pdCategory"/>
-		<result column="pd_name" property="pdName"/>
-		<result column="pd_content" property="pdName"/>		
-		<result column="price" property="price"/>
-		<result column="pd_stock" property="pdStock"/>
-		<result column="pd_sales" property="pdSales"/>
-		<result column="sales_date" property="salesDate"/>
-		<collection property="pdImgList" ofType="ProductImg">
-			<id column="pd_no" property="pdNo"/>
-			<result column="pd_img_no" property="pdImgNo"/>
-			<result column="pd_category" property="pdCategory"/>
-			<result column="original_filename" property="originalFilename"/>
-			<result column="renamed_filename" property="renamedFilename"/>
-			<result column="upload_date" property="uploadDate"/>
-		</collection>
-	</resultMap>
+	<select id="selectNewGoodsProductList" resultMap="productCollectionMap">
+		select
+			A.*,
+			rank() over(order by A.sales_date desc)
+		from
+			(
+			select
+				p.*,
+	   			g.pd_img_no,
+			    g.pd_category img_category,
+			    g.original_filename,
+			    g.renamed_filename
+			from
+				product p
+			left join
+				pd_img g
+					on p.pd_no = g.pd_no
+			where g.pd_category = 'R'
+			order by p.sales_date desc
+			) A
+		where rownum &lt; 5
+	</select>
+	
+	<select id="selectRandomProductList" resultMap="productCollectionMap">
+		 select
+			A.*,
+			rank() over(order by A.sales_date desc)
+		from
+		(
+		select
+			p.*,
+   			g.pd_img_no,
+		    g.pd_category img_category,
+		    g.original_filename,
+		    g.renamed_filename
+		from
+			product p
+		left join
+			pd_img g
+				on p.pd_no = g.pd_no
+        where g.pd_category = 'R'
+		order by DBMS_RANDOM.RANDOM
+		) A
+		where rownum &lt; 5 
+	</select>
 	
 	
 	<select id="selectOneProduct" resultMap="productCollectionMap">
@@ -87,4 +121,11 @@
 		 	<result column="option_name" property="optionName"/>
 		</collection>
 	</resultMap>
+	
+	<select id="selectSlideList" resultType="slideImg">
+		select
+			*
+		from
+			slide_img
+	</select>
 </mapper>

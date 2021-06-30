@@ -13,7 +13,7 @@ import lombok.ToString;
 @Data
 @ToString(callSuper = true)
 @NoArgsConstructor
-public class UnofficialPdImgExt {
+public class UnofficialPdImgExt extends UnofficialDemand {
 	private List<DemandpdImg> demandpdImgList;
 	private List<DepositpdImg> depositpdImgList;
 	private List<ProductOption> pdOptionList;

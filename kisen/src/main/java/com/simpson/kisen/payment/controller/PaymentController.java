@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.controller.IdolController;
@@ -33,13 +34,13 @@ public class PaymentController {
 		try {
 			Fan principal = (Fan) authentication.getPrincipal();
 			
-			List<Basket> basketList = paymentService.selectBasketList(principal.getFanNo());
+		List<Basket> basketList = paymentService.selectBasketList(principal.getFanNo());
 			
 			model.addAttribute("loginMember", principal);
-			model.addAttribute("basketList", basketList);
+		model.addAttribute("basketList", basketList);
 			
 			
-			log.info("payList = {}", basketList);
+			log.info("basketList = {}", basketList);
 			log.info("authentication = {}", authentication);
 			log.info("principal = {}", principal);
 		} catch (Exception e) {
@@ -47,9 +48,24 @@ public class PaymentController {
 			throw e;
 		}
 	}
+	
 	@GetMapping("/payment.do")
-	public void payment() {
-		
+	public void payment(@RequestParam int[] bNo, Authentication authentication, Model model ) {
+		try {
+			Fan principal = (Fan) authentication.getPrincipal();
+			log.info("bNo = {}",bNo);
+			
+			List<Basket> PaymentList = paymentService.selectPaymentList(bNo);
+			
+			model.addAttribute("loginMember", principal);
+			model.addAttribute("PaymentList", PaymentList);
+	
+			log.info("authentication = {}", authentication);
+			log.info("principal = {}", principal);
+		} catch (Exception e) {
+			log.error("장바구니 내역 불러오기 오류!", e);
+			throw e;
+		}
 	}
 	@GetMapping("/payComplet.do")
 	public void payComplet() {

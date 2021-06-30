@@ -26,25 +26,15 @@
 	<context:component-scan base-package="com.simpson.kisen" />
 	
 	<!-- #9. interceptor 등록 -->
-<!-- 	<interceptors>
+	<interceptors>
 		<interceptor>
-			<mapping path="/**"/>
-			<beans:bean
-				id="loggerInterceptor"
-				class="com.kh.spring.common.interceptor.LoggerInterceptor"/>
+			<mapping path="/mypage/**"/>
+			<mapping path="/basket/**"/>
+			<mapping path="/review/reviewForm.do"/>
+			<mapping path="/fanBoard/fanBoardEnroll.do"/>
+			<beans:bean id="LoginInterceptor" class="com.simpson.kisen.common.interceptor.LoginInterceptor"/>
 		</interceptor>
-		<interceptor>
-			<mapping path="/member/**"/>
-			<mapping path="/board/**"/>
-			<exclude-mapping path="/member/memberLogin.do"/>
-			<exclude-mapping path="/member/memberEnroll.do"/>
-			<exclude-mapping path="/member/checkIdDuplicate*.do"/>			
-			<exclude-mapping path="/board/boardList.do"/>
-			<beans:bean
-				id="LoginInterceptor"
-				class="com.kh.spring.common.interceptor.LoginInterceptor"/>
-		</interceptor>
-	</interceptors> -->
+	</interceptors>
 	
 	<!-- #11.1 aop관련 -->
 	<aop:aspectj-autoproxy />

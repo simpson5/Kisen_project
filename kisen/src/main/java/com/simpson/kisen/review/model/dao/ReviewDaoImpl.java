@@ -43,34 +43,22 @@ public class ReviewDaoImpl implements ReviewDao {
 	}
 
 	@Override
-	public int insertAttachment(Attachment attach) {
-		return session.insert("review.insertAttachment", attach);
-	}
-
-	@Override
-	public ReviewExt selectOneReview(int no) {
+	public Review selectOneReview(int no) {
 		return session.selectOne("review.selectOneReview", no);
 	}
 
 	@Override
-	public List<Attachment> selectAttachList(int reviewNo) {
-		return session.selectList("review.selectAttachList", reviewNo);
+	public int updateReview(Review review) {
+		return session.update("review.updateReview", review);
 	}
 
 	@Override
-	public ReviewExt selectOneReviewCollection(int no) {
-		return session.selectOne("review.selectOneReviewCollection", no);
+	public int deleteReview(int no) {
+		return session.delete("review.deleteReview",no);
 	}
 
-	@Override
-	public Attachment selectOneAttachment(int no) {
-		return session.selectOne("review.selectOneAttachment", no);
-	}
 
-	@Override
-	public List<Review> searchTitle(String searchTitle) {
-		return session.selectList("review.searchTitle", searchTitle);
-	}
+
 
 	
 
