@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="artist">
+	<select id="selectArtistOne" resultMap="artistCollectionMap">
+		select
+        	i.*,
+			ig.renamed_filename,		
+			im.mv_no,
+            im.mv_link
+        from 
+        	idol i
+            left join
+                idol_img ig
+        			on
+        			ig.idol_no = i.idol_no
+        	left join
+        		idol_mv im
+        			on
+        			im.idol_no = i.idol_no
+        where
+     		i.idol_no = #{no}
+	</select>
+	<resultMap type="idol" id="artistCollectionMap">
+		<id column="fan_no" property="fanNo"/>
+		<result column="idol_no" property="idolNo"/>
+		<result column="agency_no" property="agencyNo"/>
+		<result column="idol_name" property="idolName"/>
+		<result column="fan_cnt" property="fanCnt"/>
+		<result column="idol_name" property="idolName"/>
+		
+		<collection property="idolImg" ofType="IdolImg">
+          <id column ="idol_img_no" property="idolImgNo"/>
+          <result column="idol_no" property="idolNo"/>
+          <result column="original_filename" property="originalFilename"/>
+          <result column="renamed_filename" property="renamedFilename"/>
+          <result column="upload_date" property="uploadDate"/>
+     	</collection>
+     	<collection property="idolMv" ofType="IdolMv">
+          <id column ="mv_no" property="mvNo"/>
+          <result column="idol_no" property="idolNo"/>
+          <result column="mv_link" property="mvLink"/>
+     	</collection>
+     </resultMap>
+</mapper>

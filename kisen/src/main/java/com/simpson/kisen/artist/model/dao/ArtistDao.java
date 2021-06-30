@@ -8,4 +8,6 @@ public interface ArtistDao {
 
 	List<Idol> selectAllIdolName();
 
+	List<Idol> selectArtistOne(int no);
+
 }

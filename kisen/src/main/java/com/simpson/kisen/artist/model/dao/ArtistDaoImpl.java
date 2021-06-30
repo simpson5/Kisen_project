@@ -19,4 +19,9 @@ public class ArtistDaoImpl implements ArtistDao {
 		return session.selectList("agency-artist.selectAllIdolName");
 	}
 
+	@Override
+	public List<Idol> selectArtistOne(int no) {
+		return session.selectList("artist.selectArtistOne",no);
+	}
+
 }

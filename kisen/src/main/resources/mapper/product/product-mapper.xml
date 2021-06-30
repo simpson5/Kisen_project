@@ -23,7 +23,7 @@
 			where g.pd_category = 'R'
 			order by p.pd_sales desc
 			) A
-		where rownum &lt; 5
+		where rownum &lt; 9
 	</select>
 	<select id="selectNewGoodsProductList" resultMap="productCollectionMap">
 		select
@@ -45,7 +45,7 @@
 			where g.pd_category = 'R'
 			order by p.sales_date desc
 			) A
-		where rownum &lt; 5
+		where rownum &lt; 9
 	</select>
 	
 	<select id="selectRandomProductList" resultMap="productCollectionMap">

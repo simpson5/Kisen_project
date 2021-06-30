@@ -70,30 +70,16 @@ p.album-singer{
 <div id="wrap">
 	<div class="container">
 	    <div class="row">
-	        <div class="col-xs-12">
-				<!-- 슬라이드 이미지 -->
-				<div id="carouselExampleControls" class="carousel slide slide-img" data-ride="carousel">
-				    <div class="carousel-inner">
-				      <div class="carousel-item active idol" onclick="artistDetail();">
-				        <img src="${pageContext.request.contextPath}/resources/images/idol/bts.jpg" class="d-block w-100 idol-img" alt="...">
-				      </div>
-				      <div class="carousel-item idol" onclick="artistDetail();">
-				        <img src="${pageContext.request.contextPath}/resources/images/idol/itzy.png " class="d-block w-100 idol-img"  alt="...">
-				      </div>
-				      <div class="carousel-item idol" onclick="artistDetail();">
-				        <img src="${pageContext.request.contextPath}/resources/images/idol/monstax.jpg" class="d-block w-100 idol-img " alt="...">
-				      </div>
-				    </div>
-				    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-				      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				      <span class="sr-only">Previous</span>
-				    </a>
-				    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-				      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-				      <span class="sr-only">Next</span>
-				    </a>
-				  <!-- slide end -->
-				</div>
+	        <div class="col-xs-12" style="margin:0 auto;">
+				<c:set var="loop_flag" value="false" />
+					<c:forEach items="${idol}" var="idol">
+						<c:if test="${not loop_flag}">
+							<c:if test="${!empty idol}">
+								<c:set var="loop_flag" value="true"/> 
+								<img src="${pageContext.request.contextPath}/resources/upload/idol/${idol.idolImg.renamedFilename}" class="d-block w-100 idol-img" alt="...">
+							</c:if>
+						</c:if>
+					</c:forEach>
 	        </div>
 	    </div>
 	    <div class="col-xs-12">
