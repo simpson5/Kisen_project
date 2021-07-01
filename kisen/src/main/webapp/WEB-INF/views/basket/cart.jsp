@@ -303,17 +303,46 @@ color:  #9033b5;
 	id="orderFrm"
 	action="${pageContext.request.contextPath}/basket/payment.do">
 </form> 
+<form 
+	name="delCart" 
+	method="POST" 
+	id="orderFrm"
+	action="${pageContext.request.contextPath}/basket/delCart.do">
+</form> 
 		
 </div>
 
 <script>
 //선택시 장바구니 내역 삭제
  function cartDel(obj){
-	const $one = $(".selectProduct:checked");
-	console.log($one);
-	const pdName = $one.find("[name=pdName]").val();
-	console.log(pdName);
-	
+	 var $formId = $(document.delCart);
+	 console.log("formId= "+ $formId);
+
+	    var bNoHtml='';
+	    
+	    //체크된 것의 bNo가져오기
+	    const $one = $(".selectProduct:checked");
+		console.log($one);
+	   
+	    
+		if($one.prop("checked") == true){
+
+			 var bNo = $one.next();
+			 console.log(bNo);
+			 
+			   $.each(bNo, function (index, value){
+				    console.log(value);
+
+				    bNoHtml +='<input type="hidden" name ="bNo" value="'+$(value).val()+'"/>';
+
+				    console.log(bNoHtml);
+				    });
+
+		}//if절 끝
+		 $formId.append(bNoHtml);
+			$formId.submit();
+		console.log("formId= "+ $formId);
+		
 	
 }
 
@@ -324,7 +353,7 @@ function order(obj){
 	//데이터는 int 배열 
 	const total = Number($(".total").text());//전체 금액값
 	console.log(total);
-	const totalHtml ='<input type="hidden" name ="bNo" value="'+total+'"/>';
+	const totalHtml ='<input type="hidden" name ="total" value="'+total+'"/>';
 
 	var $formId = $(document.orderFrm);
 	 console.log("formId= "+ $formId);

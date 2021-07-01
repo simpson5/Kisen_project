@@ -9,6 +9,7 @@ import com.simpson.kisen.product.model.vo.ProductOption;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 /**
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(callSuper = true)
 public class PaymentExt  extends Payment{
 	private String pdNo;//상품번호
 	private String orderNo;//주문번호

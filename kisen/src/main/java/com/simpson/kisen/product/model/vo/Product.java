@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
-	private int pdNo; // ��ǰ��ȣ
+	private String pdNo; // ��ǰ��ȣ
 	private int idolNo; // ���̵���ȣ
  	private String pdCategory; // �з�
 	private String pdName; // ��ǰ�̸�
