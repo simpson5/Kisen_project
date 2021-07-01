@@ -57,7 +57,7 @@ public class ProductController {
 			param.put("no", no);
 			//1.업무로직 : content영역 - Rowbounds
 			List<ReviewExt> list = reviewService.selectReviewList(param);
-			List<ProductImgExt> randomList = productService.selectRandomProductList();;
+			List<ProductImgExt> randomList = productService.selectRandomProductList();
 			int totalContents = reviewService.selectReviewTotalContents(no);
 			String url = request.getRequestURI();
 			
