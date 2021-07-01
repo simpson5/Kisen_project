@@ -110,12 +110,16 @@ p.album-singer{
 		</div>
 		
 		<div class="row artist-album">
+			<c:if test="${empty idolAlbumList}">
+				<h5 style="margin: 0 auto;">조회된 정보가 없습니다.</h5>
+			</c:if>
 	        <c:if test="${!empty idolAlbumList}">
 				<div class="idol-item row d-none d-sm-block">
 				    <div class="row g-3 ">
 						<div id="carouselExampleControlss" class="carousel slide slide-img" data-ride="carousel">
 						    <div class="carousel-inner">
 							    <div class="carousel-item active idol">
+							      
 							      <c:forEach items="${idolAlbumList}" var="product" varStatus="status">
 							      <c:if test="${status.index < 4}">
 							      <div class="mx-auto " style="display:inline-block;">
@@ -145,10 +149,16 @@ p.album-singer{
 							      </c:if>
 							      </c:forEach>
 							      </div>
-							      
-							      
+							     
+							     <!-- 
+							      <c:set var="loop_flag" value="fasle"/>
+							      <c:forEach items="${idolAlbumList}" var="idol" varStatus="status">
+							      <c:if test="${not loop_flag}">
+							      <c:if test="${status.end >= 4 }">
+							      <c:set var="loop_flag" value="true"/>
+							      -->
 							      <div class="carousel-item idol">
-							      <c:forEach items="${randomList}" var="product" varStatus="status">
+							      <c:forEach items="${idolAlbumList}" var="product" varStatus="status">
 							      <c:if test="${status.index > 3}">
 							      <div class="mx-auto" style="display:inline-block;">
 							        <div class="card col-xs-4" style="width:15em; display:inline-block; float: left; margin:13px; 0px; 10px; 0px;">
@@ -176,7 +186,18 @@ p.album-singer{
 							      </c:if>
 							      </c:forEach>
 							      </div>
+							      <!-- 
+							      </c:if>
+							      </c:if>
+							      </c:forEach>
+							       -->
 						      </div>
+						      <!-- 
+						    <c:set var="looop_flag" value="fasle"/>
+							<c:forEach items="${idolAlbumList}" var="idol" varStatus="status">
+							<c:if test="${not looop_flag}">
+							<c:if test="${status.end >= 4 }">
+							 -->
 							<a class="carousel-control-prev" href="#carouselExampleControlss" role="button" data-slide="prev">
 						      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
 						      <span class="sr-only">Previous</span>
@@ -185,6 +206,11 @@ p.album-singer{
 						      <span class="carousel-control-next-icon" aria-hidden="true"></span>
 						      <span class="sr-only">Next</span>
 						    </a>
+						    <!--
+						    </c:if>
+						    </c:if>
+						    </c:forEach>
+						      -->
 					      </div>
 				    <!-- row g-3 End -->
 				    </div>
@@ -194,22 +220,17 @@ p.album-singer{
 	    </div>
 	    
 		<div class="row artist-mv" style="display: none;">
+		<c:forEach items="${idol}" var="idol" varStatus="status">
 	        <div class="col-md-3 mv">
-	        	<iframe width="100%" src="https://www.youtube.com/embed/gdZLi9oWNZg"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	        	<iframe width="100%" src="https://www.youtube.com/embed/RZrqrinmdks"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 	        	<p style="text-align: center;">뮤비 제목</p>
 	        </div>
-	        <div class="col-md-3 mv">
-	        	<iframe width="100%" src="https://www.youtube.com/embed/gdZLi9oWNZg"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-	        	<p style="text-align: center;">뮤비 제목</p>
-	        </div><div class="col-md-3 mv">
-	        	<iframe width="100%" src="https://www.youtube.com/embed/gdZLi9oWNZg"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-	        	<p style="text-align: center;">뮤비 제목</p>
-	        </div><div class="col-md-3 mv">
-	        	<iframe width="100%" src="https://www.youtube.com/embed/gdZLi9oWNZg"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-	        	<p style="text-align: center;">뮤비 제목</p>
-	        </div>
+	    </c:forEach>
 	    </div>
 	    <div class="row artist-goods" style="display: none;">
+	    	<c:if test="${empty idolProductList}">
+				<h5 style="margin: 0 auto;">조회된 정보가 없습니다.</h5>
+			</c:if>
 			<c:if test="${!empty idolProductList}">
 				<div class="idol-item row d-none d-sm-block">
 				    <div class="row g-3 ">
@@ -246,7 +267,10 @@ p.album-singer{
 							      </c:forEach>
 							      </div>
 							      
-							      
+							      <c:set var="looop_flag" value="fasle"/>
+							      <c:forEach items="${idolAlbumList}" var="idol" varStatus="status">
+							      <c:if test="${not looop_flag}">
+							      <c:if test="${status.end >= 4 }">
 							      <div class="carousel-item idol">
 							      <c:forEach items="${randomList}" var="product" varStatus="status">
 							      <c:if test="${status.index > 3}">
@@ -276,7 +300,14 @@ p.album-singer{
 							      </c:if>
 							      </c:forEach>
 							      </div>
+							      </c:if>
+							      </c:if>
+							      </c:forEach>
 						      </div>
+						   	<c:set var="loooop_flag" value="fasle"/>
+							<c:forEach items="${idolAlbumList}" var="idol" varStatus="status">
+							<c:if test="${not loooop_flag}">
+							<c:if test="${status.end >= 4 }">
 							<a class="carousel-control-prev" href="#carouselExampleControlss" role="button" data-slide="prev">
 						      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
 						      <span class="sr-only">Previous</span>
@@ -285,6 +316,9 @@ p.album-singer{
 						      <span class="carousel-control-next-icon" aria-hidden="true"></span>
 						      <span class="sr-only">Next</span>
 						    </a>
+						    </c:if>
+						    </c:if>
+						    </c:forEach>
 					      </div>
 				    <!-- row g-3 End -->
 				    </div>
@@ -348,6 +382,7 @@ $(".artist-nav").click(function(e){
 
 $("#pdInfo-btn").click(function(){
 	window.location.href="${pageContext.request.contextPath}/product/productInfo";
+
 });
 
 </script>

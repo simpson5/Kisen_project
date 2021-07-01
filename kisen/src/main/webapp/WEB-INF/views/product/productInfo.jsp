@@ -374,8 +374,8 @@ textarea.autosize {
 									name="option-select">
 									
 										<option selected disabled>- [필수] 옵션을 선택해 주세요 -</option>
-										<c:forEach items="${product.pdOptionList}" var="pdOp" varStatus="status">
-											<option value="${status.index}">${pdOp.optionName}</option>
+										<c:forEach items="${product.pdOptionList}" var="pdOp">
+											<option value="${pdOp.optionName}">${pdOp.optionName}</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -658,24 +658,22 @@ function total(){
 	var price = ${product.price};
 	var total = price * cnt;
 
-	console.log(get_input);
-	console.log(price);
-	console.log($total);
-	console.log(total);
+	//console.log(get_input);
+	//console.log(price);
+	//console.log($total);
+	//console.log(total);
 
 	$total += $total.html("<strong>"+total+"</strong>"+"("+cnt+"개)");
 }
 window.onload=total;
 
-function Converter(str){
-	str = str.replace(/`/g,"&#96;");
-}
 
 $("[name=option-select]").change(function(e){
 	var $table = $("<table></table>");
-	
+	console.log($(e.target).val());
+	var option = $(e.target).val();
 	$table
-		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option">옵션명</span></p></td>
+		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option">`+option +`</span></p></td>
 			<td colspan="1" class="col-1"><span
 			style="position: relative; display: inline-block;"> <input
 				type="text" class="form-controller" name="stock" value="1" min="1" size="3"/>
