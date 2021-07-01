@@ -25,12 +25,22 @@ public interface FanBoardService {
 
 	String selectOneIdolName(int idolNo);
 
-	List<Authority> selectOneAuthority(String writer);
-
 	int insertfbComment(FbComment fbComment);
 
 	List<FbComment> selectFbCommentList(int no);
 
 	int deleteFanBoard(int fbNo);
+
+	int chkLikeAvailable(String fbNo, String fanId);
+
+	int insertfbReply(FbComment fbReply);
+
+	List<FanBoard> searchKeyword(String searchKeyword);
+
+	int deleteFbComment(int commentNo);
+
+	int updateFbReadCnt(int fbNo);
+
+	int selectOneReadCnt(int fbNo);
 
 }
