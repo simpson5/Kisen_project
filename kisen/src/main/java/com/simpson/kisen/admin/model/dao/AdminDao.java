@@ -3,8 +3,12 @@ package com.simpson.kisen.admin.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.simpson.kisen.admin.model.vo.Sales;
+import com.simpson.kisen.admin.model.vo.SalesTotalPrice;
 import com.simpson.kisen.admin.model.vo.SlideImg;
 import com.simpson.kisen.agency.model.vo.Agency;
+import com.simpson.kisen.agency.model.vo.AgencyExt;
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.idol.model.vo.IdolImg;
 import com.simpson.kisen.idol.model.vo.IdolMv;
@@ -54,5 +58,21 @@ public interface AdminDao {
 	int updateNotice(NoticeExt notice);
 
 	int updateNoticeImg(NoticeImg noticeImg);
+
+	List<Fan> selectAllFanList();
+
+	List<AgencyExt> selectNCAgencyList();
+
+	List<AgencyExt> selectCAgencyList();
+
+	List<PaymentExt> selectSalesList(Map<String, String> param);
+
+	int deleteFan(String fanNo);
+
+	int updateCertification(String fanNo);
+
+	SalesTotalPrice selectTotalPrice(String strDate);
+
+	List<Sales> salesMonthPrice(String strDate);
 
 }

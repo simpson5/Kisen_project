@@ -210,24 +210,10 @@ p.album-singer{
 	    </div>
 			
 		<div class="row artist-pan-board" style="display: none;">
-	        <div class="col-md-3 album">
-	        	<img src="${pageContext.request.contextPath}/resources/images/one0/album1.jpg"/>
-	        	<p class="album-title mt-2">앨범명</p>
-	        	<p class="album-singer">가수명</p>
-	        </div>
-	        <div class="col-md-3 album">
-	        	<img src="${pageContext.request.contextPath}/resources/images/one0/album1.jpg"/>
-	        	<p class="album-title mt-2">앨범명</p>
-	        	<p class="album-singer">가수명</p>
-	        </div>
-	        <div class="col-md-3 album">
-	        	<img src="${pageContext.request.contextPath}/resources/images/one0/album1.jpg"/>
-	        	<p class="album-title mt-2">앨범명</p>
-	        	<p class="album-singer">가수명</p>
-	        </div>
-	       
+				<jsp:include page="/WEB-INF/views/fanBoard/fanBoardList.jsp">
+					<jsp:param value="${param.no}" name="artistNo" />
+				</jsp:include>
 	    </div>
-		
 	    
 	</div>
 </div>
