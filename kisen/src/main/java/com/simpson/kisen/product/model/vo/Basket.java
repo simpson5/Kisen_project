@@ -13,7 +13,7 @@ public class Basket extends Product{
 	
 	private String fanNo;
 	private int pdAmount;
-	private int pdNo;
+	private String pdNo;
 	private ProductImg productImg;
 	private ProductOption productOption;
 	private int opNo;

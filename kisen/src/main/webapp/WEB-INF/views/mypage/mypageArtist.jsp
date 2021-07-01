@@ -206,14 +206,15 @@ img#productImg{
 <!-- 아티스트 사진 부분 -->
 <div class="swiper-container Like">
   <!-- Additional required wrapper -->
+  <%--  <c:forEach items="${dipList}" var="totalPrice1">
+    <c:out value="${totalPrice1 }"/> <br />
+  </c:forEach> --%>
   <div class="swiper-wrapper"  id="myArtist">
     <!-- Slides -->
- 
-    <c:if test="${dipList eq null}">
-    <div class="swiper-slide ">
-    <div class=" mx-auto font-weight-bold text-center">찜한 아이돌이 없습니다!</div>
-    </div>
-    </c:if>
+    <%--   <c:forEach items="${dipList}" var="totalPrice1">
+       <c:out value="${totalPrice1 }"/> <br />
+       </c:forEach> --%>
+   
     <c:if test="${dipList ne null}">
     <c:forEach items="${dipList}" var ="dipList" >
     <div class="swiper-slide ">
@@ -250,7 +251,7 @@ img#productImg{
 <!-- 여기 서 부터 반복인데 class 안에 swiper-container 는 지우지 말고 변경하지 마시고 두개 이상 사용하실거면 클래스이 이름을 따로 추가해주세용-->
 <div class="swiper-container other">
   <!-- Additional required wrapper -->
-  <div class="swiper-wrapper other"  id="myArtist">
+  <div class="swiper-wrapper other" id="myArtist">
     <!-- Slides -->
     <c:forEach items="${idolList}" var ="idolList" >
     <div class="swiper-slide other">

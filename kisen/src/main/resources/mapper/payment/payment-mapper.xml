@@ -171,7 +171,7 @@
 		<result column="demand_end_date" property="demandendDate"/>
 	</resultMap>
 	
-	<select id="selectPaymentList" resultMap="basketMap">
+	<select id="selectPaymentList" resultMap="basketMap" parameterType="map">
 			 select
             b.*,
 			p.pd_name,
@@ -195,10 +195,57 @@
 		on
 			b.option_no = po.option_no
 	<where> 
-			b.product_no = #{bNo}
-			
-      
+		<if test="bNo != nulll">
+			b.product_no in
+		<foreach  collection="bNo" item="b" open="(" close=")" separator=",">
+	 		#{b} 
+	 	</foreach>
+	 	</if>
+     
 	</where>
 	</select>
+	<delete id="deleteCart">
+		delete from
+			basket
+		<where> 
+		<if test="bNo != nulll">
+		product_no in
+		<foreach  collection="bNo" item="b" open="(" close=")" separator=",">
+	 		#{b} 
+	 	</foreach>
+
+	 	</if>
+	</where>
+	</delete>
 	
+	
+	<!-- <insert id="insertPaymentHistory">
+		insert into
+			payment_history
+		values (
+			seq_payment_history_no.nextval,
+			#{fNo},
+			#{ptype},
+			null,
+			default,
+			#{sumA},
+			null,
+			null,
+			#{total}	
+		)
+ 
+	</insert> 
+	<insert id="insertPaymentProduct">
+		insert into
+			payment_product
+		values (           
+           seq_order_no.nextval,
+			#{fNo},
+	 		#{pdNoo},
+			seq_payment_product_no.nextval,
+			default,
+			#{opNoo}	       
+           )
+	
+	</insert> -->
 </mapper>
