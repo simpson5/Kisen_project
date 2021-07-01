@@ -92,12 +92,21 @@ $(() => {
 		  </div>
 		  
 		  <div class="file-preview-container">
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
 		  </div>
+		  <c:forEach items="${fanBoard.attachList}" var="attach" varStatus="vs">
+		  <div class="d-inline-block">
+		  	<div class="file-preview" id="pre-1"><img src="${pageContext.request.contextPath}/resources/upload/fanBoard/${attach.renamedFilename}"/>
+		  	</div>
+		  	<p class="origin-attach">${attach.originalFilename}</p>
+		  	<div class="form-check form-switch d-inline-block">
+  				<input style="margin-left: 4.5em;, margin-top: 3px;" class="form-check-input" 
+  					type="checkbox" name="delFile" id="flexSwitchCheckDefault" value="${attach.fbAttachNo}">
+  				<label style="margin-left: 96px;" class="form-check-label" for="flexSwitchCheckDefault">삭제하기</label>
+			</div>
+		  	</div>
+		  </c:forEach>
+		  
+		  	<div class="file-preview" id="pre-5"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
 		</div>
 		<div class="content-container">
 		<textarea name="fbContent" id="summernote" rows="10" cols="100" style="width:100%; height:412px;">${fanBoard.fbContent}</textarea>
@@ -105,5 +114,5 @@ $(() => {
 		<button type="submit" class="btn btn-block" id="enroll-btn">작성하기</button>
 	</form>
 </div>
-
+<script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

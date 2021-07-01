@@ -73,11 +73,6 @@ public class FanBoardServiceImpl implements FanBoardService {
 	}
 
 	@Override
-	public List<Authority> selectOneAuthority(String writer) {
-		return fanBoardDao.selectOneAuthority(writer);
-	}
-
-	@Override
 	public int insertfbComment(FbComment fbComment) {
 		return fanBoardDao.insertfbComment(fbComment);
 	}
@@ -90,5 +85,35 @@ public class FanBoardServiceImpl implements FanBoardService {
 	@Override
 	public int deleteFanBoard(int fbNo) {
 		return fanBoardDao.deleteFanBoard(fbNo);
+	}
+
+	@Override
+	public int chkLikeAvailable(String fbNo, String fanId) {
+		return fanBoardDao.chkLikeAvailable(fbNo, fanId);
+	}
+
+	@Override
+	public int insertfbReply(FbComment fbReply) {
+		return fanBoardDao.insertfbReply(fbReply);
+	}
+
+	@Override
+	public List<FanBoard> searchKeyword(String searchKeyword) {
+		return fanBoardDao.searchKeyword(searchKeyword);
+	}
+
+	@Override
+	public int deleteFbComment(int commentNo) {
+		return fanBoardDao.deleteFbComment(commentNo);
+	}
+
+	@Override
+	public int updateFbReadCnt(int fbNo) {
+		return fanBoardDao.updateFbReadCnt(fbNo);
+	}
+
+	@Override
+	public int selectOneReadCnt(int fbNo) {
+		return fanBoardDao.selectOneReadCnt(fbNo);
 	}
 }

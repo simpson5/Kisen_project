@@ -119,7 +119,6 @@
 <resultMap type="fbAttachment" id="attachVoMap">
 	<result column="status" property="status" typeHandler="booleanYnTypeHandler"/>
 </resultMap>
-
 <select id="selectOneIdolName" resultType="string">
 	select 
 		idol_name 
@@ -127,5 +126,111 @@
 		idol 
 	where 
 		idol_no = #{idolNo}
+</select>
+<!-- =========================== [ 댓글 등록 ] =========================== -->
+<insert id="insertfbComment">
+	insert into 
+		fb_comment(
+			comment_no, 
+			comment_level, 
+			writer, 
+			content, 
+			fb_no, 
+			comment_ref)
+	values
+		(seq_fb_comment_no.nextval, 
+		#{commentLevel}, 
+		#{writer}, 
+		#{content}, 
+		#{fbNo}, 
+		null)
+</insert>
+<!-- =========================== [ 댓글 조회 ] =========================== -->
+
+<select id="selectFbCommentList" resultType="fbComment">
+	select 
+		fbc.* 
+	from 
+		fb_comment fbc 
+	where 
+		fb_no = #{no}
+    start with comment_level = 1 
+    connect by prior comment_no = comment_ref 
+    order siblings by reg_date asc
+</select>
+<!-- =========================== [ 게시글 삭제 ] =========================== -->
+<delete id="deleteFanBoard">
+	delete from
+		fan_board
+	where
+		fb_no = #{fbNo}
+</delete>
+<!-- =========================== [ 좋아요 ] =========================== -->
+<select id="getLikePointByFanId" resultType="int">
+	select
+		nvl(sum(fbl.point), 0) as point
+	from
+		fb_like as fbl
+	where
+		fbl.fb_no = #{fbNo}
+	and
+		fbl.fan_id = #{fanId}
+</select>
+<!-- =========================== [ 답글 등록 ] =========================== -->
+<insert id="insertfbReply">
+	insert into 
+		fb_comment(
+			comment_no, 
+			comment_level, 
+			writer, 
+			content, 
+			fb_no, 
+			comment_ref)
+	values
+		(seq_fb_comment_no.nextval, 
+		#{commentLevel}, 
+		#{writer}, 
+		#{content}, 
+		#{fbNo}, 
+		#{commentRef})
+</insert>
+<!-- =========================== [ 키워드 검색 ] =========================== -->
+<select id="searchKeyword" resultType="fanboard">
+	select
+		*
+	from
+		fan_board
+	<where>
+		fb_title like '%' || #{searchKeyword} || '%'
+		or
+		fb_writer like '%' || #{searchKeyword} || '%'
+		or
+		fb_content like '%' || #{searchKeyword} || '%'
+	</where>
+</select>
+<!-- =========================== [ 댓글 삭제 ] =========================== -->
+	<delete id="deleteFbComment">
+		delete from
+			fb_comment
+		where
+			comment_no = #{commentNo}
+	</delete>
+<!-- =========================== [ 조회수 증가 ] =========================== -->
+<update id="updateFbReadCnt">
+	update
+		fan_board
+	set
+		fb_read_cnt = fb_read_cnt + 1
+	where
+		fb_no = #{fbNo}
+</update>
+<!-- =========================== [ 조회수 조회 ] =========================== -->
+<select id="selectOneReadCnt" resultType="_int">
+	select 
+		fb_read_cnt 
+	from 
+		fan_board 
+	where 
+		fb_no = #{fbNo}
 </select>
 </mapper>
