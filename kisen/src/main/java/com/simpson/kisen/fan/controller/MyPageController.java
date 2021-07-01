@@ -98,7 +98,8 @@ public class MyPageController {
 	public void mypageMember(Authentication authentication, Model model){
 		try {
 			Fan principal = (Fan) authentication.getPrincipal();
-
+			
+			
 			model.addAttribute("loginMember", principal);
 			
 			log.debug("authentication = {}", authentication);
@@ -157,7 +158,7 @@ public class MyPageController {
 	}
 	
 	@PostMapping("/deleteFan.do")
-	public String deleteFan(@RequestParam String fanId, RedirectAttributes redirectAttr, Authentication oldAuthentication) {
+	public String deleteFan(@RequestParam String fanId, RedirectAttributes redirectAttr) {
 		try {
 		
 			log.info("fanId={}",fanId);

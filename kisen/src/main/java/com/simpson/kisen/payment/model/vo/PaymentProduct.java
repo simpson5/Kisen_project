@@ -8,10 +8,12 @@ import com.simpson.kisen.product.model.vo.ProductImg;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(callSuper = true)
 public class PaymentProduct extends Payment{
 	private String pdNo;//상품번호
 	private String orderNo;//주문번호

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductImg { 
 	private int pdImgNo;
-	private int pdNo;
+	private String pdNo;
 	private String pdCategory;
 	private String originalFilename;
 	private String renamedFilename;

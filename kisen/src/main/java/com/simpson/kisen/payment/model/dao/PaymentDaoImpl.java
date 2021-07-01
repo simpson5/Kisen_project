@@ -1,6 +1,7 @@
 package com.simpson.kisen.payment.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,23 @@ public class PaymentDaoImpl implements PaymentDao{
 
 
 	@Override
-	public List<Basket> selectPaymentList(int[] bNo) {
-		return session.selectList("payment.selectPaymentList",bNo);
+	public List<Basket> selectPaymentList(Map<String, Object> param) {
+		return session.selectList("payment.selectPaymentList",param);
+	}
+
+	@Override
+	public int deleteCart(Map<String, Object> param) {
+		return session.delete("payment.deleteCart",param);
+	}
+
+	@Override
+	public int insertPaymentHistory(Map<String, Object> param) {
+		return session.insert("payment.insertPaymentHistory", param);
+	}
+
+	@Override
+	public int insertPaymentProduct(Map<String, Object> param) {
+		return session.insert("payment.insertPaymentProduct",param);
 	}
 
 }
