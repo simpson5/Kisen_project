@@ -21,4 +21,8 @@ public interface PaymentService {
 
 	int insertPayment(Map<String, Object> param);
 
+	int insertBasket(Basket bs);
+
+
+
 }

@@ -91,19 +91,17 @@ img#plus{
 		 	 	<mark id="marks">주문 내역</mark>
 		 	 	<div class="p-2">
 		 	 	<ul>
-			 			<li>BLACK PINK 5TH ALBUM /옵션: 멤버별 포카 4종 증정</li>
-			 			<li>공원소녀 5TH MINI ALBUM /옵션: 멤버별 포카 4종 증정 및 파우치 증정</li>
-			 			<li>EVER GLOW 3TH ALBUM /옵션: 멤버별 포카 4종 증정 및 응원봉 증정 </li>
+		 	 	<c:forEach items="${paymentList}" var ="paymentList" >
+			 			<li>${paymentList.product.pdName}</li>
+			 	</c:forEach>
 			 		</ul>
 		 	 	</div>
 		 	 <hr />
 		 	 </div>
 	 	</div>
 		<div class="py-2 d-flex justify-content-center" >
-		  	<button class="btn btn-outline py-2 mx-3" id="cartAgain">주문 수정하기</button>
-		  	<button class="btn btn-outline py-2 mx-3" id="cartAgain">쇼핑 계속하기</button>
-		  	<a href="https://tracker.delivery/#/:carrier_id/:track_id" target="_blank">
-		  	<button class="btn btn-outline py-2 mx-3" id="cartAgain">배송 조회하기</button>
+		  	<a href="${pageContext.request.contextPath}">
+		  	<button class="btn btn-outline py-2 mx-3" id="cartAgain">메인화면</button>
 		  	</a>
 		  </div>
 

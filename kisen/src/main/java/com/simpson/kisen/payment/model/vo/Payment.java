@@ -17,10 +17,10 @@ public class Payment {
 	private String payType; //결제타입
 	private String payContent; //결제내용
 	private Date payDate; //결제날짜
-	private int amount; //결제금액
+	private int amount; //수량?
 	private int point; //사용포인트
 	private String waybill; //운송장번호
-	private int price; //운송장번호
+	private int price; //총결제금액
 	private List<PaymentProduct> ppList;
 	// new git repository  test payment_history
 	
