@@ -15,7 +15,7 @@
 		  , #{price}
 		  , #{deliveryPrice}
 		  , #{pdStock}
-		  , 0
+		  , #{pdSales}
 		  , #{pdContent}
 		  , #{demandstartDate}
 		  , #{demandendDate}
@@ -123,6 +123,55 @@
 		where d.demand_no = #{demandNo}
 	</select>
 	
+	<select id="selectOneDemand" resultMap="demandCollectionMap">
+		select 
+		    d.*,
+   			di.no,
+		    di.pd_category img_category,
+		    di.original_filename,
+		    di.renamed_filename
+		from unofficial_demand d
+		    left join demand_pd_img di
+		        on d.demand_no = di.demand_no
+		where d.pd_name = #{pName}
+	</select>
+	
+	<update id="updateDemand">
+		update 
+			unofficial_demand
+		set 
+			pd_name = #{pdName},
+			idol_name = #{idolName},
+			pd_category = #{pdCategory},
+			price = #{price},
+			delivery_price = #{deliveryPrice},
+			pd_stock = #{pdStock},
+			pd_sales = #{pdSales},
+			pd_content = #{pdContent},
+			demand_start_date = #{demandstartDate},
+		    demand_end_date = #{demandendDate},
+		    question = #{question}
+		where 
+			demand_no = #{demandNo} 
+	</update>
+	
+  	<update id="updateDemandImg">
+		update 
+			demand_pd_img
+		set 
+			original_filename = #{originalFilename},
+			renamed_filename = #{renamedFilename}
+		where 
+			pd_category = #{pdCategory} and
+			demand_no = #{demandNo}
+	</update>
+	
+	<delete id="deleteDemand">
+		delete from unofficial_demand
+		where pd_name = #{delNo}
+	</delete>
+  	
+	
 	<resultMap type="unofficialPdImgExt" id="demandCollectionMap">
 		<id column ="demand_no" property="demandNo"/>
 		<result column="pd_name" property="pdName"/>
@@ -207,6 +256,16 @@
 		 	<result column="renamed_filename" property="renamedFilename"/>
 		</collection>
 	</resultMap>
+	
+	<update id="updateStock">
+		update 
+			unofficial_demand
+		set 
+			pd_stock = pd_stock-1,
+			pd_sales = pd_sales+1
+		where 
+			demand_no = #{demandNo}
+	</update>
 	
 
 	</mapper>
