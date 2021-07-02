@@ -14,15 +14,11 @@
 	<jsp:param value="모든 상품" name="title"/>
 </jsp:include>
 <div class="container ">
-    <div class="d-flex justify-content-end mt-3 mb-3" >
-        <button type="button" class="btn btn-secondary" onclick="productEnroll()"> 상품등록</button>
-    </div>
-    
     <!-- 검색  -->
 	<form:form 
 		name="searchFrm"
 		id="searchFrm" 
-		class="border mb-3 p-3"> 
+		class="border mt-3 mb-3 p-3"> 
 			<div class="d-flex justify-content-center mb-2" >
 			
 			<div>
@@ -91,7 +87,6 @@
 	                <p class="card-text badge bg-s"> 가격  : <fmt:formatNumber value="${product.price}" pattern="#,###" />원</p> <br />
 	                <div class="btn-group" role="group" aria-label="Basic example">
 	                    <button type="button" class="btn btn-sm btn-outline-main"  data-no="${product.pdNo}" onclick="productDetail(event);" >상세보기</button>
-	                    <button type="button" class="btn btn-sm btn-outline-main"  data-no="${product.pdNo}" onclick="productUpdate(event);" >수정</button>
 	                    <button type="button" class="btn btn-sm btn-outline-main"  data-no="${product.pdNo}" onclick="productDelete(event);">삭제</button>
 	                </div>
 	            </div>
@@ -111,11 +106,6 @@
         const target = event.target;
         const pdNo= target.dataset.no;
         location.href=`${pageContext.request.contextPath}/admin/adminProductDetail/\${pdNo}`
-    }
-    function productUpdate(event) {
-        const target = event.target;
-        const pdNo= target.dataset.no;
-        location.href=`${pageContext.request.contextPath}/admin/adminProductUpdate/\${pdNo}`
     }
     function productDelete(event) {
         const target = event.target;

@@ -472,12 +472,11 @@
    </resultMap> 
    
    
-   
   <select id="salesMonthPrice" resultMap="salesMap">
-		SELECT to_char(pay_date,'YYYY/MM/DD') pay_date, sum(price) total
+		SELECT to_char(pay_date,'DD') pay_date, sum(price) total
 		fROM payment_history
 		where pay_date between trunc(to_date(#{strDate},'YYYY-MM-DD'),'MM') and (last_day(to_date(#{strDate},'YYYY-MM-DD')))
-		group by to_char(pay_date,'YYYY/MM/DD')
+		group by to_char(pay_date,'DD')
    </select> 
    
    <resultMap type="sales" id="salesMap">

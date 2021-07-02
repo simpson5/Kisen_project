@@ -73,6 +73,7 @@ public interface AdminDao {
 
 	SalesTotalPrice selectTotalPrice(String strDate);
 
-	List<Sales> salesMonthPrice(String strDate);
+
+	List<Sales> selectDaySales(String strDate);
 
 }

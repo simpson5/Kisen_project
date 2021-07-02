@@ -8,9 +8,6 @@
 </jsp:include>
 
 <div class="container">
-    <div class="d-flex justify-content-end mt-3" >
-        <button type="button" class="btn btn-secondary" onclick="productEnroll()"> 상품등록</button>
-    </div>
     <!-- 상품 목록 -->
     <h5 style="font-weight: bold; margin-top: 3rem;"> 상품목록 <a href="${pageContext.request.contextPath }/admin/adminProduct" class="more">더보기</a></h5>
     <hr>
@@ -34,7 +31,6 @@
 		                </p>
 		                <div class="btn-group" role="group" aria-label="Basic example">
 	                    <button type="button" class="btn btn-sm btn-outline-main"  data-no="${product.pdNo}" onclick="productDetail(event);" >상세보기</button>
-	                    <button type="button" class="btn btn-sm btn-outline-main"  data-no="${product.pdNo}" onclick="productDelete(event);">삭제하기</button>
 		                </div>
 		            </div>
 		        <!-- card End -->
@@ -70,7 +66,6 @@
 		                </p>
 		                <div class="btn-group" role="group" aria-label="Basic example">
 	                    <button type="button" class="btn btn-sm btn-outline-main"  data-no="${bestProduct.pdNo}" onclick="productDetail(event);" >상세보기</button>
-	                    <button type="button" class="btn btn-sm btn-outline-main"  data-no="${bestProduct.pdNo}" onclick="productUpdate(event);" >수정하기</button>
 		                </div>
 		            </div>
 		        <!-- card End -->
@@ -146,5 +141,34 @@
 	function refreshMemList(){
 		location.reload();
 	}
+	function productStockUpdate(event){
+        const target = event.target;
+        const pdNo= target.dataset.no;
+
+        const stock33 = $("#stock"+pdNo);
+
+        const pdStock = $("#stock"+pdNo).val();
+        console.log(stock33);
+        console.log(stock33.val());
+        if(stock33.val() == ""){
+			alert("재고를 입력해주세요");
+			return false;
+        }
+        if(!confirm("재고를 추가 하시겠습니까?")){
+			return false;
+        }
+		$.ajax({
+			url: `${pageContext.request.contextPath}/admin/productStockUpdate/\${pdNo}/`+pdStock,
+			method : 'put',
+			success: function (data){
+				console.log("업데이트 성공");
+				refreshMemList();
+			},
+			error(xhr, statusText, err){
+				console.log(err);
+			}
+		});
+	}
+	
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
