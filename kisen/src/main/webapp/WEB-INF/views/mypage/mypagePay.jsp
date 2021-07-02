@@ -180,7 +180,7 @@ img#productImg{
 	<br />
   <div class="row mx-auto" >
     <div class="col border border-dark border-left-0 border-top-0 border-bottom-0" id="innerContent">
-     <a href="${pageContext.request.contextPath}/mypage/mypageform.do">만든폼 </a>
+      <a href="${pageContext.request.contextPath}/mypage/mypageform.do"><button type="button" class="btn btn-outline-warning" >만든폼</button> </a>
      <br /><br />
      <span class="font-weight-bold" >0</span>
     </div>
