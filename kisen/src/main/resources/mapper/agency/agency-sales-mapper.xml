@@ -92,4 +92,54 @@
 		where 
 			payment_no = #{paymentNo}
 	</update>
+	
+	
+	
+	
+	
+
+  	<select id="selectTotalPrice" resultMap="salesTotalPriceMap">
+	    select 
+		  to_char(pay_date, 'YYYY-MM') as monthlydata,
+		  sum(price) as total
+	    from payment_history 
+	    where 1=1 
+	    and payment_no in (
+	        select payment_no from payment_product 
+	            where pd_no in 
+	                (select pd_no from product where idol_no in(
+	                    select idol_no from idol where agency_no =(
+	                        select agency_no from fan where fan_no = #{fanNo}
+	                )))
+	    )
+		and pay_date between trunc(to_date(#{strDate},'YYYY-MM-DD'),'MM') and (last_day(to_date(#{strDate},'YYYY-MM-DD')))
+		group by to_char(pay_date, 'YYYY-MM')
+		order by monthlydata
+   </select> 
+   
+   <resultMap type="salesTotalPrice" id="salesTotalPriceMap">
+      <id column ="monthlydata" property="month"/>
+      <result column="total" property="total"/>
+   </resultMap> 
+   
+   
+  <select id="selectDaySales" resultMap="salesMap">
+		SELECT to_char(ph.pay_date,'DD') pay_date, sum(ph.price) total
+		fROM payment_history ph 
+		where ph.payment_no in (
+		    select payment_no from payment_product 
+		        where pd_no in 
+		            (select pd_no from product where idol_no in(
+		                select idol_no from idol where agency_no =(
+		                    select agency_no from fan where fan_no = #{fanNo}
+		            )))
+		)
+		and ph.pay_date between trunc(to_date(#{strDate},'YYYY-MM-DD'),'MM') and (last_day(to_date(#{strDate},'YYYY-MM-DD')))
+		group by to_char(ph.pay_date,'DD')
+   </select> 
+   
+   <resultMap type="sales" id="salesMap">
+      <id column ="pay_date" property="payDate"/>
+      <result column="total" property="total"/>
+   </resultMap> 
 </mapper>

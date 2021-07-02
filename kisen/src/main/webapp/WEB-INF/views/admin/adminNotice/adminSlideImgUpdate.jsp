@@ -71,7 +71,7 @@
 	    <div class="container text-center">
 	        <div class="mb-4 row">
 	            <div class="col-6 d-grid p-1">
-	                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;">취소하기</button>
+	                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;" onclick="goBack();">취소하기</button>
 	            </div>
 	            <div class="col-6 d-grid p-1">
 	                <button type="button" class="btn btn-lg btn-main" style="width: 100%;" onclick="slideUpdate();" >추가하기</button>
@@ -82,6 +82,9 @@
 </div>
 
 <script>
+	function goBack(){
+		window.history.back();
+	}
     function slideUpdate() {
         var file= $("input[type=file]");
         if(!file.hasClass("formFile")){
@@ -117,9 +120,9 @@
 		text += '<label class="col-md-3 col-form-label">슬라이드 이미지</label>';
 		text += '<div class="col-md-9 input-group"><input  type="file" class="form-control formFile" id="formFile'+(count+1)
 		text += '" name="formFile" accept="image/png,image/jpeg,image/jpg" onchange="setThumbnail(event)">';
-		text+= '<button class="btn btn-outline-danger" id="minus" type="button" onclick="imgMinus(event);">-</button>	';
+		text+= '<button class="btn btn-outline-danger" id="minus" type="button" onclick="imgMinus(event);">-</button></div>	';
 		text += '<img class="formFile'+(count+1)
-		text += '" style="width:600px"/></div></div>'	;	
+		text += '" style="width:600px"/></div>'	;	
 		slideImgFrm.prepend(text);
 		count = count+1;
     }

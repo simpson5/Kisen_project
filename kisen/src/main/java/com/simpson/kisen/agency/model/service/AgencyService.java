@@ -3,6 +3,8 @@ package com.simpson.kisen.agency.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.simpson.kisen.admin.model.vo.Sales;
+import com.simpson.kisen.admin.model.vo.SalesTotalPrice;
 import com.simpson.kisen.agency.model.vo.Agency;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.payment.model.vo.Payment;
@@ -64,5 +66,9 @@ public interface AgencyService {
 	List<PaymentExt> selectSalesList(Map<String, String> param);
 
 	int updateWaybill(Payment payment);
+
+	List<Sales> selectDaySales(String yearMonth, String lastDay, String fanNo);
+
+	List<SalesTotalPrice> selectTotalPrice(String fanNo);
 
 }
