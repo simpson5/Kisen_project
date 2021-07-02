@@ -12,6 +12,22 @@ body, html {
 	padding: 0px;
 }
 
+.carousel-control-prev{
+	left:-120px;
+}
+.carousel-control-next{
+	right:-120px;	
+}
+
+.card{
+	height:480px;
+}
+.btn-group{
+	position:absolute;
+	left:32px;
+	bottom : 10px;
+}
+
 a{
 	text-decoration: none;
 	color: black;
@@ -70,30 +86,16 @@ p.album-singer{
 <div id="wrap">
 	<div class="container">
 	    <div class="row">
-	        <div class="col-xs-12">
-				<!-- 슬라이드 이미지 -->
-				<div id="carouselExampleControls" class="carousel slide slide-img" data-ride="carousel">
-				    <div class="carousel-inner">
-				      <div class="carousel-item active idol" onclick="artistDetail();">
-				        <img src="${pageContext.request.contextPath}/resources/images/idol/bts.jpg" class="d-block w-100 idol-img" alt="...">
-				      </div>
-				      <div class="carousel-item idol" onclick="artistDetail();">
-				        <img src="${pageContext.request.contextPath}/resources/images/idol/itzy.png " class="d-block w-100 idol-img"  alt="...">
-				      </div>
-				      <div class="carousel-item idol" onclick="artistDetail();">
-				        <img src="${pageContext.request.contextPath}/resources/images/idol/monstax.jpg" class="d-block w-100 idol-img " alt="...">
-				      </div>
-				    </div>
-				    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-				      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-				      <span class="sr-only">Previous</span>
-				    </a>
-				    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-				      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-				      <span class="sr-only">Next</span>
-				    </a>
-				  <!-- slide end -->
-				</div>
+	        <div class="col-xs-12" style="margin:0 auto;">
+				<c:set var="loop_flag" value="false" />
+					<c:forEach items="${idol}" var="idol">
+						<c:if test="${not loop_flag}">
+							<c:if test="${!empty idol}">
+								<c:set var="loop_flag" value="true"/> 
+								<img src="${pageContext.request.contextPath}/resources/upload/idol/${idol.idolImg.renamedFilename}" class="d-block w-100 idol-img" alt="...">
+							</c:if>
+						</c:if>
+					</c:forEach>
 	        </div>
 	    </div>
 	    <div class="col-xs-12">
@@ -108,126 +110,228 @@ p.album-singer{
 		</div>
 		
 		<div class="row artist-album">
-	        <div class="slide-card">
-	             <div id="carouselExampleControls-card" class="carousel slide slide-img" data-ride="carousel">
-	             <div class="carousel-inner">
-	                 <div class="carousel-item active idol">
-	                 <c:forEach begin="1" step="1" end="5" var="x" varStatus="x++">
-	                     <!-- card 1-1 -->
-	                     <div class="card col-xs-3" style="display: inline-block; width: 13rem;">
-	                         <div>
-	                             <img src="${pageContext.request.contextPath}/resources/images/idol/bts.jpg" class="card-img-top embed-responsive-item  card-img" alt="tree">
-	                         </div>
-	                         <div class="card-body ">
-	                             <h5 class="card-title">방탄소년단</h5>
-	                             <p class="card-text"> 
-	                               <span class="badge bg-dark" style="block">${x}집</span>       <!-- 분류 -->   
-	                               <span class="badge bg-s">앨범명</span>       
-	                             </p>
-	                             <div class="btn-group" role="group" aria-label="Basic example">
-	                               <button type="button" class="btn btn-sm btn-outline-main mx-auto"   onclick="productDetail();">상세보기</button>
-	                             </div>
-	                         </div>
-	                     <!-- card End -->
-	                     </div> 
-	                 </c:forEach>
-	                 </div>
-	             </div>
-	             
-	             <a class="carousel-control-prev" href="#carouselExampleControls-card" role="button" data-slide="prev" style="margin-right:300px;">
-	                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-	                 <span class="sr-only">Previous</span>
-	             </a>
-	             <a class="carousel-control-next" href="#carouselExampleControls-card" role="button" data-slide="next">
-	                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-	                 <span class="sr-only">Next</span>
-	             </a>
-	             <!-- slide end -->
-	             </div>
-	         <!-- slide-card end -->
-	        </div>   
+			<c:if test="${empty idolAlbumList}">
+				<h5 style="margin: 0 auto;">조회된 정보가 없습니다.</h5>
+			</c:if>
+	        <c:if test="${!empty idolAlbumList}">
+				<div class="idol-item row d-none d-sm-block">
+				    <div class="row g-3 ">
+						<div id="carouselExampleControlss" class="carousel slide slide-img" data-ride="carousel">
+						    <div class="carousel-inner">
+							    <div class="carousel-item active idol">
+							      
+							      <c:forEach items="${idolAlbumList}" var="product" varStatus="status">
+							      <c:if test="${status.index < 4}">
+							      <div class="mx-auto " style="display:inline-block;">
+							        <div class="card col-xs-4" style="width:15em; display:inline-block; float: left; margin:13px; 0px; 10px; 0px;">
+							            	<c:forEach items="${product.pdImgList}" var="pdImg">
+										        <c:if test="${pdImg.pdCategory eq 'R'}">
+													<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+											   	</c:if>
+									    	</c:forEach>
+							           
+							            <div class="card-body">
+							              <h5 class="card-title">${product.pdName}</h5>
+							              <p class="card-text">  
+							                <span class="badge bg-s">${product.idolName}</span><br />
+							                <span class="badge bg-dark">공식굿즈</span>
+							                <span class="badge bg-dark">${product.pdCategory}</span>
+							              </p>
+							              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
+							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
+							                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
+							              </div>
+							            </div>
+							        </div>
+							      <!-- col-lg-3 col-md-6 End -->
+							      </div>
+							      		   
+							      </c:if>
+							      </c:forEach>
+							      </div>
+							     
+							     <!-- 
+							      <c:set var="loop_flag" value="fasle"/>
+							      <c:forEach items="${idolAlbumList}" var="idol" varStatus="status">
+							      <c:if test="${not loop_flag}">
+							      <c:if test="${status.end >= 4 }">
+							      <c:set var="loop_flag" value="true"/>
+							      -->
+							      <div class="carousel-item idol">
+							      <c:forEach items="${idolAlbumList}" var="product" varStatus="status">
+							      <c:if test="${status.index > 3}">
+							      <div class="mx-auto" style="display:inline-block;">
+							        <div class="card col-xs-4" style="width:15em; display:inline-block; float: left; margin:13px; 0px; 10px; 0px;">
+							            	<c:forEach items="${product.pdImgList}" var="pdImg">
+										        <c:if test="${pdImg.pdCategory eq 'R'}">
+													<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+											   	</c:if>
+									    	</c:forEach>
+							           
+							            <div class="card-body">
+							              <h5 class="card-title">${product.pdName}</h5>
+							              <p class="card-text">  
+							                <span class="badge bg-s">${product.idolName}</span><br />
+							                <span class="badge bg-dark">공식굿즈</span>
+							                <span class="badge bg-dark">${product.pdCategory}</span>
+							              </p>
+							              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
+							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
+							                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
+							              </div>
+							            </div>
+							        </div>
+							      <!-- col-lg-3 col-md-6 End -->
+							      </div>
+							      </c:if>
+							      </c:forEach>
+							      </div>
+							      <!-- 
+							      </c:if>
+							      </c:if>
+							      </c:forEach>
+							       -->
+						      </div>
+						      <!-- 
+						    <c:set var="looop_flag" value="fasle"/>
+							<c:forEach items="${idolAlbumList}" var="idol" varStatus="status">
+							<c:if test="${not looop_flag}">
+							<c:if test="${status.end >= 4 }">
+							 -->
+							<a class="carousel-control-prev" href="#carouselExampleControlss" role="button" data-slide="prev">
+						      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						      <span class="sr-only">Previous</span>
+						    </a>
+						    <a class="carousel-control-next" href="#carouselExampleControlss" role="button" data-slide="next">
+						      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+						      <span class="sr-only">Next</span>
+						    </a>
+						    <!--
+						    </c:if>
+						    </c:if>
+						    </c:forEach>
+						      -->
+					      </div>
+				    <!-- row g-3 End -->
+				    </div>
+			  <!-- row end -->
+			 	 </div>
+		  	</c:if>  
 	    </div>
 	    
 		<div class="row artist-mv" style="display: none;">
+		<c:forEach items="${idol}" var="idol" varStatus="status">
 	        <div class="col-md-3 mv">
-	        	<iframe width="100%" src="https://www.youtube.com/embed/gdZLi9oWNZg"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+	        	<iframe width="100%" src="https://www.youtube.com/embed/RZrqrinmdks"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 	        	<p style="text-align: center;">뮤비 제목</p>
 	        </div>
-	        <div class="col-md-3 mv">
-	        	<iframe width="100%" src="https://www.youtube.com/embed/gdZLi9oWNZg"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-	        	<p style="text-align: center;">뮤비 제목</p>
-	        </div><div class="col-md-3 mv">
-	        	<iframe width="100%" src="https://www.youtube.com/embed/gdZLi9oWNZg"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-	        	<p style="text-align: center;">뮤비 제목</p>
-	        </div><div class="col-md-3 mv">
-	        	<iframe width="100%" src="https://www.youtube.com/embed/gdZLi9oWNZg"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-	        	<p style="text-align: center;">뮤비 제목</p>
-	        </div>
+	    </c:forEach>
 	    </div>
 	    <div class="row artist-goods" style="display: none;">
-		    <div class="slide-card">
-	             <div id="carouselExampleControls-card" class="carousel slide slide-img" data-ride="carousel">
-	             <div class="carousel-inner">
-	                 <div class="carousel-item active idol">
-	                 <c:forEach begin="1" step="1" end="5">
-	                     <!-- card 1-1 -->
-	                     <div class="card col-xs-3" style="display: inline-block; width: 13rem;">
-	                         <div class="embed-responsive embed-responsive-4by3 ">
-	                             <img src="${pageContext.request.contextPath}/resources/images/idol/bts.jpg" class="card-img-top embed-responsive-item  card-img" alt="tree">
-	                         </div>
-	                         <div class="card-body ">
-	                             <h5 class="card-title">방탄소년단</h5>
-	                             <p class="card-text"> 
-	                               <span class="badge bg-dark">공식굿즈</span>       <!-- 분류 -->
-	                               <span class="badge bg-dark">앨범</span>           <!-- 분류 -->
-	                               <span class="badge bg-s">가격 : 10000 </span>       
-	                             </p>
-	                             <div class="btn-group" role="group" aria-label="Basic example">
-	                               <button type="button" class="btn btn-sm btn-outline-main mx-auto" id="pdInfo-btn">상세보기</button>
-	                             </div>
-	                         </div>
-	                     <!-- card End -->
-	                     </div> 
-	                 </c:forEach>
-	                 </div>
-	                 <div class="carousel-item idol">
-	                    
-	                 </div>
-	             </div>
-	             
-	             <a class="carousel-control-prev" href="#carouselExampleControls-card" role="button" data-slide="prev">
-	                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-	                 <span class="sr-only">Previous</span>
-	             </a>
-	             <a class="carousel-control-next" href="#carouselExampleControls-card" role="button" data-slide="next">
-	                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
-	                 <span class="sr-only">Next</span>
-	             </a>
-	             <!-- slide end -->
-	             </div>
-	         <!-- slide-card end -->
-	        </div>       
+	    	<c:if test="${empty idolProductList}">
+				<h5 style="margin: 0 auto;">조회된 정보가 없습니다.</h5>
+			</c:if>
+			<c:if test="${!empty idolProductList}">
+				<div class="idol-item row d-none d-sm-block">
+				    <div class="row g-3 ">
+						<div id="carouselExampleControlss" class="carousel slide slide-img" data-ride="carousel">
+						    <div class="carousel-inner">
+							    <div class="carousel-item active idol">
+							      <c:forEach items="${idolProductList}" var="product" varStatus="status">
+							      <c:if test="${status.index < 4}">
+							      <div class="mx-auto " style="display:inline-block;">
+							        <div class="card col-xs-4" style="width:15em; display:inline-block; float: left; margin:13px; 0px; 10px; 0px;">
+							            	<c:forEach items="${product.pdImgList}" var="pdImg">
+										        <c:if test="${pdImg.pdCategory eq 'R'}">
+													<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+											   	</c:if>
+									    	</c:forEach>
+							           
+							            <div class="card-body">
+							              <h5 class="card-title">${product.pdName}</h5>
+							              <p class="card-text">  
+							                <span class="badge bg-s">${product.idolName}</span><br />
+							                <span class="badge bg-dark">공식굿즈</span>
+							                <span class="badge bg-dark">${product.pdCategory}</span>
+							              </p>
+							              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
+							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
+							                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
+							              </div>
+							            </div>
+							        </div>
+							      <!-- col-lg-3 col-md-6 End -->
+							      </div>
+							      		   
+							      </c:if>
+							      </c:forEach>
+							      </div>
+							      
+							      <c:set var="looop_flag" value="fasle"/>
+							      <c:forEach items="${idolAlbumList}" var="idol" varStatus="status">
+							      <c:if test="${not looop_flag}">
+							      <c:if test="${status.end >= 4 }">
+							      <div class="carousel-item idol">
+							      <c:forEach items="${randomList}" var="product" varStatus="status">
+							      <c:if test="${status.index > 3}">
+							      <div class="mx-auto" style="display:inline-block;">
+							        <div class="card col-xs-4" style="width:15em; display:inline-block; float: left; margin:13px; 0px; 10px; 0px;">
+							            	<c:forEach items="${product.pdImgList}" var="pdImg">
+										        <c:if test="${pdImg.pdCategory eq 'R'}">
+													<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+											   	</c:if>
+									    	</c:forEach>
+							           
+							            <div class="card-body">
+							              <h5 class="card-title">${product.pdName}</h5>
+							              <p class="card-text">  
+							                <span class="badge bg-s">${product.idolName}</span><br />
+							                <span class="badge bg-dark">공식굿즈</span>
+							                <span class="badge bg-dark">${product.pdCategory}</span>
+							              </p>
+							              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
+							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
+							                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
+							              </div>
+							            </div>
+							        </div>
+							      <!-- col-lg-3 col-md-6 End -->
+							      </div>
+							      </c:if>
+							      </c:forEach>
+							      </div>
+							      </c:if>
+							      </c:if>
+							      </c:forEach>
+						      </div>
+						   	<c:set var="loooop_flag" value="fasle"/>
+							<c:forEach items="${idolAlbumList}" var="idol" varStatus="status">
+							<c:if test="${not loooop_flag}">
+							<c:if test="${status.end >= 4 }">
+							<a class="carousel-control-prev" href="#carouselExampleControlss" role="button" data-slide="prev">
+						      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						      <span class="sr-only">Previous</span>
+						    </a>
+						    <a class="carousel-control-next" href="#carouselExampleControlss" role="button" data-slide="next">
+						      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+						      <span class="sr-only">Next</span>
+						    </a>
+						    </c:if>
+						    </c:if>
+						    </c:forEach>
+					      </div>
+				    <!-- row g-3 End -->
+				    </div>
+			  <!-- row end -->
+			 	 </div>
+		  	</c:if>    
 	    </div>
 			
 		<div class="row artist-pan-board" style="display: none;">
-	        <div class="col-md-3 album">
-	        	<img src="${pageContext.request.contextPath}/resources/images/one0/album1.jpg"/>
-	        	<p class="album-title mt-2">앨범명</p>
-	        	<p class="album-singer">가수명</p>
-	        </div>
-	        <div class="col-md-3 album">
-	        	<img src="${pageContext.request.contextPath}/resources/images/one0/album1.jpg"/>
-	        	<p class="album-title mt-2">앨범명</p>
-	        	<p class="album-singer">가수명</p>
-	        </div>
-	        <div class="col-md-3 album">
-	        	<img src="${pageContext.request.contextPath}/resources/images/one0/album1.jpg"/>
-	        	<p class="album-title mt-2">앨범명</p>
-	        	<p class="album-singer">가수명</p>
-	        </div>
-	       
+				<jsp:include page="/WEB-INF/views/fanBoard/fanBoardList.jsp">
+					<jsp:param value="${param.no}" name="artistNo" />
+				</jsp:include>
 	    </div>
-		
 	    
 	</div>
 </div>
@@ -264,6 +368,7 @@ $(".artist-nav").click(function(e){
 
 $("#pdInfo-btn").click(function(){
 	window.location.href="${pageContext.request.contextPath}/product/productInfo";
+
 });
 
 </script>

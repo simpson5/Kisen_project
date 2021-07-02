@@ -8,6 +8,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
+<script>
+window.onload = function() {
+	$("#headerModal")
+		.modal() // modal이 튀어나오는 함수
+}
+</script>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -37,16 +43,15 @@
                 <!-- property : principal.username -> 인증한 객체의 아이디 -->
                 <li class="user-id">
                    <sec:authentication property="principal.username"/>
-                </li>
-                <span class="divide">|</span>
-                <li>
                 <sec:authentication property="authorities" var="authority"/>
                 <c:if test="${fn:contains(authority , 'ROLE_AGENCY')}">
+	                <span class="divide">|</span>
                    <li>
                      <a href="${pageContext.request.contextPath}/agency/agencyMain.do">기획사</a>
                   </li>
                 </c:if>
                 <c:if test="${fn:contains(authority , 'ROLE_ADMIN')}">
+	                <span class="divide">|</span>
                    <li>
                       <a href="${pageContext.request.contextPath}/admin/adminMain.do">관리자</a>
                    </li>
@@ -224,7 +229,26 @@
           </div>
         </div>
     </header>
-
+<c:if test="${not empty msg}">
+  <div class="modal fade" id="headerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">KISEN</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ${msg}
+        </div>
+        <div class="modal-footer">
+          <button type="button" data-dismiss="modal" class="btn btn-outline-secondary">확인</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</c:if>
 
 <script>
 let count =0;

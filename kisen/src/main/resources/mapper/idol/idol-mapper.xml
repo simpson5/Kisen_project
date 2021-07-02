@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="idol">
-	<select id="selectOneCollection" resultMap="idolCollectionMap">
+	<select id="selectOneCollection" resultMap="idolCollectionMap"> 
 		select
         	di.idol_no,
 			iI.RENAMED_FILENAME,		

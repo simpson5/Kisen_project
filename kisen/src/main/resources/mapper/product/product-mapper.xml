@@ -20,6 +20,7 @@
 			left join
 				pd_img g
 					on p.pd_no = g.pd_no
+			where g.pd_category = 'R'
 			order by p.pd_sales desc
 			) A
 		where rownum &lt; 9
@@ -41,13 +42,14 @@
 			left join
 				pd_img g
 					on p.pd_no = g.pd_no
+			where g.pd_category = 'R'
 			order by p.sales_date desc
 			) A
 		where rownum &lt; 9
 	</select>
 	
 	<select id="selectRandomProductList" resultMap="productCollectionMap">
-		 select
+		select
 			A.*,
 			rank() over(order by A.sales_date desc)
 		from
@@ -63,9 +65,10 @@
 		left join
 			pd_img g
 				on p.pd_no = g.pd_no
+        where g.pd_category = 'R'
 		order by DBMS_RANDOM.RANDOM
 		) A
-		where rownum &lt; 5
+		where rownum &lt; 9
 	</select>
 	
 	
@@ -124,5 +127,39 @@
 			*
 		from
 			slide_img
+	</select>
+	
+	<select id="selectIdolAlbumList" resultMap="productCollectionMap">
+		select
+			p.*,
+   			g.pd_img_no,
+		    g.pd_category img_category,
+		    g.original_filename,
+		    g.renamed_filename
+		from
+			product p
+		left join
+			pd_img g
+				on p.pd_no = g.pd_no
+        where g.pd_category = 'R'
+        and p.idol_no = #{no}
+        and p.pd_category = '앨범'
+	</select>
+	
+	<select id="selectIdolProductList" resultMap="productCollectionMap">
+		select
+			p.*,
+   			g.pd_img_no,
+		    g.pd_category img_category,
+		    g.original_filename,
+		    g.renamed_filename
+		from
+			product p
+		left join
+			pd_img g
+				on p.pd_no = g.pd_no
+        where g.pd_category = 'R'
+        and p.idol_no = #{no}
+        and p.pd_category != '앨범'
 	</select>
 </mapper>

@@ -53,6 +53,7 @@ import com.simpson.kisen.product.model.vo.ProductImg;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.unofficial.model.service.UnOfficialService;
 import com.simpson.kisen.unofficial.model.vo.DemandpdImg;
+import com.simpson.kisen.unofficial.model.vo.Deposit;
 import com.simpson.kisen.unofficial.model.vo.DepositpdImg;
 
 import com.simpson.kisen.unofficial.model.vo.UnofficialDemand;
@@ -92,9 +93,7 @@ public class UnofficialController {
 	
 	
 	
-	
-	
-	
+
 	
 	@GetMapping("/unofficial.do")
 	public String unofficial(
@@ -245,10 +244,11 @@ public class UnofficialController {
 	}
 	
 	@PostMapping("/depositDetail.do")
-	public String depositsubmit(HttpServletRequest req, 
+	public String depositDetail(HttpServletRequest req, @ModelAttribute Deposit deposit,
 			@RequestParam(name ="email") String email
 			) {
 		log.info("email={}", email);
+		log.info("deposit={}",deposit);
 		mailService = new MailService(Config.gmailId, Config.gmailPw, Config.mailFrom, Config.mailFromName);
 		
 		// send(email, title, content)	
@@ -256,11 +256,11 @@ public class UnofficialController {
 				"<div style=\"background-color: rgb(241, 241, 241); width: 900px; text-align: center; margin: 20px; padding: 20px;\">\r\n"
 						+ "    <img src=\"https://blogfiles.pstatic.net/MjAyMTA2MjVfMjk4/MDAxNjI0NjA5ODQzMDQx.LJecEdDc183KLHTb-4MIJZd0b3Wih7dquRSJaqLYc2Mg.4hjwxApg9j2nPHj9erBQn_gw6hJP86v3rIaNdi5bwgEg.PNG.dbs7wl7/kisen_logo.png\" style=\"width: 300px;\">\r\n"
 						+ "    <p style=\"font-size: large; margin-bottom: 10px;\">안녕하세요. K-POP 굿즈 종합쇼핑몰 kisen입니다.</p>\r\n"
-						+ "    <p style=\"font-size: large; margin-bottom: 10px;\">고객님의 아이디는 <span style=\"font-weight: bolder;\">"
-						+ "    </span>입니다.</p>\r\n"
-						+ "    <p style=\"font-size: large; margin-bottom: 10px;\">해당 아이디로 로그인을 진행해주세요.</p>\r\n"
+						+ "    <p style=\"font-size: large; margin-bottom: 10px;\">입금폼 제출정보 보내드립니다.<span style=\"font-weight: bolder;\">"
+						+ deposit +"    </span></p>\r\n"
+						+ "    <p style=\"font-size: large; margin-bottom: 10px;\">#{}</p>\r\n"
 						+ "    <div style=\"background-color: rgb(109, 51, 104); width: 300px; height: 40px; margin: 30px auto; line-height: 40px; border-radius: 20px;\">\r\n"
-						+ "    <a href=\"http://localhost:9090/kisen/member/login.do\" style=\"color: white; text-decoration: none; font-size: large; \">로그인하러 가기</a>\r\n"
+						+ "    <a href=\"http://localhost:9090/kisen/member/login.do\" style=\"color: white; text-decoration: none; font-size: large; \"></a>\r\n"
 						+ "    </div>\r\n" + "</div>");
 	
 		return "redirect:depositFormlist.do";

@@ -27,5 +27,9 @@ public interface ReviewService {
 
 	int deleteReview(int no);
 
+	void readCntUp(Review review);
+
+	void recomUpCnt(Map<String, Object> map);
+
 
 }

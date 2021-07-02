@@ -92,6 +92,24 @@
 		where
 			review_no = #{no}
 	</delete>
+	
+	<update id="readCntUp">
+		update
+			review
+		set
+			read_cnt = read_cnt+1
+		where
+			review_no = #{reviewNo}
+	</update>
+	
+	<update id="recomUpCnt">
+		update
+			review
+		set
+			reco_cnt = reco_cnt+1
+		where
+			review_no = #{reviewNo}
+	</update>
 </mapper>
 
 

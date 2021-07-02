@@ -11,6 +11,6 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ProductOption extends Product{
 	private int optionNo;
-	private int pdNo;
+	private String pdNo;
 	private String optionName;
 }

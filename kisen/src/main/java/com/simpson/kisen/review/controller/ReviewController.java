@@ -198,6 +198,8 @@ public class ReviewController {
 				Model model) {
 			ProductImgExt product = productService.selectOneProduct(no);
 			Review review = reviewService.selectOneReview(reviewNo);
+			review.setReviewContent(review.getReviewContent().replaceAll("\"", "'"));
+			reviewService.readCntUp(review);
 			log.info("review = {}", review);
 			if(authentication != null) {
 				Fan loginMember = (Fan) authentication.getPrincipal();				
@@ -221,7 +223,22 @@ public class ReviewController {
 		return "redirect:/product/productInfo?no="+no;
 	}
 	
-	
+	@PostMapping("/recomUpCnt")
+	public int recomUpCnt(
+			@RequestParam(value="reviewNo") int reviewNo,
+			@RequestParam(value="fanId") String fanId
+			) {
+		log.info("fanId = {}",fanId);
+		log.info("reviewNo = {}",reviewNo);
+		Map<String, Object> map = new HashMap<>();
+		map.put("fanId", fanId);
+		map.put("reviewNo", reviewNo);
+		
+		reviewService.recomUpCnt(map);
+		
+		
+		return 0;
+	}
 	
 	
 	
