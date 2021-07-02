@@ -99,12 +99,9 @@
 		on
 			b.option_no = po.option_no
 	<where> 
-			b.fan_no = #{fanNo}
-			
+			b.fan_no = #{fanNo}	
         and 
-            pi.pd_category is null 
-       or 
-       	pi.pd_category= 'D'
+       		pi.pd_category != 'R'
 	</where>	
 	</select>
 		<resultMap type="basket" id="basketMap">
@@ -219,33 +216,44 @@
 	</delete>
 	
 	
-	<!-- <insert id="insertPaymentHistory">
+	<insert id="insertPaymentHistory">
 		insert into
 			payment_history
 		values (
 			seq_payment_history_no.nextval,
-			#{fNo},
-			#{ptype},
+			#{fanNo},
+			#{payType},
 			null,
 			default,
-			#{sumA},
+			#{amount},
 			null,
 			null,
-			#{total}	
+			#{price}	
 		)
  
+		<selectKey keyProperty="paymentNo" resultType="_int" order="AFTER">
+			select 
+				seq_payment_history_no.currval
+			from
+			 	dual
+		</selectKey>
 	</insert> 
 	<insert id="insertPaymentProduct">
 		insert into
 			payment_product
 		values (           
-           seq_order_no.nextval,
-			#{fNo},
-	 		#{pdNoo},
-			seq_payment_product_no.nextval,
+           seq_payment_product_no.nextval,
+			#{fanNo},
+	 		#{pdNo},
+			#{paymentNo},	
 			default,
-			#{opNoo}	       
+			<if test="opNo eq 0">
+			default
+			</if>	
+			<if test="opNo neq 0">
+			#{opNo}	
+			</if>
            )
 	
-	</insert> -->
+	</insert> 
 </mapper>
