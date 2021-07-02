@@ -37,14 +37,13 @@ public class FanBoardDaoImpl implements FanBoardDao {
 		// param에 담겨있는 offset, limit가져오기
 		int offset = (int)param.get("offset");
 		int limit = (int)param.get("limit");
-		int idolNo = (int)param.get("idolNo");
 		// int idolNo = (int)param.get("idolNo");
 		// Log.info("idolNo in Dao = {}", idolNo);
 		// RowBounds객체 생성, offset, limit을 인자로 전달
 		RowBounds rowBounds = new RowBounds(offset, limit);
 		
 		// String statement, Object parameter, RowBounds rowBounds
-		return session.selectList("fanboard.selectFanBoardList", idolNo, rowBounds);
+		return session.selectList("fanboard.selectFanBoardList", param, rowBounds);
 	}
 
 	@Override
@@ -112,5 +111,24 @@ public class FanBoardDaoImpl implements FanBoardDao {
 	public int selectOneReadCnt(int fbNo) {
 		return session.selectOne("fanboard.selectOneReadCnt", fbNo);
 	}
-	
+
+	@Override
+	public int updateFanBoard(FanBoardExt fanBoard) {
+		return session.update("fanboard.updateFanBoard", fanBoard);
+	}
+
+	@Override
+	public int deleteFbAttachment(String attachNo) {
+		return session.update("fanboard.deleteFbAttachment", attachNo);
+	}
+
+	@Override
+	public int selectOneIdolNo(int no) {
+		return session.selectOne("fanboard.selectOneIdolNo", no);
+	}
+
+	@Override
+	public FanBoardExt selectOneFanBoard(int no) {
+		return session.selectOne("fanboard.selectOneFanBoard", no);
+	}
 }
