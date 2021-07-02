@@ -223,13 +223,15 @@ td{
       </td>
       <td><div class="p-1">${PaymentList.pdAmount}</div>
       <input type="hidden" name="pdAmount" value="${PaymentList.pdAmount}">
-      <input type="hidden" name="opNo" value="${PaymentList.opNo}">
-      <input type="hidden" name="pdNo" value="${PaymentList.pdNo}">
+      	
+      <input type="hidden" name="opNo" value="${PaymentList.pdNo}-${PaymentList.opNo}"> 
+      
+      <input type="hidden" name="pdNo" value="${PaymentList.pdNo}"> 
       </td>
       <td style="color:gray;">- 0원</td>
       <td><div class="p-1">${PaymentList.price}원</div>
       <input type="hidden" name="price" value="${PaymentList.price}">
-      </td>
+      </td>	
     </tr>
    </c:forEach>
     
@@ -502,131 +504,134 @@ $("#agreedAll").change(function(e){
 	$("[name=agreed]").prop("checked", this.checked);	
 	
 });
-function payAll(obj){
 
-/* 	var IMP = window.IMP; */
-	IMP.init('imp92035130'); //가맹점 식별코드
+	function payAll(obj) {
 
-		var orders='';
-	
+		/* 	var IMP = window.IMP; */
+		IMP.init('imp92035130'); //가맹점 식별코드
+
+		var orders = '';
+
 		var userName = $(".userId").text();//이름
 		var uemail = $(".uemail").text();//이메일
 		var name = $("[name=pdName]"); //주문명
-		
+
 		console.log(name);
-		$.each(name, function (index, value){
-		    console.log(value);
-		    orders += $(value).val()+",";
+		$.each(name, function(index, value) {
+			console.log(value);
+			orders += $(value).val() + ",";
 
-		    console.log(orders);
-		   
-		    });
+			console.log(orders);
 
-		   const rslt1 = orders.replace(/,\s*$/, "");
-		   console.log(rslt1);
-		
-		var amount = $(".total-price").val(); //결제 금액  넵 이제 돌려봐도 될거 같아요
-			console.log(amount);
+		});
 
-			 const totalHtml ='<input type="hidden" name ="total" value="'+ amount+'"/>';
-				const fanNoo = '<input type="hidden" name ="fNo" value="'+ $("[name=fanNo]").val()+'"/>';
-				const payType = '<input type="hidden" name ="ptype" value="'+"신용카드"+'"/>';
-				var on =$("[name=opNo]");
-				const pdAmount = $("[name=pdAmount]");
-				var pdNo = $("[name=pdNo]"); 
-					console.log("pdNo= "+pdNo);
-				var $formId = $(document.insertPayFrm);
-				 console.log("formId= "+ $formId);
+		const rslt1 = orders.replace(/,\s*$/, "");
+		console.log(rslt1);
 
-				    var pdNoHtml='';
+		var amount = $(".total-price").val(); //결제 금액  
+		console.log(amount);
 
-					   $.each(pdNo, function (index, value){
-						    console.log(value);
 
-						    pdNoHtml +='<input type="hidden" name ="pdNoo" value="'+$(value).val()+'"/>';
-						    console.log(pdNoHtml);
-						 });
-					   console.log(pdNoHtml);
-					
-				 var opNoHtml=''; 
-				   $.each(on, function (index, value){ 
-					    console.log(value);
+		////결제 api
+		IMP.request_pay({
+			pg : 'inicis', // version 1.1.0부터 지원.
+			pay_method : 'card',
+			merchant_uid : 'merchant_' + new Date().getTime(),
+			name : rslt1,
+			amount : amount,//테스트용 10원 설정,
+			buyer_name : userName,
+			buyer_email : uemail
+		}, function(rsp) {
+			if (rsp.success) {
+				//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+				jQuery.ajax({
+					//아임포트 서버에 접속할 url임. 건드리면 안됨
+					url : "/payments/complete", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
+					type : 'POST',
+					dataType : 'json',
+					data : {
+						imp_uid : rsp.imp_uid
+					//기타 필요한 데이터가 있으면 추가 전달
+					}
+				}).done(function(data) {
+					//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+					if (everythings_fine) {
+						var msg = '결제가 완료되었습니다.';
+						msg += '\n고유ID : ' + rsp.imp_uid;
+						msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+						msg += '\결제 금액 : ' + rsp.paid_amount;
+						msg += '카드 승인번호 : ' + rsp.apply_num;
 
-					    opNoHtml +='<input type="hidden" name ="opNoo" value="'+$(value).val()+'"/>';
-
-					    console.log(opNoHtml);
-					 });
-				var sum = 0;
-				   $.each(pdAmount, function (index, value){
-					    console.log(value);
-					    sum +=Number($(value).val());
-					
-					 });
-				var sumHtml ='<input type="hidden" name ="sumA" value="'+sum+'"/>';
-					console.log(sum);
-
-					// 
-				   $formId.append(sumHtml);//상품수량 그그 옵셪 넘버는 뭐 그렇다 치고 .. 상품 넘버는 낫 널이라 필요 한데ㅣ..ㅜㅜ
-				   $formId.append(pdNoHtml);//상품 넘버 음 상품옵션에 넘버를 넣으면 또 불러올 String 을 새로 넣어야해서 그럴바엔이건 그냥 다음에 처리
-				   $formId.append(opNoHtml);//옵션넘버 -> 이거는 고쳐야할것같아용 상품페이지에 옵션넘버 안쓰고 String 써요!
-					$formId.append(totalHtml); //전체금액
-					$formId.append(fanNoo); //사용자 번호
-					$formId.append(payType); //카드사용 보셨나용...
-					$formId.submit;
-			
-		
-////결제 api
-				IMP.request_pay({
-				    pg : 'inicis', // version 1.1.0부터 지원.
-				    pay_method : 'card',
-				    merchant_uid : 'merchant_' + new Date().getTime(),
-				    name : rslt1,
-				   amount :  10,//amount//테스트용 10원 설정,
-				   buyer_name : userName,
-				   buyer_email :uemail
-				}, function(rsp) {
-					 if ( rsp.success ) {
-					    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-					    	jQuery.ajax({
-										//아임포트 서버에 접속할 url임. 건드리면 안됨
-					    		url: "/payments/complete", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
-					    		type: 'POST',
-					    		dataType: 'json',
-					    		data: {
-						    		imp_uid : rsp.imp_uid
-						    		//기타 필요한 데이터가 있으면 추가 전달
-					    		}
-					    	}).done(function(data) {
-					    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-					    		if ( everythings_fine ) {
-					    			var msg = '결제가 완료되었습니다.';
-					    			msg += '\n고유ID : ' + rsp.imp_uid;
-					    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-					    			msg += '\결제 금액 : ' + rsp.paid_amount;
-					    			msg += '카드 승인번호 : ' + rsp.apply_num;
-
-					    			alert(msg);
-					    		} else {
-					    			//[3] 아직 제대로 결제가 되지 않았습니다.
-					    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-					    		}
-					    	});
-					    	//성공 시 이동할 페이지
-					    	// 이따 불러올게요
-							
-								
-					    } else {
-					        var msg = '결제에 실패하였습니다.';
-					        msg += '실패 사유 : ' + rsp.error_msg;
-					        //실패시 이동할 페이지
-			            //location.href="${pageContext.request.contextPath}/order/payFail";
-					        alert(msg);
-					    }
+						alert(msg);
+					} else {
+						//[3] 아직 제대로 결제가 되지 않았습니다.
+						//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+					}
 				});
-/////////////////////////////// 인서트 구문
-			
-}
+				//성공 시 이동할 페이지
+				// 이따 불러올게요 여기로 와요!
+		const totalHtml = '<input type="hidden" name ="total" value="'+ amount+'"/>';
+		const fanNoo = '<input type="hidden" name ="fanNo" value="'
+				+ $("[name=fanNo]").val() + '"/>';
+		const payType = '<input type="hidden" name ="ptype" value="'+"신용카드"+'"/>';
+		var on = $("[name=opNo]"); //이 두개 값을 그럼,, 흠 묶을 까요 []이렇게요? 이건 딱 하나의 값인가요? 넨 그걸 밑에서더 있으면 돌려서 배열을 만들어줘요
+		const pdAmount = $("[name=pdAmount]");
+		var pdNo = $("[name=pdNo]");
+		var pdNoOne = $("[name=pdNo]").val();
+		console.log("pdNo= " + pdNo);
+		var $formId = $(document.insertPayFrm);
+		console.log("formId= " + $formId);
 
+		var pdNoHtml = '';
+
+		$.each(pdNo, function(index, value) {
+			console.log(value);
+
+			pdNoHtml += '<input type="hidden" name ="pdNoo" value="'
+					+ $(value).val() + '"/>';
+			console.log(pdNoHtml);
+		});
+		console.log(pdNoHtml);
+
+		var opNoHtml = '';
+		$.each(on, function(index, value) {
+			console.log(value);
+
+			opNoHtml += '<input type="hidden" name ="opNoo" value="'
+					+ $(value).val() + '"/>';
+			//그럼 여기 value값에 해당 하는 pdNo를 같이 넣어줘야할거 같아요
+
+			console.log(opNoHtml);
+		});
+		var sum = 0;
+		$.each(pdAmount, function(index, value) {
+			console.log(value);
+			sum += Number($(value).val());
+
+		});
+		var sumHtml = '<input type="hidden" name ="sumA" value="'+sum+'"/>';
+		console.log(sum);
+
+		// 
+		$formId.append(sumHtml);//상품수량 그그 옵셪 넘버는 뭐 그렇다 치고 .. 상품 넘버는 낫 널이라 필요 한데ㅣ..ㅜㅜ
+		$formId.append(pdNoHtml);//
+		$formId.append(opNoHtml);//옵션넘버 -> 이거는 고쳐야할것같아용 상품페이지에 옵션넘버 안쓰고 String 써요!
+		$formId.append(totalHtml); //전체금액
+		$formId.append(fanNoo); //사용자 번호
+		$formId.append(payType); //카드사용 
+		$formId.submit();
+
+			} else {
+				var msg = '결제에 실패하였습니다.';
+				msg += '실패 사유 : ' + rsp.error_msg;
+				//실패시 이동할 페이지
+				location.href="${pageContext.request.contextPath}/mypage/payment.do";
+				alert(msg);
+			}
+		});
+		
+
+	}
 </script>
 
 

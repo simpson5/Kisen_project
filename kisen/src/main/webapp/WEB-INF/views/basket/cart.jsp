@@ -177,6 +177,7 @@ color:  #9033b5;
   </thead>
   <tbody>
 	<c:forEach items="${basketList}" var ="basketList" >
+
 	 <tr>
      <th scope="row" class="border border-left-0 border-top-0  border-right-0 "> 
      	<input class="selectProduct" type="checkbox" id="checkboxOne" name="selectProduct" onclick="select(this);" />
@@ -232,8 +233,8 @@ color:  #9033b5;
 		 </div>
       </td>
     </tr>
-	</c:forEach>
 
+	</c:forEach>
     <tr>
        <th scope="row" class="border border-left-0 border-top-0 border-right-0 ">
        <input type="checkbox" id="checkboxDel" name="checkboxdel" />
@@ -301,7 +302,7 @@ color:  #9033b5;
 	name="orderFrm" 
 	method="GET" 
 	id="orderFrm"
-	action="${pageContext.request.contextPath}/basket/payment.do">
+	action="${pageContext.request.contextPath}/basket/payment.do" >
 </form> 
 <form 
 	name="delCart" 

@@ -344,7 +344,10 @@ textarea.autosize {
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col" colspan="4" id="pd_name">${product.pdName}</th>
+							<th scope="col" colspan="4" id="pd_name">${product.pdName}
+								<input type="hidden" name=pdN value="${product.pdNo}">
+								<input type="hidden" name=fanN value="${loginMember.fanNo}">
+							</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -438,7 +441,7 @@ textarea.autosize {
 								<td class="btn-buy" colspan="3" style="border-bottom:1px solid #eee;">
 								<!-- pdStock == 0 -> 품절상품입니다. 로 대체 -->
 								<c:if test="${product.pdStock ne 0}">
-									<button type="button" class="btn btn-dark col-5 mx-2 py-2">구매하기</button>
+									<button type="button" class="btn btn-dark col-5 mx-2 py-2" onclick="buyNow(this);">구매하기</button>
 									<button type="button"
 										class="btn btn-outline-secondary col-5 mx-2 py-2">장바구니
 										담기</button>
@@ -601,6 +604,8 @@ textarea.autosize {
 		</div>
 	</div>
 </div>
+<form action="${pageContext.request.contextPath}/basket/buyNow.do" method="POST" name=buyNowFrm>
+ </form>
 <script>
 $(".pd-nav").click(function(e){
 	var id = $(e.target).attr('id');
@@ -704,7 +709,7 @@ $("[name=option-select]").change(function(e){
 $(() => {
 	$("button[name=pdDetail]").click(e => {
 		//화살표함수안에서는 this는 e.target이 아니다.
-		//console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
+		console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
 		var $no = $(e.target).parent();
 		var no = $no.data("no");
 		console.log(no);
@@ -712,6 +717,30 @@ $(() => {
 		location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + no;
 	});
 });
+
+function buyNow(obj){
+	var $formId = $(document.buyNowFrm);
+	 console.log("formId= "+ $formId);
+	 const fanNo = '<input type="hidden" name ="fanNo" value="'+ $("[name=fanN]").val()+'"/>';
+	 const pdNo = '<input type="hidden" name ="pdNo" value="'+ $("[name=pdN]").val()+'"/>';
+	 const opNo = '<input type="hidden" name ="opNo" value="'+ $("[name=opN]").val()+'"/>';
+	var cnt = 0; //수량
+	var get_input = $(".form-controller");
+	$.each(get_input, function (index, value) {
+		cnt +='<input type="hidden" name ="cnt" value="'+Number($(value).val())+'"/>';
+		
+	});
+	
+	console.log(fanNo);
+	console.log(pdNo);
+	console.log(cnt);
+	console.log(opNo);
+	$formId.append(fanNo);
+	$formId.append(pdNo);
+	$formId.append(opNo);
+	$formId.append(cnt);
+	$from.submit;
+}
 
 </script>
 

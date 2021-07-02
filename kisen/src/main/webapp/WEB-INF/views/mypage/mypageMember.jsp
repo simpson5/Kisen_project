@@ -8,7 +8,15 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>	
 
-
+<%
+	String arr = ((Fan)request.getAttribute("loginMember")).getAddress();
+	String[] array = arr.split("-");
+	for(int i=0;i<array.length;i++) {
+		System.out.println(array[i]); 
+				
+		}
+	pageContext.setAttribute("array", array);
+%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
 <jsp:param value="mypage" name="title"/>
 </jsp:include>
@@ -127,8 +135,9 @@ div#mypage1{
    <div class="form-group col-md-7 mx-auto">
       <label for="myId">아이디</label>
       <input type="text" class="form-control" id="fanId" name="fanId"value="${loginMember.fanId}" readonly required >
-     
-    </div>
+      <input type="hidden"  name="fanNo"value="${loginMember.fanNo}" >
+		     
+   </div>
   <div class="form-group col-md-7 mx-auto">
       <label for="myName">*이름</label>
       <input type="text" class="form-control" id="fanName" name="fanName" value="${loginMember.fanName}">
@@ -164,7 +173,7 @@ div#mypage1{
         <!-- 우편번호 검색 -->
         <div id="zip-code form-control">
             <div class="p-2 ">
-            <input type="text" class="fill-in-area add1 form-control" id="sample6_postcode" name="address" 
+            <input type="text" class="fill-in-area add1 form-control" id="sample6_postcode" name="address" value="${array[0]}"
             	readonly placeholder="우편번호" style="width: 100%" >
         	</div>
             <div class="form-group col-md-7 mx-auto">
@@ -174,13 +183,14 @@ div#mypage1{
         <!-- 검색에 의한 주소 -->
         <div class="mx-auto">
             <label for="sample6_address"></label>
-            <input type="text" class="fill-in-area add2  form-control" name="addressExt1" id="sample6_address" readonly placeholder="주소"><br>
+            <input type="text" class="fill-in-area add2  form-control" name="addressExt1" id="sample6_address" readonly placeholder="주소" value="${array[1]}"><br>
         </div>
         <!-- 참고항목 및 상세주소 -->
    
 	        <div class="mx-auto p-1">
 	            <label for="sample6_extraAddress"></label>
-	            <input type="text" class="fill-in-area add3 form-control " name="addressExt2" id="sample6_extraAddress" readonly placeholder="참고항목">
+	            <input type="text" class="fill-in-area add3 form-control " name="addressExt2" id="sample6_extraAddress" readonly placeholder="참고항목" 
+	            value="${array[2]}${array[3]}">
 	        </div>
 	        <div class="mx-auto p-1">
 	            <input type="text" class="fill-in-area add4 form-control" name="addressExt3" id="sample6_detailAddress" placeholder="상세주소">
