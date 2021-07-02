@@ -3,6 +3,7 @@ package com.simpson.kisen.unofficial.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.unofficial.model.vo.DemandpdImg;
 import com.simpson.kisen.unofficial.model.vo.DepositpdImg;
@@ -38,6 +39,10 @@ public interface UnOfficialDao {
 	int updateDemandImg(DemandpdImg pdImg);
 
 	int updateStock(Map<String, Object> map);
+
+	Fan selectOneMemberByEmail(String email);
+
+
 	
 	
 

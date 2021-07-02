@@ -9,11 +9,7 @@
 
 <div class="container">
 
-		<form id="depositFrm" 
-			name="depositFrm"
-			action="${pageContext.request.contextPath}/unofficial/depositDetail.do"
-			method="post">
-			
+		
 					
 		<h2 class="text-center m-4" style="font-weight: bold;">${unofficialdeposit.pdName} 입금폼 상세보기</h2>
 		
@@ -143,6 +139,12 @@
 								value="${unofficialdeposit.deliveryNotice}" readonly></textarea>
 						</div>
 						
+						
+						<form id="depositFrm" 
+			name="depositFrm"
+			action="${pageContext.request.contextPath}/unofficial/depositDetail.do"
+			method="post">
+			
 						<div class="row" style="padding-top: 5px;">
 									<div class="col-md-5"
 										style="font-size: 15px; font-weight: 700; text-align: left; padding: 5px 15px;">

@@ -5,6 +5,7 @@ package com.simpson.kisen.unofficial.controller;
 import java.io.File;
 
 import java.io.IOException;
+import java.lang.reflect.Member;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ import com.simpson.kisen.agency.model.service.AgencyService;
 import com.simpson.kisen.common.util.HelloSpringUtils;
 import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.vo.Idol;
+import com.simpson.kisen.member.Config;
+import com.simpson.kisen.member.MailService;
 import com.simpson.kisen.product.model.vo.ProductImg;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.unofficial.model.service.UnOfficialService;
@@ -83,6 +86,10 @@ public class UnofficialController {
 
 	@Autowired
 	UnOfficialService unofficialService; 
+	
+	private MailService mailService;
+	
+	
 	
 	
 	
@@ -220,20 +227,6 @@ public class UnofficialController {
 		
 	}
 	
-
-
-
-//	@PostMapping("/depositEnroll.do")
-//	@ResponseBody
-//	public String depositEnroll(@RequestBody UnofficialDeposit unofficialdeposit
-//			) throws Exception {
-//		log.info("unofficialDeposit = {}", unofficialdeposit);
-		// 업무로직
-//		int result = unofficialService.insertdepositEnroll(unofficialdeposit);
-		
-//		return "redirect:unofficial.do";
-//	}
-	
 	
 
 
@@ -252,10 +245,24 @@ public class UnofficialController {
 	}
 	
 	@PostMapping("/depositDetail.do")
-	public String depositsubmit(
+	public String depositsubmit(HttpServletRequest req, 
 			@RequestParam(name ="email") String email
 			) {
 		log.info("email={}", email);
+		mailService = new MailService(Config.gmailId, Config.gmailPw, Config.mailFrom, Config.mailFromName);
+		
+		// send(email, title, content)	
+		mailService.send(email, "[kisen] 입금폼제출 안내메일입니다.",
+				"<div style=\"background-color: rgb(241, 241, 241); width: 900px; text-align: center; margin: 20px; padding: 20px;\">\r\n"
+						+ "    <img src=\"https://blogfiles.pstatic.net/MjAyMTA2MjVfMjk4/MDAxNjI0NjA5ODQzMDQx.LJecEdDc183KLHTb-4MIJZd0b3Wih7dquRSJaqLYc2Mg.4hjwxApg9j2nPHj9erBQn_gw6hJP86v3rIaNdi5bwgEg.PNG.dbs7wl7/kisen_logo.png\" style=\"width: 300px;\">\r\n"
+						+ "    <p style=\"font-size: large; margin-bottom: 10px;\">안녕하세요. K-POP 굿즈 종합쇼핑몰 kisen입니다.</p>\r\n"
+						+ "    <p style=\"font-size: large; margin-bottom: 10px;\">고객님의 아이디는 <span style=\"font-weight: bolder;\">"
+						+ "    </span>입니다.</p>\r\n"
+						+ "    <p style=\"font-size: large; margin-bottom: 10px;\">해당 아이디로 로그인을 진행해주세요.</p>\r\n"
+						+ "    <div style=\"background-color: rgb(109, 51, 104); width: 300px; height: 40px; margin: 30px auto; line-height: 40px; border-radius: 20px;\">\r\n"
+						+ "    <a href=\"http://localhost:9090/kisen/member/login.do\" style=\"color: white; text-decoration: none; font-size: large; \">로그인하러 가기</a>\r\n"
+						+ "    </div>\r\n" + "</div>");
+	
 		return "redirect:depositFormlist.do";
 	}
 	
@@ -275,20 +282,18 @@ public class UnofficialController {
 	}
 	@ResponseBody
 	@PostMapping("/demandDetail.do")
-	public String demandsubmit(		//mappin아ㅣ 두번............ 어떤거로 하실건가요풋을 지우면 안되겠죠??post로 받는게 맞아요 form 제출은 put 못받아요
-		//url 은 demandSumit으로 받으실건가요?아니요 demandDetail로 받는게 나을것같아요... 이거 view 좀 볼게요
+	public String demandsubmit(	
 			@RequestParam int demandNo,
 			@RequestParam String email,
 			@RequestParam(value = "twitter", required = false) String twitter,
 			@RequestParam String phone
 		) {	
-		log.info("demandNo@stockupdate={}",demandNo);	//얘로 stock 처리해주시고
-		log.info("demandNo@stockupdate={}",email);		// 그 사용자 email 찹아서 얘네 보내주면됩니당네 감사합니다 ㅠㅠㅠ
-		log.info("demandNo@stockupdate={}",twitter);	//쿼리문 한번봐드릴게요
+		log.info("demandNo@stockupdate={}",demandNo);	
+		log.info("demandNo@stockupdate={}",email);		
+		log.info("demandNo@stockupdate={}",twitter);	
 		log.info("demandNo@stockupdate={}",phone);
 		Map<String, Object> map = new  HashMap<String, Object>();
-			// key값을 int 주셨으면 1, 3 이런 숫자로 주셨어야합니다. string 으로 바꾸겠습니다
-		//해주세요넵
+			
 		map.put("demandNo", demandNo);
 		
 		int result = unofficialService.updateStock(map);

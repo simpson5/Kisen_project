@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.product.model.vo.ProductImg;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
@@ -131,6 +132,15 @@ public class UnOfficialServiceImpl implements UnOfficialService {
 	public int updateStock(Map<String, Object> map) {
 		return unofficialDao.updateStock(map);
 	}
+
+
+	@Override
+	public Fan selectOneMemberByEmail(String email) {
+		return unofficialDao.selectOneMemberByEmail(email);
+	}
+
+
+	
 
 	
 	

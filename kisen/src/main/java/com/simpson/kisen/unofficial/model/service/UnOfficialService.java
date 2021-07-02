@@ -3,6 +3,7 @@ package com.simpson.kisen.unofficial.model.service;
 import java.util.List;
 import java.util.Map;
 
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.unofficial.model.vo.UnofficialDemand;
@@ -32,6 +33,12 @@ public interface UnOfficialService {
 	int updateDemand(UnofficialPdImgExt unofficialdemand);
 
 	int updateStock(Map<String, Object> map);
+
+	Fan selectOneMemberByEmail(String email);
+
+
+
+	
 	
 
 	
