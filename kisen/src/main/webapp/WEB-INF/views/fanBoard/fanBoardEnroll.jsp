@@ -91,19 +91,47 @@ $(() => {
 		    <label class="custom-file-label" for="upFile1">파일을 선택하세요</label>
 		  </div>
 		  
-		  <div class="file-preview-container">
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  </div>
-		</div>
+		<div class="upload-file-container file-preview-container">
+	    </div>
+		  
 		<div class="content-container">
 		<textarea name="fbContent" id="summernote" rows="10" cols="100" style="width:100%; height:412px;"></textarea>
 		</div>
 		<button type="submit" class="btn btn-block" id="enroll-btn">작성하기</button>
 	</form>
 </div>
+<script>
+$("[name=upFile]").change(function(e){
+	
+	var file = $(e.target).prop('files')[0];
+	console.log(file);
+	var $label = $(e.target).next();
+	$label.html(file ? file.name : "파일을 선택하세요.");
 
+	var files = e.target.files,
+    filesLength = files.length;
+
+	$(".upload-file-container").empty();
+	if(filesLength > 0){
+		$(".upload-file-container").append('<p class="file-section upload-file-section">업로드할 파일</p>');
+	     //파일 선택이 여러개였을 시의 대응
+	     for (var i = 0; i < filesLength; i++) {
+	     	var f = files[i]
+	     	var fileReader = new FileReader();
+	     	fileReader.onload = (function(e) {
+	     		var file = e.target;
+	             //div id="preview" 내에 동적코드추가.
+	             //이 부분을 수정해서 이미지 링크 외 파일명, 사이즈 등의 부가설명을 할 수 있을 것이다.
+	                 var imgHtml = '<div class="d-inline-block preview-container">';
+						imgHtml += '<div class="file-preview" id="pre-1"><img src="' + e.target.result + '"/>' + '</div>';
+						imgHtml += '<p class="origin-attach">' + f.name + '</p>';
+						imgHtml += '</div>';
+	
+	 	$(".upload-file-container").append(imgHtml);
+	         });
+	         fileReader.readAsDataURL(f);
+	     }
+	}
+});
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
