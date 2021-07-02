@@ -137,6 +137,7 @@
 	
 	<select id="selectUdList" resultMap="udMap">
 		select
+			u.demand_no,
 			u.pd_name,
 			u.idol_name,
 			u.pd_category,

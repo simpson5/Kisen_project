@@ -212,6 +212,7 @@ name="sendFrm">
         <!--  <h5 class="mt-0 mb-1">Red Velvet 1st 앨범</h5> -->
             <div class="py-3">
             <input type="hidden" name="pdName" value="${udList.pdName}">
+            <input type="hidden" name="pdName" value="${udList.demandNo}">
            <h5 class="mt-0 mb-1 mt-3">${udList.pdName}</h5>
             </div>
             <span></span>
