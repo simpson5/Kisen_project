@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.service.IdolService;
@@ -38,7 +39,6 @@ public class IdolController {
 	@GetMapping("/mypageArtist.do")
 	public void selectOneIdolCollection(Authentication authentication, Model model
 			) {
-		
 		try {
 			Fan principal = (Fan) authentication.getPrincipal();
 				log.info("fanNo ={}", principal.getFanNo());
@@ -47,6 +47,7 @@ public class IdolController {
 			model.addAttribute("loginMember", principal);
 			model.addAttribute("idolList", idolList);
 			model.addAttribute("dipList", dipList);
+			
 			log.info("idolList = {}", idolList);
 			log.info("dipList = {}", dipList);
 		} catch (Exception e) {
@@ -56,7 +57,7 @@ public class IdolController {
 	
 	}		
 	
-	
+	//ㅜ소민님만 쉽지또ㅜ
 	@PostMapping("/dip")
 		public Map<String, Object> insertIdol(@RequestBody DipIdol dip){
 			try {
@@ -76,6 +77,7 @@ public class IdolController {
 		}
 	
 	
+	
 	@DeleteMapping("/delIdol/{idolNo}")
 	public ResponseEntity<?> deleteMenu(@PathVariable int idolNo){
 		try {
@@ -86,7 +88,7 @@ public class IdolController {
 				map.put("msg", "찜한 아이돌 삭제 성공!");
 				
 				return  new ResponseEntity<Map<String, Object>>(map,HttpStatus.OK);
-			
+				
 			}
 			else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);			
@@ -95,5 +97,5 @@ public class IdolController {
 			log.error("아이돌 삭제 실패!", e);
 			throw e;
 		}
-	}
+	}	
 }

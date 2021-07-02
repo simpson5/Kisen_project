@@ -38,13 +38,13 @@ h2 {
 }
 
 .file-preview {
-    width: 145.2px;
-    height: 103px;
+    width: 184.2px;
+    height: 132px;
     display: inline-block;
     border: 1px solid #ababab;
     border-radius: 2px;
     margin: 11px 5px -6px;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .file-preview img{
@@ -54,7 +54,8 @@ h2 {
 }
 
 .file-preview-container {
-	width : 100%;
+    width: 100%;
+    display: inline;
 }
 
 .custom-file-label {
@@ -95,4 +96,20 @@ h2 {
     height: 35px;
     margin-bottom: 0;
     margin: 5px 0;
+}
+
+.origin-attach {
+	margin: 0 8px 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    width: 180px;
+    overflow: hidden;
+}
+
+.file-section {
+	margin: 7px 6px -3px;
+    font-weight: bolder;
+    font-size: larger;
+    color: gray;
 }

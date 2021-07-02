@@ -112,12 +112,13 @@ td{
 }
 #deliveryInfo{
 	width:1000px;
+	height: 1200px;
 	border: 4px solid #bc73d6!important;
 	
 }
 #line{
 	width: 3px;
-	height: 1500px;
+	height: 1100px;
 	align-content: center;
 }
 #couponBox{
@@ -189,7 +190,6 @@ td{
   <thead id="cartOder">
     <tr>
       <th scope="col" colspan="2">상품목록</th>
-      <th scope="col">판매자</th>
       <th scope="col">배송비</th>
       <th scope="col">수량</th>
       <th scope="col">할인</th>
@@ -197,20 +197,19 @@ td{
     </tr>
   </thead>
   <tbody>
+    <c:forEach items="${PaymentList}" var ="PaymentList" >
     <tr>
       <td colspan="2">
       	<div class="media">
-		  <img class="" src="${pageContext.request.contextPath}/resources/images/moonju/blackpink.jpg" style="width: 100px; height:100px;">
+		  <img class="" src="${pageContext.request.contextPath}/resources/upload/product/${PaymentList.productImg}" style="width: 100px; height:100px;">
 		  <div class="media-body my-3 ">
-		    <a href=""><h6 class="mt-0">BLACK PINK 5TH ALBUM</h6></a> <!--이름 누를시 상품 상세페이지 -->
-		    <div class="d-flex flex-column">
-			  <div class="p-1" style="font-size: 12px;">옵션: 멤버별 포카 4종 증정</div>
+		  	<input type="hidden" name="pdName" value="${PaymentList.pdName}">
+		  	<input type="hidden" name="fanNo" value="${PaymentList.fanNo}">
+		    <h6 class="mt-0 ">${PaymentList.pdName}</h6> 
+			  <div class="p-1" style="font-size: 12px;">${PaymentList.pdContent}</div>
 			</div>
 		  </div>
 		</div>
-      </td>
-      <td>
-      	<div class="p-1">YG Ent</div>
       </td>
       <td>
       	<div class="d-flex flex-column ">
@@ -222,68 +221,20 @@ td{
 		   <div class="p-1 font-weight-bold" style="font-size:9px;color:#bc73d6">오늘 바로 발송</div>
 		 </div>
       </td>
-      <td><div class="p-1">1</div></td>
+      <td><div class="p-1">${PaymentList.pdAmount}</div>
+      <input type="hidden" name="pdAmount" value="${PaymentList.pdAmount}">
+      	
+      <input type="hidden" name="opNo" value="${PaymentList.pdNo}-${PaymentList.opNo}"> 
+      
+      <input type="hidden" name="pdNo" value="${PaymentList.pdNo}"> 
+      </td>
       <td style="color:gray;">- 0원</td>
-      <td><div class="p-1">28,000원</div></td>
+      <td><div class="p-1">${PaymentList.price}원</div>
+      <input type="hidden" name="price" value="${PaymentList.price}">
+      </td>	
     </tr>
-    <tr>
-     <td colspan="2">
-      	<div class="media">
-		  <img class="" src="${pageContext.request.contextPath}/resources/images/moonju/gw.jpg" style="width: 100px; height:100px;">
-		  <div class="media-body my-3">
-		    <a href=""><h6 class="mt-0">공원소녀 5TH MINI ALBUM</h6></a> <!--이름 누를시 상품 상세페이지 -->
-		    <div class="d-flex flex-column">
-			  <div class="p-1" style="font-size: 12px;">옵션: 멤버별 포카 4종 증정 및 파우치 증정</div>
-			</div>
-		  </div>
-		</div>
-      </td>
-      <td>
-      	<div class="p-1">더웨이브뮤직</div>
-      </td>
-      <td>
-      	<div class="d-flex flex-column ">
-		  <div class="p-1" style="font-size:10px;">무료</div>
-		  <div class="p-1" style="font-size: 10px;">
-		  	<button class="btn btn-outline p-0 " id="delivery">오늘출발</button>
-		  </div>
-		   <div class="p-1" style="font-size:9px;">15:00까지 결제 시</div>
-		   <div class="p-1 font-weight-bold" style="font-size:9px;color:#bc73d6">오늘 바로 발송</div>
-		 </div>
-      </td>
-      <td><div class="p-1">1</div></td>
-      <td style="color:gray;">- 0원</td>
-      <td><div class="p-1">28,000원</div></td>
-    </tr>
-    <tr>
-     <td colspan="2">
-      	<div class="media">
-		  <img class=""src="${pageContext.request.contextPath}/resources/images/moonju/everglow.jpg" style="width: 100px; height:100px;">
-		  <div class="media-body my-3">
-		    <a href=""><h6 class="mt-0">EVER GLOW 3TH ALBUM</h6></a> <!--이름 누를시 상품 상세페이지 -->
-		    <div class="d-flex flex-column">
-			  <div class="p-1" style="font-size: 12px;">옵션: 멤버별 포카 4종 증정 및 응원봉 증정</div>
-			</div>
-		  </div>
-		</div>
-      </td>
-      <td>
-      	<div class="p-1">위에화 Ent</div>
-      </td>
-      <td>
-      	<div class="d-flex flex-column ">
-		  <div class="p-1" style="font-size:10px;">무료</div>
-		  <div class="p-1" style="font-size: 10px;">
-		  	<button class="btn btn-outline p-0 " id="delivery">오늘출발</button>
-		  </div>
-		   <div class="p-1" style="font-size:9px;">15:00까지 결제 시</div>
-		   <div class="p-1 font-weight-bold" style="font-size:9px;color:#bc73d6">오늘 바로 발송</div>
-		 </div>
-      </td>
-      <td><div class="p-1">1</div></td>
-      <td style="color:gray;">- 0원</td>
-      <td><div class="p-1">28,000원</div></td>
-    </tr>
+   </c:forEach>
+    
   </tbody>
 </table>
 </div>
@@ -310,7 +261,7 @@ td{
  	 <hr />
  	 <!-- 기본 배송지 -->
  	 <div class="p-2 d-flex flex-column " id="nowAddress">
- 	 	<div class="p-2">${loginMember.fanName}</div>
+ 	 	<div class="p-2 userId">${loginMember.fanName}</div>
  	 	<div class="p-2">${loginMember.phone}</div>
  	 	<div class="p-2">
  	 	${loginMember.address}
@@ -334,21 +285,26 @@ td{
  	 	<mark id="marks">연락처2</mark>
  	 	<input type="tel" class="ml-3" placeholder="(-없이)01012345678" name="phone" id="phone" maxlength="11" />
  	 	</div>
- 	 	<div class="p-2">
+ 	 	<div class="p-2 zip-code">
  	 	<mark id="marks">
  	 	 <label for="sample6_postcode">배송지 주소</label></mark>
- 	 	<input type="text" class="ml-3" style="width: 80px" id="sample6_postcode"/>
- 	 	<button class="btn btn-outline mb-1" id="postNum">우편번호</button>
+ 	 	<input type="text" class="ml-3" style="width: 80px" id="sample6_postcode" name="address" />
+ 	 	<button class="btn btn-outline mb-1" id="postNum" onclick="sample6_execDaumPostcode()" value="우편번호 찾기">우편번호</button>
  	 	</div>
  	 	<div class="p-2">
- 	 	<input type="text" placeholder=" " size="25px;"/>
- 	 	<input type="text" placeholder=" 상세주소" size="25px;"/>
+ 	 	<label for="sample6_address"></label>
+ 	 	<input type="text" name="addressExt1" id="sample6_address" readonly placeholder="주소" size="25px;"/>	 	 
+ 	 	</div>
+ 	 	<div class="p-2">
+ 	 	<label for="sample6_extraAddress"></label>
+ 	 	<input type="text" name="addressExt2" id="sample6_extraAddress" readonly placeholder="참고항목" size="25px;"/>
+ 	 	</div>
+ 	 	<div class="p-2">
+ 	 	<input type="text" name="addressExt2" name="addressExt3" id="sample6_detailAddress" placeholder="상세주소" size="25px;"/>
  	 	</div>
  	 	<div class="p-2">
  	 	<!-- 요청사항 만들긴 했는데 디비에 저정하나요? -->
  	 	<mark id="marks">배송 메모</mark>
- 	 	<span>블랙핑크 앨범 외 2</span>
- 	 	<br />
  	 	<input type="text" placeholder=" 요청사항을 입력해 주세요." size="30px;" class="my-3"/>
  	 	</div>
  	 </div>
@@ -434,9 +390,9 @@ td{
 	 	<div class="p-2 mx-auto ">
 	 	<br /><br />
 	 	 	<mark id="marks">주문자 정보</mark>
-	 	 	<div class="p-2">고길동</div>
-	 	 	<div class="p-2">010-3333-2222</div>
-	 	 	<div class="p-2">gogo@naver.com</div>
+	 	 	<div class="p-2 orderName">${loginMember.fanName}</div>
+	 	 	<div class="p-2 orderPhone" >${loginMember.phone}</div>
+	 	 	<div class="p-2 uemail">${loginMember.email}</div>
 	 	 <hr />
 	 	 </div>
 		<div class="p-2 mx-auto ">
@@ -452,27 +408,26 @@ td{
 	 	<br /><br />
 	 	 	<h5 class="font-weight-bold my-3"><mark id="marks">결제상세</mark> </h5>	
 	 	 	<div class="p-1 font-weight-bold">
-	 	 	 <span>주문 금액</span>&emsp;&emsp;  <span>72,000원</span>
+	 	 	 <span>주문 금액</span>&emsp;&emsp;  <span><fmt:formatNumber value="${total}" pattern="#,###"/>원</span>
 	 	 	</div>
 	 	 	<div class="p-1" >
-	 	 	 <span style="font-size: 12px; color: gray;">└ 상품 금액</span>&emsp;&emsp;  
-	 	 	 <span style="font-size: 12px; color: gray;">84,000원</span>
+	 	 	 <span style="font-size: 12px; color: gray;">└ 상품 금액 <fmt:formatNumber value="${total}" pattern="#,###"/>원</span>
 	 	 	</div>
 	 	 	<div class="p-1" >
 	 	 	 <span style="font-size: 12px; color: gray;">└ 배송비</span>&emsp;&emsp;&emsp;&emsp;&emsp;   
 	 	 	 <span style="font-size: 12px; color: gray;">0원</span>
 	 	 	</div>
-	 	 	<div class="p-1" >
-	 	 	 <span style="font-size: 12px; color: gray;">└ 쿠폰할인</span>&emsp;&emsp;  
-	 	 	 <span style="font-size: 12px; color: gray;">12,000원</span>
-	 	 	</div>
 	 	 <hr />
 	 	 	<div class="p-1 font-weight-bold">
-	 	 	 <span>카드 결제</span>&emsp;&emsp;  <span>72,000원</span>
+	 	 	 <span></span>&emsp;&emsp;  <span>
+	 	 	 	<input class="total-price" type="hidden" value="${total}"/>
+	 	 	 	<fmt:formatNumber value="${total}" pattern="#,###"/>원</span>
 	 	 	</div>
 	 	 </div>
  	</div>
  </div>	 
+ <form action="${pageContext.request.contextPath}/basket/insertPay.do" method="POST" name=insertPayFrm>
+ </form>
 <div class="border border-0 mx-auto p-3 rounded d-flex justify-content-center" >
 	 <button type="button" class="btn btn-warning " id="payNow" onclick="payAll(this);">결제하기</button>	
 </div>
@@ -494,15 +449,7 @@ function chageAddress(obj){
 	
 };
 
-function cardType(obj){
-	const $obj = $(obj);
-	console.log($obj.attr('id'));
-	
-	 if($obj.attr('id') == "cardtype"){
-			$("#selectMonth").attr('disabled',true);
-		}
 
-}
 //주소 찾기//
 function sample6_execDaumPostcode() {
     new daum.Postcode({
@@ -557,64 +504,134 @@ $("#agreedAll").change(function(e){
 	$("[name=agreed]").prop("checked", this.checked);	
 	
 });
-function payAll(obj){
 
-/* 	var IMP = window.IMP; */
-	IMP.init('imp92035130'); //가맹점 식별코드
+	function payAll(obj) {
+
+		/* 	var IMP = window.IMP; */
+		IMP.init('imp92035130'); //가맹점 식별코드
+
+		var orders = '';
+
+		var userName = $(".userId").text();//이름
+		var uemail = $(".uemail").text();//이메일
+		var name = $("[name=pdName]"); //주문명
+
+		console.log(name);
+		$.each(name, function(index, value) {
+			console.log(value);
+			orders += $(value).val() + ",";
+
+			console.log(orders);
+
+		});
+
+		const rslt1 = orders.replace(/,\s*$/, "");
+		console.log(rslt1);
+
+		var amount = $(".total-price").val(); //결제 금액  
+		console.log(amount);
 
 
-		var name = ($(".cart-li:eq(1)").find(".left").text()) + " 외"; //주문명
-		var amount = Number($("#total-price").text()); //결제 금액 
+		////결제 api
+		IMP.request_pay({
+			pg : 'inicis', // version 1.1.0부터 지원.
+			pay_method : 'card',
+			merchant_uid : 'merchant_' + new Date().getTime(),
+			name : rslt1,
+			amount : amount,//테스트용 10원 설정,
+			buyer_name : userName,
+			buyer_email : uemail
+		}, function(rsp) {
+			if (rsp.success) {
+				//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
+				jQuery.ajax({
+					//아임포트 서버에 접속할 url임. 건드리면 안됨
+					url : "/payments/complete", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
+					type : 'POST',
+					dataType : 'json',
+					data : {
+						imp_uid : rsp.imp_uid
+					//기타 필요한 데이터가 있으면 추가 전달
+					}
+				}).done(function(data) {
+					//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
+					if (everythings_fine) {
+						var msg = '결제가 완료되었습니다.';
+						msg += '\n고유ID : ' + rsp.imp_uid;
+						msg += '\n상점 거래ID : ' + rsp.merchant_uid;
+						msg += '\결제 금액 : ' + rsp.paid_amount;
+						msg += '카드 승인번호 : ' + rsp.apply_num;
 
-				IMP.request_pay({
-				    pg : 'inicis', // version 1.1.0부터 지원.
-				    pay_method : 'card',
-				    merchant_uid : 'merchant_' + new Date().getTime(),
-				    name : name,
-				   //amount : amount
-						//파라미터 정보는 아래 깃허브에서 확인 가능
-						//https://github.com/iamport/iamport-manual/blob/master/%EC%9D%B8%EC%A6%9D%EA%B2%B0%EC%A0%9C/README.md
-				   amount : 10 //테스트용 10원 설정
-				}, function(rsp) {
-					 if ( rsp.success ) {
-					    	//[1] 서버단에서 결제정보 조회를 위해 jQuery ajax로 imp_uid 전달하기
-					    	jQuery.ajax({
-										//아임포트 서버에 접속할 url임. 건드리면 안됨
-					    		url: "/payments/complete", //cross-domain error가 발생하지 않도록 동일한 도메인으로 전송
-					    		type: 'POST',
-					    		dataType: 'json',
-					    		data: {
-						    		imp_uid : rsp.imp_uid
-						    		//기타 필요한 데이터가 있으면 추가 전달
-					    		}
-					    	}).done(function(data) {
-					    		//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
-					    		if ( everythings_fine ) {
-					    			var msg = '결제가 완료되었습니다.';
-					    			msg += '\n고유ID : ' + rsp.imp_uid;
-					    			msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-					    			msg += '\결제 금액 : ' + rsp.paid_amount;
-					    			msg += '카드 승인번호 : ' + rsp.apply_num;
-
-					    			alert(msg);
-					    		} else {
-					    			//[3] 아직 제대로 결제가 되지 않았습니다.
-					    			//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
-					    		}
-					    	});
-					    	//성공 시 이동할 페이지
-					    	location.href="${pageContext.request.contextPath}/basket/payComplet.do";
-					    } else {
-					        var msg = '결제에 실패하였습니다.';
-					        msg += '에러내용 : ' + rsp.error_msg;
-					        //실패시 이동할 페이지
-			            //location.href="${pageContext.request.contextPath}/order/payFail";
-					        alert(msg);
-					    }
+						alert(msg);
+					} else {
+						//[3] 아직 제대로 결제가 되지 않았습니다.
+						//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
+					}
 				});
-	
-}
+				//성공 시 이동할 페이지
+				// 이따 불러올게요 여기로 와요!
+		const totalHtml = '<input type="hidden" name ="total" value="'+ amount+'"/>';
+		const fanNoo = '<input type="hidden" name ="fanNo" value="'
+				+ $("[name=fanNo]").val() + '"/>';
+		const payType = '<input type="hidden" name ="ptype" value="'+"신용카드"+'"/>';
+		var on = $("[name=opNo]"); //이 두개 값을 그럼,, 흠 묶을 까요 []이렇게요? 이건 딱 하나의 값인가요? 넨 그걸 밑에서더 있으면 돌려서 배열을 만들어줘요
+		const pdAmount = $("[name=pdAmount]");
+		var pdNo = $("[name=pdNo]");
+		var pdNoOne = $("[name=pdNo]").val();
+		console.log("pdNo= " + pdNo);
+		var $formId = $(document.insertPayFrm);
+		console.log("formId= " + $formId);
 
+		var pdNoHtml = '';
+
+		$.each(pdNo, function(index, value) {
+			console.log(value);
+
+			pdNoHtml += '<input type="hidden" name ="pdNoo" value="'
+					+ $(value).val() + '"/>';
+			console.log(pdNoHtml);
+		});
+		console.log(pdNoHtml);
+
+		var opNoHtml = '';
+		$.each(on, function(index, value) {
+			console.log(value);
+
+			opNoHtml += '<input type="hidden" name ="opNoo" value="'
+					+ $(value).val() + '"/>';
+			//그럼 여기 value값에 해당 하는 pdNo를 같이 넣어줘야할거 같아요
+
+			console.log(opNoHtml);
+		});
+		var sum = 0;
+		$.each(pdAmount, function(index, value) {
+			console.log(value);
+			sum += Number($(value).val());
+
+		});
+		var sumHtml = '<input type="hidden" name ="sumA" value="'+sum+'"/>';
+		console.log(sum);
+
+		// 
+		$formId.append(sumHtml);//상품수량 그그 옵셪 넘버는 뭐 그렇다 치고 .. 상품 넘버는 낫 널이라 필요 한데ㅣ..ㅜㅜ
+		$formId.append(pdNoHtml);//
+		$formId.append(opNoHtml);//옵션넘버 -> 이거는 고쳐야할것같아용 상품페이지에 옵션넘버 안쓰고 String 써요!
+		$formId.append(totalHtml); //전체금액
+		$formId.append(fanNoo); //사용자 번호
+		$formId.append(payType); //카드사용 
+		$formId.submit();
+
+			} else {
+				var msg = '결제에 실패하였습니다.';
+				msg += '실패 사유 : ' + rsp.error_msg;
+				//실패시 이동할 페이지
+				location.href="${pageContext.request.contextPath}/mypage/payment.do";
+				alert(msg);
+			}
+		});
+		
+
+	}
 </script>
 
 

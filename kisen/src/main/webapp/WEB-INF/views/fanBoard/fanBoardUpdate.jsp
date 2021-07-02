@@ -46,36 +46,15 @@
         });
   });
 </script>
-<script>
-//파일 첨부시 선택한 파일명이 반영되도록 설정
-$(() => {
-	// 파일 선택 또는 취소시
-	$("[name=upFile]").change(e => {
-		// 1. 파일명 가져오기
-		// files속성의 0번지 : 이번에 선택한 파일
-		var file = $(e.target).prop('files')[0];
-		console.log(file);
-		// 파일 선택시 : File {name: "졸업사진.jpg", .....} -> input:file안에 실제 file객체가 존재함
-		// 파일 취소시 : undefined
-		
-		// 2.1. label 가져오기
-		var $label = $(e.target).next(); // 형제요소
-		
-		// 2.2. label에 적용
-		// 자동형변환 : 존재하면 true, undefined는 false
-		// 파일이 존재하면 file의 name을 존재하지 않으면 "파일을 선택하세요"
-		$label.html(file ? file.name : "파일을 선택하세요.");
-	});
-})
-</script>
 <h2 style="margin-top: 32px; margin-bottom: 13px; width: 62%;">팬게시글 수정</h2>
 <div class="frm-container">
 	<!-- 글쓰기 폼 -->
 	<form 
 		method="post" 
 		id="enroll-frm" 
-		action="${pageContext.request.contextPath}/fanBoard/fanBoardEnroll.do"
+		action="${pageContext.request.contextPath}/fanBoard/fanBoardUpdate.do"
 		enctype="multipart/form-data">
+		<input type="hidden" class="fill-in-area" name="fbNo" value="${fanBoard.fbNo}" placeholder="작성자" readonly/><br>
 		<input type="text" class="fill-in-area" name="fbWriter" value="${fanBoard.fbWriter}" placeholder="작성자" readonly/><br>
 		<select name="idolNo" class="fill-in-area">
 			<option value="${fanBoard.idolNo}">${idolName} </option>
@@ -84,6 +63,8 @@ $(() => {
 		    </c:forEach>
 		</select>
 		<input type="text" class="fill-in-area" value="${fanBoard.fbTitle}" name="fbTitle" placeholder="제목을 입력하세요."/>
+		
+		<!-- 첨부파일 부분 -->
 		<div class="mb-3" style="padding:0px;">
 		  <div class="custom-file">
 		  	<!-- multiple속성 추가 -->
@@ -91,19 +72,85 @@ $(() => {
 		    <label class="custom-file-label" for="upFile1">파일을 선택하세요</label>
 		  </div>
 		  
+		  <!-- 1) 기존파일 -->
 		  <div class="file-preview-container">
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  	<div class="file-preview"><img src="${pageContext.request.contextPath}/resources/images/fanBoard/gallery.png"/></div>
-		  </div>
+		  <p class="file-section">기존파일</p>
+		  <c:forEach items="${fanBoard.attachList}" var="attach" varStatus="vs">
+		  <div class="d-inline-block preview-container">
+		  	<div class="file-preview" id="pre-1"><img src="${pageContext.request.contextPath}/resources/upload/fanBoard/${attach.renamedFilename}"/>
+		  	</div>
+		  	<p class="origin-attach">${attach.originalFilename}</p>
+		  	<div class="form-check form-switch d-inline-block">
+  				<input style="margin-left: 4.5em;, margin-top: 3px;" class="form-check-input delFile" 
+  					type="checkbox" name="delFile" id="delFile" value="${attach.fbAttachNo}">
+  				<label style="margin-left: 96px;" class="form-check-label" for="delFile">삭제하기</label>
+			</div>
+		  	</div>
+		  </c:forEach>
 		</div>
+	    <!-- 2) 업로드할 파일 -->
+	    <div class="upload-file-container file-preview-container">
+	    </div>
+		
+		<!-- 내용 부분 -->
 		<div class="content-container">
 		<textarea name="fbContent" id="summernote" rows="10" cols="100" style="width:100%; height:412px;">${fanBoard.fbContent}</textarea>
 		</div>
 		<button type="submit" class="btn btn-block" id="enroll-btn">작성하기</button>
 	</form>
 </div>
+<script>
+$("[name=upFile]").change(function(e){
+	
+	var file = $(e.target).prop('files')[0];
+	console.log(file);
+	var $label = $(e.target).next();
+	$label.html(file ? file.name : "파일을 선택하세요.");
 
+	var files = e.target.files,
+    filesLength = files.length;
+
+	$(".upload-file-container").empty();
+	if(filesLength > 0){
+		$(".upload-file-container").append('<p class="file-section upload-file-section">업로드할 파일</p>');
+	     //파일 선택이 여러개였을 시의 대응
+	     for (var i = 0; i < filesLength; i++) {
+	     	var f = files[i]
+	     	var fileReader = new FileReader();
+	     	fileReader.onload = (function(e) {
+	     		var file = e.target;
+	             //div id="preview" 내에 동적코드추가.
+	             //이 부분을 수정해서 이미지 링크 외 파일명, 사이즈 등의 부가설명을 할 수 있을 것이다.
+	                 var imgHtml = '<div class="d-inline-block preview-container">';
+						imgHtml += '<div class="file-preview" id="pre-1"><img src="' + e.target.result + '"/>' + '</div>';
+						imgHtml += '<p class="origin-attach">' + f.name + '</p>';
+						imgHtml += '</div>';
+	
+	 	$(".upload-file-container").append(imgHtml);
+	         });
+	         fileReader.readAsDataURL(f);
+	     }
+	}
+    
+// input id 값 
+	
+	console.log($(this).val()); // 파일 선택 - 파일명, 선택 x - 빈문자열
+	if($(this).val() != ""){
+		// 파일 변경 -> 체크
+		$('.delFile')
+			.prop("checked", true)
+			// 파일이 변경된다면, check박스를 누르지 못하도록
+			// 클릭했을 때 함수로 return false를 걸어주면 클릭이 작동하지 않게 비활성화
+			.on('click', function(){
+				return false;
+			});
+	} else {
+		// 파일을 변경하려다가 다시 파일 선택 취소 -> 체크 해제
+		$('.delFile').prop("checked", false)
+			// 취소하면 다시 정상적으로 작동할 수 있도록 click했을 때의 이벤트핸들러 제거
+			// cf. on (이벤트 핸들러를 추가) <-> off (이벤트 핸들러 제거)
+			.off('click');
+	}
+});
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"/>

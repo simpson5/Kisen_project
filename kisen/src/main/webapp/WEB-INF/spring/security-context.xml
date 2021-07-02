@@ -28,7 +28,16 @@
 			 access : permitAll - 모두 승인하라 -->
 		<intercept-url pattern="/" access="permitAll"/>
 		<!-- 내부적으로 포워딩하는 index.jsp에 대해서도 모두 승인 -->
-		<intercept-url pattern="/index.jsp" access="permitAll"/>
+		<intercept-url pattern="/index.jsp" access="hasRole('USER')"/>
+		<intercept-url pattern="/mypage/**" access="hasRole('USER')"/>
+		<intercept-url pattern="/basket/**" access="hasRole('USER')"/>
+		<intercept-url pattern="/review/reviewForm.do" access="hasRole('USER')"/>
+		<intercept-url pattern="/fanBoard/fanBoardEnroll.do" access="hasRole('USER')"/>
+		
+
+		
+		
+		
 		<!-- 인증하지 않은 상태라면 login페이지에 접근할 수 있도록 : isAnonymous
 			 -> 인증한 상태라면 접근할 수 없음 -->
 		<intercept-url pattern="/member/login.do" access="isAnonymous()"/>
