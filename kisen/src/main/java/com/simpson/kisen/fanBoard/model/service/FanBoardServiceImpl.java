@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import com.simpson.kisen.fan.model.vo.Authority;
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.fanBoard.model.dao.FanBoardDao;
 import com.simpson.kisen.fanBoard.model.vo.FanBoard;
 import com.simpson.kisen.fanBoard.model.vo.FanBoardExt;
@@ -59,7 +60,12 @@ public class FanBoardServiceImpl implements FanBoardService {
 
 	@Override
 	public FanBoardExt selectOneFanBoardCollection(int no) {
-		return fanBoardDao.selectOneFanBoardCollection(no);
+		FanBoardExt fanBoard = null;
+			fanBoard = fanBoardDao.selectOneFanBoardCollection(no);
+			if(fanBoard == null) {
+				fanBoard = fanBoardDao.selectOneFanBoard(no);
+			}
+		return fanBoard;
 	}
 
 	@Override
@@ -115,5 +121,41 @@ public class FanBoardServiceImpl implements FanBoardService {
 	@Override
 	public int selectOneReadCnt(int fbNo) {
 		return fanBoardDao.selectOneReadCnt(fbNo);
+	}
+
+	@Override
+	public int updateFanBoard(FanBoardExt fanBoard, String[] attachNoes) {
+		
+		// 게시글 내용 수정
+		int result = fanBoardDao.updateFanBoard(fanBoard);
+		
+		// 첨부파일이 있을 때만 첨부파일 추가
+		if(fanBoard.getAttachList().size() > 0) {
+			for(FbAttachment fbAttach : fanBoard.getAttachList()) {
+				fbAttach.setFbNo(fanBoard.getFbNo()); // fbNo fk 세팅
+				// insertBoard안에서 insertAttachment를 호출
+				result = insertFbAttachment(fbAttach);
+			}
+		}
+		// 삭제할 첨부파일이 있을 때만 삭제
+		if(attachNoes != null) {
+			for(String attachNo : attachNoes) {
+				result = deleteFbAttachment(attachNo);
+			}
+		}
+		return result;
+	}
+
+	private int deleteFbAttachment(String attachNo) {
+		return fanBoardDao.deleteFbAttachment(attachNo);
+	}
+
+	@Override
+	public int selectOneIdolNo(int no) {
+		return fanBoardDao.selectOneIdolNo(no);
+	}
+
+	public FanBoardExt selectOneFanBoard(int no) {
+		return fanBoardDao.selectOneFanBoard(no);
 	}
 }

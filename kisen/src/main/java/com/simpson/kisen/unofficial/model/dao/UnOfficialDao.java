@@ -1,7 +1,9 @@
 package com.simpson.kisen.unofficial.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.unofficial.model.vo.DemandpdImg;
 import com.simpson.kisen.unofficial.model.vo.DepositpdImg;
 import com.simpson.kisen.unofficial.model.vo.UnofficialDemand;
@@ -26,6 +28,18 @@ public interface UnOfficialDao {
 	List<UnofficialPdImgExt2> selectunofficialdeposit();
 
 	UnofficialPdImgExt2 selectunofficialdeposit(String dno);
+
+	UnofficialPdImgExt selectOneDemand(String pName);
+
+	int deletedemand(String delNo);
+
+	int updateDemand(UnofficialPdImgExt unofficialdemand);
+
+	int updateDemandImg(DemandpdImg pdImg);
+
+	int updateStock(Map<String, Object> map);
+	
+	
 
 	
 	

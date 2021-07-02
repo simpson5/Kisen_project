@@ -94,7 +94,6 @@ public class FanBoardController {
 		model.addAttribute("idolList", idolList);
 		model.addAttribute("idolName", idolName);
 		model.addAttribute("loginMember", principal);
-		model.addAttribute("msg", "글쓰기 게시판 입짱~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	}
 
 	@PostMapping("/fanBoardEnroll.do")
@@ -142,6 +141,8 @@ public class FanBoardController {
 			fanBoard.setAttachList(fbAttachList);
 			int result = fanBoardService.insertFanBoard(fanBoard);
 			
+			log.info("fanBoard.fbNo = {}", fanBoard.getFbNo());
+			
 			// 3. 사용자 피드백 & 리다이렉트
 			redirectAttr.addFlashAttribute("msg", "게시글 등록 성공!");
 		} catch (Exception e) {
@@ -151,14 +152,19 @@ public class FanBoardController {
 		return "redirect:/fanBoard/fanBoardDetail.do?no=" + fanBoard.getFbNo();
 	}
 
-	@GetMapping("/fanBoardList")
-	public ResponseEntity<?> fanBoardList(@RequestParam int idolNo,
-			@RequestParam(required = true, defaultValue = "1") int cPage, Model model, HttpServletRequest request) {
+	@GetMapping("/fanBoardList/{idolNo}")
+	public ResponseEntity<?> fanBoardList(
+			// @RequestParam int idolNo,
+			@PathVariable int idolNo,
+			@RequestParam(required = true, defaultValue = "1") int cPage, 
+			Model model, 
+			HttpServletRequest request) {
 		try {
 			log.info("idolNo= {}", idolNo);
 			log.debug("cPage = {}", cPage);
 			final int limit = 10;
 			final int offset = (cPage - 1) * limit;
+			log.info("idolNo = {}", idolNo);
 			// service로 넘길 때 limit, offset을 둘 다 넘겨도 되지만
 			// 여러 인자를 넘기는게 부담스러운 일
 			// -> map으로 담아서 넘기기
@@ -213,11 +219,22 @@ public class FanBoardController {
 			// attachment의 경우, typeHandler 만들기 (boolean -> 'Y', 'N')
 			// 1. 업무로직
 			// 게시글 가져오기
-			FanBoardExt fanBoard = fanBoardService.selectOneFanBoardCollection(no);
-			log.debug("fanBoard = {}", fanBoard);
+			/*
+			 * List<FbAttachment> attachList = fanBoardService.selectAttachList(no);
+			 * if(attachList.size() > 0) { FanBoardExt fanBoard = null; fanBoard =
+			 * fanBoardService.selectOneFanBoardCollection(no);
+			 * model.addAttribute("fanBoard", fanBoard); } else { FanBoard fanBoard2 =
+			 * fanBoardService.selectOneFanBoard(no); model.addAttribute("fanBoard",
+			 * fanBoard2); }
+			 */
+			
+				FanBoardExt fanBoard = null;
+			fanBoard = fanBoardService.selectOneFanBoardCollection(no);				
+				model.addAttribute("fanBoard", fanBoard);
 
+			
 			// 게시글의 아이돌이름 가져오기
-			int idolNo = fanBoard.getIdolNo();
+			int idolNo = fanBoardService.selectOneIdolNo(no);
 			String idolName = fanBoardService.selectOneIdolName(idolNo);
 
 			// 댓글 가져오기
@@ -248,7 +265,6 @@ public class FanBoardController {
 			ArrayList<FanBoardLike> likeList = new ArrayList<>();
 
 			// 2. jsp에 위임
-			model.addAttribute("fanBoard", fanBoard);
 			model.addAttribute("idolName", idolName);
 			model.addAttribute("commentList", commentList);
 			model.addAttribute("fbList", list);
@@ -318,7 +334,7 @@ public class FanBoardController {
 		model.addAttribute("idolList", idolList);
 
 		FanBoardExt fanBoard = fanBoardService.selectOneFanBoardCollection(fbNo);
-		int idolNo = fanBoard.getIdolNo();
+		int idolNo = fanBoardService.selectOneIdolNo(fbNo);
 		String idolName = fanBoardService.selectOneIdolName(idolNo);
 		log.debug("update - fanBoard = {}", fanBoard);
 		model.addAttribute("fanBoard", fanBoard);
@@ -456,5 +472,63 @@ public class FanBoardController {
 			throw e;
 		}
 	}
-}
+	
+	@PostMapping("/fanBoardUpdate.do")
+	public String fanBoardUpdate(
+					@ModelAttribute FanBoardExt fanBoard,
+					@RequestParam(name = "upFile") MultipartFile[] upFiles, 
+					@RequestParam(name = "delFile", required=false) String[] attachNoes,
+					RedirectAttributes redirectAttr,
+					Model model) throws Exception {
+		try {
+			log.info("board = {}", fanBoard);
+			
+			// 1. 서버 컴퓨터에 파일 저장
+			String saveDirectory = application.getRealPath("resources/upload/fanBoard");
+			log.info("saveDirectory = {}", saveDirectory);
 
+			// 디렉토리 생성
+			File dir = new File(saveDirectory);
+			if (!dir.exists())
+				dir.mkdirs();
+
+			// 복수개의 attachment를 list로 관리
+			List<FbAttachment> fbAttachList = new ArrayList<>();
+
+			// 파일을 경로에 저장
+			for (MultipartFile upFile : upFiles) {
+				// input[name=upFile]로부터 비어있는 upFile이 넘어온다. (파일 선택을 안해도 null이 아님)
+				if (upFile.isEmpty())
+					continue; // continue를 통해 이하코드 진행되지 않도록
+
+				// 파일명 변경
+				String renamedFilename = HelloSpringUtils.getRenamedFilename(upFile.getOriginalFilename());
+
+				// a. 서버컴퓨터에 저장
+				// file 객체 생성(부모디렉토리, 파일명)
+				File dest = new File(saveDirectory, renamedFilename);
+				upFile.transferTo(dest); // 파일 이동 // 예외 던짐
+
+				// b. 저장된 데이터를 Attachment객체에 저장 및 list에 추가
+				FbAttachment fbAttach = new FbAttachment();
+				fbAttach.setOriginalFilename(upFile.getOriginalFilename());
+				fbAttach.setRenamedFilename(renamedFilename);
+				// attachList에 차곡차곡 담기
+				fbAttachList.add(fbAttach);
+			}
+			log.info("fbAttachList = {}", fbAttachList);
+
+			// 2. 업무로직 : db저장 (board, attach테이블 모두 insert)
+			fanBoard.setAttachList(fbAttachList);
+			int result = fanBoardService.updateFanBoard(fanBoard, attachNoes);
+			
+			// 3. 사용자 피드백 & 리다이렉트
+			redirectAttr.addFlashAttribute("msg", "게시글을 수정하였습니다.");
+		} catch (Exception e) {
+			log.error("게시글 수정에 실패했습니다.", e);
+			throw e;
+		}
+		return "redirect:/fanBoard/fanBoardDetail.do?no=" + fanBoard.getFbNo();
+	}
+	
+}

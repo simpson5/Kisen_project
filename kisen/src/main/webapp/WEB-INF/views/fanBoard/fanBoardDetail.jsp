@@ -24,6 +24,9 @@
 <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
 
+<!-- 공유하기 -->
+<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+
 <!-- 댓글창 높이 자동조절 -->
 <script>
 function resize(obj) {
@@ -68,8 +71,10 @@ window.onload = function () {
     <div class="jumbotron-fluid">
         <div class="container">
           <p class="display-4 title">${fanBoard.fbTitle}</p>
+          <input type="hidden" id="share-title" value="${fanBoard.fbTitle}"/>
+          <input type="hidden" id="share-desc" value="${idolName}"/>
           <div class="left-container">
-                  <span class="writer lead">${fanBoard.fbWriter}</span>&nbsp;|
+                  <span class="writer lead">${fanBoard.fbWriter}</span>
                   <span class="lead user-role">
                         </span>
                   <br>
@@ -77,16 +82,17 @@ window.onload = function () {
                     <fmt:formatDate value="${fanBoard.fbDate}" pattern="yyyy-MM-dd HH:mm" />
               </span>&nbsp;|
               <span>조회 </span><span class="lead read-cnt"></span>
-              <button type="button" style="float: right;" class="btn btn-secondary btn-sm">URL복사</button>
+              <button type="button" style="float: right; font-size: 13px;" class="copy-btn btn btn-secondary btn-sm">URL복사</button>
           </div>
         </div>
       </div>
 </div>
+
 <hr>
 <!-- 본문 부분 -->
 <div class="board-section">
     <div class="board-attachment">
-    <c:if test="${fn:length(fanBoard.attachList) > 0}">
+   <c:if test="${not empty fanBoard.attachList}">
     <c:forEach items="${fanBoard.attachList}" var="attach">
    <!-- attachment의 pk번호를 가지고 가도록 -->
       <a href="${pageContext.request.contextPath}/fanBoard/fileDownload.do?no=${attach.fbAttachNo}">
@@ -99,7 +105,10 @@ window.onload = function () {
       ${fanBoard.fbContent}
     </div>
     <div class="more col-11">
-        <a href=""><span id="more-id">${fanBoard.fbWriter}</span>님의 게시글 더보기 <span class="clamp">></span></a>
+        <button type="button" id="share-btn" onClick="sendLinkDefault();" value="Default">
+        <img style="width: 30px; transform: translateY(-2px);" src="${pageContext.request.contextPath}/resources/images/fanBoard/shareKakao.png"/>
+        <span style="color: #3c1e1e;">카카오톡 공유하기</span>
+        </button>
     </div>
 </div>
 <!--좋아요 버튼 -->
@@ -195,8 +204,8 @@ window.onload = function () {
       </div>
     </div>
 </div>
-<hr style="width: 113%; transform: translateX(-45px); margin-top: 30px;"/>
-<div class="move">
+<hr style="width: 113%; transform: translateX(-54px); margin-top: 30px;"/>
+<div class="move-bottom">
     <button class="move-btn board-enroll-btn" name="prev-board" onclick="location.href='${pageContext.request.contextPath}/fanBoard/fanBoardEnroll.do?idolNo=' + ${fanBoard.idolNo}">글쓰기</button>
     <button class="move-btn" name="prev-board" id="topBtn">▲ TOP</button>
     <button class="move-btn" name="list-board" onclick="location.href='${pageContext.request.contextPath}/fanBoard/fanBoardListWithArtistInfo.do?artistNo=${fanBoard.idolNo}'">목록</button>
@@ -236,6 +245,7 @@ window.onload = function () {
 </tbody>
 </table>
 </c:if>
+    
 <script>
 /**
 * 상세보기
@@ -447,4 +457,67 @@ $("#fbCommentDelFrm").submit(e => {
       }
    });
 });
+</script>
+<script>
+try {
+  function sendLinkDefault() {
+
+	var link = document.location.href; 
+	console.log(link);
+
+	var title = $("#share-title").val();
+	var description = $("#share-desc").val();
+	
+    Kakao.init('0b0a650c17a45b81e69c4e56faa24227')
+    Kakao.Link.sendDefault({
+      objectType: 'feed',
+      content: {
+        title: title,
+        description: '#' + description + ' #팬게시판 #키센 #K-POP 굿즈 종합 쇼핑몰',
+        imageUrl:
+          'https://postfiles.pstatic.net/MjAyMTA2MjVfMjk4/MDAxNjI0NjA5ODQzMDQx.LJecEdDc183KLHTb-4MIJZd0b3Wih7dquRSJaqLYc2Mg.4hjwxApg9j2nPHj9erBQn_gw6hJP86v3rIaNdi5bwgEg.PNG.dbs7wl7/kisen_logo.png?type=w773',
+        link: {
+          mobileWebUrl: link,
+          webUrl: link,
+        },
+      },
+      buttons: [
+        {
+          title: '웹으로 보기',
+          link: {
+            mobileWebUrl: link,
+            webUrl: link,
+          },
+        },
+        {
+          title: '앱으로 보기',
+          link: {
+            mobileWebUrl: link,
+            webUrl: link,
+          },
+        },
+      ],
+    })
+  }
+;
+}
+catch(e) {
+	window.kakaoDemoException && window.kakaoDemoException(e)
+}
+</script>
+<script>
+//URL 복사
+	function copyClip(url){
+		var $temp = $('<input>');
+		$('body').append($temp);
+		$temp.val(url).select();
+		document.execCommand('copy');
+		$temp.remove();
+		alert('URL이 복사되었습니다.');
+	}
+	$('.copy-btn').on('click', function(e){
+		e.preventDefault();
+		var link = location.href;
+		copyClip(link);
+	});
 </script>

@@ -63,7 +63,7 @@
     <div class="container text-center">
         <div class="mb-4 row">
             <div class="col-6 d-grid p-1">
-                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;">취소하기</button>
+                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;" onclick="goBack();" >취소하기</button>
             </div>
             <div class="col-6 d-grid p-1">
                 <button type="button" class="btn btn-lg btn-main" style="width: 100%;" onclick="artistUpdate(event);" data-no="${idol.idolNo}"  >수정하기</button>
@@ -77,6 +77,9 @@
         console.log(target);
         const idolNo= target.dataset.no;
         location.href=`${pageContext.request.contextPath}/agency/agencyArtistUpdate/\${idolNo}`;
+    }
+    function goBack(){
+    	window.history.back();
     }
 </script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

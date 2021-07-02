@@ -39,6 +39,7 @@ function goDemandSubmit(demandNo) {
 <div class="container">
 
 		<h2 class="text-center m-4" style="font-weight: bold;">수요조사폼목록</h2>
+		<hr />
 		<br /> <br />
 		<c:forEach items="${unofficialdemandList}" var="unofficialdemand" varStatus="vs">
 		<c:if test="${vs.index % 5 == 0}">
@@ -67,7 +68,7 @@ function goDemandSubmit(demandNo) {
 						</span>
 						<span class="badge bg-s">재고 : ${unofficialdemand.pdStock}</span>
 						<span class="badge bg-s">판매량: ${unofficialdemand.pdSales}</span>
-<%-- 						<span class="badge bg-s">판매자 : ${unofficialdemand.}</span> --%>
+						
 					</p>
 				</div>
 			</div>

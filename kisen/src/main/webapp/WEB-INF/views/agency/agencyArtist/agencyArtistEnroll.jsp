@@ -38,7 +38,11 @@
 	            <input type="text" class="form-control" name="idolMv">	      
 	            <input type="hidden" name="idolList" />        
 	            <div class="alert alert-secondary" role="alert">
-	            	최대 4개 등록가능
+	                <ul>
+	                    <li>최대 4개 등록가능</li>
+	                    <li class="mt-3">등록 예시</li>
+		        		<img src="${pageContext.request.contextPath }/resources/images/mvLink.jpg" class="mt-3"/>
+	                </ul>
 	            </div>
 	        </div>
 	    </div>
@@ -63,7 +67,7 @@
 	    <div class="container text-center">
 	        <div class="mb-4 row">
 	            <div class="col-6 d-grid p-1">
-	                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;">취소하기</button>
+	                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;"onclick="goBack();" >취소하기</button>
 	            </div>
 	            <div class="col-6 d-grid p-1">
 	                <button type="submit" class="btn btn-lg btn-main" style="width: 100%;" >등록하기</button>
@@ -74,6 +78,9 @@
     
 </div>
 <script>
+	function goBack(){
+		window.history.back();
+	}
     function adminProductUpdate() {
         location.href="${pageContext.request.contextPath}/agency/agencyArtist"
     }

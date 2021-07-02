@@ -20,69 +20,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/fanBoard/fanBoardList.css" />
 <script>
 $(document).ready(function(){
-	var idolNo = ${param.artistNo};
-		$.ajax({
-			url: "${pageContext.request.contextPath}/fanBoard/fanBoardList",
-			method: "GET",
-			data: {idolNo},
-			success(data){
-				console.log(data);
-				const {list} = data;
-				const {pageBar} = data;
-				$("#pagingBar").append(pageBar);
-				if(list.length > 0) {
-				for(i=0; i<list.length; i++){
-					
-	                var d = new Date(list[i].fbDate), // Convert the passed timestamp to milliseconds
-	                yyyy = d.getFullYear(),
-	                mm = ('0' + (d.getMonth() + 1)).slice(-2),  // Months are zero based. Add leading 0.
-	                dd = ('0' + d.getDate()).slice(-2),         // Add leading 0.
-	                hh = d.getHours(),
-	                h = hh,
-	                min = ('0' + d.getMinutes()).slice(-2),     // Add leading 0.
-	                ampm = 'AM',
-	                time;
-	                
-	                // ie: 2013-02-18, 8:35 AM  
-	                time = yyyy + '.' + mm + '.' + dd + '.';
-	                
-				if(list[i].hasAttachment){
-				$("#tBody").append(
-					'<tr data-no="' + list[i].fbNo + '"> '
-						+ '<th scope="row">' + (i + 1) + '</th>'
-						+ '<td class="title">' + list[i].fbTitle + '&nbsp;' + '<img src="${pageContext.request.contextPath}/resources/images/fanBoard/attach.png" width="16px" alt="" />' + '</td>'
-						+ '<td>' + list[i].fbWriter + '</td>'
-						+ '<td>' + time + '</td>'
-						+ '<td>' + list[i].fbReadCnt + '</td>'
-					+ '</tr>');			
-				} else {
-					$("#tBody").append(
-							'<tr data-no="' + list[i].fbNo + '"> '
-								+ '<th scope="row">' + (i + 1) + '</th>'
-								+ '<td class="title">' + list[i].fbTitle + '</td>'
-								+ '<td>' + list[i].fbWriter + '</td>'
-								+ '<td>' + time + '</td>'
-								+ '<td>' + list[i].fbReadCnt + '</td>'
-							+ '</tr>');		
-				}
-				}
-				$("tr[data-no]").click(e => {
-					console.log(e.target);
-					// tr에 적혀있는 data-no를 가져오기
-					var $tr = $(e.target).parent();
-					var no = $tr.data("no");
-					location.href = "${pageContext.request.contextPath}/fanBoard/fanBoardDetail.do?no=" + no;
-				});
-				}
-				else {
-					$("#tBody").append(
-							'<tr"> '
-								+ '<td colspan="5">조회된 게시글이 없습니다.</td>'
-							+ '</tr>');
-				}
-			},
-			error: console.log
-		})
+	getList();
 });
 
 $(document).ready(function(){
@@ -99,10 +37,76 @@ $(document).ready(function(){
 		})
 });
 
+function getList(){
+	var idolNo = ${param.artistNo};
+	$.ajax({
+		url: `${pageContext.request.contextPath}/fanBoard/fanBoardList/\${idolNo}`,
+		method: "GET",
+		success(data){
+			console.log(data);
+			const {list} = data;
+			const {pageBar} = data;
+			$("#pagingBar").append(pageBar);
+			if(list.length > 0) {
+			for(i=0; i<list.length; i++){
+				
+                var d = new Date(list[i].fbDate), // Convert the passed timestamp to milliseconds
+                yyyy = d.getFullYear(),
+                mm = ('0' + (d.getMonth() + 1)).slice(-2),  // Months are zero based. Add leading 0.
+                dd = ('0' + d.getDate()).slice(-2),         // Add leading 0.
+                hh = d.getHours(),
+                h = hh,
+                min = ('0' + d.getMinutes()).slice(-2),     // Add leading 0.
+                ampm = 'AM',
+                time;
+                
+                // ie: 2013-02-18, 8:35 AM  
+                time = yyyy + '.' + mm + '.' + dd + '.';
+                
+			if(list[i].hasAttachment){
+			$("#tBody").append(
+				'<tr data-no="' + list[i].fbNo + '"> '
+					+ '<th scope="row">' + (i + 1) + '</th>'
+					+ '<td class="title">' + list[i].fbTitle + '&nbsp;' + '<img src="${pageContext.request.contextPath}/resources/images/fanBoard/attach.png" width="16px" alt="" />' + '</td>'
+					+ '<td>' + list[i].fbWriter + '</td>'
+					+ '<td>' + time + '</td>'
+					+ '<td>' + list[i].fbReadCnt + '</td>'
+				+ '</tr>');			
+			} else {
+				$("#tBody").append(
+						'<tr data-no="' + list[i].fbNo + '"> '
+							+ '<th scope="row">' + (i + 1) + '</th>'
+							+ '<td class="title">' + list[i].fbTitle + '</td>'
+							+ '<td>' + list[i].fbWriter + '</td>'
+							+ '<td>' + time + '</td>'
+							+ '<td>' + list[i].fbReadCnt + '</td>'
+						+ '</tr>');		
+			}
+			}
+			$("tr[data-no]").click(e => {
+				console.log(e.target);
+				// tr에 적혀있는 data-no를 가져오기
+				var $tr = $(e.target).parent();
+				var no = $tr.data("no");
+				location.href = "${pageContext.request.contextPath}/fanBoard/fanBoardDetail.do?no=" + no;
+			});
+			}
+			else {
+				$("#tBody").append(
+						'<tr"> '
+							+ '<td colspan="5">조회된 게시글이 없습니다.</td>'
+						+ '</tr>');
+			}
+
+		},
+		error: console.log
+	})
+}
+
 </script>
 <div class="board-container">
   <div class="fb-idol">
-  <h4><span class="idolName"></span> | 팬게시판</h4>
+  <h4 style="margin-bottom: -1rem;"><span class="idolName"></span> | 팬게시판</h4>
   </div>
   <!-- 글쓰기 버튼 -->
   <div class="enroll-btn">

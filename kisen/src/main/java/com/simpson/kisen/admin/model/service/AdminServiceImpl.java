@@ -284,19 +284,42 @@ public class AdminServiceImpl implements AdminService {
 		}
 		return totalList;
 	}
-
 	@Override
-	public List<Sales> salesMonthPrice() {
+	public List<Sales> selectDaySales(String yearMonth, String lastDay) {
 
 		DecimalFormat df = new DecimalFormat("00");
 		Calendar currentCalendar = Calendar.getInstance();
-		String strYear = Integer.toString(currentCalendar.get(Calendar.YEAR));
-		String strMonth = df.format(currentCalendar.get(Calendar.MONTH) +1);	//현재 달 : +1
 		String nowDay = df.format(currentCalendar.get(Calendar.DATE));
-		String strDate = strYear+"-" + strMonth+"-" + nowDay;
-
-		return adminDao.salesMonthPrice(strDate);
+		String strDate = yearMonth+"-" + nowDay;
+		
+		log.info("lastDay={}",lastDay);
+		int end = Integer.parseInt(lastDay);
+		List<Sales> salesList = adminDao.selectDaySales(strDate);
+		
+		List<Sales> newSalesList = new ArrayList<Sales>();;
+		
+		for(int i=1 ; i<=end ; i++) {
+			String day = i<10 ? "0"+i  : ""+i;
+			Sales sales = new Sales();
+			sales.setPayDate(day);;
+			sales.setTotal(0);
+			newSalesList.add(sales);				
+		}
+		
+		for(Sales s : newSalesList) {
+			for(Sales s2 : salesList) {
+				if (s.getPayDate().equals(s2.getPayDate())) {
+					s.setTotal(s2.getTotal());
+				}
+			}
+		}
+		log.info("newSalesList={}",newSalesList);
+		
+		// TODO Auto-generated method stub
+		return newSalesList;
 	}
+	
+	
 	
 	
 }

@@ -108,7 +108,7 @@
 	    <div class="container text-center">
 	        <div class="mb-4 row">
 	            <div class="col-6 d-grid p-1">
-	                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;">취소하기</button>
+	                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;" onclick="goBack()">취소하기</button>
 	            </div>
 	            <div class="col-6 d-grid p-1">
 	                <button type="submit" class="btn btn-lg btn-main" style="width: 100%;" >등록하기</button>
@@ -123,6 +123,9 @@
 
 </div>
 <script>
+	function goBack(){
+		window.history.back();
+	}
     function adminProductUpdate() {
         location.href="${pageContext.request.contextPath}/admin/adminProductUpdate"
     }

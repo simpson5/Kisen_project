@@ -75,15 +75,7 @@ div#btn{
 					onclick="goDepositFormlist();">입금폼목록</button>
 			</div>
 			
-				<div class="py-2" id="btn">
-				<button type="button" class="btn btn-outline-warning"
-					onclick="goDemandFormUpdate();">수요조사폼 수정</button>
-			</div>
 			
-				<div class="py-2" id="btn">
-				<button type="button" class="btn btn-outline-warning"
-					onclick="goDepositFormUpdate();">입금폼 수정</button>
-			</div>
 		</div>
 		<br /><br />
 		
@@ -115,13 +107,6 @@ div#btn{
 				location.href = "${pageContext.request.contextPath}/unofficial/depositFormlist.do";
 			}
 
-			function goDemandFormUpdate() {
-				location.href = "${pageContext.request.contextPath}/unofficial/demandformUpdate.do";
-			}
-
-			function goDepositFormUpdate() {
-				location.href = "${pageContext.request.contextPath}/unofficial/depositformUpdate.do";
-			}
 
 			$(function() {
 				$(
@@ -185,7 +170,7 @@ div#btn{
 						</span>
 						<span class="badge bg-s">재고 : ${unofficialdemand.pdStock}</span>
 						<span class="badge bg-s">판매량: ${unofficialdemand.pdSales}</span>
-<%-- 						<span class="badge bg-s">판매자 : ${unofficialdemand.}</span> --%>
+						
 					</p>
 				</div>
 			</div>
@@ -225,11 +210,11 @@ div#btn{
 						<span class="badge bg-s">기간 : 
 							<fmt:formatDate value="${unofficialdeposit.depositStartDate}" pattern="yy/MM/dd"/>
 							~
-							<fmt:formatDate value="${unofficialdemand.depositEndDate}" pattern="yy/MM/dd"/>
+							<fmt:formatDate value="${unofficialdeposit.depositEndDate}" pattern="yy/MM/dd"/>
 						</span>
 						<span class="badge bg-s">재고 : ${unofficialdeposit.pdStock}</span>
 						<span class="badge bg-s">판매량: ${unofficialdeposit.pdSales}</span>
-<%-- 						<span class="badge bg-s">판매자 : ${unofficialdemand.}</span> --%>
+ 					
 					</p>
 				</div>
 			</div>
