@@ -18,8 +18,10 @@
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
 <!-- include summernote-ko-KR -->
+<div class="container">
 
  <form id="demandFrm" name="demandFrm"
+ class="justify-content-center" 
 			enctype="multipart/form-data"
 			action="${pageContext.request.contextPath}/unofficial/demandEnroll.do"
 			method="post">
@@ -159,7 +161,9 @@
 						</div>
 					</div>
 				</div>
+				
 		</form>
+		</div>
 
 <script>
 

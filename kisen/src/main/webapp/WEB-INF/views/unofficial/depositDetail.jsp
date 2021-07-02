@@ -7,14 +7,15 @@
 	<jsp:param value="depositFrmDetail" name="title" />
 </jsp:include>
 
+<div class="container">
 
-
-		<form id="depositFrm" name="depositFrm"
+		<form id="depositFrm" 
+			name="depositFrm"
 			action="${pageContext.request.contextPath}/unofficial/depositDetail.do"
 			method="post">
 			
 					
-		<h2 class="text-center m-4" style="font-weight: bold;">입금폼 상세보기</h2>
+		<h2 class="text-center m-4" style="font-weight: bold;">${unofficialdeposit.pdName} 입금폼 상세보기</h2>
 		
 
 			<div class="mb-4 row">
@@ -466,13 +467,20 @@
 						</div>
 						<div class="col-6 d-grid p-1">
 							<button type="submit" class="btn btn-lg btn-main" id="enrollbtn"
-								 style="width: 100%;">제출하기</button>
+								 style="width: 100%;" name="subBtn">제출하기</button>
 						</div>
 					</div>
 				</div>
 		</form>
+		</div>
 
 <script>
+
+$("[name=subBtn]").click(e =>{
+
+	console.log(e.target);
+	alert("제출 완료!");
+});
 
 function depositDetailUpdate(event) {
     const target = event.target;
