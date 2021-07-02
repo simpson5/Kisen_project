@@ -538,7 +538,7 @@ $("#agreedAll").change(function(e){
 			pay_method : 'card',
 			merchant_uid : 'merchant_' + new Date().getTime(),
 			name : rslt1,
-			amount : amount,//테스트용 10원 설정,
+			amount : 10,//amount,//테스트용 10원 설정,
 			buyer_name : userName,
 			buyer_email : uemail
 		}, function(rsp) {

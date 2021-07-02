@@ -88,11 +88,12 @@ img#plus{
 		 </div>
 		<div class="py-1 d-flex justify-content-centern"  >
 			<div class="p-2 mx-auto" style="text-align: center;">
-		 	 	<mark id="marks">주문 내역</mark>
 		 	 	<div class="p-2">
 		 	 	<ul>
-		 	 	<c:forEach items="${paymentList}" var ="paymentList" >
-			 			<li>${paymentList.product.pdName}</li>
+		 	 	<c:forEach items="${historyList}" var ="historyList" >
+			 			
+			 			<input type="hidden" name="No" value="${historyList.pdNo}">
+			 			<input type="hidden" name="opN" value="${historyList.opNo}">
 			 	</c:forEach>
 			 		</ul>
 		 	 	</div>
@@ -100,13 +101,62 @@ img#plus{
 		 	 </div>
 	 	</div>
 		<div class="py-2 d-flex justify-content-center" >
-		  	<a href="${pageContext.request.contextPath}">
-		  	<button class="btn btn-outline py-2 mx-3" id="cartAgain">메인화면</button>
-		  	</a>
+		  	<button class="btn btn-outline py-2 mx-3" id="cartAgain" onclick="deleteB(this);">메인화면</button>
+		  	<input type="hidden" name="fanN" value="${loginMember.fanNo}">
 		  </div>
 
 </div>
+<form 
+	name="delCart" 
+	method="POST" 
+	id="orderFrm"
+	action="${pageContext.request.contextPath}/basket/delBasket.do">
+</form> 
 <br/><br/><br/>
+<script>
+function deleteB(obj){
+	 var $formId = $(document.delCart);
+	 console.log("formId= "+ $formId);
 
+	    var bNoHtml='';
+	    var oNoHtml='';
+	    const fanNoo = '<input type="hidden" name ="fanNo" value="'
+			+ $("[name=fanN]").val() + '"/>';
+			 const oppN = $("[name=opN]"); 
+	    //체크된 것의 bNo가져오기
+	    var one = $("[name=No]");
+		console.log(one);
+	   
+			   $.each(one, function (index, value){
+				    console.log(value);
+
+				    bNoHtml +='<input type="hidden" name ="bNo" value="'+$(value).val()+'"/>';
+
+				    });
+
+			   $.each(oppN, function (index, value){
+				    console.log(value);
+
+				    bNoHtml +='<input type="hidden" name ="opNo" value="'+$(value).val()+'"/>';
+
+				  
+				    });
+			    
+				    console.log(bNoHtml);
+				    console.log(oNoHtml);
+				    console.log(fanNoo);
+
+	
+		 $formId.append(bNoHtml);
+		 $formId.append(fanNoo);
+		 $formId.append(oNoHtml);
+		$formId.submit();
+		console.log("formId= "+ $formId);
+		
+	
+}
+
+
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

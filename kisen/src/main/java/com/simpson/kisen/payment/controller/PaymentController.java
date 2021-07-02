@@ -83,13 +83,13 @@ public class PaymentController {
 		try {
 			Fan principal = (Fan) authentication.getPrincipal();
 			
-		List<Payment> paymentList = paymentService.selectAllList(principal.getFanNo());
+		List<PaymentProduct> historyList = paymentService.selectHistory(principal.getFanNo());
 			
 			model.addAttribute("loginMember", principal);
-		model.addAttribute("paymentList",paymentList ); //그냥 이렇게.. 팬 번호 랑 엮어서 조회햇습니당
+		model.addAttribute("historyList",historyList ); //그냥 이렇게.. 팬 번호 랑 엮어서 조회햇습니당
 			
 			
-			log.info("paymentList = {}", paymentList);
+			log.info("historyList = {}", historyList);
 			log.info("authentication = {}", authentication);
 			log.info("principal = {}", principal);
 		} catch (Exception e) {
@@ -153,13 +153,15 @@ public class PaymentController {
 	
 	
 	@PostMapping("/delCart.do")
-	public String delCart(@RequestParam String [] bNo, RedirectAttributes redirectAttr) {
+	public String delCart(@RequestParam String [] bNo, @RequestParam String fanNo, @RequestParam int[] opNo, RedirectAttributes redirectAttr) {
 		
 		try {
 			log.info("bNo = {}",bNo);
 			
 			Map<String, Object> param = new HashMap<>();
 			param.put("bNo", bNo);	
+			param.put("fanNo", fanNo);
+			param.put("opNo", opNo);
 			//1. 업무로직
 			int result = paymentService.deleteCart(param);
 		
@@ -170,6 +172,25 @@ public class PaymentController {
 			throw e;
 		}
 		return "redirect:/basket/cart.do";
+	}
+	@PostMapping("delBasket.do")
+	public String delBasket(@RequestParam String[] bNo, @RequestParam String fanNo,@RequestParam int[] opNo) {
+		
+		try {
+			log.info("bNo = {}",bNo);
+			
+			Map<String, Object> param = new HashMap<>();
+			param.put("bNo", bNo);	
+			param.put("fanNo", fanNo);	
+			param.put("opNo", opNo);	
+			//1. 업무로직
+			int result = paymentService.deleteCart(param);
+			
+		} catch(Exception e) {
+			log.error("장바구니 삭제 오류", e);
+			throw e;
+		}
+		return "redirect:/";
 	}
 	
 	@PostMapping("/buyNow.do")
