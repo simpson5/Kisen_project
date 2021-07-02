@@ -143,8 +143,8 @@ img#productImg{
 }
 </style>
 
-	<!-- 회원상태 -->
-	<br /><br /><br /><br />
+<!-- 회원상태 -->
+<br /><br /><br /><br />
 <div id="mypage-container" class="border border-0 mx-auto p-3 rounded ">
 	<div class="row ">
 		    <h5 class="col">${loginMember.fanId}님, 안녕하세요! </h5>
@@ -152,7 +152,8 @@ img#productImg{
 		    <span class="badge badge-warning mx-1">Lv.1</span>
 	    </div>
 	</div>
-<!-- 쿠폰 및 마일리지 박스 -->
+	
+	<!-- 쿠폰 및 마일리지 박스 -->
 	<div class="row align-items-end p-5 rounded" id="coupon" style="background-color: white;">
 	    <div class="col-4 font-weight-bold" >
 	     보유쿠폰
@@ -203,37 +204,25 @@ img#productImg{
 	  <div class="col-4"></div>
 	</div>
 
-<!-- 아티스트 사진 부분 -->
-<div class="swiper-container Like">
-  <!-- Additional required wrapper -->
-  <div class="swiper-wrapper"  id="myArtist">
-    <!-- Slides -->
- 
-    <c:if test="${dipList eq null}">
-    <div class="swiper-slide ">
-    <div class=" mx-auto font-weight-bold text-center">찜한 아이돌이 없습니다!</div>
-    </div>
-    </c:if>
-    <c:if test="${dipList ne null}">
-    <c:forEach items="${dipList}" var ="dipList" >
-    <div class="swiper-slide ">
-	  	<img src="${pageContext.request.contextPath}/resources/upload/idol/${dipList.idolImg.renamedFilename}"
-	  	style="width: 150px; height: 165px;"/>
-	  	 <br /><br />
-	  	 <div class=" mx-auto font-weight-bold text-center">${dipList.idolName}</div>
-	  	 <div class=" mx-auto font-weight-bold text-center" id="hearts">
-     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;" onclick="delidol(this);" data-no="${dipList.idolNo}" name="delidols"></i>
-	  	 </div>
-	    </div>	  
-	   </c:forEach> 
-	  </c:if>  
-  </div>
-  <!-- If we need navigation buttons -->
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div>
-</div>
-
-
+	<!-- 아티스트 사진 부분 -->
+	<div class="swiper-container Like">
+	  <div class="swiper-wrapper Like" >
+	    <c:forEach items="${dipList}" var ="dipIdol" varStatus="a"> 
+	    <div class="swiper-slide "> 	
+		  	<img src="${pageContext.request.contextPath}/resources/upload/idol/${dipIdol.idolImg.renamedFilename}"
+		  	style="width: 150px; height: 165px;"/>
+		  	 <br /><br />
+		  	 <div class=" mx-auto font-weight-bold text-center">${dipIdol.idolName}</div>
+		  	 <div class=" mx-auto font-weight-bold text-center" id="hearts">
+	     		<i class="fas fa-heart heartBtn" style="font-size: 20px; color: red;" onclick="delidol(this);" data-no="${dipIdol.idolNo}" name="delidols"></i>
+		  	 </div>
+		    </div>	  
+		   </c:forEach> 
+	  </div>
+	  <!-- If we need navigation buttons -->
+	  <div class="swiper-button-prev"></div>
+	  <div class="swiper-button-next"></div>
+	</div>
 </div>
  <br />
  <hr />
@@ -250,9 +239,9 @@ img#productImg{
 <!-- 여기 서 부터 반복인데 class 안에 swiper-container 는 지우지 말고 변경하지 마시고 두개 이상 사용하실거면 클래스이 이름을 따로 추가해주세용-->
 <div class="swiper-container other">
   <!-- Additional required wrapper -->
-  <div class="swiper-wrapper other"  id="myArtist">
+  <div class="swiper-wrapper other" id="myArtist">
     <!-- Slides -->
-    <c:forEach items="${idolList}" var ="idolList" >
+    <c:forEach items="${idolList}" var ="idolList" > <!-- 여기는 잘되죠??네ㅜ너무 잘되서 탈 -->
     <div class="swiper-slide other">
 	  	<img src="${pageContext.request.contextPath}/resources/upload/idol/${idolList.idolImg.renamedFilename}"
 	  	style="width: 150px; height: 165px;"/>
@@ -352,31 +341,17 @@ $(".heartBtn").click (e => {
 			},
 		});
 
- var mySwiper = new Swiper(
-		 '.Like',{ 
-			loopFillGroupWithBlank : true,
-			 loop: true,
-			 autoplay: 
-			 { 
-			 delay: 5000, 
-			 },
-		pagination: { 
-				el: '.swiper-pagination', 
-			type: 'fraction' 
-			}, 
-			breakpoints: {  
-			640: { 
-				slidesPerView: 5, 
-				spaceBetween: 40 
-				} 
-			} ,
-			navigation : { // 네비게이션
-				nextEl : '.swiper-button-next', // 다음 버튼 클래스명
-				prevEl : '.swiper-button-prev', // 이번 버튼 클래스명
-			},
-		});
-	
-
+	    var swiper = new Swiper(".Like", {
+	      slidesPerView: 5,
+	      spaceBetween: 40,
+	      slidesPerGroup: 5,
+	      loop: true,
+	      loopFillGroupWithBlank: true,
+	      navigation: {
+	        nextEl: ".swiper-button-next",
+	        prevEl: ".swiper-button-prev",
+	      },
+	    });
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

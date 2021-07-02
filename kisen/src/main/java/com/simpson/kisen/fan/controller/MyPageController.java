@@ -98,7 +98,8 @@ public class MyPageController {
 	public void mypageMember(Authentication authentication, Model model){
 		try {
 			Fan principal = (Fan) authentication.getPrincipal();
-
+			
+			
 			model.addAttribute("loginMember", principal);
 			
 			log.debug("authentication = {}", authentication);
@@ -112,15 +113,15 @@ public class MyPageController {
 	@PostMapping("/updateMypage.do")
 	public String updateMypgae (@ModelAttribute Fan updateFan, @RequestParam String addressExt1,
 			@RequestParam String addressExt2, @RequestParam String addressExt3,Authentication oldAuthentication,
-			RedirectAttributes redirectAttr) {
+			RedirectAttributes redirectAttr,  @RequestParam String fanNo) {
 		log.info("수정요청 fan = {}", updateFan);
 		try {
 			String rawPassword = updateFan.getPassword();
 			String encodedPassword = bcryptPasswordEncoder.encode(rawPassword);
 			// member에 암호화된 비밀번호 다시 세팅
 			updateFan.setPassword(encodedPassword);
-			updateFan.setAddress(updateFan.getAddress() + ") " + addressExt1 + addressExt2 + " " + addressExt3);
-				
+			updateFan.setAddress(updateFan.getAddress() + "-" + addressExt1 + "-" + addressExt2 + "-" + addressExt3);
+			updateFan.setFanNo(fanNo);	
 			Collection<? extends GrantedAuthority> oldAuthorities = 
 						oldAuthentication.getAuthorities();
 			
@@ -157,7 +158,7 @@ public class MyPageController {
 	}
 	
 	@PostMapping("/deleteFan.do")
-	public String deleteFan(@RequestParam String fanId, RedirectAttributes redirectAttr, Authentication oldAuthentication) {
+	public String deleteFan(@RequestParam String fanId, RedirectAttributes redirectAttr) {
 		try {
 		
 			log.info("fanId={}",fanId);

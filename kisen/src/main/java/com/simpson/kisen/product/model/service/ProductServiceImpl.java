@@ -42,4 +42,14 @@ public class ProductServiceImpl implements ProductService {
 	public List<SlideImg> selectSlideList() {
 		return productDao.selectSlideList();
 	}
+
+	@Override
+	public List<ProductImgExt> selectIdolProductList(int no) {
+		return productDao.selectIdolProductList(no);
+	}
+
+	@Override
+	public List<ProductImgExt> selectIdolAlbumList(int no) {
+		return productDao.selectIdolAlbumList(no);
+	}
 }

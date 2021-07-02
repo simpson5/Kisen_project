@@ -86,7 +86,7 @@
 	    <div class="mb-4 row">
 	        <label class="col-md-3 col-form-label" for="pdSales">판매량</label>
 	        <div class="col-md-9">
-	            <input type="number" class="form-control" name="pdSales" id="pdSales"  value="${product.pdSales}">
+	            <input type="number" class="form-control" name="pdSales" id="pdSales"  value="${product.pdSales}" readonly>
 	        </div>
 	    </div>
 	    
@@ -136,7 +136,7 @@
 	    <div class="container text-center">
 	        <div class="mb-4 row">
 	            <div class="col-6 d-grid p-1">
-	                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;">취소하기</button>
+	                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;" onclick="goBack()">취소하기</button>
 	            </div>
 	            <div class="col-6 d-grid p-1">
 	                <button type="submit" class="btn btn-lg btn-main" style="width: 100%;">저장하기</button>
@@ -146,8 +146,8 @@
     </form:form>
 </div>
 <script>
-function formValidate(){
-	
+function goBack(){
+	window.history.back();
 }
 function setThumbnail(event){
 	var file = event.target.files;

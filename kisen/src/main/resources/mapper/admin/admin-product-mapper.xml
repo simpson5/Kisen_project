@@ -302,4 +302,186 @@
 		where 
 			notice_no = #{noticeNo}
 	</update>
+	
+	
+	
+	
+	
+	<delete id="deleteFan">
+		delete 
+		from 
+			fan 
+		where
+			fan_id = #{fanId}
+	</delete>
+	
+	
+	
+	
+	
+	
+	<select id="selectSalesList" resultMap="salesCollectionList">
+		select 
+		    ph.payment_no,
+		    ph.fan_no,
+		    (select fan_id from fan where fan_no = ph.fan_no) fan_id,
+		    pp.pd_cnt,
+		    pp.pd_no,
+		    ph.amount,
+		    ph.pay_date,
+		    ph.point,
+		    ph.waybill,
+		    p.idol_no,
+		    (select idol_name from idol where idol_no = p.idol_no) idol_name,
+		    p.pd_name,
+		    p.price,
+		    p.pd_stock,
+		    p.pd_sales,
+		    po.option_no,
+		    po.option_name
+		from payment_history ph
+		    left join payment_product pp
+		        on ph.payment_no = pp.payment_no
+		    left join product p
+		        on pp.pd_no = p.pd_no
+		    left join pd_option po
+		        on pp.option_no = po.option_no
+		<where>
+		<if test="searchString !=null">
+			p.pd_name like '%'||#{searchString}||'%'
+		</if>
+		<if test='searchOption.equals("incomplete")'>
+			and waybill is null
+		</if>
+		<if test='searchOption.equals("complete")'>
+			and waybill is not null
+		</if>
+		</where>
+		order by ph.pay_date desc
+	</select>
+	
+	
+	<resultMap type="paymentExt" id="salesCollectionList">
+		<id column="payment_no" property="paymentNo" />
+		<result column="fan_no" property="fanNo" />
+		<result column="pay_type" property="payType" />
+		<result column="pay_content" property="payContent" />
+		<result column="pd_cnt" property="pdCnt" />
+		<result column="pay_date" property="payDate" />
+		<result column="point" property="point" />
+		<result column="amount" property="amount" />
+		<result column="waybill" property="waybill" />
+		<result column="pd_no" property="pdNo" />
+		<result column="order_no" property="orderNo" />
+	
+		<result column="fan_id" property="fanId" />
+
+		<collection property="product" ofType="ProductImgExt">
+			<id column="pd_no" property="pdNo" />
+			<result column="idol_no" property="idolNo" />
+			<result column="pd_category" property="pdCategory" />
+			<result column="pd_name" property="pdName" />
+			<result column="pd_content" property="pdContent" />
+			<result column="price" property="price" />
+			<result column="pd_stock" property="pdStock" />
+			<result column="pd_sales" property="pdSales" />
+			<result column="sales_date" property="salesDate" />
+			<result column="idol_name" property="idolName" />
+			<collection property="pdOptionList" ofType="ProductOption">
+				<id column="option_no" property="optionNo" />
+				<result column="pd_no" property="pdNo" />
+				<result column="option_name" property="optionName" />
+			</collection>
+		</collection>
+	</resultMap>
+	
+
+	<select id="selectAllFanList" resultMap="fanMap">
+		select * from fan
+		where 
+			fan_no not like 'agcy%'
+		order by enroll_date desc
+	</select>
+
+	<select id="selectNCAgencyList" resultMap="fanMap">
+		select 
+			* 
+		from fan  
+		where 
+			fan_no like 'agcy%'
+      	and 
+      		certification='N'
+		order by enroll_date 
+	</select>
+
+  <select id="selectCAgencyList" resultMap="fanMap">
+      select 
+         * 
+      from  
+      	fan 
+      where 
+      	fan_no like 'agcy%'
+      and 
+      	certification='Y'
+		order by enroll_date desc
+   </select> 
+   
+   
+   <resultMap type="agency" id="agencyMap">
+      <id column ="fan_no" property="fanNo"/>
+      <result column="agency_name" property="agencyName"/>
+      <result column="agency_no" property="agencyNo"/>
+   </resultMap>
+
+   <resultMap type="fan" id="fanMap">
+      <result column="certification" property="certification" typeHandler="booleanYNTypeHandler"/>
+   </resultMap>
+
+   <resultMap type="agencyExt" id="CAgencyMap">
+      <collection property="fan" resultMap="fanMap"/>
+      <collection property="agencyExt" resultMap="agencyMap"/>
+   </resultMap> 
+   
+   
+   <update id="updateCertification">
+   		update 
+   			fan
+   		set
+   			certification ='Y'
+   		where 
+   			fan_no =#{fanNo}
+   </update>
+   
+   
+
+  <select id="selectTotalPrice" resultMap="salesTotalPriceMap">
+	select 
+	  to_char(pay_date, 'YYYY-MM') as monthlydata,
+	  sum(price) as total
+	from
+	  payment_history 
+	where 1=1
+	and pay_date between trunc(to_date(#{strDate},'YYYY-MM-DD'),'MM') and (last_day(to_date(#{strDate},'YYYY-MM-DD')))
+	group by to_char(pay_date, 'YYYY-MM')
+	order by monthlydata
+   </select> 
+   
+   <resultMap type="salesTotalPrice" id="salesTotalPriceMap">
+      <id column ="monthlydata" property="month"/>
+      <result column="total" property="total"/>
+   </resultMap> 
+   
+   
+  <select id="salesMonthPrice" resultMap="salesMap">
+		SELECT to_char(pay_date,'DD') pay_date, sum(price) total
+		fROM payment_history
+		where pay_date between trunc(to_date(#{strDate},'YYYY-MM-DD'),'MM') and (last_day(to_date(#{strDate},'YYYY-MM-DD')))
+		group by to_char(pay_date,'DD')
+   </select> 
+   
+   <resultMap type="sales" id="salesMap">
+      <id column ="pay_date" property="payDate"/>
+      <result column="total" property="total"/>
+   </resultMap> 
+   
 </mapper>

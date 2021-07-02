@@ -53,9 +53,9 @@
 	        <tbody>
 	            <tr>
 	                <td colspan="2">
-	                    <textarea class="form-control" id="summernote" rows="5" name="reviewContent" style="width: 100%; background-color: #fff">
+	                    <div class="form-control" id="summernote" style="width: 100%; background-color: #fff; height:auto">
 	                    ${review.reviewContent }
-	                    </textarea>
+	                    </div>
 	                </td>
 	            </tr>
 	            <tr>
@@ -79,7 +79,7 @@
 	                        </c:if>
 	                        <c:if test="${empty loginMember || loginMember.fanId ne review.fanId}">
 		                        <div class="col-6 d-grid">
-		                            <button type="button" class="btn btn-sm btn-dark" style="width: 100%;" onclick="recom();">추천하기</button>
+		                            <button type="button" class="btn btn-sm btn-secondary" style="width: 100%;" onclick="recom(${review.reviewNo},${loginMember.fanId});">추천하기</button>
 		                        </div>
 		                        <div class="col-6 d-grid">
 	                            	<button type="button" class="btn btn-sm btn-main" style="width: 100%;" onclick="location.href='${pageContext.request.contextPath}/product/productInfo?no=${review.pdNo}'">목록으로</button>
@@ -96,19 +96,27 @@
 <%@ include file="/WEB-INF/views/common/footer.jsp"%>
 
 <script>
-$(document).ready(function () {
- 	$('#summernote').summernote({
- 	 disableResizeEditor: true,
- 	 disableGrammar: false,
- 		toolbar : []
- 	});
-	$('#summernote').next().find(".note-editable").attr("contenteditable", false);
+function recom(reviewNo,fanId){
+	var data = new FormData();
+	data.append("reviewNo",reviewNo);
+	data.append("fanId",fanId);
+	console.log(data);
+	$.ajax({
+		data: data,
+		type: "POST",
+		url:${pageContext.request.contextPath}/review/recomUpCnt',
+		success(no){
+			console.log(no);
+		}
+	});
+}
 
+$(document).ready(function () {
+ 	//$('#summernote').summernote("code","ddddddd");
+	//$('#summernote').next().find(".note-editable").attr("contenteditable", false);
+	$("#summernote").html("${review.reviewContent}");
 });
   
-function recom(){
-	console.log(1);
-}
 
 $("#deleteForm").submit(e => {
 	e.preventDefault();
@@ -117,6 +125,7 @@ $("#deleteForm").submit(e => {
 	
 	e.target.submit();
 });
+
 </script>
 
 

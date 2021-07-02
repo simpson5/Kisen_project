@@ -99,12 +99,9 @@
 		on
 			b.option_no = po.option_no
 	<where> 
-			b.fan_no = #{fanNo}
-			
+			b.fan_no = #{fanNo}	
         and 
-            pi.pd_category is null 
-       or 
-       	pi.pd_category= 'D'
+       		pi.pd_category != 'R'
 	</where>	
 	</select>
 		<resultMap type="basket" id="basketMap">
@@ -171,5 +168,92 @@
 		<result column="demand_end_date" property="demandendDate"/>
 	</resultMap>
 	
+	<select id="selectPaymentList" resultMap="basketMap" parameterType="map">
+			 select
+            b.*,
+			p.pd_name,
+			p.pd_content,
+			p.price,
+			pi.pd_category,
+			pi.renamed_filename,
+			po.option_name
+		from
+			basket b
+		left join
+			product p
+		on
+			b.product_no = p.pd_no
+	left join 
+			pd_img pi
+		on
+			b.product_no = pi.pd_no
+   left join
+			pd_option po
+		on
+			b.option_no = po.option_no
+	<where> 
+		<if test="bNo != nulll">
+			b.product_no in
+		<foreach  collection="bNo" item="b" open="(" close=")" separator=",">
+	 		#{b} 
+	 	</foreach>
+	 	</if>
+     
+	</where>
+	</select>
+	<delete id="deleteCart">
+		delete from
+			basket
+		<where> 
+		<if test="bNo != nulll">
+		product_no in
+		<foreach  collection="bNo" item="b" open="(" close=")" separator=",">
+	 		#{b} 
+	 	</foreach>
+
+	 	</if>
+	</where>
+	</delete>
 	
+	
+	<insert id="insertPaymentHistory">
+		insert into
+			payment_history
+		values (
+			seq_payment_history_no.nextval,
+			#{fanNo},
+			#{payType},
+			null,
+			default,
+			#{amount},
+			null,
+			null,
+			#{price}	
+		)
+ 
+		<selectKey keyProperty="paymentNo" resultType="_int" order="AFTER">
+			select 
+				seq_payment_history_no.currval
+			from
+			 	dual
+		</selectKey>
+	</insert> 
+	<insert id="insertPaymentProduct">
+		insert into
+			payment_product
+		values (           
+           seq_payment_product_no.nextval,
+			#{fanNo},
+	 		#{pdNo},
+			#{paymentNo},	
+			default,
+			<if test="opNo eq 0">
+			default
+			</if>	
+			<if test="opNo neq 0">
+			#{opNo}	
+			</if>
+           )
+	
+	</insert> 
 </mapper>

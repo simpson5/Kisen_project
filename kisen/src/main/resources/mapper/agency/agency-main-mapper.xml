@@ -11,5 +11,6 @@
 	<select id="selectPdCnt" resultType="_int">
 		select count(*) from product where idol_no = #{idolNo}
 	</select>
-
+	
+	
 </mapper>

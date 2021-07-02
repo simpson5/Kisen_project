@@ -31,6 +31,9 @@
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 	<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
     
+    <!-- chart js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.4.0/chart.min.js"></script> 
+    
     <!-- swiper  -->
 	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
  	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
@@ -83,13 +86,13 @@
                 <div class=" memu-div d-none d-sm-block" >  
                     <ul class="d-flex justify-content-around menu-ul">
                         <li class="nav-item active ">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminProduct"> 상품관리<span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminProduct">상품관리<span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item ">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminMember">아티스트/회원 관리</a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminMember">회원관리</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminSales">결제/배송/매출 </a>
+                            <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminSales">결제/배송/매출</a>
                         </li>
                         <li class="nav-item ">
                             <a class="nav-link" href="${pageContext.request.contextPath}/admin/adminNotice">Site 관리</a>

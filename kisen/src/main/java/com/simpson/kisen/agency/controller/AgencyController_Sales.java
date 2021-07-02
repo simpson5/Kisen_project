@@ -1,5 +1,6 @@
 package com.simpson.kisen.agency.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.simpson.kisen.admin.model.vo.Sales;
+import com.simpson.kisen.admin.model.vo.SalesTotalPrice;
 import com.simpson.kisen.agency.model.service.AgencyService;
 import com.simpson.kisen.common.util.HelloSpringUtils;
 import com.simpson.kisen.fan.model.vo.Fan;
@@ -52,10 +55,38 @@ public class AgencyController_Sales {
     	param.put("fanNo", loginMember.getFanNo());
 		//결제 내역 조회
 		List<PaymentExt> paymentList = agencyService.selectSalesList(param);
+		
+		
+
+		
+		//매출조회
+		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		String formatDate= format1.format (System.currentTimeMillis());
+		
+		//현재 달부터 12개월만큼 조회
+		List<SalesTotalPrice> totalList = agencyService.selectTotalPrice(loginMember.getFanNo());
+		
 		log.info("paymentList={}",paymentList);
+		model.addAttribute("totalList", totalList);
 		model.addAttribute("paymentList", paymentList);
 		return "agency/agencyPayment_Sales";
 	}
+
+	
+	@GetMapping("/agencySelectDaySales/{yearMonth}/{lastDay}")
+	@ResponseBody
+	public List<Sales> selectDaySales(
+			Authentication authentication,@PathVariable String yearMonth,@PathVariable String lastDay) { 
+	    Fan loginMember = (Fan) authentication.getPrincipal();
+
+		log.info("yearMonth={}",yearMonth);
+		List<Sales> daySalesList = agencyService.selectDaySales(yearMonth,lastDay,loginMember.getFanNo());
+		log.info("daySalesList@agency={}",daySalesList);
+		return daySalesList;
+	}
+
+	
+	
 	
 	@PutMapping("/updateWaybill")
 	@ResponseBody

@@ -18,4 +18,8 @@ public interface ProductService {
 
 	List<SlideImg> selectSlideList();
 
+	List<ProductImgExt> selectIdolProductList(int no);
+
+	List<ProductImgExt> selectIdolAlbumList(int no);
+
 }

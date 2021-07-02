@@ -42,6 +42,16 @@ public class ProductDaoImpl implements ProductDao {
 	public List<SlideImg> selectSlideList() {
 		return session.selectList("product.selectSlideList");
 	}
+
+	@Override
+	public List<ProductImgExt> selectIdolProductList(int no) {
+		return session.selectList("product.selectIdolProductList",no);
+	}
+
+	@Override
+	public List<ProductImgExt> selectIdolAlbumList(int no) {
+		return session.selectList("product.selectIdolAlbumList",no);
+	}
 	
 	
 }

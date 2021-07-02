@@ -46,6 +46,13 @@
 		            	</c:if>
 		            </c:if> 
 		        </c:forEach>
+	            <div class="alert alert-secondary" role="alert">
+	                <ul>
+	                    <li>최대 4개 등록가능</li>
+	                    <li class="mt-3">등록 예시</li>
+		        		<img src="${pageContext.request.contextPath }/resources/images/mvLink.jpg" class="mt-3"/>
+	                </ul>
+	            </div>
 	        </div>
 	    </div>
 	
@@ -70,7 +77,7 @@
 	    <div class="container text-center">
 	        <div class="mb-4 row">
 	            <div class="col-6 d-grid p-1">
-	                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;">취소하기</button>
+	                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;" onclick="goBack();">취소하기</button>
 	            </div>
 	            <div class="col-6 d-grid p-1">
 	                <button type="submit" class="btn btn-lg btn-main" style="width: 100%;">수정하기</button>
@@ -80,6 +87,9 @@
 	</form:form >
 </div>
 <script>
+function goBack(){
+	window.history.back();
+}
 var sel_file;
 function setThumbnail(event){
 	var file = event.target.files;

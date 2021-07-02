@@ -12,6 +12,22 @@ body, html {
 	padding: 0px;
 }
 
+.carousel-control-prev{
+	left:-120px;
+}
+.carousel-control-next{
+	right:-120px;	
+}
+
+.card{
+	height:480px;
+}
+.btn-group{
+	position:absolute;
+	left:32px;
+	bottom : 10px;
+}
+
 a {
 	text-decoration: none;
 	color: black;
@@ -328,7 +344,10 @@ textarea.autosize {
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col" colspan="4" id="pd_name">${product.pdName}</th>
+							<th scope="col" colspan="4" id="pd_name">${product.pdName}
+								<input type="hidden" name=pdN value="${product.pdNo}">
+								<input type="hidden" name=fanN value="${loginMember.fanNo}">
+							</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -344,43 +363,72 @@ textarea.autosize {
 							<th>배송정보</th>
 							<td colspan="3" style="border: 0; outline: 0;">영업일 기준 3일</td>
 						</tr>
-						<tr>
-							<th>옵션</th>
-							<td colspan="3" style="border: 0; outline: 0;"><select
-								class="form-select" aria-label="Default select example"
-								name="option-select">
-							
-									<option selected disabled>- [필수] 옵션을 선택해 주세요 -</option>
-							<c:forEach items="${product.pdOptionList}" var="pdOp" varStatus="cnt">
-									<option value="cnt">${pdOp.optionName}</option>
-							</c:forEach>
-							</select></td>
-						</tr>
+						
+						<c:set var="loop_flag" value="false"/>
+						
+						<c:forEach items="${product.pdOptionList}" var="pdOp" varStatus="status">
+						<c:if test="${not loop_flag}">	
+							<c:if test="${not empty pdOp.optionName}">	
+							<c:set var="loop_flag" value="true"/>
+							<tr>
+								<th>옵션</th>
+								<td colspan="3" style="border: 0; outline: 0;"><select
+									class="form-select" aria-label="Default select example"
+									name="option-select">
+									
+										<option selected disabled>- [필수] 옵션을 선택해 주세요 -</option>
+										<c:forEach items="${product.pdOptionList}" var="pdOp">
+											<option value="${pdOp.optionName}">${pdOp.optionName}</option>
+										</c:forEach>
+								</select></td>
+							</tr>
+							</c:if>
+						</c:if>
+						</c:forEach>
 					</tbody>
 				</table>
-				<c:if test="${!empty pdOp.optionName}">
+				<c:set var="loop_flag" value="false"/>
+
+				<c:forEach items="${product.pdOptionList}" var="pdOp" varStatus="status">
+					<c:if test="${not loop_flag}">	
+						<c:if test="${not empty pdOp.optionName}">	
+							<c:set var="loop_flag" value="true"/> 
 				<p
 					style="font-size: 11px; color: #f76560; margin: 10px auto; text-align: center; padding-bottom: 5px; border-bottom: 1px solid #d4d8d9">
 					위 옵션선택 박스를 선택하시면 아래에 상품이 추가됩니다.</p>
-				</c:if>
+						</c:if>
+					</c:if>
+				</c:forEach>
 				<div class="select-option">
-				<c:if test="${empty pdOp.optionName}">
-				<table>
-				<tr>
-					<td><p class="pt-1">${product.pdName}<br /></p></td>
-					<td colspan="1" class="col-1"><span
-					style="position: relative; display: inline-block;"> <input
-						type="text" class="form-controller" name="stock" value="1" min="1" size="5"/>
-					<img class="up"
-							src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"
-							alt="수량증가">
-					<img class="down"
-							src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_down.gif"
-							alt="수량감소">
-					</span></td>
-				</tr>
-				</table>
+				<c:set var="looop_flag" value="false"/>
+				<c:forEach items="${product.pdOptionList}" var="pdOp" varStatus="status" >
+				<c:if test="${!empty product}">
+									
 				</c:if>
+					<c:if test="${not looop_flag}">
+						<c:if test="${empty pdOp.optionName}">	
+						<c:set var="looop_flag" value="true"/>
+						<table>
+						<tr>
+							<td style="border-top: 1px solid #eee; padding: 19px 9px 10px; vertical-align: middle;">
+							<p class="pt-1">${product.pdName}<br /></p
+							></td>
+							<td colspan="1" class="col-1" style="border-top: 1px solid #eee; padding: 22px 9px 10px; vertical-align: middle;"><span
+							style="position: relative; display: inline-block;"> 
+							<input
+								type="text" class="form-controller" name="stock" value="1" min="1" size="5" />
+							<img class="up"
+									src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"
+									alt="수량증가">
+							<img class="down"
+									src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_down.gif"
+									alt="수량감소">
+							</span></td>
+						</tr>
+						</table>
+						</c:if>
+					</c:if>
+				</c:forEach>
 				</div>
 				<div class="total-pd">
 					<table class="pd-option-tbl">
@@ -390,11 +438,17 @@ textarea.autosize {
 									: <span class="total"></span></td>
 							</tr>
 							<tr>
-								<td class="btn-buy" colspan="3">
-									<button type="button" class="btn btn-dark col-5 mx-2 py-2">구매하기</button>
+								<td class="btn-buy" colspan="3" style="border-bottom:1px solid #eee;">
+								<!-- pdStock == 0 -> 품절상품입니다. 로 대체 -->
+								<c:if test="${product.pdStock ne 0}">
+									<button type="button" class="btn btn-dark col-5 mx-2 py-2" onclick="buyNow(this);">구매하기</button>
 									<button type="button"
 										class="btn btn-outline-secondary col-5 mx-2 py-2">장바구니
 										담기</button>
+								</c:if>
+								<c:if test="${product.pdStock eq 0}">
+									<p class="my-auto" style="color:red;">품절 상품입니다.</p>
+								</c:if>
 								</td>
 							</tr>
 						</tbody>
@@ -467,58 +521,91 @@ textarea.autosize {
 
 		<div class="pd-another border border-0 mx-auto p-3"
 			style="display: none;">
-			<div id="carouselExampleIndicators2" class="carousel slide"
-				data-ride="carousel">
-				<div class="carousel-inner">
-					<div class="carousel-item active">
-						<div class="d-flex flex-row justify-content-center" id="pd-slide">
-							<br />
-							<c:forEach var="i" begin="1" end="5" step="1">
-								<div class="p-2 my-3 col-xs-1">
-									<div class=" mx-auto font-weight-bold text-center">
-										<img
-											src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
-									</div>
-									<div class=" mx-auto font-weight-bold text-center">
-										<p class="another-pd-name">상품명</p>
-										<span class="another-pd-price">상품가격</span>
-									</div>
-								</div>
-							</c:forEach>
-						</div>
-					</div>
-					<div class="carousel-item">
-						<div class="d-flex flex-row justify-content-center" id="pd-slide">
-							<br />
-							<c:forEach var="i" begin="1" end="5" step="1">
-								<div class="p-2 my-3 col-xs-1">
-									<div class=" mx-auto font-weight-bold text-center">
-										<img
-											src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" />
-									</div>
-									<div class=" mx-auto font-weight-bold text-center">
-										<p class="another-pd-name">상품명</p>
-										<span class="another-pd-price">상품가격</span>
-									</div>
-								</div>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<a class="carousel-control-prev" href="#carouselExampleIndicators2"
-				role="button" data-slide="prev" id="btnPrev"> <span
-				class="carousel-control-prev-icon" aria-hidden="true"></span> <span
-				class="sr-only">Previous</span>
-			</a> <a class="carousel-control-next" href="#carouselExampleIndicators2"
-				role="button" data-slide="next" id="btnNext"> <span
-				class="carousel-control-next-icon" aria-hidden="true"></span> <span
-				class="sr-only">Next</span>
-			</a>
+			<c:if test="${!empty randomList}">
+				<div class="idol-item row d-none d-sm-block">
+				    <div class="row g-3 ">
+						<div id="carouselExampleControlss" class="carousel slide slide-img" data-ride="carousel">
+						    <div class="carousel-inner">
+							    <div class="carousel-item active idol">
+							      <c:forEach items="${randomList}" var="product" varStatus="status">
+							      <c:if test="${status.index < 4}">
+							      <div class="mx-auto " style="display:inline-block;">
+							        <div class="card col-xs-4" style="width:15em; display:inline-block; float: left; margin:13px; 0px; 10px; 0px;">
+							            	<c:forEach items="${product.pdImgList}" var="pdImg">
+										        <c:if test="${pdImg.pdCategory eq 'R'}">
+													<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+											   	</c:if>
+									    	</c:forEach>
+							           
+							            <div class="card-body">
+							              <h5 class="card-title">${product.pdName}</h5>
+							              <p class="card-text">  
+							                <span class="badge bg-s">${product.idolName}</span><br />
+							                <span class="badge bg-dark">공식굿즈</span>
+							                <span class="badge bg-dark">${product.pdCategory}</span>
+							              </p>
+							              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
+							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
+							                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
+							              </div>
+							            </div>
+							        </div>
+							      <!-- col-lg-3 col-md-6 End -->
+							      </div>
+							      		   
+							      </c:if>
+							      </c:forEach>
+							      </div>
+							      
+							      <div class="carousel-item idol">
+							      <c:forEach items="${randomList}" var="product" varStatus="status">
+							      <c:if test="${status.index > 3}">
+							      <div class="mx-auto" style="display:inline-block;">
+							        <div class="card col-xs-4" style="width:15em; display:inline-block; float: left; margin:13px; 0px; 10px; 0px;">
+							            	<c:forEach items="${product.pdImgList}" var="pdImg">
+										        <c:if test="${pdImg.pdCategory eq 'R'}">
+													<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
+											   	</c:if>
+									    	</c:forEach>
+							           
+							            <div class="card-body">
+							              <h5 class="card-title">${product.pdName}</h5>
+							              <p class="card-text">  
+							                <span class="badge bg-s">${product.idolName}</span><br />
+							                <span class="badge bg-dark">공식굿즈</span>
+							                <span class="badge bg-dark">${product.pdCategory}</span>
+							              </p>
+							              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
+							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
+							                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
+							              </div>
+							            </div>
+							        </div>
+							      <!-- col-lg-3 col-md-6 End -->
+							      </div>
+							      </c:if>
+							      </c:forEach>
+							      </div>
+						      </div>
+							<a class="carousel-control-prev" href="#carouselExampleControlss" role="button" data-slide="prev">
+						      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+						      <span class="sr-only">Previous</span>
+						    </a>
+						    <a class="carousel-control-next" href="#carouselExampleControlss" role="button" data-slide="next">
+						      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+						      <span class="sr-only">Next</span>
+						    </a>
+					      </div>
+				    <!-- row g-3 End -->
+				    </div>
+			  <!-- row end -->
+			 	 </div>
+		  	</c:if>
 		</div>
 	</div>
 </div>
+<form action="${pageContext.request.contextPath}/basket/buyNow.do" method="POST" name=buyNowFrm>
+ </form>
 <script>
 $(".pd-nav").click(function(e){
 	var id = $(e.target).attr('id');
@@ -565,11 +652,33 @@ $(".select-option").on("click", ".down", e => {
 });
 
 
+function total(){
+	var cnt = 0;
+	var get_input = $(".form-controller");
+	$.each(get_input, function (index, value) {
+		cnt += Number($(value).val());
+	});
+	
+	var $total = $(".total");
+	var price = ${product.price};
+	var total = price * cnt;
+
+	//console.log(get_input);
+	//console.log(price);
+	//console.log($total);
+	//console.log(total);
+
+	$total += $total.html("<strong>"+total+"</strong>"+"("+cnt+"개)");
+}
+window.onload=total;
+
+
 $("[name=option-select]").change(function(e){
 	var $table = $("<table></table>");
+	console.log($(e.target).val());
+	var option = $(e.target).val();
 	$table
-	.append(`<tr>
-			<td><p class="pt-1">${product.pdName}<br /> <span class="add-option">옵션명</span>	</p></td>
+		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option">`+option +`</span></p></td>
 			<td colspan="1" class="col-1"><span
 			style="position: relative; display: inline-block;"> <input
 				type="text" class="form-controller" name="stock" value="1" min="1" size="3"/>
@@ -596,21 +705,42 @@ $("[name=option-select]").change(function(e){
 
 
 
-function total(){
-	var cnt = 0;
+
+$(() => {
+	$("button[name=pdDetail]").click(e => {
+		//화살표함수안에서는 this는 e.target이 아니다.
+		console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
+		var $no = $(e.target).parent();
+		var no = $no.data("no");
+		console.log(no);
+		
+		location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + no;
+	});
+});
+
+function buyNow(obj){
+	var $formId = $(document.buyNowFrm);
+	 console.log("formId= "+ $formId);
+	 const fanNo = '<input type="hidden" name ="fanNo" value="'+ $("[name=fanN]").val()+'"/>';
+	 const pdNo = '<input type="hidden" name ="pdNo" value="'+ $("[name=pdN]").val()+'"/>';
+	 const opNo = '<input type="hidden" name ="opNo" value="'+ $("[name=opN]").val()+'"/>';
+	var cnt = 0; //수량
 	var get_input = $(".form-controller");
 	$.each(get_input, function (index, value) {
-		cnt += Number($(value).val());
+		cnt +='<input type="hidden" name ="cnt" value="'+Number($(value).val())+'"/>';
+		
 	});
 	
-	var $total = $(".total");
-	var price = ${product.price};
-	var total = price * cnt;
-
-	$total += $total.html("<strong>"+total+"</strong>"+"("+cnt+"개)");
+	console.log(fanNo);
+	console.log(pdNo);
+	console.log(cnt);
+	console.log(opNo);
+	$formId.append(fanNo);
+	$formId.append(pdNo);
+	$formId.append(opNo);
+	$formId.append(cnt);
+	$from.submit;
 }
-window.onload=total;
-
 
 </script>
 
