@@ -133,7 +133,7 @@
 		from unofficial_demand d
 		    left join demand_pd_img di
 		        on d.demand_no = di.demand_no
-		where d.pd_name = #{pName}
+		where d.demand_no = #{demandNo}
 	</select>
 	
 	<update id="updateDemand">

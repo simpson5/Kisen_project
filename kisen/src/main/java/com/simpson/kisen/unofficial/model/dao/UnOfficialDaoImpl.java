@@ -66,8 +66,8 @@ public class UnOfficialDaoImpl implements UnOfficialDao {
 	}
 
 	@Override
-	public UnofficialPdImgExt selectOneDemand(String pName) {
-		return session.selectOne("unofficial.selectOneDemand", pName);
+	public UnofficialPdImgExt selectOneDemand(String demandNo) {
+		return session.selectOne("unofficial.selectOneDemand", demandNo);
 	}
 
 	@Override

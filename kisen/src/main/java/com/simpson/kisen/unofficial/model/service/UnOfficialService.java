@@ -26,15 +26,16 @@ public interface UnOfficialService {
 
 	UnofficialPdImgExt2 selectunofficialdeposit(String dno);
 
-	UnofficialPdImgExt selectOneDemand(String pName);
+	UnofficialPdImgExt selectOneDemand(String demandNo);
 
 	int deletedemand(String delNo);
 
-	int updateDemand(UnofficialPdImgExt unofficialdemand);
 
 	int updateStock(Map<String, Object> map);
 
 	Fan selectOneMemberByEmail(String email);
+
+	int updateDemand(UnofficialPdImgExt unofficialdemand);
 
 
 

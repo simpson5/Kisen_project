@@ -364,11 +364,11 @@ public class UnofficialController {
 		@GetMapping("/demandformUpdate.do")
 		public void demandformUpdate(
 				@RequestParam(required=false)
-				String pName,
+				String demandNo,
 				Model model
 				) {
-			log.info("pName = {}",pName);
-			UnofficialPdImgExt unofficialdemand = unofficialService.selectOneDemand(pName);
+			log.info("demandNo = {}",demandNo);
+			UnofficialPdImgExt unofficialdemand = unofficialService.selectOneDemand(demandNo);
 			log.info("unofficialdemand = {}", unofficialdemand);
 			model.addAttribute("unofficialdemand", unofficialdemand);
 			 
@@ -377,7 +377,7 @@ public class UnofficialController {
 
 	
 	@PostMapping("/demandformUpdate.do")
-	public String demandUpdate(
+	public String updateDemand(
 			Authentication authentication,
 			@ModelAttribute UnofficialPdImgExt unofficialdemand,
 			@RequestParam(name="thumbnailFile", required = false) MultipartFile thumbnailFile,
@@ -429,7 +429,7 @@ public class UnofficialController {
 		
 		
 			
-		return "redirect:/unofficial/demandDetail.do"+pd.getDemandNo();
+		return "redirect:/mypage/mypageform.do";
 	}
 	
 	

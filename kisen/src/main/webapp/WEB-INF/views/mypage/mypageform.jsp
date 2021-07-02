@@ -212,6 +212,7 @@ name="sendFrm">
         <!--  <h5 class="mt-0 mb-1">Red Velvet 1st 앨범</h5> -->
             <div class="py-3">
             <input type="hidden" name="pdName" value="${udList.pdName}">
+            <input type="hidden" name="pdName" value="${udList.demandNo}">
            <h5 class="mt-0 mb-1 mt-3">${udList.pdName}</h5>
             </div>
             <span></span>
@@ -247,7 +248,7 @@ name="sendFrm">
        <div class="col-2" id="payInfo">
             <div class="py-2">
                <button type="button" class="btn btn-outline-warning" name="sendFrm" >수정</button>
-               <input type="hidden" name="pdName" value="${udList.pdName}">
+               <input type="hidden" name="pdName" value="${udList.demandNo}">
             </div>
             <div class="py-2">
             
@@ -265,7 +266,7 @@ name="sendFrm">
 <form action="${pageContext.request.contextPath}/unofficial/demandformUpdate.do"
 method=GET 
 name= "formUpdate">
-<input type="hidden" name="pName" value="">
+<input type="hidden" name="demandNo" value="">
 </form>
 
 
@@ -285,11 +286,11 @@ name="formDelete">
 $("button[name=sendFrm]").click(function(e){
 	console.log(e.target);
 	var $btn = $(e.target);
-	var pdName = $btn.next().val();
-	console.log(pdName);
+	var demandNo = $btn.next().val();
+	console.log(demandNo);
 
 	var $frm =  $(document.formUpdate);
-	$frm.find("[name=pName]").val(pdName);
+	$frm.find("[name=demandNo]").val(demandNo);
 	$frm.submit();
 });
 

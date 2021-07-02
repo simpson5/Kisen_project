@@ -98,8 +98,8 @@ public class UnOfficialServiceImpl implements UnOfficialService {
 
 
 	@Override
-	public UnofficialPdImgExt selectOneDemand(String pName) {
-		return unofficialDao.selectOneDemand(pName);
+	public UnofficialPdImgExt selectOneDemand(String demandNo) {
+		return unofficialDao.selectOneDemand(demandNo);
 	}
 
 	@Override
@@ -139,6 +139,8 @@ public class UnOfficialServiceImpl implements UnOfficialService {
 		return unofficialDao.selectOneMemberByEmail(email);
 	}
 
+
+	
 
 	
 

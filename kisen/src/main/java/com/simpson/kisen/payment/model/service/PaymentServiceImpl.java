@@ -92,4 +92,10 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 
 
+	@Override
+	public List<PaymentProduct> selectHistory(String fanNo) {
+		return paymentDao.selectHistory(fanNo);
+	}
+
+
 }

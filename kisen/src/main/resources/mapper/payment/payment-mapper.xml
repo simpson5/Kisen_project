@@ -39,8 +39,8 @@
 			
 	</select>
 	<resultMap type="paymentProduct" id="paymentResultMap">
-	 <id column ="pd_no" property="pdNo"/>
-      <result column="order_no" property="orderNo"/>
+      <id column="order_no" property="orderNo"/>
+	 <result column ="pd_no" property="pdNo"/>
       <result column="fan_no" property="fanNo"/>
 	  <result column ="payment_no" property="paymentNo"/>
 	  <result column ="pd_cnt" property="pdCnt"/>
@@ -54,8 +54,8 @@
    
       
      <collection property="productImg" ofType="ProductImg">
-          <id column="pd_no" property="pdNo"/>
-          <result column="pd_img_no" property="pdImgNo"/>
+          <id column="pd_img_no" property="pdImgNo"/>
+          <result  column="pd_no" property="pdNo"/>
           <result column="pd_category" property="pdCategory"/>
           <result column="original_filename" property="originalFilename"/>
           <result column="renamed_filename" property="renamedFilename"/>
@@ -137,6 +137,7 @@
 	
 	<select id="selectUdList" resultMap="udMap">
 		select
+			u.demand_no,
 			u.pd_name,
 			u.idol_name,
 			u.pd_category,
@@ -201,16 +202,25 @@
      
 	</where>
 	</select>
+	
 	<delete id="deleteCart">
 		delete from
 			basket
-		<where> 
+		<where>
+		fan_no = #{fanNo}
+		and
 		<if test="bNo != nulll">
 		product_no in
 		<foreach  collection="bNo" item="b" open="(" close=")" separator=",">
 	 		#{b} 
 	 	</foreach>
-
+	 	</if>
+	 	and
+		<if test="opNo != nulll">
+		option_no in
+		<foreach  collection="opNo" item="op" open="(" close=")" separator=",">
+	 		#{op} 
+	 	</foreach>	
 	 	</if>
 	</where>
 	</delete>
@@ -256,4 +266,46 @@
            )
 	
 	</insert> 
+	<select  id="selectHistory" resultMap="historyMap">
+		select
+            pp.pd_no,
+            pp.option_no,
+			p.pd_name
+		from
+			payment_product pp
+		left join
+			product p
+		on 
+			pp.pd_no = p.pd_no
+      where 
+                fan_no = #{fanNo}
+	
+	</select>
+		<resultMap type="paymentProduct" id="historyMap">
+	 <id column="order_no" property="orderNo"/>  
+          <result column="pd_no" property="pdNo"/>
+          <result column="fan_no" property="fanNo"/>
+          <result column="pd_cnt" property="pdCnt"/>
+          <result column="payment_no" property="paymentNo"/>
+          <result column="pay_date" property="payDate"/>
+          <result column="option_no" property="opNo"/>
+          <result column="price" property="price"/>
+          <result column="pay_type" property="payType"/>
+          <result column="amount" property="amount"/>
+          <result column="point" property="point"/>
+          <result column="waybill" property="waybill"/>
+ 
+
+     <collection property="product" ofType="Product">
+       	 <id column="pd_no" property="pdNo"/> 
+          <result column="pd_name" property="pdName"/>
+          <result column="pd_content" property="pdContent"/>  
+          <result column="price" property="price"/>
+          <result column="pd_stock" property="pdStock"/>
+          <result column="pd_sales" property="pdSales"/>
+          <result column="sales_date" property="salesDate"/>
+      </collection>
+      
+       
+	</resultMap>
 </mapper>

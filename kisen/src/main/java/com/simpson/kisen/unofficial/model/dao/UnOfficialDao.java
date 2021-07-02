@@ -30,7 +30,7 @@ public interface UnOfficialDao {
 
 	UnofficialPdImgExt2 selectunofficialdeposit(String dno);
 
-	UnofficialPdImgExt selectOneDemand(String pName);
+	UnofficialPdImgExt selectOneDemand(String demandNo);
 
 	int deletedemand(String delNo);
 
