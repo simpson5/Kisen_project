@@ -71,5 +71,15 @@ public class ReviewServiceImpl implements ReviewService {
 		return result;
 	}
 
+	@Override
+	public void readCntUp(Review review) {
+		reviewDao.readCntUp(review);
+	}
+
+	@Override
+	public void recomUpCnt(Map<String, Object> map) {
+		reviewDao.recomUpCnt(map);
+	}
+
 
 }

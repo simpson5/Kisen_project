@@ -19,4 +19,9 @@ public class ArtistServiceImpl implements ArtistService {
 		return artistDao.selectAllIdolName();
 	}
 
+	@Override
+	public List<Idol> selectArtistOne(int no) {
+		return artistDao.selectArtistOne(no);
+	}
+
 }
