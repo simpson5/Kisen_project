@@ -291,7 +291,7 @@ p.album-singer{
 							              </p>
 							              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
 							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-							                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
+							                <button type="button" class="btn btn-sm btn-outline-main" name="cart">장바구니 담기</button>
 							              </div>
 							            </div>
 							        </div>
@@ -328,9 +328,11 @@ p.album-singer{
 	    </div>
 			
 		<div class="row artist-pan-board" style="display: none;">
-				<jsp:include page="/WEB-INF/views/fanBoard/fanBoardList.jsp">
-					<jsp:param value="${param.no}" name="artistNo" />
-				</jsp:include>
+			<!-- 
+			<jsp:include page="/WEB-INF/views/fanBoard/fanBoardList.jsp">
+				<jsp:param value="${param.no}" name="artistNo" />
+			</jsp:include>
+			 -->
 	    </div>
 	    
 	</div>
@@ -366,9 +368,28 @@ $(".artist-nav").click(function(e){
 	}
 });
 
-$("#pdInfo-btn").click(function(){
-	window.location.href="${pageContext.request.contextPath}/product/productInfo";
+$(() => {
+	$("button[name=pdDetail]").click(e => {
+		//화살표함수안에서는 this는 e.target이 아니다.
+		//console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
+		var $no = $(e.target).parent();
+		var no = $no.data("no");
+		console.log(no);
+		
+		location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + no;
+	});
+});
 
+$(() => {
+	$("button[name=cart]").click(e => {
+		//화살표함수안에서는 this는 e.target이 아니다.
+		//console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
+		var $no = $(e.target).parent();
+		var no = $no.data("no");
+		console.log(no);
+		
+		location.href = "${pageContext.request.contextPath}/basket/cart;
+	});
 });
 
 </script>

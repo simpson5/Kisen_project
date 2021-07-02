@@ -334,6 +334,7 @@ textarea.autosize {
 	<div class="container" id="container">
 		<div class="detail row">
 			<div class="media  product_img">
+			<input type="hidden" name="pd" value="${product}"/>
 			<c:forEach items="${product.pdImgList}" var="pdImg">
 		        <c:if test="${pdImg.pdCategory eq 'R'}">
 					<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
@@ -440,7 +441,8 @@ textarea.autosize {
 								<c:if test="${product.pdStock ne 0}">
 									<button type="button" class="btn btn-dark col-5 mx-2 py-2">구매하기</button>
 									<button type="button"
-										class="btn btn-outline-secondary col-5 mx-2 py-2">장바구니
+										class="btn btn-outline-secondary col-5 mx-2 py-2" 
+										name="cart">장바구니
 										담기</button>
 								</c:if>
 								<c:if test="${product.pdStock eq 0}">
@@ -713,6 +715,39 @@ $(() => {
 	});
 });
 
+$(() => {
+	$("button[name=cart]").click(e => {
+		//화살표함수안에서는 this는 e.target이 아니다.
+		//console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
+		//var $no = $(e.target).parent();
+		
+		//const product = $("[name=pd]").val();
+		//const pro = "{"+product+"}";
+		var product = "${product}";
+		console.log(product);
+		var json = JSON.stringify(product);
+		jQuery.ajaxSettings.traditional = true;
+
+		
+		//console.log(json);
+		$.ajax({
+	        data: {"json" : JSON.stringify(product)},
+	        dataType : "json",
+	        type: "POST",
+	        url: '${pageContext.request.contextPath}/product/insertBasket',
+        	traditional : true,
+        	contentType : 'application/json; charset=utf-8;',
+	        success: function(json) {
+	      		//console.log(json);
+	      		confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
+	        }
+	      });
+		
+		
+		
+		//location.href = "${pageContext.request.contextPath}/basket/cart.do?no=" + no;
+	});
+});
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

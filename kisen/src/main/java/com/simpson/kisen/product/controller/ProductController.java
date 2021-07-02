@@ -11,8 +11,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.simpson.kisen.common.util.HelloSpringUtils;
 import com.simpson.kisen.fan.model.vo.Fan;
@@ -22,6 +25,7 @@ import com.simpson.kisen.review.model.service.ReviewService;
 import com.simpson.kisen.review.model.vo.ReviewExt;
 
 import lombok.extern.slf4j.Slf4j;
+import net.sf.json.JSONObject;
 
 
 @Controller
@@ -78,5 +82,16 @@ public class ProductController {
 		log.debug("product = {}", product);
 		
 		model.addAttribute("product", product);
+	}
+	
+	
+	@PostMapping(value="insertBasket", produces="application/json; charset=utf-8")
+	@ResponseBody
+	public String insertBasket(
+			@RequestParam(value="json" ,required = false) String json
+			) {
+		log.info("json = {}",json);
+	 
+		return "";
 	}
 }
