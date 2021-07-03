@@ -164,15 +164,11 @@ public class MemberController {
 		// ResponseEntity객체를 만들어서 전달
 		return ResponseEntity.ok() // 응답헤더 200번
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE) // "application/json;charset=UTF-8"
-																							// -> header값으로 json이라는 것을
-																							// 알림
 				.body(map); // body에 map담기
 	}
 
 	/**
 	 * java.sql.Date, java.util.Date 필드에 값대입시 사용자 입력값이 ""인 경우, null로 처리될 수 있도록 설정
-	 * 
-	 * @param binder
 	 */
 	// initBinder - 커맨드 객체 관련 설정을 담당
 	@InitBinder
@@ -215,9 +211,7 @@ public class MemberController {
 			// 1. 업무로직
 			int result = memberService.insertMember(member);
 			// 2. 사용자피드백 및 리다이렉트
-			redirectAttr.addFlashAttribute("msg", "회원가입성공");
-			// redirect:/ - 인덱스페이지(welcome file)로 이동
-			// welcome file로 바로 찾게 되면 redirectAttr을 처리할 수 없음
+			redirectAttr.addFlashAttribute("msg", "회원가입이 완료되었습니다. 로그인 후 사용하실 수 있습니다.");
 		} catch (Exception e) {
 			log.error("회원가입 오류!", e);
 			throw e;
@@ -252,7 +246,7 @@ public class MemberController {
 			// 1.1. fan테이블에 세팅
 			int result = memberService.insertMemberAgency(member, agency);
 			// 2. 사용자피드백 및 리다이렉트
-			redirectAttr.addFlashAttribute("msg", "기획사 회원가입성공");
+			redirectAttr.addFlashAttribute("msg", "회원가입이 완료되었습니다. 로그인 후 사용하실 수 있습니다.");
 			// redirect:/ - 인덱스페이지(welcome file)로 이동
 			// welcome file로 바로 찾게 되면 redirectAttr을 처리할 수 없음
 		} catch (Exception e) {
@@ -266,11 +260,9 @@ public class MemberController {
 	 * 카카오 로그인
 	 */
 	@GetMapping("/kakao/callback")
-	public String kakaoCallback(@RequestParam String code, Model model, RedirectAttributes redirectAttr) { // data를
-																											// 리턴해주는
-																											// 컨트롤러 함수
-		// POST방식으로 key=value 데이터를 카카오쪽으로 요청
+	public String kakaoCallback(@RequestParam String code, Model model, RedirectAttributes redirectAttr) { // data를 리턴해주는 컨트롤러 함수
 
+		// POST방식으로 key=value 데이터를 카카오쪽으로 요청
 		// HttpHeader 오브젝트 생성
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -664,7 +656,7 @@ public class MemberController {
 		return result;
 	}
 
-	@GetMapping("/checkInfoPhoneForPwd.do")
+	@PostMapping("/checkInfoPhoneForPwd.do")
 	public ResponseEntity<Map<String, Object>> checkInfoPhoneForPwd(@RequestParam String name,
 			@RequestParam String phone) {
 		log.info("phone = {}", phone);
@@ -683,13 +675,16 @@ public class MemberController {
 			log.info(tempPwd);
 
 			updatePwdToTempPwd(member);
+			// 2. map에 요소 저장 후 리턴
+			// model필요 없음
+			log.info("tempPwd = {}", tempPwd);
 		}
 		// 2. map에 요소 저장 후 리턴
 		// model필요 없음
-		log.info("tempPwd = {}", tempPwd);
 		Map<String, Object> map = new HashMap<>();
 		map.put("available", available);
 		map.put("tempPwd", tempPwd);
+
 
 		// ResponseEntity객체를 만들어서 전달
 		return ResponseEntity.ok() // 응답헤더 200번

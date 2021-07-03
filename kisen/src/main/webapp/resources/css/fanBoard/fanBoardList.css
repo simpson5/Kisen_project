@@ -117,11 +117,7 @@ tr:hover {
     display: inline;
 }
 
-.btn:not(:disabled):not(.disabled) {
-    cursor: pointer;
-    transform: translate(18px, -2px);
-    padding: 5px 10px;
-}
+
 
 .dropdown-item {
     display: block;
@@ -166,4 +162,11 @@ tr:hover {
     cursor: pointer;
     transform: translate(0px, 21px);
     padding: 5px 10px;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #9995a0;
+    border-color: #9995a0;
 }

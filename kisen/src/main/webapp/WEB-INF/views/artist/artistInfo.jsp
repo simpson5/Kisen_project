@@ -326,11 +326,13 @@ p.album-singer{
 			 	 </div>
 		  	</c:if>    
 	    </div>
-			
+		<!-- 팬게시판 -->
 		<div class="row artist-pan-board" style="display: none;">
 				<jsp:include page="/WEB-INF/views/fanBoard/fanBoardList.jsp">
 					<jsp:param value="${param.no}" name="artistNo" />
+					<jsp:param value="${cPage}" name="cPage" />
 				</jsp:include>
+				<input type="hidden" value="${fbActive}" name="fbActive" />
 	    </div>
 	    
 	</div>
@@ -365,6 +367,17 @@ $(".artist-nav").click(function(e){
 		$('.artist-pan-board').show();
 	}
 });
+
+// 팬게시판
+if($("input[name=fbActive]").val() == 1){
+	$("#nav4").addClass('select');
+	$("#nav1").removeClass('select');
+	$('.artist-album').hide();
+	$('.artist-mv').hide();
+	$('.artist-goods').hide();
+	$('.artist-pan-board').show();
+}
+
 
 $("#pdInfo-btn").click(function(){
 	window.location.href="${pageContext.request.contextPath}/product/productInfo";

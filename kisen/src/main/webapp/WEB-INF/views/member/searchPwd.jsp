@@ -75,7 +75,7 @@
                 <option value="paran.com">paran.com</option>
             </select>
             <p id="chkNoticeEmail" class="chkNotice"></p>
-            <button type="submit" class="btn btn-block search-btn">아이디 찾기</button>
+            <button type="submit" class="btn btn-block search-btn">비밀번호 찾기</button>
         </form>
         <!-- 휴대폰으로 찾기 진행 입력 폼 -->
         <form  
@@ -89,7 +89,7 @@
             <input type="text" class="search-area searchPhone" name="phone2" id="phone2" maxlength="4">-
             <input type="text" class="search-area searchPhone" name="phone3" id="phone3" maxlength="4">
             <p id="chkNoticePhone" class="chkNotice"></p>
-            <button type="submit" class="btn btn-block search-btn">아이디 찾기</button>
+            <button type="submit" class="btn btn-block search-btn">비밀번호 찾기</button>
         </form>
         <div class="text-right login-a">
         <a href="${pageContext.request.contextPath}/member/login.do">로그인하러 가기</a>
@@ -213,14 +213,14 @@ $("[name=searchPhoneFrm]").submit(function(){
 	// {id:id} -> {id}로 줄여쓸 수 있음 -> {id : "abcde"}
 	$.ajax({
 		url : "${pageContext.request.contextPath}/member/checkInfoPhoneForPwd.do",
+		method : "POST",
 		data : {
 				name:name,
 				phone:phone},
-
 		success : data => {
 			console.log(data); 
-			const {available} = data;
-			const {tempPwd} = data;
+			var {available} = data;
+			var {tempPwd} = data;
 		    
 			// 사용가능한 경우
 			// if(data.available){

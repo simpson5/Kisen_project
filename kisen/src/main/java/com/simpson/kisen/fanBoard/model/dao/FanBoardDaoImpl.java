@@ -82,12 +82,6 @@ public class FanBoardDaoImpl implements FanBoardDao {
 	}
 
 	@Override
-	public int chkLikeAvailable(String fbNo, String fanId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int insertfbReply(FbComment fbReply) {
 		return session.insert("fanboard.insertfbReply", fbReply);
 	}

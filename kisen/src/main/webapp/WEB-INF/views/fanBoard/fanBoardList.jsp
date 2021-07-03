@@ -19,10 +19,9 @@
 <!-- 사용자작성 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/fanBoard/fanBoardList.css" />
 <script>
-$(document).ready(function(){
+$(window).load(function(){
 	getList();
 });
-
 $(document).ready(function(){
 	var idolNo = ${param.artistNo};
 		$.ajax({
@@ -39,9 +38,11 @@ $(document).ready(function(){
 
 function getList(){
 	var idolNo = ${param.artistNo};
+	var cPage = ${param.cPage};
 	$.ajax({
 		url: `${pageContext.request.contextPath}/fanBoard/fanBoardList/\${idolNo}`,
 		method: "GET",
+		data:{cPage},
 		success(data){
 			console.log(data);
 			const {list} = data;

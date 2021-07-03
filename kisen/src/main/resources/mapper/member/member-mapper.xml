@@ -65,6 +65,35 @@
 		#{oauth}
 	)
 </insert>
+<insert id="insertOauthAgencyMember">
+	insert into
+		fan
+	values (
+		#{fanNo},
+		#{fanId},
+		#{password},
+		#{phone},
+		#{address},
+		#{email},
+		#{birthday},
+		null,
+		null,
+		'N',
+		default,
+		#{fanName},
+		1,
+		#{oauth}
+	)
+	<selectKey keyProperty="fanNo" resultType="string" order="AFTER">
+		select f.*
+		from (
+		    select fan_no
+		    from fan
+		    order by enroll_date desc
+		    ) f
+		where rownum = 1
+	 </selectKey>
+</insert>
 <!-- =========================== [ 회원가입 - 회원등록 - authority설정 ] =========================== -->
 <insert id="insertMemberAuthority">
 	insert into
@@ -122,6 +151,45 @@
 		seq_agency_no.nextval
 	)
 </insert>
+<!-- =========================== [ 아이디, 비밀번호 찾기 ] =========================== -->
+<select id="searchOneMember" resultMap="memberMap">
+	select
+		*
+	from
+		fan
+	where
+		fan_name = #{name}
+		and
+		email = #{email}		
+</select>
+<select id="selectOneMemberByEmail" resultMap="memberMap">
+	select
+		*
+	from
+		fan
+	where
+		email = #{email}
+</select>
+<select id="selectOneMemberByPhone" resultMap="memberMap">
+	select
+		*
+	from
+		fan
+	where
+		fan_name = #{name}
+		and
+		phone = #{phone}	
+</select>
+
+<!-- =========================== [ 임시비밀번호 수정 ] =========================== -->
+<update id="updatePwdToTempPwd">
+	update
+		fan
+	set
+		password = #{password}
+	where
+		fan_id = #{fanId}
+</update>
 <!-- 마이페이지 회원수정페이지 조회  -->
 <!-- 	<select id="selectOneFan" resultMap="mypageFan">
 	select 
@@ -168,33 +236,5 @@
 			fan_id = #{fanId}
 	</delete>
 	
-<insert id="insertOauthAgencyMember">
-	insert into
-		fan
-	values (
-		#{fanNo},
-		#{fanId},
-		#{password},
-		#{phone},
-		#{address},
-		#{email},
-		#{birthday},
-		null,
-		null,
-		'N',
-		default,
-		#{fanName},
-		1,
-		#{oauth}
-	)
-	<selectKey keyProperty="fanNo" resultType="string" order="AFTER">
-		select f.*
-		from (
-		    select fan_no
-		    from fan
-		    order by enroll_date desc
-		    ) f
-		where rownum = 1
-	 </selectKey>
-</insert>
+
 </mapper>
