@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.simpson.kisen.payment.model.vo.Payment;
+import com.simpson.kisen.payment.model.vo.PaymentProduct;
 import com.simpson.kisen.product.model.vo.Basket;
 import com.simpson.kisen.unofficial.model.vo.UnofficialDemand;
 
@@ -20,9 +21,14 @@ public interface PaymentDao {
 
 	int deleteCart(Map<String, Object> param);
 
-	int insertPaymentHistory(Map<String, Object> param);
+	int insertPaymentHistory(Payment payHistory);
 
-	int insertPaymentProduct(Map<String, Object> param);
+	int insertPaymentProduct(PaymentProduct pp);
 
+	int insertBasket(Basket bs);
+
+	List<PaymentProduct> selectHistory(String fanNo);
+
+	
 	
 }

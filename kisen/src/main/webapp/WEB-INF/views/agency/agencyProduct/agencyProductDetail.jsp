@@ -98,7 +98,7 @@
     <div class="container text-center mt-4 ">
         <div class="mb-4 row">
             <div class="col-6 d-grid p-1">
-                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;">취소하기</button>
+                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;" onclick="goBack();">취소하기</button>
             </div>
             <div class="col-6 d-grid p-1">
                 <button type="button" class="btn btn-lg btn-main" style="width: 100%;" onclick="agencyProductUpdate(event);" data-no ="${product.pdNo}">수정하기</button>
@@ -108,6 +108,9 @@
 </div>
 
 <script>
+function goBack(){
+	window.history.back();
+}
 function agencyProductUpdate(event) {
     const target = event.target;
     const pdNo= target.dataset.no;

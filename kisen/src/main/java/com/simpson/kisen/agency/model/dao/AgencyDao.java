@@ -3,6 +3,8 @@ package com.simpson.kisen.agency.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.simpson.kisen.admin.model.vo.Sales;
+import com.simpson.kisen.admin.model.vo.SalesTotalPrice;
 import com.simpson.kisen.agency.model.vo.Agency;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.idol.model.vo.IdolImg;
@@ -77,5 +79,9 @@ public interface AgencyDao {
 	List<PaymentExt> selectSalesList(Map<String, String> param);
 
 	int updateWaybill(Payment payment);
+
+	SalesTotalPrice selectTotalPrice(Map<String, Object> param);
+
+	List<Sales> selectDaySales(Map<String, Object> param);
 
 }

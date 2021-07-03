@@ -54,7 +54,8 @@ h2 {
 }
 
 .file-preview-container {
-	width : 100%;
+    width: 100%;
+    display: inline;
 }
 
 .custom-file-label {
@@ -104,4 +105,11 @@ h2 {
     word-wrap: normal;
     width: 180px;
     overflow: hidden;
+}
+
+.file-section {
+	margin: 7px 6px -3px;
+    font-weight: bolder;
+    font-size: larger;
+    color: gray;
 }

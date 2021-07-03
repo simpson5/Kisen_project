@@ -334,7 +334,6 @@ textarea.autosize {
 	<div class="container" id="container">
 		<div class="detail row">
 			<div class="media  product_img">
-			<input type="hidden" name="pd" value="${product}"/>
 			<c:forEach items="${product.pdImgList}" var="pdImg">
 		        <c:if test="${pdImg.pdCategory eq 'R'}">
 					<img src="<c:url value='/resources/upload/product/${pdImg.renamedFilename}'/>" class="card-img mt-1" alt="${product.pdContent}" style="width:100%; height:auto;">
@@ -439,7 +438,7 @@ textarea.autosize {
 								<td class="btn-buy" colspan="3" style="border-bottom:1px solid #eee;">
 								<!-- pdStock == 0 -> 품절상품입니다. 로 대체 -->
 								<c:if test="${product.pdStock ne 0}">
-									<button type="button" class="btn btn-dark col-5 mx-2 py-2">구매하기</button>
+									<button type="button" class="btn btn-dark col-5 mx-2 py-2" onclick="buyNow(this);">구매하기</button>
 									<button type="button"
 										class="btn btn-outline-secondary col-5 mx-2 py-2" 
 										name="cart">장바구니
@@ -716,6 +715,32 @@ $(() => {
 		location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + no;
 	});
 });
+
+
+
+function buyNow(obj){
+	var $formId = $(document.buyNowFrm);
+	 console.log("formId= "+ $formId);
+	 const fanNo = '<input type="hidden" name ="fanNo" value="'+ $("[name=fanN]").val()+'"/>';
+	 const pdNo = '<input type="hidden" name ="pdNo" value="'+ $("[name=pdN]").val()+'"/>';
+	 const opNo = '<input type="hidden" name ="opNo" value="'+ $("[name=opN]").val()+'"/>';
+	var cnt = 0; //수량
+	var get_input = $(".form-controller");
+	$.each(get_input, function (index, value) {
+		cnt +='<input type="hidden" name ="cnt" value="'+Number($(value).val())+'"/>';
+		
+	});
+	
+	console.log(fanNo);
+	console.log(pdNo);
+	console.log(cnt);
+	console.log(opNo);
+	$formId.append(fanNo);
+	$formId.append(pdNo);
+	$formId.append(opNo);
+	$formId.append(cnt);
+	$from.submit;
+}
 
 $(() => {
 	$("button[name=cart]").click(e => {

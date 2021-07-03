@@ -8,6 +8,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.simpson.kisen.admin.model.vo.Sales;
+import com.simpson.kisen.admin.model.vo.SalesTotalPrice;
 import com.simpson.kisen.agency.model.vo.Agency;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.idol.model.vo.IdolImg;
@@ -194,6 +196,16 @@ public class AgencyDaoImpl implements AgencyDao {
 	@Override
 	public int updateWaybill(Payment payment) {
 		return session.update("agency-sales.updateWaybill", payment);
+	}
+
+	@Override
+	public SalesTotalPrice selectTotalPrice(Map<String, Object> param) {
+		return session.selectOne("agency-sales.selectTotalPrice", param);
+	}
+
+	@Override
+	public List<Sales> selectDaySales(Map<String, Object> param) {
+		return session.selectList("agency-sales.selectDaySales", param);
 	}
 	
 	

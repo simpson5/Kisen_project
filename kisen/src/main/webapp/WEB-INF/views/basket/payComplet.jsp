@@ -88,27 +88,75 @@ img#plus{
 		 </div>
 		<div class="py-1 d-flex justify-content-centern"  >
 			<div class="p-2 mx-auto" style="text-align: center;">
-		 	 	<mark id="marks">주문 내역</mark>
 		 	 	<div class="p-2">
 		 	 	<ul>
-			 			<li>BLACK PINK 5TH ALBUM /옵션: 멤버별 포카 4종 증정</li>
-			 			<li>공원소녀 5TH MINI ALBUM /옵션: 멤버별 포카 4종 증정 및 파우치 증정</li>
-			 			<li>EVER GLOW 3TH ALBUM /옵션: 멤버별 포카 4종 증정 및 응원봉 증정 </li>
+		 	 	<c:forEach items="${historyList}" var ="historyList" >
+			 			
+			 			<input type="hidden" name="No" value="${historyList.pdNo}">
+			 			<input type="hidden" name="opN" value="${historyList.opNo}">
+			 	</c:forEach>
 			 		</ul>
 		 	 	</div>
 		 	 <hr />
 		 	 </div>
 	 	</div>
 		<div class="py-2 d-flex justify-content-center" >
-		  	<button class="btn btn-outline py-2 mx-3" id="cartAgain">주문 수정하기</button>
-		  	<button class="btn btn-outline py-2 mx-3" id="cartAgain">쇼핑 계속하기</button>
-		  	<a href="https://tracker.delivery/#/:carrier_id/:track_id" target="_blank">
-		  	<button class="btn btn-outline py-2 mx-3" id="cartAgain">배송 조회하기</button>
-		  	</a>
+		  	<button class="btn btn-outline py-2 mx-3" id="cartAgain" onclick="deleteB(this);">메인화면</button>
+		  	<input type="hidden" name="fanN" value="${loginMember.fanNo}">
 		  </div>
 
 </div>
+<form 
+	name="delCart" 
+	method="POST" 
+	id="orderFrm"
+	action="${pageContext.request.contextPath}/basket/delBasket.do">
+</form> 
 <br/><br/><br/>
+<script>
+function deleteB(obj){
+	 var $formId = $(document.delCart);
+	 console.log("formId= "+ $formId);
 
+	    var bNoHtml='';
+	    var oNoHtml='';
+	    const fanNoo = '<input type="hidden" name ="fanNo" value="'
+			+ $("[name=fanN]").val() + '"/>';
+			 const oppN = $("[name=opN]"); 
+	    //체크된 것의 bNo가져오기
+	    var one = $("[name=No]");
+		console.log(one);
+	   
+			   $.each(one, function (index, value){
+				    console.log(value);
+
+				    bNoHtml +='<input type="hidden" name ="bNo" value="'+$(value).val()+'"/>';
+
+				    });
+
+			   $.each(oppN, function (index, value){
+				    console.log(value);
+
+				    bNoHtml +='<input type="hidden" name ="opNo" value="'+$(value).val()+'"/>';
+
+				  
+				    });
+			    
+				    console.log(bNoHtml);
+				    console.log(oNoHtml);
+				    console.log(fanNoo);
+
+	
+		 $formId.append(bNoHtml);
+		 $formId.append(fanNoo);
+		 $formId.append(oNoHtml);
+		$formId.submit();
+		console.log("formId= "+ $formId);
+		
+	
+}
+
+
+</script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

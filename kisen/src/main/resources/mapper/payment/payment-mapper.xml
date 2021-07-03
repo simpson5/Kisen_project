@@ -39,8 +39,8 @@
 			
 	</select>
 	<resultMap type="paymentProduct" id="paymentResultMap">
-	 <id column ="pd_no" property="pdNo"/>
-      <result column="order_no" property="orderNo"/>
+      <id column="order_no" property="orderNo"/>
+	 <result column ="pd_no" property="pdNo"/>
       <result column="fan_no" property="fanNo"/>
 	  <result column ="payment_no" property="paymentNo"/>
 	  <result column ="pd_cnt" property="pdCnt"/>
@@ -54,8 +54,8 @@
    
       
      <collection property="productImg" ofType="ProductImg">
-          <id column="pd_no" property="pdNo"/>
-          <result column="pd_img_no" property="pdImgNo"/>
+          <id column="pd_img_no" property="pdImgNo"/>
+          <result  column="pd_no" property="pdNo"/>
           <result column="pd_category" property="pdCategory"/>
           <result column="original_filename" property="originalFilename"/>
           <result column="renamed_filename" property="renamedFilename"/>
@@ -77,7 +77,10 @@
 	
 	<select id="selectBasketList" resultMap="basketMap">
 		 select
-            b.*,
+            b.fan_no,
+            b.product_no,
+            b.pd_amount,
+            b.option_no,
 			p.pd_name,
 			p.pd_content,
 			p.price,
@@ -86,49 +89,39 @@
 			po.option_name
 		from
 			basket b
-		left join
+	 join
 			product p
 		on
 			b.product_no = p.pd_no
-	left join 
+	 join 
 			pd_img pi
 		on
 			b.product_no = pi.pd_no
-   left join
+    join
 			pd_option po
 		on
 			b.option_no = po.option_no
 	<where> 
-			b.fan_no = #{fanNo}
-			
+			b.fan_no = #{fanNo}	
         and 
-            pi.pd_category is null 
-       or 
-       	pi.pd_category= 'D'
+       		pi.pd_category != 'D'
 	</where>	
 	</select>
 		<resultMap type="basket" id="basketMap">
-	 <id column="product_no" property="pdNo"/>  
-          <result column="idol_no" property="idolNo"/>
-          <result column="pd_category" property="pdCategory"/>
-          <result column="pd_name" property="pdName"/>
+         <id column="fan_no" property="fanNo"/>
+		 <result column="product_no" property="pdNo"/>  
           <result column="pd_amount" property="pdAmount"/>
-          <result column="pd_content" property="pdContent"/>
+          <result column="option_no" property="opNo"/> 
+          <result column="pd_name" property="pdName"/>
+          <result column="pd_content" property="pdContent"/>  
           <result column="price" property="price"/>
-          <result column="pd_stock" property="pdStock"/>
-          <result column="pd_sales" property="pdSales"/>
-          <result column="sales_date" property="salesDate"/>
-          <result column="option_no" property="opNo"/>
-          <result column="fan_no" property="fanNo"/>
-          
-      
+          <result column="pd_no" property="pdNo"/>
+   
      <collection property="productImg" ofType="ProductImg">
           <id column="pd_no" property="pdNo"/>
           <result column="pd_img_no" property="pdImgNo"/>
           <result column="pd_category" property="pdCategory"/>
-          <result column="original_filename" property="originalFilename"/>
           <result column="renamed_filename" property="renamedFilename"/>
-          <result column="upload_date" property="uploadDate"/>
       </collection>
       
        <collection property="productOption" ofType="ProductOption">
@@ -140,6 +133,7 @@
 	
 	<select id="selectUdList" resultMap="udMap">
 		select
+			u.demand_no,
 			u.pd_name,
 			u.idol_name,
 			u.pd_category,
@@ -204,48 +198,110 @@
      
 	</where>
 	</select>
+	
 	<delete id="deleteCart">
 		delete from
 			basket
-		<where> 
+		<where>
+		fan_no = #{fanNo}
+		and
 		<if test="bNo != nulll">
 		product_no in
 		<foreach  collection="bNo" item="b" open="(" close=")" separator=",">
 	 		#{b} 
 	 	</foreach>
-
+	 	</if>
+	 	and
+		<if test="opNo != nulll">
+		option_no in
+		<foreach  collection="opNo" item="op" open="(" close=")" separator=",">
+	 		#{op} 
+	 	</foreach>	
 	 	</if>
 	</where>
 	</delete>
 	
 	
-	<!-- <insert id="insertPaymentHistory">
+	<insert id="insertPaymentHistory">
 		insert into
 			payment_history
 		values (
 			seq_payment_history_no.nextval,
-			#{fNo},
-			#{ptype},
+			#{fanNo},
+			#{payType},
 			null,
 			default,
-			#{sumA},
+			#{amount},
 			null,
 			null,
-			#{total}	
+			#{price}	
 		)
  
+		<selectKey keyProperty="paymentNo" resultType="_int" order="AFTER">
+			select 
+				seq_payment_history_no.currval
+			from
+			 	dual
+		</selectKey>
 	</insert> 
 	<insert id="insertPaymentProduct">
 		insert into
 			payment_product
 		values (           
-           seq_order_no.nextval,
-			#{fNo},
-	 		#{pdNoo},
-			seq_payment_product_no.nextval,
+           seq_payment_product_no.nextval,
+			#{fanNo},
+	 		#{pdNo},
+			#{paymentNo},	
 			default,
-			#{opNoo}	       
+			<if test="opNo eq 0">
+			default
+			</if>	
+			<if test="opNo neq 0">
+			#{opNo}	
+			</if>
            )
 	
-	</insert> -->
+	</insert> 
+	<select  id="selectHistory" resultMap="historyMap">
+		select
+            pp.pd_no,
+            pp.option_no,
+			p.pd_name
+		from
+			payment_product pp
+		left join
+			product p
+		on 
+			pp.pd_no = p.pd_no
+      where 
+                fan_no = #{fanNo}
+	
+	</select>
+		<resultMap type="paymentProduct" id="historyMap">
+	 <id column="order_no" property="orderNo"/>  
+          <result column="pd_no" property="pdNo"/>
+          <result column="fan_no" property="fanNo"/>
+          <result column="pd_cnt" property="pdCnt"/>
+          <result column="payment_no" property="paymentNo"/>
+          <result column="pay_date" property="payDate"/>
+          <result column="option_no" property="opNo"/>
+          <result column="price" property="price"/>
+          <result column="pay_type" property="payType"/>
+          <result column="amount" property="amount"/>
+          <result column="point" property="point"/>
+          <result column="waybill" property="waybill"/>
+ 
+
+     <collection property="product" ofType="Product">
+       	 <id column="pd_no" property="pdNo"/> 
+          <result column="pd_name" property="pdName"/>
+          <result column="pd_content" property="pdContent"/>  
+          <result column="price" property="price"/>
+          <result column="pd_stock" property="pdStock"/>
+          <result column="pd_sales" property="pdSales"/>
+          <result column="sales_date" property="salesDate"/>
+      </collection>
+      
+       
+	</resultMap>
 </mapper>

@@ -178,6 +178,21 @@
 			#{opNo}
 		)
 	</insert>
+	<insert id="insertBasketNoOption">
+		insert into
+			basket(
+				fan_no,
+				product_no,
+				pd_amount,
+				option_no
+			)
+		values(
+			#{fanNo},
+			#{pdNo},
+			#{pdAmount},
+			'0'
+		)
+	</insert>
 	
 	<select id="selectOption" resultType="productOption">
 		select

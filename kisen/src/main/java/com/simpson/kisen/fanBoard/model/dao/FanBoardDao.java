@@ -43,4 +43,11 @@ public interface FanBoardDao {
 
 	int selectOneReadCnt(int fbNo);
 
+	int updateFanBoard(FanBoardExt fanBoard);
+
+	int deleteFbAttachment(String attachNo);
+
+	int selectOneIdolNo(int no);
+
+	FanBoardExt selectOneFanBoard(int no);
 }

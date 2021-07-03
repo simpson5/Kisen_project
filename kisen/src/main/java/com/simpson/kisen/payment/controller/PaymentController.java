@@ -1,6 +1,7 @@
 package com.simpson.kisen.payment.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,8 +34,6 @@ public class PaymentController {
 	
 	@Autowired
 	private PaymentService paymentService;
-	@Autowired
-	private static final String HOST = "https://kapi.kakao.com";
 	
 	@GetMapping("/cart.do")
 	public void cart(Authentication authentication, Model model) {
@@ -44,7 +43,7 @@ public class PaymentController {
 		List<Basket> basketList = paymentService.selectBasketList(principal.getFanNo());
 			
 			model.addAttribute("loginMember", principal);
-		model.addAttribute("basketList", basketList);
+		model.addAttribute("basketList", basketList); //그냥 이렇게.. 팬 번호 랑 엮어서 조회햇습니당
 			
 			
 			log.info("basketList = {}", basketList);
@@ -61,7 +60,8 @@ public class PaymentController {
 		try {
 			Fan principal = (Fan) authentication.getPrincipal();
 			log.info("bNo = {}",bNo);
-			log.info("total = {}",total);
+			log.info("total = {}",total); //여기가 그 결제 부분인데 이부분에는 그 저 pdno가 필요해서 아마 아까 그부분에서 리다이렉트로 넘길때 pdno를 같이 보내야 할거 같..ㅅ비다
+			//장바구니 insert는 없나요?그거 지금 원영님이...하시는줄 알았는데 아니더라구요 제가 해야 한다고 해서 
 			
 			Map<String, Object> param = new HashMap<>();
 			param.put("bNo", bNo);
@@ -81,45 +81,65 @@ public class PaymentController {
 		}
 	}
 	@GetMapping("/payComplet.do")
-	public void payComplet() {
-		
+	public void payComplet(Authentication authentication, Model model) {
+		try {
+			Fan principal = (Fan) authentication.getPrincipal();
+			
+		List<PaymentProduct> historyList = paymentService.selectHistory(principal.getFanNo());
+			
+			model.addAttribute("loginMember", principal);
+		model.addAttribute("historyList",historyList ); //그냥 이렇게.. 팬 번호 랑 엮어서 조회햇습니당
+			
+			
+			log.info("historyList = {}", historyList);
+			log.info("authentication = {}", authentication);
+			log.info("principal = {}", principal);
+		} catch (Exception e) {
+			log.error("장바구니 내역 불러오기 오류!", e);
+			throw e;
+		}
 	}
+	
 	@PostMapping("/insertPay.do")
-	public String insertPay(@RequestParam String[] pdNoo,
-			@RequestParam int[] opNoo, @RequestParam int total, @RequestParam int sumA,
-			@RequestParam String fNo, @RequestParam String ptype,							  
+	public String insertPay(@RequestParam int[] pdNoo,
+			@RequestParam(value = "opNoo") List<String> opNoo, @RequestParam int total, @RequestParam int sumA,
+			@RequestParam String fanNo, @RequestParam String ptype,							  
 			RedirectAttributes redirectAttr) {
 		try {
 			log.info("pdNoo = {}",pdNoo);
-			log.info("opNoo = {}",opNoo);
-			log.info("fNo = {}",fNo);
+			log.info("opNoo = {}",opNoo.toString());
+			log.info("fNo = {}",fanNo);
 			log.info("total = {}",total);
 			log.info("sumA = {}",sumA);
 			log.info("ptype = {}",ptype);
+		
+					
+			List<PaymentProduct> pList = new ArrayList<PaymentProduct>();
+			for(int i=0 ;i< opNoo.size() ;i++) {
+				PaymentProduct pp = new PaymentProduct();
+				pp.setFanNo(fanNo);
+				
+				String[] array = opNoo.get(i).split("-");
+				String pdNo = array[0];
+				String opNo = array[1];
+				pp.setPdNo(pdNo);
+				if (!opNo.equals("0")) {
+					pp.setOpNo(Integer.parseInt(opNo)); 
+				}
+				pList.add(pp);
+			}
 			
-			PaymentProduct pp = new PaymentProduct();
-			pp.setFanNo(fNo);
-//			pp.setOpNo(opNoo);
-//			pp.setPdNo(pdNoo);
-			// 아하 슬슬 이해된다
 			
-			
-			log.info("pp = {}",pp);
-			
-			
-			 List<PaymentProduct> pList = new ArrayList<PaymentProduct>();
-			 pList.add(pp);
-			 
-			 
 			Payment payHistory = new Payment();
 			payHistory.setPrice(total);
 			payHistory.setAmount(sumA);
-			payHistory.setFanNo(fNo);
+			payHistory.setFanNo(fanNo);
 			payHistory.setPayType(ptype);
+			 
 			
 			Map<String, Object> param = new HashMap<>();
 			param.put("payHistory", payHistory);
-			param.put("pp", pp);
+			param.put("pList", pList);
 			
 			log.info("param= {}",param);
 			
@@ -135,13 +155,15 @@ public class PaymentController {
 	
 	
 	@PostMapping("/delCart.do")
-	public String delCart(@RequestParam String [] bNo, RedirectAttributes redirectAttr) {
+	public String delCart(@RequestParam String [] bNo, @RequestParam String fanNo, @RequestParam int[] opNo, RedirectAttributes redirectAttr) {
 		
 		try {
 			log.info("bNo = {}",bNo);
 			
 			Map<String, Object> param = new HashMap<>();
 			param.put("bNo", bNo);	
+			param.put("fanNo", fanNo);
+			param.put("opNo", opNo);
 			//1. 업무로직
 			int result = paymentService.deleteCart(param);
 		
@@ -153,5 +175,40 @@ public class PaymentController {
 		}
 		return "redirect:/basket/cart.do";
 	}
+	@PostMapping("delBasket.do")
+	public String delBasket(@RequestParam String[] bNo, @RequestParam String fanNo,@RequestParam int[] opNo) {
+		
+		try {
+			log.info("bNo = {}",bNo);
+			
+			Map<String, Object> param = new HashMap<>();
+			param.put("bNo", bNo);	
+			param.put("fanNo", fanNo);	
+			param.put("opNo", opNo);	
+			//1. 업무로직
+			int result = paymentService.deleteCart(param);
+			
+		} catch(Exception e) {
+			log.error("장바구니 삭제 오류", e);
+			throw e;
+		}
+		return "redirect:/";
+	}
 	
+	@PostMapping("/buyNow.do")
+	public String insertBasket(@RequestParam String fanNo, @RequestParam String pdNo,
+			@RequestParam int cnt, @RequestParam int opNo,RedirectAttributes redirectAttr
+			 ) { 
+			
+			Basket bs = new Basket();
+			bs.setFanNo(fanNo);
+			bs.setOpNo(opNo);
+			bs.setPdNo(pdNo);
+			bs.setPdAmount(cnt);
+		
+			int bsket = paymentService.insertBasket(bs);
+		
+			redirectAttr.addFlashAttribute("msg", "선택상품 삭제 성공!");
+		return null;
+	}
 }

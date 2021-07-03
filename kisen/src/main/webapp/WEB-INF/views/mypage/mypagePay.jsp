@@ -180,7 +180,7 @@ img#productImg{
 	<br />
   <div class="row mx-auto" >
     <div class="col border border-dark border-left-0 border-top-0 border-bottom-0" id="innerContent">
-     <a href="${pageContext.request.contextPath}/mypage/mypageform.do">만든폼 </a>
+      <a href="${pageContext.request.contextPath}/mypage/mypageform.do"><button type="button" class="btn btn-outline-warning" >만든폼</button> </a>
      <br /><br />
      <span class="font-weight-bold" >0</span>
     </div>
@@ -200,28 +200,6 @@ img#productImg{
 </div>
  <br />
  <hr />
-<!-- 구매내역 결과 -->
- <!-- <div class="row mx-auto my-3" >
-	<div class="btn-group col" ></div>
-	<div class="btn-group col " ></div>
-	<div class="btn-group col " ></div>
-	<div class="btn-group col mx-5" >
-	  <button type="button" class="btn btn-danger dropdown-toggle " 
-	  			data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-	  			id="searchBtn" >
-	    조회기간
-	  </button>
-	  <div class="dropdown-menu">
-	    <a class="dropdown-item" href="#">1개월</a>
-	    <a class="dropdown-item" href="#">3개월</a>
-	    <a class="dropdown-item" href="#">6개월</a> 
-	  </div>
-	</div>
-	<div class="btn-group col" ></div>
-	<div class="btn-group col" ></div>
-	<div class="btn-group col" ></div>
-</div> -->
-
 
 <!-- 결제내역 이것도 약간 수저어엉ㅇ
 

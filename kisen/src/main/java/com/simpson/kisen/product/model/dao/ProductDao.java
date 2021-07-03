@@ -27,6 +27,8 @@ public interface ProductDao {
 
 	ProductOption selectOptionNo(String opName);
 
+	int insertBasketNoOption(Basket basket);
+
 	
 	
 }

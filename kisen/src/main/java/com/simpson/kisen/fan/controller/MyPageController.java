@@ -113,7 +113,7 @@ public class MyPageController {
 	@PostMapping("/updateMypage.do")
 	public String updateMypgae (@ModelAttribute Fan updateFan, @RequestParam String addressExt1,
 			@RequestParam String addressExt2, @RequestParam String addressExt3,Authentication oldAuthentication,
-			RedirectAttributes redirectAttr) {
+			RedirectAttributes redirectAttr,  @RequestParam String fanNo) {
 		log.info("수정요청 fan = {}", updateFan);
 		try {
 			String rawPassword = updateFan.getPassword();
@@ -121,7 +121,7 @@ public class MyPageController {
 			// member에 암호화된 비밀번호 다시 세팅
 			updateFan.setPassword(encodedPassword);
 			updateFan.setAddress(updateFan.getAddress() + "-" + addressExt1 + "-" + addressExt2 + "-" + addressExt3);
-				
+			updateFan.setFanNo(fanNo);	
 			Collection<? extends GrantedAuthority> oldAuthorities = 
 						oldAuthentication.getAuthorities();
 			

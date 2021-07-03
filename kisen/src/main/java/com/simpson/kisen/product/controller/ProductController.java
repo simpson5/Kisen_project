@@ -90,7 +90,7 @@ public class ProductController {
 	
 	@PostMapping("/insertBasket")
 	@ResponseBody
-	public void insertBasket(
+	public String insertBasket(
 			@RequestParam(name="pdNo") int pdNo,
 			@RequestParam(name="pdAmount") int pdAmount,
 			@RequestParam(name="opName") String opName,
@@ -103,20 +103,28 @@ public class ProductController {
 		product = productService.selectOneProduct(pdNo);		
 		ProductOption productOption= productService.selectOptionNo(opName);
 		
-		
+		int result = 0;
 		Basket basket = new Basket();
 		basket.setFanNo(loginMember.getFanNo());
 		basket.setPdNo(product.getPdNo());
 		basket.setPdAmount(pdAmount);
 		if(productOption != null) {
 			basket.setOpNo(productOption.getOptionNo());			
+			result = productService.insertBasket(basket);
+		}else {
+			result = productService.insertBasketNoOption(basket);
 		}
+		String msg = "";
 		
-		int result = productService.insertBasket(basket);
-		
+		if(result > 0) {
+			msg = "장바구니 담기 성공!";
+		}else {
+			msg = "장바구니 담기 실패!";
+		}
 		log.info("result={}",result);
 		log.info("product={}",product);
 		log.info("pdNo={}",pdNo);
 		
+		return msg;
 	}
 }

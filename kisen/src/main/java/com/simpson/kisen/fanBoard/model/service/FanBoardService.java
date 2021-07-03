@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.simpson.kisen.fan.model.vo.Authority;
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.fanBoard.model.vo.FanBoard;
 import com.simpson.kisen.fanBoard.model.vo.FanBoardExt;
 import com.simpson.kisen.fanBoard.model.vo.FbAttachment;
@@ -42,5 +43,11 @@ public interface FanBoardService {
 	int updateFbReadCnt(int fbNo);
 
 	int selectOneReadCnt(int fbNo);
+
+	int updateFanBoard(FanBoardExt fanBoard, String[] attachNoes);
+
+	int selectOneIdolNo(int no);
+
+	FanBoard selectOneFanBoard(int no);
 
 }

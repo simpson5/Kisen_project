@@ -83,6 +83,8 @@
 			on b.fb_no = a.fb_no
 	where
 		b.fb_no = #{no}
+		and
+		a.status = 'Y'
 </select>
 <resultMap type="fanBoardExt" id="boardCollectionMap">
 	<!-- collection태그 사용할 때는 생략없이 모든 컬럼을 매칭시켜야 한다. -->
@@ -233,4 +235,42 @@
 	where 
 		fb_no = #{fbNo}
 </select>
+<!-- =========================== [ 게시글 수정 - fanBoard ] =========================== -->
+<update id="updateFanBoard">
+	update
+		fan_board
+	set
+		idol_no = #{idolNo},
+		fb_content = #{fbContent}, 
+		fb_title =  #{fbTitle} 
+	where
+		fb_no = #{fbNo}
+</update>
+<!-- =========================== [ 게시글 수정 - fbAttachment (삭제) ] =========================== -->
+<update id="deleteFbAttachment">
+	update 
+		fb_attachment 
+	set 
+		status = 'N' 
+	where 
+		fb_attach_no = #{attachNo}
+</update>
+<!-- =========================== [ 아이돌 번호 찾기 ] =========================== -->
+<select id="selectOneIdolNo" resultType="_int">
+	select 
+		idol_no 
+	from 
+		fan_board 
+	where
+		fb_no = #{no}
+</select>
+<!-- =========================== [ 게시글 조회 - 첨부파일이 없는 경우 ] =========================== -->
+<select id="selectOneFanBoard" resultType="fanBoardExt">
+	select 
+		*
+	from 
+		fan_board
+	where fb_no = #{no}
+</select>
+
 </mapper>

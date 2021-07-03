@@ -19,6 +19,7 @@ public class PaymentProduct extends Payment{
 	private String orderNo;//주문번호
 	private int pdCnt;//구매수량
 	private int opNo;//옵션 번호
+	private int paymentNo;
 	private  ProductImg productImg; //상품 이미지 
 	private Product product;
 }
