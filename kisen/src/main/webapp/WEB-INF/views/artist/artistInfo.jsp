@@ -328,11 +328,9 @@ p.album-singer{
 	    </div>
 			
 		<div class="row artist-pan-board" style="display: none;">
-			<!-- 
 			<jsp:include page="/WEB-INF/views/fanBoard/fanBoardList.jsp">
 				<jsp:param value="${param.no}" name="artistNo" />
 			</jsp:include>
-			 -->
 	    </div>
 	    
 	</div>
@@ -388,7 +386,7 @@ $(() => {
 		var no = $no.data("no");
 		console.log(no);
 		
-		location.href = "${pageContext.request.contextPath}/basket/cart;
+		location.href = "${pageContext.request.contextPath}/basket/cart}";
 	});
 });
 

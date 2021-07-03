@@ -675,7 +675,9 @@ $("[name=option-select]").change(function(e){
 	console.log($(e.target).val());
 	var option = $(e.target).val();
 	$table
-		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option">`+option +`</span></p></td>
+		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option">`
+			+option +
+			`</span></p></td>
 			<td colspan="1" class="col-1"><span
 			style="position: relative; display: inline-block;"> <input
 				type="text" class="form-controller" name="stock" value="1" min="1" size="3"/>
@@ -723,20 +725,25 @@ $(() => {
 		
 		//const product = $("[name=pd]").val();
 		//const pro = "{"+product+"}";
-		var product = "${product}";
-		console.log(product);
-		var json = JSON.stringify(product);
-		jQuery.ajaxSettings.traditional = true;
-
 		
+		var pdNo = "${product.pdNo}";
+		var pdAmount = $("[name=stock]").val();
+		var opName = $(".add-option").text();
+		console.log(opName);
+		console.log(pdAmount);
+		var data = new FormData();
+		data.append("pdNo",pdNo);
+		data.append("pdAmount",pdAmount);
+		data.append("opName",opName);
 		//console.log(json);
 		$.ajax({
-	        data: {"json" : JSON.stringify(product)},
-	        dataType : "json",
+	        data: data,
 	        type: "POST",
+	        dataType: data,
+	        cache: false,
+	        processData: false,
+			contentType: false,
 	        url: '${pageContext.request.contextPath}/product/insertBasket',
-        	traditional : true,
-        	contentType : 'application/json; charset=utf-8;',
 	        success: function(json) {
 	      		//console.log(json);
 	      		confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");

@@ -20,12 +20,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.simpson.kisen.common.util.HelloSpringUtils;
 import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.product.model.service.ProductService;
+import com.simpson.kisen.product.model.vo.Basket;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
+import com.simpson.kisen.product.model.vo.ProductOption;
 import com.simpson.kisen.review.model.service.ReviewService;
 import com.simpson.kisen.review.model.vo.ReviewExt;
 
 import lombok.extern.slf4j.Slf4j;
-import net.sf.json.JSONObject;
 
 
 @Controller
@@ -34,6 +35,8 @@ import net.sf.json.JSONObject;
 public class ProductController {
 	@Autowired
 	private ProductService productService;
+	
+	
 	
 	@Autowired
 	private ReviewService reviewService;
@@ -85,13 +88,35 @@ public class ProductController {
 	}
 	
 	
-	@PostMapping(value="insertBasket", produces="application/json; charset=utf-8")
+	@PostMapping("/insertBasket")
 	@ResponseBody
-	public String insertBasket(
-			@RequestParam(value="json" ,required = false) String json
+	public void insertBasket(
+			@RequestParam(name="pdNo") int pdNo,
+			@RequestParam(name="pdAmount") int pdAmount,
+			@RequestParam(name="opName") String opName,
+			Authentication authentication,
+			@ModelAttribute ProductImgExt product,
+			Model model
 			) {
-		log.info("json = {}",json);
-	 
-		return "";
+		
+		Fan loginMember = (Fan) authentication.getPrincipal();
+		product = productService.selectOneProduct(pdNo);		
+		ProductOption productOption= productService.selectOptionNo(opName);
+		
+		
+		Basket basket = new Basket();
+		basket.setFanNo(loginMember.getFanNo());
+		basket.setPdNo(product.getPdNo());
+		basket.setPdAmount(pdAmount);
+		if(productOption != null) {
+			basket.setOpNo(productOption.getOptionNo());			
+		}
+		
+		int result = productService.insertBasket(basket);
+		
+		log.info("result={}",result);
+		log.info("product={}",product);
+		log.info("pdNo={}",pdNo);
+		
 	}
 }

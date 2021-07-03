@@ -36,17 +36,6 @@ public class PaymentController {
 	@Autowired
 	private static final String HOST = "https://kapi.kakao.com";
 	
-	@PostMapping("/insertBasket")
-	public void insertBarsket(
-			@RequestParam(value="json") ProductImgExt product,
-			HttpServletRequest request,
-			Authentication authentication,
-			Model model 	
-			) {
-		log.info("product = {}", product);
-		log.info("1");
-	}
-	
 	@GetMapping("/cart.do")
 	public void cart(Authentication authentication, Model model) {
 		try {

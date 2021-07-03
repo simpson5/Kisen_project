@@ -9,13 +9,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Basket extends Product{
+public class Basket {
 	
 	private String fanNo;
-	private int pdAmount;
 	private String pdNo;
-	private ProductImg productImg;
-	private ProductOption productOption;
+	private int pdAmount;
 	private int opNo;
 
 }
