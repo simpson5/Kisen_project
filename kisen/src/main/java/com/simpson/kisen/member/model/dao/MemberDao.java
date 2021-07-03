@@ -31,8 +31,10 @@ public interface MemberDao {
 
 	Fan selectOneMemberByEmail(String email);
 
-	Fan selectOneMemberByPhone(Map<String, Object> param);
+	Fan selectOneMemberByPhone(Fan fan);
 
 	int updatePwdToTempPwd(Fan member);
+
+	Fan selectOneMemberByPhoneGet(Map<String, Object> param);
 
 }

@@ -405,3 +405,10 @@ tr:hover {
 	width: 110.3%;
     margin: 14px -47px 40px
 }
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #9995a0;
+    border-color: #9995a0;
+}

@@ -33,11 +33,16 @@ public class ArtistController {
 	public void artistInfo(
 				@RequestParam(name="no") int no,
 				Authentication authentication,
-				Model model
+				Model model,
+				@RequestParam(required= true, defaultValue = "1") int cPage,
+				@RequestParam(required= true, defaultValue = "0") int fbActive
 			) {
 		if(authentication != null) {
 			Fan loginMember = (Fan) authentication.getPrincipal();				
 			model.addAttribute("loginMember",loginMember);
+		}
+		if(fbActive != 0) {
+			fbActive = 1;
 		}
 		List<ProductImgExt> idolProductList = productService.selectIdolProductList(no);
 		List<ProductImgExt> idolAlbumList = productService.selectIdolAlbumList(no);
@@ -48,6 +53,8 @@ public class ArtistController {
 		model.addAttribute("idol", idol);
 		model.addAttribute("idolProductList",idolProductList);
 		model.addAttribute("idolAlbumList",idolAlbumList);
+		model.addAttribute("cPage",cPage);
+		model.addAttribute("fbActive",fbActive);
 	}
 
 

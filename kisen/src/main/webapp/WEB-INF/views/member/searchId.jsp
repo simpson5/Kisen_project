@@ -197,7 +197,8 @@ $("[name=searchPhoneFrm]").submit(function(){
 	var phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
 	var searchPhoneFrm = $("[name=searchPhoneFrm]");
     var patternPhone = new RegExp("01[016789][^0][0-9]{2,3}[0-9]{3,4}");  
-   
+
+    console.log(name);
   	// 1. 이름을 입력하지 않은 경우
   	if(name == ''){
 		$("#phoneName").focus();

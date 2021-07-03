@@ -115,12 +115,14 @@
     </div>
     <div>
         <label for="phone">휴대폰<span class="required-mark"> *</span></label>
-        <input type="tel" class="fill-in-area" name="phone" id="phone" placeholder="-없이 번호만 입력">
+        <input type="tel" class="fill-in-area add1" name="phone" id="phone" placeholder="-없이 번호만 입력">
+        <button type="button" class="add-btn reqBtn" name="req-btn">인증번호 요청</button>
+        <p id="chkNoticePhoneNo" class="chkNotice"></p>
         <div id="phone-authentication">
-            <input type="text" class="fill-in-area add1" placeholder="인증번호">
-            <input type="button" class="add-btn" onclick="requestEmail()" value="인증번호 요청"><br>
+            <input type="text" class="fill-in-area" id="chkPhone" placeholder="인증번호">
         </div>
         <p id="chkNoticePhone" class="chkNotice"></p>
+        <input type="hidden" id="phoneValid" value="0"/> <!-- 이걸 보고 memberForm을 submit하는지 마는지의 여부를 결정 -->
     </div>
     <div>
         <label for="birthday">생년월일</label>
@@ -151,16 +153,60 @@
     <input type="submit" class="submit-btn" value="회원가입" >
 </form:form>
 </div>
-
 <script>
-// 인증번호 요청 클릭 이벤트
-function requestEmail(){
-    $('#chkNoticeEmail').html('인증번호를 발송했습니다. 인증번호가 오지 않으면 입력하신 정보가 정확한지 확인하여 주세요. 이미 가입된 이메일이거나, 가상이메일은 인증번호를 받을 수 없습니다.').css("color","red");
-}
+$(function () {
+	chkPhone = $("#chkPhone");
+	chkNoticePhone = $("#chkNoticePhone");
+	phoneValid = $("#phoneValid");
+    rndStr = 0;
+    chkNoticePhoneNo = $("#chkNoticePhoneNo");
+	for(var i = 0; i < 4; i++){
+	 	rndStr = rndStr + "" + Math.floor(Math.random() * 10);
+	};
+	
+	$(document).on('click', '.reqBtn', function(e){
+    	var patternPhone = new RegExp("01[016789][^0][0-9]{2,3}[0-9]{3,4}");  
+		var phone = $("#phone").val();
+		if(!patternPhone.test(phone)){
+			chkNoticePhoneNo.html('휴대폰번호를 바르게 입력해주세요.').css("color","red");
+	    } else {
+			$("#chkNoticePhone").html('고객님의 휴대폰번호로 인증번호를 발송하였습니다. 인증문자를 받지 못하였다면 입력하신 휴대폰번호를 확인해주세요.').css("color","red");
+		    $.ajax({
+		        url : "${pageContext.request.contextPath}/member/sendSMS.do",
+		        data : {
+		           phone:phone,
+		           rndStr:rndStr},
+		        success : data => {
+		           if(success) {
+		           }
+		        },
+		        error : (xhr, stautsText, err) => {
+		           console.log(xhr, statusText, err);
+		        }
+		     });
+		}
+	});
 
-// 실시간 유효성검사
-
-
+	$("#chkPhone").blur(e => {
+		if(rndStr != chkPhone.val()){
+			chkNoticePhone.html('인증번호가 일치하지 않습니다.').css("color","red");
+			phoneValid.val(0);
+		} else {
+			chkNoticePhone.html('인증에 성공하였습니다.').css("color","red");
+			phoneValid.val(1);
+		}
+	})
+	
+	$("#chkPhone").keyup(e => {
+		chkNoticePhone.html('');		
+	})
+	
+	$("#phone").keyup(e => {
+		chkNoticePhoneNo.html('');		
+	})
+});
+</script>
+<script>
 // 제출시 유효성 검사
 $("[name=signupFrm]").submit(function(){
 
@@ -192,10 +238,22 @@ $("[name=signupFrm]").submit(function(){
     var $phone = $("#phone");
     var patternPhone = new RegExp("01[016789][^0][0-9]{2,3}[0-9]{3,4}");  
 	var $phoneOffset = $("#phone").offset();
+	var $phoneValid = $("#phoneValid");
     if(!patternPhone.test($phone.val())){
 		$("html body").animate({scrollTop:$phoneOffset.top},2000);
         $phone.focus();
         $('#chkNoticePhone').html('휴대폰 번호를 바르게 입력해주세요.').css("color","red");
+        $phone.keyup(function(){
+            if($phone.val() != ''){
+                $('#chkNoticePhone').html('').css("color","red");
+            }
+        });
+        return false;
+    }
+    if($phoneValid.val() == 0){
+		$("html body").animate({scrollTop:$phoneOffset.top},2000);
+        $phone.focus();
+        $('#chkNoticePhone').html('휴대폰 본인인증을 진행해주세요.').css("color","red");
         $phone.keyup(function(){
             if($phone.val() != ''){
                 $('#chkNoticePhone').html('').css("color","red");

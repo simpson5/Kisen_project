@@ -73,13 +73,18 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public Fan selectOneMemberByPhone(Map<String, Object> param) {
-		return session.selectOne("member.selectOneMemberByPhone", param);
+	public Fan selectOneMemberByPhone(Fan fan) {
+		return session.selectOne("member.selectOneMemberByPhone", fan);
 	}
 
 	@Override
 	public int updatePwdToTempPwd(Fan member) {
 		return session.update("member.updatePwdToTempPwd", member);
+	}
+
+	@Override
+	public Fan selectOneMemberByPhoneGet(Map<String, Object> param) {
+		return session.selectOne("member.selectOneMemberByPhoneGet", param);
 	}
 	
 }
