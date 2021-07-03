@@ -94,11 +94,6 @@ public class FanBoardServiceImpl implements FanBoardService {
 	}
 
 	@Override
-	public int chkLikeAvailable(String fbNo, String fanId) {
-		return fanBoardDao.chkLikeAvailable(fbNo, fanId);
-	}
-
-	@Override
 	public int insertfbReply(FbComment fbReply) {
 		return fanBoardDao.insertfbReply(fbReply);
 	}

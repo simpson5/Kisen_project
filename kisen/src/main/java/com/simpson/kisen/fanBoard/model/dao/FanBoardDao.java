@@ -31,8 +31,6 @@ public interface FanBoardDao {
 
 	int deleteFanBoard(int fbNo);
 
-	int chkLikeAvailable(String fbNo, String fanId);
-
 	int insertfbReply(FbComment fbReply);
 
 	List<FanBoard> searchKeyword(String searchKeyword);
