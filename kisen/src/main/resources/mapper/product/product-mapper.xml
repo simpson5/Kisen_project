@@ -200,6 +200,6 @@
 		from
 			pd_option
 		where
-			option_name = #{opName}
+			option_no = #{opNoList}
 	</select>
 </mapper>

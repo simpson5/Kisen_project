@@ -361,18 +361,19 @@ textarea.autosize {
 						<c:if test="${not loop_flag}">	
 							<c:if test="${not empty pdOp.optionName}">	
 							<c:set var="loop_flag" value="true"/>
-							<tr>
-								<th>옵션</th>
-								<td colspan="3" style="border: 0; outline: 0;"><select
-									class="form-select" aria-label="Default select example"
-									name="option-select">
-									
-										<option selected>- [필수] 옵션을 선택해 주세요 -</option>
-										<c:forEach items="${product.pdOptionList}" var="pdOp">
-											<option value="${pdOp.optionName}">${pdOp.optionName}</option>
-										</c:forEach>
-								</select></td>
-							</tr>
+							 <tr>
+		                        <th>옵션</th>
+		                        <td colspan="3" style="border: 0; outline: 0;"><select
+		                           class="form-select" aria-label="Default select example"
+		                           id="opSelc"
+		                           name="option-select">
+		                           
+		                              <option selected>- [필수] 옵션을 선택해 주세요 -</option>
+		                              <c:forEach items="${product.pdOptionList}" var="pdOp">
+		                                 <option value="${pdOp.optionName}" value2="${pdOp.optionNo}" data-no="${pdOp.optionNo}">${pdOp.optionName}</option>
+		                              </c:forEach>
+		                        </select></td>
+		                     </tr>
 							</c:if>
 						</c:if>
 						</c:forEach>
@@ -647,6 +648,7 @@ $(".select-option").on("click", ".delete", e => {
 	console.log(op);
 	$("[name=option-select]").append("<option value="+op+">"+op+"</option>");
 });
+
 function total(){
 	var cnt = 0;
 	var get_input = $(".form-controller");
@@ -675,10 +677,14 @@ $("[name=option-select]").change(function(e){
 	}
 	
 	var $table = $("<table></table>");
-	console.log($(e.target).val());
+	//console.log($(e.target).val());
 	var option = $(e.target).val();
+	console.log(option);
+	var opNo = $("#opSelc option:selected").attr("value2");
+	console.log(opNo); // String
+		
 	$table
-		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option">`
+		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option" data-no="`+opNo+`">`
 			+option +
 			`</span></p></td>
 			<td colspan="1" class="col-1"><span
@@ -746,22 +752,30 @@ function buyNow(obj){
 
 $(() => {
 	$("button[name=cart]").click(e => {
-		//화살표함수안에서는 this는 e.target이 아니다.
-		//console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
-		//var $no = $(e.target).parent();
 		
-		//const product = $("[name=pd]").val();
-		//const pro = "{"+product+"}";
+		const $option = $(".add-option");
+		//console.log($option);
+		const optionList = [];
+		//console.log("option= "+ $option);
 		
+		$.each($option,  function(index, value){
+			var num = parseInt(value.dataset.no);
+			optionList.push(num);
+	       	console.log("value= "+value.dataset.no);
+	    });
 		var pdNo = "${product.pdNo}";
 		var pdAmount = $("[name=stock]").val();
-		var opName = $(".add-option").text();
-		console.log(opName);
+		var opNo = optionList;
+		
+		console.log("optionList= "+ optionList);
 		console.log(pdAmount);
+		
 		var data = new FormData();
 		data.append("pdNo",pdNo);
 		data.append("pdAmount",pdAmount);
-		data.append("opName",opName);
+		data.append("opNo",opNo);
+		
+		
 		//console.log(json);
 		$.ajax({
 	        data: data,
@@ -776,8 +790,6 @@ $(() => {
 	      		//confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
 	        }
 	      });
-		
-		
 		
 		//location.href = "${pageContext.request.contextPath}/basket/cart.do?no=" + no;
 	});

@@ -93,24 +93,26 @@ public class ProductController {
 	public String insertBasket(
 			@RequestParam(name="pdNo") int pdNo,
 			@RequestParam(name="pdAmount") int pdAmount,
-			@RequestParam(name="opName") String opName,
+			@RequestParam(name="opNo") int[] opNo,
 			Authentication authentication,
 			@ModelAttribute ProductImgExt product,
 			Model model
 			) {
-		
+		log.info("opNo = {}",opNo);
 		Fan loginMember = (Fan) authentication.getPrincipal();
 		product = productService.selectOneProduct(pdNo);		
-		ProductOption productOption= productService.selectOptionNo(opName);
+		//ProductOption productOption= productService.selectOptionNo(opNo);
 		
 		int result = 0;
 		Basket basket = new Basket();
 		basket.setFanNo(loginMember.getFanNo());
 		basket.setPdNo(product.getPdNo());
 		basket.setPdAmount(pdAmount);
-		if(productOption != null) {
-			basket.setOpNo(productOption.getOptionNo());			
-			result = productService.insertBasket(basket);
+		if(opNo != null) {
+			for (int i : opNo) {
+				basket.setOpNo(i);			
+				result = productService.insertBasket(basket);				
+			}
 		}else {
 			result = productService.insertBasketNoOption(basket);
 		}

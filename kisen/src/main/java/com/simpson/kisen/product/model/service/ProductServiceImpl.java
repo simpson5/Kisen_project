@@ -60,13 +60,15 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.insertBasket(basket);
 	}
 
-	@Override
-	public ProductOption selectOptionNo(String opName) {
-		return productDao.selectOptionNo(opName);
-	}
+
 
 	@Override
 	public int insertBasketNoOption(Basket basket) {
 		return productDao.insertBasketNoOption(basket);
+	}
+
+	@Override
+	public ProductOption selectOptionNo(int[] opNo) {
+		return productDao.selectOptionNo(opNo);
 	}
 }

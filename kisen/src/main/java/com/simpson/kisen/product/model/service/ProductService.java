@@ -26,7 +26,7 @@ public interface ProductService {
 
 	int insertBasket(Basket basket);
 
-	ProductOption selectOptionNo(String opName);
+	ProductOption selectOptionNo(int[] opNo);
 
 	int insertBasketNoOption(Basket basket);
 
