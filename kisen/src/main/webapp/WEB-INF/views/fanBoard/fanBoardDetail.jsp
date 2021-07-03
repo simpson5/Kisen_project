@@ -104,23 +104,17 @@ window.onload = function () {
     <div class="board-content col-11">
       ${fanBoard.fbContent}
     </div>
+    <div class="d-block" style="padding: 0 0 51px;">
     <div class="more col-11">
         <button type="button" id="share-btn" onClick="sendLinkDefault();" value="Default">
         <img style="width: 30px; transform: translateY(-2px);" src="${pageContext.request.contextPath}/resources/images/fanBoard/shareKakao.png"/>
         <span style="color: #3c1e1e;">카카오톡 공유하기</span>
         </button>
     </div>
+    </div>
 </div>
-<!--좋아요 버튼 -->
-<div class="d-inline like-container">
-<button type="button" class="btn_like d-inline">
-  <span class="img_emoti">좋아요</span>
-  <span class="ani_heart_m"></span>
-</button>
-  <span>좋아요 </span><span>${fanBoard.fbLike}</span>
-</div>
-<hr>
 <div class="board-footer">
+<hr>
     <div class="footer-ext col-11">
         <img id="comment-img" src="${pageContext.request.contextPath}/resources/images/fanBoard/comment.png" alt="댓글 이미지">
         <span class="lead comment-cnt-text">댓글 ${commentCnt} </span>
@@ -245,6 +239,8 @@ window.onload = function () {
 </tbody>
 </table>
 </c:if>
+</div>
+</div>
     
 <script>
 /**
