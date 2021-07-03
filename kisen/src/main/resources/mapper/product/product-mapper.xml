@@ -194,12 +194,18 @@
 		)
 	</insert>
 	
-	<select id="selectOption" resultType="productOption">
+	<select id="selectOption" resultMap="productOptionMap">
 		select
 			*
 		from
 			pd_option
 		where
-			option_no = #{opNoList}
+			option_no = '#{opNoList}'
 	</select>
+	
+	<resultMap type="productOption" id="productOptionMap">
+		<id column ="pd_no" property="pdNo"/>
+		<result column="option_no" property="optionNo"/>
+		<result column="option_name" property="optionName"/>
+	</resultMap>
 </mapper>
