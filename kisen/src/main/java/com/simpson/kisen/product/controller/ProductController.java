@@ -66,7 +66,7 @@ public class ProductController {
 			List<ReviewExt> list = reviewService.selectReviewList(param);
 			List<ProductImgExt> randomList = productService.selectRandomProductList();
 			int totalContents = reviewService.selectReviewTotalContents(no);
-			String url = request.getRequestURI();
+			String url = request.getRequestURI()+"?no="+no;
 			
 			log.info("url = {}", url);
 			log.info("list = {}", list);

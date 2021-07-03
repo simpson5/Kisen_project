@@ -24,7 +24,7 @@ body, html {
 }
 .btn-group{
 	position:absolute;
-	left:32px;
+	left:80px;
 	bottom : 10px;
 }
 
@@ -236,12 +236,6 @@ button .write {
 	line-height: 50px;
 	border-bottom: 1px solid #d4d8d9;
 	border-top: 1px solid #d4d8d9;
-}
-
-.btn-group {
-	float: right;
-	line-height: 50px;
-	padding-top: 5px;
 }
 
 .paging-area {
@@ -506,9 +500,7 @@ textarea.autosize {
 			
 			<div class="btn-area">
 				<div class="btn-group" role="group" aria-label="Basic example">
-				<c:if test="${not empty loginMember}">
 					<button type="button" class="btn btn-dark write" name="reviewWrite"  onclick="location.href='${pageContext.request.contextPath}/review/reviewForm.do?no=${no}'">글 작성</button>
-				</c:if>
 				</div>
 			</div>
 			<div class="paging-area">
@@ -543,8 +535,7 @@ textarea.autosize {
 							                <span class="badge bg-dark">${product.pdCategory}</span>
 							              </p>
 							              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
-							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-							                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
+							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>         
 							              </div>
 							            </div>
 							        </div>
@@ -575,7 +566,6 @@ textarea.autosize {
 							              </p>
 							              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
 							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-							                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
 							              </div>
 							            </div>
 							        </div>
@@ -781,9 +771,9 @@ $(() => {
 	        processData: false,
 			contentType: false,
 	        url: '${pageContext.request.contextPath}/product/insertBasket',
-	        success: function(json) {
-	      		//console.log(json);
-	      		confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
+	        success: function(msg) {
+	      		alert(msg);
+	      		//confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
 	        }
 	      });
 		

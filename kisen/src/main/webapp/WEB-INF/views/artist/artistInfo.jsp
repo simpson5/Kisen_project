@@ -22,10 +22,10 @@ body, html {
 .card{
 	height:480px;
 }
-.btn-group{
-	position:absolute;
-	left:32px;
-	bottom : 10px;
+.btn-group {
+    position: absolute;
+    left: 24px;
+    bottom: 49px;
 }
 
 a{

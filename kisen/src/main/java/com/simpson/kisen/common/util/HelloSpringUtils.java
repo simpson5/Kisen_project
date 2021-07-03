@@ -46,7 +46,7 @@ public class HelloSpringUtils {
 		final int totalPage = (int) Math.ceil((double) totalContents / limit);
 		final int pageStart = ((cpage - 1) / pageBarSize) * pageBarSize + 1; 
 		final int pageEnd = pageStart + pageBarSize - 1;
-		url += "?cpage=";
+		url += "&cpage=";
 		int pageNo = pageStart;
 		
 		pageBar.append("<nav aria-label=\"Page navigation example\">\r\n"
