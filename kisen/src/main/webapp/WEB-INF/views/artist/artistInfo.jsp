@@ -339,17 +339,7 @@ p.album-singer{
               </div>
            </c:if>    
        </div>
-         
-      <!-- 팬게시판 -->
-      <div class="row artist-pan-board" style="display: none;">
-            <jsp:include page="/WEB-INF/views/fanBoard/fanBoardList.jsp">
-               <jsp:param value="${param.no}" name="artistNo" />
-               <jsp:param value="${cPage}" name="cPage" />
-            </jsp:include>
-            <input type="hidden" value="${fbActive}" name="fbActive" />
-       </div>
-   </div>
-</div>
+
 <script>
 $(".artist-nav").click(function(e){
    var id = $(e.target).attr('id');
@@ -417,5 +407,15 @@ $(() => {
 });
 
 </script>
+      <!-- 팬게시판 -->
+      <div class="row artist-pan-board" style="display: none;">
+            <jsp:include page="/WEB-INF/views/fanBoard/fanBoardList.jsp">
+               <jsp:param value="${param.no}" name="artistNo" />
+               <jsp:param value="${cPage}" name="cPage" />
+            </jsp:include>
+            <input type="hidden" value="${fbActive}" name="fbActive" />
+       </div>
+   </div>
+</div>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
