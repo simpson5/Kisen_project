@@ -176,11 +176,20 @@
 	from
 		fan
 	where
+		fan_name = #{fanName}
+		and
+		phone = #{phone}	
+</select>
+<select id="selectOneMemberByPhoneGet" resultMap="memberMap">
+	select
+		*
+	from
+		fan
+	where
 		fan_name = #{name}
 		and
 		phone = #{phone}	
 </select>
-
 <!-- =========================== [ 임시비밀번호 수정 ] =========================== -->
 <update id="updatePwdToTempPwd">
 	update

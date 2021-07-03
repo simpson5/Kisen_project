@@ -88,12 +88,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Fan selectOneMemberByPhone(Map<String, Object> param) {
-		return memberDao.selectOneMemberByPhone(param);
+	public Fan selectOneMemberByPhone(Fan fan) {
+		return memberDao.selectOneMemberByPhone(fan);
 	}
 
 	@Override
 	public int updatePwdToTempPwd(Fan member) {
 		return memberDao.updatePwdToTempPwd(member);
+	}
+
+	@Override
+	public Fan selectOneMemberByPhoneGet(Map<String, Object> param) {
+		return memberDao.selectOneMemberByPhoneGet(param);
 	}
 }

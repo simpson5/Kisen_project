@@ -53,6 +53,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -568,7 +570,7 @@ public class MemberController {
 		param.put("name", name);
 		param.put("phone", phone);
 		// 1. 업무로직
-		Fan member = memberService.selectOneMemberByPhone(param);
+		Fan member = memberService.selectOneMemberByPhoneGet(param);
 		boolean available = member != null;
 		log.info("available = {}", available);
 
@@ -657,17 +659,13 @@ public class MemberController {
 	}
 
 	@PostMapping("/checkInfoPhoneForPwd.do")
-	public ResponseEntity<Map<String, Object>> checkInfoPhoneForPwd(@RequestParam String name,
-			@RequestParam String phone) {
-		log.info("phone = {}", phone);
-		Map<String, Object> param = new HashMap<>();
-		param.put("name", name);
-		param.put("phone", phone);
+	public String checkInfoPhoneForPwd(
+			@ModelAttribute Fan fan,
+			RedirectAttributes redirectAttr) {
 		// 1. 업무로직
-		Fan member = memberService.selectOneMemberByPhone(param);
-		boolean available = member != null;
-		log.info("available = {}", available);
+		Fan member = memberService.selectOneMemberByPhone(fan);
 
+		String msg = null;
 		String tempPwd = null;
 		if (member != null) {
 			tempPwd = excuteGenerate();
@@ -678,18 +676,13 @@ public class MemberController {
 			// 2. map에 요소 저장 후 리턴
 			// model필요 없음
 			log.info("tempPwd = {}", tempPwd);
+			msg = "고객님의 임시 비밀번호는 [ " + tempPwd + " ] 입니다. 해당 비밀번호로 로그인 한 뒤 비밀번호를 변경해주세요.";
+		} else {
+			msg = "입력된 정보로 정확한 회원정보가 조회되지 않습니다. 정보를 다시 입력하거나 이메일로 찾기를 이용하세요.";			
 		}
-		// 2. map에 요소 저장 후 리턴
-		// model필요 없음
-		Map<String, Object> map = new HashMap<>();
-		map.put("available", available);
-		map.put("tempPwd", tempPwd);
 
-
-		// ResponseEntity객체를 만들어서 전달
-		return ResponseEntity.ok() // 응답헤더 200번
-				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE) // "application/json;charset=UTF-8"
-				.body(map); // body에 map담기
+		redirectAttr.addFlashAttribute("msg", msg);
+		return "redirect:/member/searchPwd.do";
 	}
 	
 	@GetMapping("/sendSMS.do")
