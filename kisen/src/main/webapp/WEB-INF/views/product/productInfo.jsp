@@ -373,7 +373,7 @@ textarea.autosize {
 									class="form-select" aria-label="Default select example"
 									name="option-select">
 									
-										<option selected disabled>- [필수] 옵션을 선택해 주세요 -</option>
+										<option selected>- [필수] 옵션을 선택해 주세요 -</option>
 										<c:forEach items="${product.pdOptionList}" var="pdOp">
 											<option value="${pdOp.optionName}">${pdOp.optionName}</option>
 										</c:forEach>
@@ -647,7 +647,16 @@ $(".select-option").on("click", ".down", e => {
 	total();
 });
 
-
+$(".select-option").on("click", ".delete", e => {
+	var $delete = $(e.target).siblings();
+	$this = $delete.parent().parent().parent();
+	$this.remove();
+	total();
+	
+	var op = $(e.target).parent().parent().prev().find(".add-option").text();
+	console.log(op);
+	$("[name=option-select]").append("<option value="+op+">"+op+"</option>");
+});
 function total(){
 	var cnt = 0;
 	var get_input = $(".form-controller");
@@ -670,6 +679,11 @@ window.onload=total;
 
 
 $("[name=option-select]").change(function(e){
+	
+	if($(e.target).val() == $("[name=option-select] option:eq(0)").val()){
+		return;
+	}
+	
 	var $table = $("<table></table>");
 	console.log($(e.target).val());
 	var option = $(e.target).val();
@@ -694,11 +708,9 @@ $("[name=option-select]").change(function(e){
 	
 	$(".select-option").append($table);
 	total();
-	$(".delete").click(function(){
-		$this = $(this).parent().parent().parent();
-		$this.remove();
-		total();
-	});
+	
+	$("[name=option-select] option:selected").remove();
+	
 });
 
 
