@@ -22,4 +22,4 @@ public class PaymentProduct extends Payment{
 	private int paymentNo;
 	private  ProductImg productImg; //상품 이미지 
 	private Product product;
-}//그 혹시 여기가 paymentProduct table vo인가요?네네 히스토리는 그냐ㅐㅇ 페이먼트요 아 어제 글구 아니 올더 시퀀스 만들엇는데.. 넵
+}

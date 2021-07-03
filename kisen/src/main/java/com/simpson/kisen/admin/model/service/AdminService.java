@@ -62,5 +62,5 @@ public interface AdminService {
 
 	List<SalesTotalPrice> selectTotalPrice();
 
-	List<Sales> salesMonthPrice();
+	List<Sales> selectDaySales(String yearMonth, String lastDay);
 }

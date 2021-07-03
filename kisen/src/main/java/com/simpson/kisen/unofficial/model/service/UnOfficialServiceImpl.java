@@ -3,11 +3,17 @@ package com.simpson.kisen.unofficial.model.service;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.simpson.kisen.fan.model.vo.Fan;
+import com.simpson.kisen.idol.model.vo.Idol;
+import com.simpson.kisen.product.model.vo.ProductImg;
+import com.simpson.kisen.product.model.vo.ProductImgExt;
+import com.simpson.kisen.product.model.vo.ProductOption;
 import com.simpson.kisen.unofficial.model.dao.UnOfficialDao;
 import com.simpson.kisen.unofficial.model.vo.DemandpdImg;
 import com.simpson.kisen.unofficial.model.vo.DepositpdImg;
@@ -89,6 +95,58 @@ public class UnOfficialServiceImpl implements UnOfficialService {
 	public UnofficialPdImgExt2 selectunofficialdeposit(String dno) {
 		return unofficialDao.selectunofficialdeposit(dno);
 	}
+
+
+	@Override
+	public UnofficialPdImgExt selectOneDemand(String demandNo) {
+		return unofficialDao.selectOneDemand(demandNo);
+	}
+
+	@Override
+	public int deletedemand(String delNo) {
+		return unofficialDao.deletedemand(delNo);
+	}
+
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public int updateDemand(UnofficialPdImgExt unofficialdemand) {
+		int result =0;
+		
+		result = unofficialDao.updateDemand(unofficialdemand);
+		if(unofficialdemand.getDemandpdImgList().size()>0) {
+			for(DemandpdImg pdImg : unofficialdemand.getDemandpdImgList()) {
+				pdImg.setDemandNo(unofficialdemand.getDemandNo());
+				result = updateDemandImg(pdImg);
+			}
+		}		
+		return result;
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public int updateDemandImg(DemandpdImg pdImg) {
+		return unofficialDao.updateDemandImg(pdImg);
+	}
+
+
+	@Override
+	public int updateStock(Map<String, Object> map) {
+		return unofficialDao.updateStock(map);
+	}
+
+
+	@Override
+	public Fan selectOneMemberByEmail(String email) {
+		return unofficialDao.selectOneMemberByEmail(email);
+	}
+
+
+	
+
+	
+
+	
+	
+
 
 
 

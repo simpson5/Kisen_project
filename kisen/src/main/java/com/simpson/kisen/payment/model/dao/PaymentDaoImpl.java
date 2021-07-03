@@ -62,4 +62,9 @@ public class PaymentDaoImpl implements PaymentDao{
 		return session.insert("payment.insertPaymentProduct", pp);
 	}
 
+	@Override
+	public List<PaymentProduct> selectHistory(String fanNo) {
+		return session.selectList("payment.selectHistory",fanNo);
+	}
+
 }

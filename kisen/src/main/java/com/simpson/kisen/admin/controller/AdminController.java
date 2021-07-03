@@ -37,6 +37,7 @@ import com.simpson.kisen.agency.model.vo.AgencyExt;
 import com.simpson.kisen.common.util.HelloSpringUtils;
 import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.vo.Idol;
+import com.simpson.kisen.notice.model.service.NoticeService;
 import com.simpson.kisen.notice.model.vo.Notice;
 import com.simpson.kisen.notice.model.vo.NoticeExt;
 import com.simpson.kisen.notice.model.vo.NoticeImg;
@@ -62,6 +63,12 @@ public class AdminController {
 	
 	@Autowired
 	private AdminService adminService;
+	@Autowired
+	private NoticeService noticeService;
+	
+	@Autowired
+	private AgencyService agencyService;
+	
 	
 	
 	@GetMapping("/adminMain.do")
@@ -212,10 +219,6 @@ public class AdminController {
 		List<PaymentExt> paymentList = adminService.selectSalesList(param);
 		
 		
-		
-		
-		
-		
 		//매출조회
 		SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 		String formatDate= format1.format (System.currentTimeMillis());
@@ -224,23 +227,55 @@ public class AdminController {
 		List<SalesTotalPrice> totalList = adminService.selectTotalPrice();
 		
 		
-		
-		//이번달 매출
-		List<Sales> monthList = adminService.salesMonthPrice();
-		
 
-		log.info("monthList={}",monthList);
 		log.info("totalList={}",totalList);
 		log.info("paymentList={}",paymentList);
 		model.addAttribute("totalList", totalList);
-		model.addAttribute("monthList", monthList);
 		model.addAttribute("paymentList", paymentList);
 		return "admin/adminPayment_Sales";
 	}
 	
-	
-	
+	@GetMapping("/adminSelectDaySales/{yearMonth}/{lastDay}")
+	@ResponseBody
+	public List<Sales> selectDaySales(@PathVariable String yearMonth,@PathVariable String lastDay) { 
+		log.info("yearMonth={}",yearMonth);
+		List<Sales> daySalesList = adminService.selectDaySales(yearMonth,lastDay);
+		log.info("daySalesList={}",daySalesList);
+		
+		return daySalesList;
+	}
 
+	@GetMapping("/adminProductDetail/{pdNo}")
+	public String agencyProductDetail(@PathVariable String pdNo, Model model) { 
+		ProductImgExt product = agencyService.selectOneProduct(pdNo);
+		model.addAttribute("product", product);
+		model.addAttribute("category", AgencyService.PRODUCT_CATEGORY);
+		return "agency/agencyProduct/agencyProductDetail";
+	}
+	
+	
+	
+	@PutMapping("/productStockUpdate/{pdNo}/{pdStock}")
+	@ResponseBody
+	public int productStockUpdate(
+			@PathVariable int pdNo,
+			@PathVariable int pdStock
+		) {
+		log.info("pdNo@stockupdate={}",pdNo);
+		log.info("pdNo@stockupdate={}",pdStock);
+		Map<String, Integer> map =new  HashMap<String, Integer>();
+		
+		map.put("pdNo", pdNo);
+		map.put("pdStock", pdStock);
+		
+		int result = agencyService.updateStock(map);
+		return result;
+	}
+	
+	
+	
+	
+	
 	@GetMapping("/adminNotice")
 	public String adminNotice(Model model) { 
 		List<SlideImg> slideImgList = adminService.selectSlideImgList();
@@ -451,6 +486,27 @@ public class AdminController {
 		
 		return "redirect:adminNoticeDetail/"+notice.getNoticeNo();
 	}
+
+	
+	@GetMapping("/searchNotice")
+	public String searchProduct(
+			@RequestParam(name="search",required = false) String search,
+			Model model
+		){
+
+		List<SlideImg> slideImgList = adminService.selectSlideImgList();
+		log.info("search@search= {}",search);	//null
+
+		List<Notice> noticeList = noticeService.selectSearchNoticeList(search);
+		log.info("noticeList@search= {}",noticeList);	//null
+
+		model.addAttribute("slideImgList", slideImgList);
+		model.addAttribute("noticeList", noticeList);
+		return "admin/adminNotice/adminNotice";
+
+	}
+	
+	
 	
 	@DeleteMapping("/memberDelete/{fanId}")
 	@ResponseBody

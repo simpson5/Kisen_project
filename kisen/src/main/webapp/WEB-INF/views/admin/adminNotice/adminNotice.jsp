@@ -3,6 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!-- security관련 taglib -->
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>   
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <jsp:include page="/WEB-INF/views/common/admin_header.jsp">
 	<jsp:param value="Site 관리" name="title"/>
 </jsp:include>
@@ -47,9 +50,13 @@
     <h5 style="font-weight: bold;" class="mt-5">NOTICE</h5>
     <hr>
     <div class="mt-4">
-        <form class="d-flex justify-content-center">
-            <input type="search" placeholder="Search" placeholder="제목을 입력하세요" style="margin-left: 2rem; width: 150px"  class="form-control me-2" >
-            <button class="btn" type="submit"><img src="${pageContext.request.contextPath }/resources/images/search.png" alt="" style="height: 25px"></button>
+        <form 
+		name="noticeFrm" 
+		id="noticeSearchFrm" 
+		action="${pageContext.request.contextPath}/admin/searchNotice"
+		method ="get" class="d-flex justify-content-end">
+            <input type="search" placeholder="제목을 입력하세요" name="search" style="margin-left: 2rem; width:200px;"  class="form-control me-2" >
+            <button class="btn" type="button" onclick="searchClick();"><img src="${pageContext.request.contextPath }/resources/images/search.png" alt="" style="height: 25px"></button>
         </form>
     </div>
     <button type="button" class="btn btn-sm btn-secondary" onclick="enrollNotice();">글쓰기</button>
@@ -116,7 +123,16 @@
 	function refreshMemList(){
 		location.reload();
 	}
-	
+
+	function searchClick(){
+		const $search= $("input[name=search]");
+		if($search.val() ==""){
+			alert("검색어를 입력하세요");
+			$search.focus();
+			return false;
+		}
+		$("#noticeSearchFrm").submit();
+	}
 	$(document).ready(function(){
 		$(".carousel-inner").children().first().addClass("active");
 	});

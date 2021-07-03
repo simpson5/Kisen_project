@@ -18,6 +18,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.js"></script>
 <!-- include summernote-ko-KR -->
 
+<div class="container">
 		<form:form id="depositFrm" name="depositFrm"
 		enctype="multipart/form-data"
 			action="${pageContext.request.contextPath}/unofficial/depositEnroll.do"
@@ -173,6 +174,7 @@
 					</div>
 				</div>
 		</form:form>
+		</div>
 
 <script>
 

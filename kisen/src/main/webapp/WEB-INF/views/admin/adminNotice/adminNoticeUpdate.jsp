@@ -86,7 +86,7 @@
                 <div class=" text-center">
                     <div class="mt-1 row">
                         <div class="col-6 d-grid">
-                            <button type="button" class="btn btn-sm btn-dark" style="width: 100%;">취소하기</button>
+                            <button type="button" class="btn btn-sm btn-dark" style="width: 100%;" onclick="goBack();">취소하기</button>
                         </div>
                         <div class="col-6 d-grid">
                             <button type="button" class="btn btn-sm btn-main" style="width: 100%;" onclick="noticeUpdate(event);" data-no="${notice.noticeNo}" >수정하기</button>
@@ -113,6 +113,9 @@
 </div>
 
 <script>
+function goBack(){
+	window.history.back();
+}
 function list(){
 	location.href=`${pageContext.request.contextPath}/admin/adminNotice`
 }

@@ -1,11 +1,14 @@
 package com.simpson.kisen.unofficial.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.simpson.kisen.fan.model.vo.Fan;
+import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.product.model.vo.ProductImg;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
 import com.simpson.kisen.product.model.vo.ProductOption;
@@ -61,5 +64,37 @@ public class UnOfficialDaoImpl implements UnOfficialDao {
 	public int insertDepositpdImg(DepositpdImg productImg) {
 		return session.insert("unofficial.insertDepositpdImg", productImg);
 	}
+
+	@Override
+	public UnofficialPdImgExt selectOneDemand(String demandNo) {
+		return session.selectOne("unofficial.selectOneDemand", demandNo);
+	}
+
+	@Override
+	public int deletedemand(String delNo) {
+		return session.delete("unofficial.deleteDemand",delNo);
+	}
+
+	@Override
+	public int updateDemand(UnofficialPdImgExt unofficialdemand) {
+		return session.update("unofficial.updateDemand" , unofficialdemand);
+	}
+
+	@Override
+	public int updateDemandImg(DemandpdImg pdImg) {
+		return session.update("unofficial.updateDemandImg" , pdImg);
+	}
+
+	@Override
+	public int updateStock(Map<String, Object> map) {
+		return session.update("unofficial.updateStock", map);
+	}
+
+	@Override
+	public Fan selectOneMemberByEmail(String email) {
+		return null;
+	}
+
+
 
 }

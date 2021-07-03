@@ -206,6 +206,7 @@ color:  #9033b5;
 		  <hr />
 		  <div class="p-2 " style="font-size: 12px;">
 			   <input type="hidden" name="option" value="${basketList.productOption.optionName}">
+			   <input type="hidden" name="opN" value="${basketList.productOption.optionNo}">
 			  옵션: ${basketList.productOption.optionName} 
 		  </div>
 		</div>
@@ -216,10 +217,6 @@ color:  #9033b5;
 		   <input type="hidden"  name="price" value="${basketList.price}">
 		   ${basketList.price}
 		   </div>
-		  <div class="p-2" style="font-size: 12px;">
-		  	<button class="btn btn-outline p-0 font-weight-bold" id="btnOrder" >주문하기</button>
-		  	 
-		  </div>
 		 </div>
 
       <td class="border border-right-0 border-top-0">
@@ -298,6 +295,7 @@ color:  #9033b5;
 		  	<%-- <a href="${pageContext.request.contextPath}/basket/payment.do"> --%>
 		  	<button class="btn btn-outline py-2 " id="cartOder" onclick="order(this);"> 주문하기</button>
 		  </div>
+		  <input type="hidden" name="fanN" value="${loginMember.fanNo}">
 <form 
 	name="orderFrm" 
 	method="GET" 
@@ -320,7 +318,11 @@ color:  #9033b5;
 	 console.log("formId= "+ $formId);
 
 	    var bNoHtml='';
-	    
+	    var oNoHtml='';
+	    const fanNoo = '<input type="hidden" name ="fanNo" value="'
+			+ $("[name=fanN]").val() + '"/>';
+	    const oppN = $("[name=opN]")
+			
 	    //체크된 것의 bNo가져오기
 	    const $one = $(".selectProduct:checked");
 		console.log($one);
@@ -338,9 +340,19 @@ color:  #9033b5;
 
 				    console.log(bNoHtml);
 				    });
+			    
+			   $.each(oppN, function (index, value){
+				    console.log(value);
+
+				    bNoHtml +='<input type="hidden" name ="opNo" value="'+$(value).val()+'"/>';
+
+				    console.log(bNoHtml);
+				    });
 
 		}//if절 끝
-		 $formId.append(bNoHtml);
+		 $formId.append(bNoHtml); 
+		 $formId.append(fanNoo); 
+		 $formId.append(oNoHtml); 
 			$formId.submit();
 		console.log("formId= "+ $formId);
 		
@@ -381,7 +393,7 @@ function order(obj){
 
 	}//if절 끝
 	 $formId.append(bNoHtml);
-		$formId.append(totalHtml);
+		$formId.append(totalHtml);                     
 		$formId.submit();
 	console.log("formId= "+ $formId);
 	
@@ -401,6 +413,7 @@ var sum = 0;
 		
 		if(check==true){
 		var $total = $(".total");
+		var $totalO = $(".totalOne");
 		var price = $("[type=hidden]").val();
 		console.log(price);             
 		var total = 0;
@@ -416,9 +429,11 @@ var sum = 0;
 			sum = total;
 			 console.log("sum = "+ sum);
 	   	   $total  += $total.html("<strong>"+total+"</strong>");
+	   	  $totalO  += $totalO.html("<strong>"+total+"</strong>");
 	}
 	else{
 		var $total = $(".total");
+		var $totalO = $(".totalOne");
 		console.log($total);
 		var price = $("[type=hidden]").val();
 		console.log(price);             
@@ -427,6 +442,7 @@ var sum = 0;
 			/* total -=price; */
 		
 	   	   $total  += $total.html("<strong>"+total+"</strong>");
+	   	   $totalO  += $totalO.html("<strong>"+total+"</strong>");
 	}
 });
  
@@ -455,13 +471,15 @@ $("#checkboxDel").click(function(e){
 		   	   $totalO  += $totalO.html("<strong>"+total+"</strong>");
 		}else{
 			var $total = $(".total");
+			var $totalO = $(".totalOne");
 			console.log($total);
 			var price = $("[type=hidden]").val();
 			console.log(price);             
 		
 			var total =0;
 							
-		   	   $total  += $total.html("<strong>"+total+"</strong>");
+		   	$total  += $total.html("<strong>"+total+"</strong>");
+		   	$totalO  += $totalO.html("<strong>"+total+"</strong>");
 		}
 }); 
 

@@ -170,7 +170,7 @@ public class AdminDaoImpl implements AdminDao {
 	}
 
 	@Override
-	public List<Sales> salesMonthPrice(String strDate) {
+	public List<Sales> selectDaySales(String strDate) {
 		return session.selectList("admin-product.salesMonthPrice",strDate);
 	}
 

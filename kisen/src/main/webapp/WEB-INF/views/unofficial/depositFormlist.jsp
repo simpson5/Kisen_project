@@ -23,6 +23,7 @@
 .card {
 	margin-right: 10px;
 	margin-left: 10px;
+	margin-top: 20px;
 }
 .boxWrapper {
 	display: flex;
@@ -38,6 +39,7 @@ function goDepositSubmit(dno) {
 <div class="container">
 
 		<h2 class="text-center m-4" style="font-weight: bold;">입금폼목록</h2>
+		<hr />	
 		<br /> <br />
 		<c:forEach items="${unofficialdepositList}" var="unofficialdeposit" varStatus="vs">
 		<c:if test="${vs.index % 5 == 0}">
@@ -62,11 +64,11 @@ function goDepositSubmit(dno) {
 						<span class="badge bg-s">기간 : 
 							<fmt:formatDate value="${unofficialdeposit.depositStartDate}" pattern="yy/MM/dd"/>
 							~
-							<fmt:formatDate value="${unofficialdemand.depositEndDate}" pattern="yy/MM/dd"/>
+							<fmt:formatDate value="${unofficialdeposit.depositEndDate}" pattern="yy/MM/dd"/>
 						</span>
 						<span class="badge bg-s">재고 : ${unofficialdeposit.pdStock}</span>
 						<span class="badge bg-s">판매량: ${unofficialdeposit.pdSales}</span>
-<%-- 						<span class="badge bg-s">판매자 : ${unofficialdemand.}</span> --%>
+						
 					</p>
 				</div>
 			</div>

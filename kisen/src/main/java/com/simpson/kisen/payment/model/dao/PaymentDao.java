@@ -27,6 +27,8 @@ public interface PaymentDao {
 
 	int insertBasket(Basket bs);
 
+	List<PaymentProduct> selectHistory(String fanNo);
+
 	
 	
 }

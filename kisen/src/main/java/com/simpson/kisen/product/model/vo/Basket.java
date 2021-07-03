@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 public class Basket extends Product{
 	
 	private String fanNo;
-	private int pdAmount;
 	private String pdNo;
+	private int pdAmount;
+	private int opNo;
 	private ProductImg productImg;
 	private ProductOption productOption;
-	private int opNo;
 
 }

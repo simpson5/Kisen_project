@@ -9,12 +9,7 @@
 <script type="text/javascript">
 </script>
 
-
-		<form id="demandFrm" name="demandFrm"
-			action="${pageContext.request.contextPath}/unofficial/demandDetail.do"
-			method="post">
-			
-					
+<div class="container">
 		<h2 class="text-center m-4" style="font-weight: bold;">${unofficialdemand.pdName} 수요조사 상세보기</h2>
 		
 		
@@ -114,6 +109,17 @@
 						class="form-control" id="question">
 				</div>
 				
+				
+				
+				
+				
+		<form id="demandFrm" 
+		class="justify-content-center" 
+		name="demandFrm"
+			action="${pageContext.request.contextPath}/unofficial/demandDetail.do"
+			method="post">
+				
+				<input type="hidden" name="demandNo" value="${unofficialdemand.demandNo}" >
 				<div class="row" style="padding-top:5px;">
 					<div class="col-md-12" style="font-size:15px;font-weight:700;text-align:left;padding:5px 15px;">
 						알림 받을 곳 (E-mail) <span style="color:#ff0000;">＊</span>
@@ -127,7 +133,7 @@
 						</div>
 					</div>
 					
-				</div>
+				</div>	
 				
 				<div class="row" style="padding-top:5px;">
 					<div class="col-md-12" style="font-size:15px;font-weight:700;text-align:left;padding:5px 15px;">
@@ -156,12 +162,7 @@
 						</div>
 					</div>
 					
-				</div>
-
-				
-				
-				
-											
+				</div>	
 
 				<div class="container text-center">
 					<div class="mb-4 row">
@@ -171,13 +172,21 @@
 						</div>
 						<div class="col-6 d-grid p-1">
 							<button type="submit" class="btn btn-lg btn-main" id="enrollbtn"
-								 style="width: 100%;">제출하기</button>
+								 style="width: 100%;" name="subBtn">제출하기</button>
 						</div>
 					</div>
 				</div>
-		</form>
+			</form>
+		</div>
 
 <script>
+
+$("[name=subBtn]").click(e =>{
+
+	console.log(e.target);
+	alert("제출 완료!");
+});
+
 
 function depositDetailUpdate(event) {
     const target = event.target;
