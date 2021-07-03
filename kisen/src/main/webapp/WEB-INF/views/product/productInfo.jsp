@@ -344,10 +344,7 @@ textarea.autosize {
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col" colspan="4" id="pd_name">${product.pdName}
-								<input type="hidden" name=pdN value="${product.pdNo}">
-								<input type="hidden" name=fanN value="${loginMember.fanNo}">
-							</th>
+							<th scope="col" colspan="4" id="pd_name">${product.pdName}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -443,7 +440,8 @@ textarea.autosize {
 								<c:if test="${product.pdStock ne 0}">
 									<button type="button" class="btn btn-dark col-5 mx-2 py-2" onclick="buyNow(this);">구매하기</button>
 									<button type="button"
-										class="btn btn-outline-secondary col-5 mx-2 py-2">장바구니
+										class="btn btn-outline-secondary col-5 mx-2 py-2" 
+										name="cart">장바구니
 										담기</button>
 								</c:if>
 								<c:if test="${product.pdStock eq 0}">
@@ -604,8 +602,6 @@ textarea.autosize {
 		</div>
 	</div>
 </div>
-<form action="${pageContext.request.contextPath}/basket/buyNow.do" method="POST" name=buyNowFrm>
- </form>
 <script>
 $(".pd-nav").click(function(e){
 	var id = $(e.target).attr('id');
@@ -678,7 +674,9 @@ $("[name=option-select]").change(function(e){
 	console.log($(e.target).val());
 	var option = $(e.target).val();
 	$table
-		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option">`+option +`</span></p></td>
+		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option">`
+			+option +
+			`</span></p></td>
 			<td colspan="1" class="col-1"><span
 			style="position: relative; display: inline-block;"> <input
 				type="text" class="form-controller" name="stock" value="1" min="1" size="3"/>
@@ -709,7 +707,7 @@ $("[name=option-select]").change(function(e){
 $(() => {
 	$("button[name=pdDetail]").click(e => {
 		//화살표함수안에서는 this는 e.target이 아니다.
-		console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
+		//console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
 		var $no = $(e.target).parent();
 		var no = $no.data("no");
 		console.log(no);
@@ -717,6 +715,8 @@ $(() => {
 		location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + no;
 	});
 });
+
+
 
 function buyNow(obj){
 	var $formId = $(document.buyNowFrm);
@@ -742,6 +742,44 @@ function buyNow(obj){
 	$from.submit;
 }
 
+$(() => {
+	$("button[name=cart]").click(e => {
+		//화살표함수안에서는 this는 e.target이 아니다.
+		//console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
+		//var $no = $(e.target).parent();
+		
+		//const product = $("[name=pd]").val();
+		//const pro = "{"+product+"}";
+		
+		var pdNo = "${product.pdNo}";
+		var pdAmount = $("[name=stock]").val();
+		var opName = $(".add-option").text();
+		console.log(opName);
+		console.log(pdAmount);
+		var data = new FormData();
+		data.append("pdNo",pdNo);
+		data.append("pdAmount",pdAmount);
+		data.append("opName",opName);
+		//console.log(json);
+		$.ajax({
+	        data: data,
+	        type: "POST",
+	        dataType: data,
+	        cache: false,
+	        processData: false,
+			contentType: false,
+	        url: '${pageContext.request.contextPath}/product/insertBasket',
+	        success: function(json) {
+	      		//console.log(json);
+	      		confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
+	        }
+	      });
+		
+		
+		
+		//location.href = "${pageContext.request.contextPath}/basket/cart.do?no=" + no;
+	});
+});
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

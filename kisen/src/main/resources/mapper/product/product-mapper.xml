@@ -162,4 +162,44 @@
         and p.idol_no = #{no}
         and p.pd_category != '앨범'
 	</select>
+	
+	<insert id="insertBasket">
+		insert into
+			basket(
+				fan_no,
+				product_no,
+				pd_amount,
+				option_no
+			)
+		values(
+			#{fanNo},
+			#{pdNo},
+			#{pdAmount},
+			#{opNo}
+		)
+	</insert>
+	<insert id="insertBasketNoOption">
+		insert into
+			basket(
+				fan_no,
+				product_no,
+				pd_amount,
+				option_no
+			)
+		values(
+			#{fanNo},
+			#{pdNo},
+			#{pdAmount},
+			'0'
+		)
+	</insert>
+	
+	<select id="selectOption" resultType="productOption">
+		select
+			*
+		from
+			pd_option
+		where
+			option_name = #{opName}
+	</select>
 </mapper>
