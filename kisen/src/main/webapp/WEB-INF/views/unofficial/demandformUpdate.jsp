@@ -7,7 +7,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="demandFrmUpdate" name="title" />
+	<jsp:param value="수요조사폼" name="title" />
 </jsp:include>
 
 

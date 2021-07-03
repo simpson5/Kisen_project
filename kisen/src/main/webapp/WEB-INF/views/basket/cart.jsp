@@ -217,10 +217,6 @@ color:  #9033b5;
 		   <input type="hidden"  name="price" value="${basketList.price}">
 		   ${basketList.price}
 		   </div>
-		  <div class="p-2" style="font-size: 12px;">
-		  	<button class="btn btn-outline p-0 font-weight-bold" id="btnOrder" >주문하기</button>
-		  	 
-		  </div>
 		 </div>
 
       <td class="border border-right-0 border-top-0">
