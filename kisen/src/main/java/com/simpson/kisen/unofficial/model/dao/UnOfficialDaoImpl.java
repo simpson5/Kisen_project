@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.simpson.kisen.fan.model.vo.Fan;
 import com.simpson.kisen.idol.model.vo.Idol;
 import com.simpson.kisen.product.model.vo.ProductImg;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
@@ -65,8 +66,8 @@ public class UnOfficialDaoImpl implements UnOfficialDao {
 	}
 
 	@Override
-	public UnofficialPdImgExt selectOneDemand(String pName) {
-		return session.selectOne("unofficial.selectOneDemand", pName);
+	public UnofficialPdImgExt selectOneDemand(String demandNo) {
+		return session.selectOne("unofficial.selectOneDemand", demandNo);
 	}
 
 	@Override
@@ -88,5 +89,12 @@ public class UnOfficialDaoImpl implements UnOfficialDao {
 	public int updateStock(Map<String, Object> map) {
 		return session.update("unofficial.updateStock", map);
 	}
+
+	@Override
+	public Fan selectOneMemberByEmail(String email) {
+		return null;
+	}
+
+
 
 }
