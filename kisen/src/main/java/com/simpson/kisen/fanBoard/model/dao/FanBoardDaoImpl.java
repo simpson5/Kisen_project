@@ -125,4 +125,35 @@ public class FanBoardDaoImpl implements FanBoardDao {
 	public FanBoardExt selectOneFanBoard(int no) {
 		return session.selectOne("fanboard.selectOneFanBoard", no);
 	}
+
+	@Override
+	public int checkFbLike(Map<String, Object> param) {
+		return session.selectOne("fanboard.checkFbLike", param);
+	}
+
+	@Override
+	public int updateFanBoardLikeAdd(Map<String, Object> param) {
+		return session.update("fanboard.updateFanBoardLikeAdd", param);
+	}
+
+	@Override
+	public int updateFbLikePoint(Map<String, Object> param) {
+		return session.update("fanboard.updateFbLikePoint", param);
+	}
+
+	@Override
+	public int insertFbLikeAdd(Map<String, Object> param) {
+		return session.insert("fanboard.insertFbLikeAdd", param);
+	}
+
+	@Override
+	public int updateFanBoardLikeCancel(Map<String, Object> param) {
+		return session.update("fanboard.updateFanBoardLikeCancel", param);
+	}
+
+	@Override
+	public int updateFbLikePointMinus(Map<String, Object> param) {
+		return session.update("fanboard.updateFbLikePointMinus", param);
+	}
+
 }

@@ -76,4 +76,6 @@ public interface AdminDao {
 
 	List<Sales> selectDaySales(String strDate);
 
+	int insertAuthority(String fanNo);
+
 }

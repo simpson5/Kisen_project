@@ -104,7 +104,7 @@ window.onload = function () {
     <div class="board-content col-11">
       ${fanBoard.fbContent}
     </div>
-    <div class="d-block" style="padding: 0 0 51px;">
+    <div class="d-block" style="padding: 0 0 18px;">
     <div class="more col-11">
         <button type="button" id="share-btn" onClick="sendLinkDefault();" value="Default">
         <img style="width: 30px; transform: translateY(-2px);" src="${pageContext.request.contextPath}/resources/images/fanBoard/shareKakao.png"/>
@@ -112,6 +112,14 @@ window.onload = function () {
         </button>
     </div>
     </div>
+	<!--좋아요 버튼 -->
+	<div class="d-inline like-container">
+	<button type="button" class="btn_like d-inline">
+	  <span class="img_emoti">좋아요</span>
+	  <span class="ani_heart_m"></span>
+	</button>
+	  <span>좋아요 </span><span class="like-cnt">${fanBoard.fbLike}</span>
+	</div>
 </div>
 <div class="board-footer">
 <hr>
@@ -241,7 +249,98 @@ window.onload = function () {
 </c:if>
 </div>
 </div>
-    
+
+
+<script>
+/**
+* 좋아요
+*/
+window.onload = function() { 
+	var fbLikePoint = ${fbLikePoint};
+	console.log(fbLikePoint);
+
+	if(fbLikePoint == 1){
+	       $('.btn_like').addClass('btn_unlike');
+	       $('.ani_heart_m').removeClass('bye');
+	}
+}
+	
+$(document).on('click', '.btn_like', function(){
+
+      if($(this).hasClass('btn_unlike')){
+         
+       $(this).removeClass('btn_unlike');
+       $('.ani_heart_m').removeClass('hi');
+       $('.ani_heart_m').addClass('bye');
+
+       var fanId = `${loginMember.fanId}`;
+       var fbNo = ${fanBoard.fbNo};
+       
+      console.log(fanId);
+      console.log(fbNo);
+      $.ajax({
+          url: '${pageContext.request.contextPath}/fanBoard/fanBoardLikeCancel.do',
+          method: "post",
+          data: {fanId, fbNo},
+          success(data){
+             console.log(data);
+             const {msg} = data;
+             if(msg == '좋아요를 1 감소 하였습니다.'){
+            	 $(".like-cnt").text(Number($(".like-cnt").text()) - 1);
+             }
+          },
+          error(xhr, statusText, err){
+             const {status} = xhr;
+             switch(status){
+                case 404: alert("좋아요 반영에 실패하였습니다."); break;
+                default: alert("좋아요 반영에 실패하였습니다.");
+             }
+          },
+          complete(){
+             $(e.target)[0].reset();
+          }
+       });
+
+     }
+     else{
+
+       // 좋아요 클릭
+       $(this).addClass('btn_unlike');
+       $('.ani_heart_m').addClass('hi');
+       $('.ani_heart_m').removeClass('bye');
+
+       var fanId = `${loginMember.fanId}`;
+       var fbNo = ${fanBoard.fbNo};
+       
+      console.log(fanId);
+      console.log(fbNo);
+      $.ajax({
+          url: '${pageContext.request.contextPath}/fanBoard/fanBoardLikeAdd.do',
+          method: "post",
+          data: {fanId, fbNo},
+          success(data){
+             console.log(data);
+             const {msg} = data;
+             if(msg == '좋아요를 1 증가 하였습니다.'){
+            	 $(".like-cnt").text(Number($(".like-cnt").text()) + 1);
+             }
+          },
+          error(xhr, statusText, err){
+             const {status} = xhr;
+             switch(status){
+                case 404: alert("좋아요 반영에 실패하였습니다."); break;
+                default: alert("좋아요 반영에 실패하였습니다.");
+             }
+          },
+          complete(){
+             $(e.target)[0].reset();
+          }
+       });
+     }
+});
+
+</script>
+
 <script>
 /**
 * 상세보기

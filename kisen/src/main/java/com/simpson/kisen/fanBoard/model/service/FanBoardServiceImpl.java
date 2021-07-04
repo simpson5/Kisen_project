@@ -153,4 +153,62 @@ public class FanBoardServiceImpl implements FanBoardService {
 	public FanBoardExt selectOneFanBoard(int no) {
 		return fanBoardDao.selectOneFanBoard(no);
 	}
+
+	@Override
+	public int updateFbLikeAdd(Map<String, Object> param) {
+		int result = 0;
+		int likePoint = checkFbLike(param);
+		if(likePoint == 0) {
+			// 좋아요를 누른 적이 없는 경우
+			result = updateFanBoardLikeAdd(param); // fan_board테이블에 fbLike 증가
+			result = insertFbLikeAdd(param); // fb_like테이블에 행 추가
+		}
+		else if (likePoint == -1) {
+			// 좋아요를 눌렀다가 취소한 적이 있는 경우
+			result = updateFanBoardLikeAdd(param); // fan_board테이블에 fbLike 증가
+			result = updateFbLikePoint(param); // point 1로 변경
+		} 
+		return result;
+	}
+	
+	private int insertFbLikeAdd(Map<String, Object> param) {
+		return fanBoardDao.insertFbLikeAdd(param);
+	}
+
+	private int updateFanBoardLikeAdd(Map<String, Object> param) {
+		return fanBoardDao.updateFanBoardLikeAdd(param);
+	}
+
+	private int checkFbLike(Map<String, Object> param) {
+		return fanBoardDao.checkFbLike(param);
+	}
+
+	private int updateFbLikePoint(Map<String, Object> param) {
+		return fanBoardDao.updateFbLikePoint(param);
+	}
+	
+	@Override
+	public int updateFbLikeCancel(Map<String, Object> param) {
+		int result = 0;
+		int likePoint = checkFbLike(param);
+		if(likePoint == 1) {
+			// 좋아요를 누른적이 있는 경우
+			result = updateFanBoardLikeCancel(param);
+			result = updateFbLikePointMinus(param);
+		}
+		return result;
+	}
+
+	private int updateFanBoardLikeCancel(Map<String, Object> param) {
+		return fanBoardDao.updateFanBoardLikeCancel(param);
+	}
+	
+	private int updateFbLikePointMinus(Map<String, Object> param) {
+		return fanBoardDao.updateFbLikePointMinus(param);
+	}
+
+	@Override
+	public int selectFbLikePoint(Map<String, Object> likeParam) {
+		return checkFbLike(likeParam);
+	}
 }

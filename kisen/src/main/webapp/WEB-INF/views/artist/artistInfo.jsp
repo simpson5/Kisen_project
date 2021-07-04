@@ -4,9 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<!-- 팬게시판 autocomplete 관련 -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 <!-- 팬게시판 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/fanBoard/fanBoardList.css" />
@@ -88,6 +86,21 @@ p.album-title{
 }
 p.album-singer{
    text-align: center;
+}
+
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #917d94;
+    border-color: #aba0ad;
+}
+
+.page-link {
+ color : #5e6063;
+}
+
+.page-link:hover {
+ color : #5d4961;
 }
 
 </style>
@@ -375,16 +388,6 @@ $(".artist-nav").click(function(e){
    }
 });
 
-//팬게시판
-if($("input[name=fbActive]").val() == 1){
-   $("#nav4").addClass('select');
-   $("#nav1").removeClass('select');
-   $('.artist-album').hide();
-   $('.artist-mv').hide();
-   $('.artist-goods').hide();
-   $('.artist-pan-board').show();
-}
-
 
 $(() => {
    $("button[name=pdDetail]").click(e => {
@@ -410,4 +413,15 @@ $(() => {
    </div>
 </div>
 
+<script>
+//팬게시판
+if($("input[name=fbActive]").val() == 1){
+   $("#nav4").addClass('select');
+   $("#nav1").removeClass('select');
+   $('.artist-album').hide();
+   $('.artist-mv').hide();
+   $('.artist-goods').hide();
+   $('.artist-pan-board').show();
+}
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

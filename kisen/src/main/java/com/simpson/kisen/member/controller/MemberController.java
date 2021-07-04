@@ -248,7 +248,7 @@ public class MemberController {
 			// 1.1. fan테이블에 세팅
 			int result = memberService.insertMemberAgency(member, agency);
 			// 2. 사용자피드백 및 리다이렉트
-			redirectAttr.addFlashAttribute("msg", "회원가입이 완료되었습니다. 로그인 후 사용하실 수 있습니다.");
+			redirectAttr.addFlashAttribute("msg", "기획사 회원가입 신청이 완료되었습니다. 관리자가 승인 후 기획사 권한으로 이용하실 수 있습니다. 그 이전에는 일반 사용자 권한으로만 이용 가능합니다.");
 			// redirect:/ - 인덱스페이지(welcome file)로 이동
 			// welcome file로 바로 찾게 되면 redirectAttr을 처리할 수 없음
 		} catch (Exception e) {

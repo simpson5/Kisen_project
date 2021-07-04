@@ -196,10 +196,22 @@ public class AdminServiceImpl implements AdminService {
 		return adminDao.deleteFan(fanNo);
 	}
 
+	@Transactional(rollbackFor = Exception.class)
 	@Override
 	public int updateCertification(String fanNo) {
-		return adminDao.updateCertification(fanNo);
+		int result =0;
+		result=adminDao.updateCertification(fanNo);
+		result=insertAuthority(fanNo);
+		return result;
 	}
+	
+
+	@Transactional(rollbackFor = Exception.class)
+	public int insertAuthority(String fanNo) {
+		return adminDao.insertAuthority(fanNo);
+	}
+	
+	
 
 	@Override
 	public List<SalesTotalPrice> selectTotalPrice() {
