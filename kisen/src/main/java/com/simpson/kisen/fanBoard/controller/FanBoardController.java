@@ -231,6 +231,22 @@ public class FanBoardController {
 			log.debug("totalContents = {}, url = {}", totalContents, url);
 			// totalContents = 60, url = /spring/board/boardList.do
 
+			
+			if (principal != null) {
+				int fbNo = no;
+				String fanId = principal.getFanId();
+				Map<String, Object> likeParam = new HashMap<>();
+				likeParam.put("fbNo", no);
+				likeParam.put("fanId", fanId);
+
+				log.info("fbNo = {}", no);
+				log.info("fanId = {}", principal.getFanId());
+				
+				int fbLikePoint = fanBoardService.selectFbLikePoint(likeParam);
+				log.info("fbLikePoint = {}", fbLikePoint);
+				model.addAttribute("fbLikePoint", fbLikePoint);
+			}
+			
 			String pageBar = HelloSpringUtils.getFbDetailPageBar(totalContents, cPage, limit, url, no);
 
 			// 2. jsp에 위임
@@ -469,7 +485,7 @@ public class FanBoardController {
 	}
 	
 	@PostMapping("/fanBoardLikeAdd.do")
-	public ResponseEntity<?> updateFanBoardLikeAdd (
+	public ResponseEntity<?> fanBoardLikeAdd (
 					@RequestParam int fbNo, @RequestParam String fanId) {
 		try {
 			Map<String, Object> param = new HashMap<>();
@@ -483,10 +499,30 @@ public class FanBoardController {
 				map.put("msg", "좋아요를 1 증가 하였습니다.");
 				return new ResponseEntity<>(map, HttpStatus.OK);
 			} 
-			if (result == -1) {
-				map.put("msg", "이미 좋아요를 누르셨습니다.");
-				return new ResponseEntity<>(map, HttpStatus.OK);
+			else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404를 넘김
 			}
+		} catch (Exception e) {
+			log.error("좋아요 증가에 실패하였습니다.", e);
+			throw e;
+		}
+	}
+	
+	@PostMapping("/fanBoardLikeCancel.do")
+	public ResponseEntity<?> fanBoardLikeCancel (
+					@RequestParam int fbNo, @RequestParam String fanId) {
+		try {
+			Map<String, Object> param = new HashMap<>();
+			param.put("fanId", fanId);
+			param.put("fbNo", fbNo);
+			log.info("fanId = {}", fanId);
+			
+			Map<String, Object> map = new HashMap<>();
+			int result = fanBoardService.updateFbLikeCancel(param);
+			if (result > 0) {
+				map.put("msg", "좋아요를 1 감소 하였습니다.");
+				return new ResponseEntity<>(map, HttpStatus.OK);
+			} 
 			else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404를 넘김
 			}

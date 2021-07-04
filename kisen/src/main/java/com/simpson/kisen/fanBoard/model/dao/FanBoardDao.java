@@ -57,4 +57,8 @@ public interface FanBoardDao {
 
 	int updateFbLikePoint(Map<String, Object> param);
 
+	int updateFbLikePointMinus(Map<String, Object> param);
+
+	int updateFanBoardLikeCancel(Map<String, Object> param);
+
 }
