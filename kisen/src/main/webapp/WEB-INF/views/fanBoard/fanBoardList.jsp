@@ -1,5 +1,71 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<!-- 팬게시판 autocomplete 관련 -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+$(() => {
+
+	// keyup이벤트가 일어나면 알아서 autocomplete 함수 호출됨
+	// 그때마다 사용자 입력값을 서버로 보내서 그것과 일치하는 게시글들을 가져오기
+	$("#searchKeyword").autocomplete({
+  		source: function(request, response){
+ 		  //console.log(request);
+ 		  //console.log(response);
+ 		  //response([{label:'a', value:'a'}, {label:'b', value:'b'}]);
+ 		  
+ 		  //사용자입력값전달 ajax요청 -> success함수안에서 response호출 
+  	 	  $.ajax({
+			url: "${pageContext.request.contextPath}/fanBoard/searchKeyword.do",
+			data: {
+				// searchTitle이라는 key값으로 request.term을 보냄
+				searchKeyword: request.term
+			},
+			// success : function(data){
+			// 객체 안 메소드의 경우 아래와 같이 사용 가능
+			success(data){
+				console.log(data);
+				const {list} = data;
+				// 배열을 하나 새로 만들기
+				// map 이용 - 배열의 요소를 가져와서 다른 형식으로 변환 가능
+				// board를 가져와서 board에 있는 title을 꺼내서 label과 value 지정
+				// 우리는 board no값으로 페이지 이동하므로 no값을 함께 넣어줌
+				const arr = 
+				list.map(({fbNo, fbTitle}) => ({
+					// console.log(board);
+					label: fbTitle,
+					value: fbTitle,
+					fbNo
+					}));
+				console.log(arr);
+				// response에 전달
+				response(arr);
+			},
+			error(xhr, statusText, err){
+				console.log(xhr, statusText, err);
+			}
+  	  	  });
+		},
+		// 클릭했을때, 해당게시글 상세페이지로 이동
+		select: function(event, selected){
+			// console.log("select : ", selected);
+			// item이라는 속성값으로 아까만든 label과 value가 들어감
+			// -> value를 얻고 싶다면 item.value로 찾아야 함
+			
+			// item속성의 no속성 가져오기
+			const {item: {fbNo}} = selected;
+			location.href = "${pageContext.request.contextPath}/fanBoard/fanBoardDetail.do?no=" + fbNo;
+		},
+		focus: function(event, focused){
+		 return false;
+		},
+		// autofocus : true -> 처음것이 바로 선택됨
+		// minLength : n -> 몇글자를 쳐야 검색이 시작될지
+		autoFocus: true, 
+		minLength: 2
+  });
+});
+</script>
 
 <script>
 $(window).load(function(){
@@ -116,80 +182,7 @@ function getList(){
       </tr>
     </thead>
     <tbody id="tBody">
-<%--     <c:forEach items="${list}" var="board">
-      <tr>
-        <th scope="row">${board.fbNo}</th>
-        <td class="title">${board.fbTitle}</td>
-        <td>gg</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-      </tr>
-    </c:forEach>  --%>
   </table>
   <!-- 페이징 바 -->
   <div id="pagingBar">
-
-<script>
-$(() => {
-
-	// keyup이벤트가 일어나면 알아서 autocomplete 함수 호출됨
-	// 그때마다 사용자 입력값을 서버로 보내서 그것과 일치하는 게시글들을 가져오기
-	$("#searchKeyword").autocomplete({
-  		source: function(request, response){
- 		  //console.log(request);
- 		  //console.log(response);
- 		  //response([{label:'a', value:'a'}, {label:'b', value:'b'}]);
- 		  
- 		  //사용자입력값전달 ajax요청 -> success함수안에서 response호출 
-  	 	  $.ajax({
-			url: "${pageContext.request.contextPath}/fanBoard/searchKeyword.do",
-			data: {
-				// searchTitle이라는 key값으로 request.term을 보냄
-				searchKeyword: request.term
-			},
-			// success : function(data){
-			// 객체 안 메소드의 경우 아래와 같이 사용 가능
-			success(data){
-				console.log(data);
-				const {list} = data;
-				// 배열을 하나 새로 만들기
-				// map 이용 - 배열의 요소를 가져와서 다른 형식으로 변환 가능
-				// board를 가져와서 board에 있는 title을 꺼내서 label과 value 지정
-				// 우리는 board no값으로 페이지 이동하므로 no값을 함께 넣어줌
-				const arr = 
-				list.map(({fbNo, fbTitle}) => ({
-					// console.log(board);
-					label: fbTitle,
-					value: fbTitle,
-					fbNo
-					}));
-				console.log(arr);
-				// response에 전달
-				response(arr);
-			},
-			error(xhr, statusText, err){
-				console.log(xhr, statusText, err);
-			}
-  	  	  });
-		},
-		// 클릭했을때, 해당게시글 상세페이지로 이동
-		select: function(event, selected){
-			// console.log("select : ", selected);
-			// item이라는 속성값으로 아까만든 label과 value가 들어감
-			// -> value를 얻고 싶다면 item.value로 찾아야 함
-			
-			// item속성의 no속성 가져오기
-			const {item: {fbNo}} = selected;
-			location.href = "${pageContext.request.contextPath}/fanBoard/fanBoardDetail.do?no=" + fbNo;
-		},
-		focus: function(event, focused){
-		 return false;
-		},
-		// autofocus : true -> 처음것이 바로 선택됨
-		// minLength : n -> 몇글자를 쳐야 검색이 시작될지
-		autoFocus: true, 
-		minLength: 2
-  });
-});
-</script>
 
