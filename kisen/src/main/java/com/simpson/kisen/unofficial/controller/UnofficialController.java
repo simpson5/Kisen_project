@@ -256,12 +256,8 @@ public class UnofficialController {
 				"<div style=\"background-color: rgb(241, 241, 241); width: 900px; text-align: center; margin: 20px; padding: 20px;\">\r\n"
 						+ "    <img src=\"https://blogfiles.pstatic.net/MjAyMTA2MjVfMjk4/MDAxNjI0NjA5ODQzMDQx.LJecEdDc183KLHTb-4MIJZd0b3Wih7dquRSJaqLYc2Mg.4hjwxApg9j2nPHj9erBQn_gw6hJP86v3rIaNdi5bwgEg.PNG.dbs7wl7/kisen_logo.png\" style=\"width: 300px;\">\r\n"
 						+ "    <p style=\"font-size: large; margin-bottom: 10px;\">안녕하세요. K-POP 굿즈 종합쇼핑몰 kisen입니다.</p>\r\n"
-						+ "    <p style=\"font-size: large; margin-bottom: 10px;\">입금폼 제출정보 보내드립니다.<span style=\"font-weight: bolder;\">"
-						+ deposit +"    </span></p>\r\n"
-						+ "    <p style=\"font-size: large; margin-bottom: 10px;\">#{}</p>\r\n"
-						+ "    <div style=\"background-color: rgb(109, 51, 104); width: 300px; height: 40px; margin: 30px auto; line-height: 40px; border-radius: 20px;\">\r\n"
-						+ "    <a href=\"http://localhost:9090/kisen/member/login.do\" style=\"color: white; text-decoration: none; font-size: large; \"></a>\r\n"
-						+ "    </div>\r\n" + "</div>");
+						+ "    <p style=\"font-size: large; margin-bottom: 10px;\">입금폼 제출정보 보내드립니다. 구매해 주셔서 감사합니다.</p>\\r\\n\"<span style=\"font-weight: bolder;\">"
+						+ deposit +"    </span></p>\r\n");
 	
 		return "redirect:depositFormlist.do";
 	}
@@ -280,7 +276,7 @@ public class UnofficialController {
 		model.addAttribute("unofficialdemand", unofficialdemand);
 		return "unofficial/demandDetail";
 	}
-	@ResponseBody
+	
 	@PostMapping("/demandDetail.do")
 	public String demandsubmit(	
 			@RequestParam int demandNo,
@@ -297,7 +293,7 @@ public class UnofficialController {
 		map.put("demandNo", demandNo);
 		
 		int result = unofficialService.updateStock(map);
-		return "redirect:demandFormlist.do";
+		return "redirect:/unofficial/unofficial.do";
 	}
 
 	@GetMapping("/demandFormlist.do")
@@ -384,6 +380,7 @@ public class UnofficialController {
 			@RequestParam(name="detailFile", required = false) MultipartFile detailFile,
 			RedirectAttributes redirectAttr
 		) throws IllegalStateException, IOException { 
+		log.info("1 unofficialdemand = {}", unofficialdemand);
         log.info("thumbnailFile ={} ",thumbnailFile.getOriginalFilename());
         log.info("detailFile ={} ",detailFile.getOriginalFilename());
 
@@ -419,10 +416,11 @@ public class UnofficialController {
 		        UnofficialPdImgExt pd = unofficialdemand;
 				pd.setDemandpdImgList(demandpdImgList);
 				pd.setFanNo(loginMember.getFanNo());
+				//pd.setDemandNo(count);
 				log.info("product={}", pd);
 				
 				int result = unofficialService.updateDemand(unofficialdemand);
-				log.info("unofficialdemand = {}", unofficialdemand);
+				log.info("2 unofficialdemand = {}", unofficialdemand);
 				
 				if(result>0)
 					redirectAttr.addFlashAttribute("msg","수정 성공");
