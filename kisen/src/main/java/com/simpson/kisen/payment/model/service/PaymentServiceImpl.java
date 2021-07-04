@@ -45,12 +45,6 @@ public class PaymentServiceImpl implements PaymentService {
 
 
 	@Override
-	public List<Basket> selectPaymentList(Map<String, Object> param) {
-		return paymentDao.selectPaymentList(param);
-	}
-
-
-	@Override
 	public int deleteCart(Map<String, Object> param) {
 		return paymentDao.deleteCart(param);
 	}
@@ -87,15 +81,30 @@ public class PaymentServiceImpl implements PaymentService {
 
 
 	@Override
-	public int insertBasket(Basket bs) {
-		return paymentDao.insertBasket(bs);
-	}
-
-
-	@Override
 	public List<PaymentProduct> selectHistory(String fanNo) {
 		return paymentDao.selectHistory(fanNo);
 	}
 
+
+	@Override
+	public List<Basket> selectPaymentList(Map<String, Object> param) {
+		return paymentDao.selectPaymentList(param);
+	}
+
+
+	@Override
+	public int insertBasket(List<Basket> basketList) {
+		int result =0;
+		for(Basket bs : basketList) {
+			result=paymentDao.insertBasket(bs);
+		}
+		return result;
+	}
+
+
+	@Override
+	public List<Basket> selectoptionProduct(Map<String, Object> param) {
+		return paymentDao.selectoptionProduct(param);
+	}
 
 }

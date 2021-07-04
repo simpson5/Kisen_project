@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -57,8 +58,8 @@ public class IdolController {
 	
 	}		
 	
-	//ㅜ소민님만 쉽지또ㅜ
-	@PostMapping("/dip")
+
+	@PutMapping("/dip")
 		public Map<String, Object> insertIdol(@RequestBody DipIdol dip){
 			try {
 				log.info("dip = {}", dip);
@@ -69,7 +70,9 @@ public class IdolController {
 				map.put("msg", "찜하기 성공!");
 				
 				log.info("result = {}", result);
+				
 				return map;
+				
 			} catch (Exception e) {
 				log.error("찜하기 실패!",e);
 				throw e;
