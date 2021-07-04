@@ -777,32 +777,37 @@ $(() => {
 		var pdNo = "${product.pdNo}";
 		var pdAmount = $("[name=stock]").val();
 		var opNo = optionList;
-		
+		var opName = $(".add-option").text();
 		console.log("optionList= "+ optionList);
 		console.log(pdAmount);
 		
 		var data = new FormData();
 		data.append("pdNo",pdNo);
 		data.append("pdAmount",pdAmount);
-		data.append("opNo",opNo);
+		data.append("opName",opName);
+		if(opNo != null){
+			data.append("opNo",opNo);
+		}
 		
-		
-		//console.log(json);
 		$.ajax({
 	        data: data,
 	        type: "POST",
-	        dataType: data,
+	        dataType: 'text',
 	        cache: false,
 	        processData: false,
 			contentType: false,
 	        url: '${pageContext.request.contextPath}/product/insertBasket',
-	        success: function(data) {
-	      		alert(data);
-	      		confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
-	        }
+	        success: function (data){
+				var con = confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
+				if(con){
+					location.href = "${pageContext.request.contextPath}/basket/cart.do";
+				}
+			},
+			error(request,status,error){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
 	      });
 		
-		//location.href = "${pageContext.request.contextPath}/member/login.do;
 	});
 });
 </script>

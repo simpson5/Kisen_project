@@ -30,4 +30,6 @@ public interface ProductService {
 
 	int insertBasketNoOption(Basket basket);
 
+	ProductOption selectOptionNo(String opName);
+
 }
