@@ -168,7 +168,7 @@
 				value="${unofficialdemand.question}">
 		</div>
 
-
+		<input type="hidden" name="demandNo" value="${unofficialdemand.demandNo}">
 
 
 
