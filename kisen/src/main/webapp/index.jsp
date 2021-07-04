@@ -19,7 +19,7 @@
 }
 .btn-group{
 	position:absolute;
-	left:32px;
+	left:80px;
 	bottom : 10px;
 }
 </style>
@@ -81,7 +81,6 @@
 		              </p>
 		              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
 		                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-		                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
 		              </div>
 		            </div>
 		        </div>
@@ -112,7 +111,6 @@
 		              </p>
 		              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
 		                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-		                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
 		              </div>
 		            </div>
 		        </div>
@@ -137,72 +135,7 @@
   <!-- row end -->
   </div>
   </c:if>
-  <!-- 화면 최소화시만 보이는 div -->
-  <div class="slide-card d-block d-sm-none">
-    <div id="carouselExampleControls-card" class="carousel slide slide-img" data-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active idol">
-            <!-- card 1-1 -->
-            <div class="card card-slide col-xs-6" style="display: inline-block;">
-              <div class="embed-responsive embed-responsive-4by3 ">
-                <img src="${pageContext.request.contextPath}/resources/images/idol/bts.jpg" class="card-img-top embed-responsive-item  card-img" alt="tree">
-              </div>
-              <div class="card-body ">
-                <p class="card-title-slide">방탄소년단</p>
-                <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-              </div>
-            <!-- card End -->
-            </div>                  
-            <!-- card 1-2 -->
-            <div class="card card-slide col-xs-6" style="display: inline-block;">
-              <div class="embed-responsive embed-responsive-4by3 ">
-                <img src="${pageContext.request.contextPath}/resources/images/idol/nct.png" class="card-img-top embed-responsive-item  card-img" alt="tree">
-              </div>
-              <div class="card-body">
-                <p class="card-title-slide">NCT</p>
-                <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-              </div>
-            <!-- card End -->
-            </div>
-        </div>
-        <div class="carousel-item idol" onclick="artistDetail();">
-          <!-- card 2-1 -->
-          <div class="card card-slide col-xs-6" style="display: inline-block;">
-            <div class="embed-responsive embed-responsive-4by3 ">
-              <img src="${pageContext.request.contextPath}/resources/images/idol/itzy.png" class="card-img-top embed-responsive-item  card-img" alt="tree" >
-            </div>
-            <div class="card-body">
-              <p class="card-title-slide">ITZY</p>
-              <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-            </div>
-          <!-- card End -->
-          </div>
-          
-          <!-- card 2-2 -->
-          <div class="card card-slide col-xs-6" style="display: inline-block;">
-            <div class="embed-responsive embed-responsive-4by3 ">
-              <img src="${pageContext.request.contextPath}/resources/images/idol/monstax.jpg" class="card-img-top embed-responsive-item  card-img" alt="tree">
-            </div>
-            <div class="card-body card-body-slide">
-              <p class="card-title-slide">MONSTA X</p>
-              <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-            </div>
-          <!-- card End -->
-          </div>
-        </div>
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleControls-card" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleControls-card" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    <!-- slide end -->
-    </div>
-  <!-- slide-card end -->
-  </div>
+  
 
   
   <!-- 신규 상품 -->
@@ -235,7 +168,6 @@
 		              </p>
 		              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
 		                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-		                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
 		              </div>
 		            </div>
 		        </div>
@@ -266,7 +198,6 @@
 		              </p>
 		              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
 		                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-		                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
 		              </div>
 		            </div>
 		        </div>
@@ -292,72 +223,7 @@
   </div>
   </c:if>
 
-  <!-- 화면 최소화시만 보이는 div -->
-  <div class="slide-card d-block d-sm-none">
-    <div id="carouselExampleControls-card2" class="carousel slide slide-img" data-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active idol">
-            <!-- card 1-1 -->
-            <div class="card card-slide col-xs-6" style="display: inline-block;">
-              <div class="embed-responsive embed-responsive-4by3 ">
-                <img src="${pageContext.request.contextPath}/resources/images/idol/bts.jpg" class="card-img-top embed-responsive-item  card-img" alt="tree">
-              </div>
-              <div class="card-body ">
-                <p class="card-title-slide">방탄소년단</p>
-                <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-              </div>
-            <!-- card End -->
-            </div>                  
-            <!-- card 1-2 -->
-            <div class="card card-slide col-xs-6" style="display: inline-block;">
-              <div class="embed-responsive embed-responsive-4by3 ">
-                <img src="${pageContext.request.contextPath}/resources/images/idol/nct.png" class="card-img-top embed-responsive-item  card-img" alt="tree">
-              </div>
-              <div class="card-body">
-                <p class="card-title-slide">NCT</p>
-                <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-              </div>
-            <!-- card End -->
-            </div>
-        </div>
-        <div class="carousel-item idol" onclick="artistDetail();">
-          <!-- card 2-1 -->
-          <div class="card card-slide col-xs-6" style="display: inline-block;">
-            <div class="embed-responsive embed-responsive-4by3 ">
-              <img src="${pageContext.request.contextPath}/resources/images/idol/itzy.png" class="card-img-top embed-responsive-item  card-img" alt="tree" >
-            </div>
-            <div class="card-body">
-              <p class="card-title-slide">ITZY</p>
-              <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-            </div>
-          <!-- card End -->
-          </div>
-          
-          <!-- card 2-2 -->
-          <div class="card card-slide col-xs-6" style="display: inline-block;">
-            <div class="embed-responsive embed-responsive-4by3 ">
-              <img src="${pageContext.request.contextPath}/resources/images/idol/monstax.jpg" class="card-img-top embed-responsive-item  card-img" alt="tree">
-            </div>
-            <div class="card-body card-body-slide">
-              <p class="card-title-slide">MONSTA X</p>
-              <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-            </div>
-          <!-- card End -->
-          </div>
-        </div>
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleControls-card2" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleControls-card2" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    <!-- slide end -->
-    </div>
-  <!-- slide-card end -->
-  </div>
+  
 
   <!-- 인기 상품 -->
   <c:if test="${!empty bestSellList}">
@@ -389,7 +255,6 @@
 		              </p>
 		              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
 		                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-		                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
 		              </div>
 		            </div>
 		        </div>
@@ -420,7 +285,6 @@
 		              </p>
 		              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
 		                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-		                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
 		              </div>
 		            </div>
 		        </div>
@@ -445,73 +309,6 @@
   <!-- row end -->
   </div>
   </c:if>
-
-  <!-- 화면 최소화시만 보이는 div -->
-  <div class="slide-card d-block d-sm-none">
-    <div id="carouselExampleControls-card3" class="carousel slide slide-img" data-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item active idol">
-            <!-- card 1-1 -->
-            <div class="card card-slide col-xs-6" style="display: inline-block;">
-              <div class="embed-responsive embed-responsive-4by3 ">
-                <img src="${pageContext.request.contextPath}/resources/images/idol/bts.jpg" class="card-img-top embed-responsive-item  card-img" alt="tree">
-              </div>
-              <div class="card-body ">
-                <p class="card-title-slide">방탄소년단</p>
-                <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-              </div>
-            <!-- card End -->
-            </div>                  
-            <!-- card 1-2 -->
-            <div class="card card-slide col-xs-6" style="display: inline-block;">
-              <div class="embed-responsive embed-responsive-4by3 ">
-                <img src="${pageContext.request.contextPath}/resources/images/idol/nct.png" class="card-img-top embed-responsive-item  card-img" alt="tree">
-              </div>
-              <div class="card-body">
-                <p class="card-title-slide">NCT</p>
-                <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-              </div>
-            <!-- card End -->
-            </div>
-        </div>
-        <div class="carousel-item idol" onclick="artistDetail();">
-          <!-- card 2-1 -->
-          <div class="card card-slide col-xs-6" style="display: inline-block;">
-            <div class="embed-responsive embed-responsive-4by3 ">
-              <img src="${pageContext.request.contextPath}/resources/images/idol/itzy.png" class="card-img-top embed-responsive-item  card-img" alt="tree" >
-            </div>
-            <div class="card-body">
-              <p class="card-title-slide">ITZY</p>
-              <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-            </div>
-          <!-- card End -->
-          </div>
-          
-          <!-- card 2-2 -->
-          <div class="card card-slide col-xs-6" style="display: inline-block;">
-            <div class="embed-responsive embed-responsive-4by3 ">
-              <img src="${pageContext.request.contextPath}/resources/images/idol/monstax.jpg" class="card-img-top embed-responsive-item  card-img" alt="tree">
-            </div>
-            <div class="card-body card-body-slide">
-              <p class="card-title-slide">MONSTA X</p>
-              <button type="button" class="btn btn-sm btn-outline-main">상세보기</button>
-            </div>
-          <!-- card End -->
-          </div>
-        </div>
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleControls-card3" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleControls-card3" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    <!-- slide end -->
-    </div>
-  <!-- slide-card end -->
-  </div>
 
 
 <!-- container end -->
