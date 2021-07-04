@@ -272,5 +272,51 @@
 		fan_board
 	where fb_no = #{no}
 </select>
-
+<!-- =========================== [ 좋아요 - 좋아요 검사 ] =========================== -->
+<select id="checkFbLike" resultType="_int">
+	select
+		nvl(max(point), 0) point
+	from
+		fb_like
+	where
+		fb_no = #{fbNo}
+		and
+		fan_id = #{fanId}
+</select>
+<!-- =========================== [ 좋아요 - 좋아요 증가 ] =========================== -->
+<update id="updateFanBoardLikeAdd">
+	update
+    	fan_board
+	set
+    	fb_like = fb_like + 1
+	where
+    	fb_no = #{fbNo}
+</update>
+<!-- =========================== [ 좋아요 - 좋아요 감소 ] =========================== -->
+<update id="updateFanBoardLikeCancel">
+	update
+    	fan_board
+	set
+    	fb_like = fb_like - 1
+	where
+    	fb_no = #{fbNo}
+</update>
+<!-- =========================== [ 좋아요 - fbLike 행 추가 ] =========================== -->
+<insert id="insertFbLikeAdd">
+	insert into
+    	fb_like
+	values(
+		#{fbNo}, 
+		#{fanId}, 
+		1)
+</insert>
+<!-- =========================== [ 좋아요 - point 증가 ] =========================== -->
+<update id="updateFbLikePoint">
+	update
+    	fan_board
+	set
+    	fb_like = fb_like - 1
+	where
+    	fb_no = #{fbNo}
+</update>
 </mapper>

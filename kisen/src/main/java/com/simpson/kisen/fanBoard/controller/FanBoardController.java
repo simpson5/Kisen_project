@@ -98,8 +98,7 @@ public class FanBoardController {
 
 	@PostMapping("/fanBoardEnroll.do")
 	public String fanBoardEnroll(@ModelAttribute FanBoardExt fanBoard,
-			@RequestParam(name = "upFile") MultipartFile[] upFiles, RedirectAttributes redirectAttr, Model model)
-			throws Exception {
+			@RequestParam(name = "upFile") MultipartFile[] upFiles, Model model) throws Exception {
 		log.info("board = {}", fanBoard);
 		try {
 			// 1. 서버 컴퓨터에 파일 저장
@@ -140,11 +139,9 @@ public class FanBoardController {
 			// 2. 업무로직 : db저장 (board, attach테이블 모두 insert)
 			fanBoard.setAttachList(fbAttachList);
 			int result = fanBoardService.insertFanBoard(fanBoard);
-			
+
 			log.info("fanBoard.fbNo = {}", fanBoard.getFbNo());
-			
-			// 3. 사용자 피드백 & 리다이렉트
-			redirectAttr.addFlashAttribute("msg", "게시글 등록 성공!");
+
 		} catch (Exception e) {
 			log.error("게시글 등록 오류!", e);
 			throw e;
@@ -153,21 +150,15 @@ public class FanBoardController {
 	}
 
 	@GetMapping("/fanBoardList/{idolNo}")
-	public ResponseEntity<?> fanBoardList(
-			// @RequestParam int idolNo,
-			@PathVariable int idolNo,
-			@RequestParam(required = true, defaultValue = "1") int cPage, 
-			Model model, 
-			HttpServletRequest request) {
+	public ResponseEntity<?> fanBoardList(@PathVariable int idolNo,
+			@RequestParam(required = true, defaultValue = "1") int cPage, Model model, HttpServletRequest request) {
 		try {
 			log.info("idolNo= {}", idolNo);
 			log.debug("cPage = {}", cPage);
 			final int limit = 10;
 			final int offset = (cPage - 1) * limit;
 			log.info("idolNo = {}", idolNo);
-			// service로 넘길 때 limit, offset을 둘 다 넘겨도 되지만
-			// 여러 인자를 넘기는게 부담스러운 일
-			// -> map으로 담아서 넘기기
+
 			Map<String, Object> param = new HashMap<>();
 			param.put("idolNo", idolNo);
 			param.put("limit", limit);
@@ -179,27 +170,21 @@ public class FanBoardController {
 			// pageBar 가져오기
 			// 전체페이지수, 현재페이지, 한페이지당 게시글 수, 이동할 url
 			int totalContents = fanBoardService.selectFanBoardTotalContents(idolNo);
-			String url = request.getRequestURI(); // 현재 요청페이지
+			String url = request.getContextPath(); // 현재 요청페이지
 			log.debug("totalContents = {}, url = {}", totalContents, url);
 			// totalContents = 60, url = /spring/board/boardList.do
 
-			String pageBar = HelloSpringUtils.getPageBar(totalContents, cPage, limit, url);
+			String pageBar = HelloSpringUtils.getFbPageBar(totalContents, cPage, limit, url, idolNo);
 
 			Map<String, Object> map = new HashMap<>();
 			map.put("list", list);
 			map.put("pageBar", pageBar);
 
 			return ResponseEntity.ok().body(map);
-			// 2. jsp에 위임
-			// model.addAttribute("list", list);
-			// model.addAttribute("pageBar", pageBar);
 		} catch (Exception e) {
 			log.error("게시글 조회 오류!", e);
 			throw e;
 		}
-		// return "board/boardList";
-		// board테이블안에서 첨부파일이 있는지 확인하는 법
-		// 이걸 상속하는 vo클래스를 만들어서 자식클래스에서 해결
 	}
 
 	@GetMapping("/fanBoardListWithArtistInfo.do")
@@ -215,24 +200,11 @@ public class FanBoardController {
 				principal = (Fan) authentication.getPrincipal();
 			} catch (Exception e) {
 			}
-			// board테이블, attachment테이블 따로따로 가져와서 jsp에 뿌리기
-			// attachment의 경우, typeHandler 만들기 (boolean -> 'Y', 'N')
-			// 1. 업무로직
-			// 게시글 가져오기
-			/*
-			 * List<FbAttachment> attachList = fanBoardService.selectAttachList(no);
-			 * if(attachList.size() > 0) { FanBoardExt fanBoard = null; fanBoard =
-			 * fanBoardService.selectOneFanBoardCollection(no);
-			 * model.addAttribute("fanBoard", fanBoard); } else { FanBoard fanBoard2 =
-			 * fanBoardService.selectOneFanBoard(no); model.addAttribute("fanBoard",
-			 * fanBoard2); }
-			 */
-			
-				FanBoardExt fanBoard = null;
-			fanBoard = fanBoardService.selectOneFanBoardCollection(no);				
-				model.addAttribute("fanBoard", fanBoard);
 
-			
+			FanBoardExt fanBoard = null;
+			fanBoard = fanBoardService.selectOneFanBoardCollection(no);
+			model.addAttribute("fanBoard", fanBoard);
+
 			// 게시글의 아이돌이름 가져오기
 			int idolNo = fanBoardService.selectOneIdolNo(no);
 			String idolName = fanBoardService.selectOneIdolName(idolNo);
@@ -243,7 +215,6 @@ public class FanBoardController {
 			log.info("commentList = {}", commentList);
 			log.info("commentCnt = {}", commentCnt);
 
-
 			// 리스트 가져오기
 			final int limit = 5;
 			final int offset = (cPage - 1) * limit;
@@ -252,17 +223,15 @@ public class FanBoardController {
 			param.put("limit", limit);
 			param.put("offset", offset);
 			List<FanBoard> list = fanBoardService.selectFanBoardList(param);
+
 			// pageBar 가져오기
 			// 전체페이지수, 현재페이지, 한페이지당 게시글 수, 이동할 url
 			int totalContents = fanBoardService.selectFanBoardTotalContents(idolNo);
-			String url = request.getRequestURI(); // 현재 요청페이지
+			String url = request.getContextPath(); // 현재 요청페이지
 			log.debug("totalContents = {}, url = {}", totalContents, url);
 			// totalContents = 60, url = /spring/board/boardList.do
 
-			String pageBar = HelloSpringUtils.getPageBar(totalContents, cPage, limit, url);
-
-			// 좋아요
-			ArrayList<FanBoardLike> likeList = new ArrayList<>();
+			String pageBar = HelloSpringUtils.getFbDetailPageBar(totalContents, cPage, limit, url, no);
 
 			// 2. jsp에 위임
 			model.addAttribute("idolName", idolName);
@@ -281,7 +250,6 @@ public class FanBoardController {
 
 	// 파일 다운로드
 	@GetMapping("/fileDownload.do")
-	// 응답에 작성할 타입을 generic의 안에 적어둠
 	public ResponseEntity<Resource> fileDownloadWithResponseEntity(@RequestParam int no)
 			throws UnsupportedEncodingException {
 		ResponseEntity<Resource> responseEntity = null;
@@ -300,7 +268,6 @@ public class FanBoardController {
 			String filename = new String(attach.getOriginalFilename().getBytes("utf-8"), "iso-8859-1"); // throws
 																										// UnsupportedEncodingException
 			// 3. Response Entity객체 생성 및 리턴
-			// builder패턴 : 메소드를 연이어가면서 객체 생성
 			responseEntity = ResponseEntity.ok() // status code를 200번으로 설정
 					.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE)
 					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + filename).body(resource);
@@ -320,7 +287,6 @@ public class FanBoardController {
 			int result = fanBoardService.insertfbComment(fbComment);
 			Map<String, Object> map = new HashMap<>();
 			map.put("msg", "댓글을 등록하였습니다.");
-			// 비동기요청이기 때문에 redirect할 필요없음
 			return map;
 		} catch (Exception e) {
 			log.error("댓글 등록에 실패하였습니다.");
@@ -373,55 +339,31 @@ public class FanBoardController {
 			throw e;
 		}
 	}
-	
+
 	@ResponseBody
 	@PostMapping("/fbReply")
 	public Map<String, Object> insertfbReply(
 
-				@RequestBody FbComment fbReply) {
+			@RequestBody FbComment fbReply) {
 		try {
 			log.debug("fbComment = {}", fbReply);
 			int result = fanBoardService.insertfbReply(fbReply);
 			Map<String, Object> map = new HashMap<>();
 			map.put("msg", "댓글을 등록하였습니다.");
-			// 비동기요청이기 때문에 redirect할 필요없음
+
 			return map;
 		} catch (Exception e) {
 			log.error("댓글 등록에 실패하였습니다.");
 			throw e;
 		}
 	}
-	
-	/*
-	 * // ${loginMember.fanId}\${fanBoard.fbNo}
-	 * 
-	 * @PostMapping("/AddFbLike/{fanId}/{fbNo}") public ResponseEntity<?> AddFbLike(
-	 * 
-	 * @PathVariable String fanId,
-	 * 
-	 * @PathVariable String fbNo, Model model) { try {
-	 * 
-	 * int articleLikeAvailable = fanBoardService.chkLikeAvailable(fbNo, fanId);
-	 * 
-	 * if(articleLikeAvailable > 0) { // 좋아요 체크 -> 좋아요 데이터가 없을 경우 Map<String,
-	 * Object> like = fanBoardService.addLike(fbNo); } else { // 좋아요 해제 -> 좋아요 데이터가
-	 * 있을 경우 deleteLike(); }
-	 * 
-	 * String idolName = fanBoardService.selectOneIdolName(idolNo);
-	 * 
-	 * Map<String, Object> map = new HashMap<>(); map.put("idolName", idolName);
-	 * 
-	 * 
-	 * return ResponseEntity.ok().body(map); } catch (Exception e) {
-	 * log.error("아이돌이름 조회 오류!", e); throw e; } }
-	 */
+
 	@GetMapping("/searchKeyword.do")
 	@ResponseBody
-	public Map<String, Object> searchKeyword(@RequestParam String searchKeyword){
+	public Map<String, Object> searchKeyword(@RequestParam String searchKeyword) {
 		log.debug("searchTitle = {}", searchKeyword);
-		
+
 		// 1. 업무로직 : 검색어로 board 조회
-		// 제목이 일치하느냐, 게시글의 번호만 조회하면 되니까 Board로 진행
 		// 해당 검색어에 대해 여러건의 결과가 넘어오므로 list
 		List<FanBoard> list = fanBoardService.searchKeyword(searchKeyword);
 		log.debug("list = {}", list);
@@ -432,10 +374,9 @@ public class FanBoardController {
 		map.put("searchKeyword", searchKeyword);
 		return map;
 	}
-	
+
 	@DeleteMapping("/fbCommentDelete/{commentNo}")
-	public ResponseEntity<?> deleteFbComment(
-							@PathVariable int commentNo) {
+	public ResponseEntity<?> deleteFbComment(@PathVariable int commentNo) {
 		try {
 			int result = fanBoardService.deleteFbComment(commentNo);
 			if (result > 0) {
@@ -446,7 +387,7 @@ public class FanBoardController {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404를 넘김
 			}
 		} catch (Exception e) {
-			log.error("게시글 수정에 실패했습니다.", e);
+			log.error("댓글을 삭제하였습니다.", e);
 			throw e;
 		}
 	}
@@ -456,14 +397,14 @@ public class FanBoardController {
 		try {
 			int result = fanBoardService.updateFbReadCnt(fbNo);
 			if (result > 0) {
-			int readCnt = fanBoardService.selectOneReadCnt(fbNo);
-			
-			Map<String, Object> map = new HashMap<>();
-			map.put("msg", "조회수를 1 증가하였습니다.");
-			map.put("readCnt", readCnt);
-			log.info("readCnt = {}", readCnt);
-			return new ResponseEntity<>(map, HttpStatus.OK);
-			
+				int readCnt = fanBoardService.selectOneReadCnt(fbNo);
+
+				Map<String, Object> map = new HashMap<>();
+				map.put("msg", "조회수를 1 증가하였습니다.");
+				map.put("readCnt", readCnt);
+				log.info("readCnt = {}", readCnt);
+				return new ResponseEntity<>(map, HttpStatus.OK);
+
 			} else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404를 넘김
 			}
@@ -472,17 +413,15 @@ public class FanBoardController {
 			throw e;
 		}
 	}
-	
+
 	@PostMapping("/fanBoardUpdate.do")
-	public String fanBoardUpdate(
-					@ModelAttribute FanBoardExt fanBoard,
-					@RequestParam(name = "upFile") MultipartFile[] upFiles, 
-					@RequestParam(name = "delFile", required=false) String[] attachNoes,
-					RedirectAttributes redirectAttr,
-					Model model) throws Exception {
+	public String fanBoardUpdate(@ModelAttribute FanBoardExt fanBoard,
+			@RequestParam(name = "upFile") MultipartFile[] upFiles,
+			@RequestParam(name = "delFile", required = false) String[] attachNoes, RedirectAttributes redirectAttr,
+			Model model) throws Exception {
 		try {
 			log.info("board = {}", fanBoard);
-			
+
 			// 1. 서버 컴퓨터에 파일 저장
 			String saveDirectory = application.getRealPath("resources/upload/fanBoard");
 			log.info("saveDirectory = {}", saveDirectory);
@@ -521,9 +460,7 @@ public class FanBoardController {
 			// 2. 업무로직 : db저장 (board, attach테이블 모두 insert)
 			fanBoard.setAttachList(fbAttachList);
 			int result = fanBoardService.updateFanBoard(fanBoard, attachNoes);
-			
-			// 3. 사용자 피드백 & 리다이렉트
-			redirectAttr.addFlashAttribute("msg", "게시글을 수정하였습니다.");
+
 		} catch (Exception e) {
 			log.error("게시글 수정에 실패했습니다.", e);
 			throw e;
@@ -531,4 +468,31 @@ public class FanBoardController {
 		return "redirect:/fanBoard/fanBoardDetail.do?no=" + fanBoard.getFbNo();
 	}
 	
+	@PostMapping("/fanBoardLikeAdd.do")
+	public ResponseEntity<?> updateFanBoardLikeAdd (
+					@RequestParam int fbNo, @RequestParam String fanId) {
+		try {
+			Map<String, Object> param = new HashMap<>();
+			param.put("fanId", fanId);
+			param.put("fbNo", fbNo);
+			log.info("fanId = {}", fanId);
+			
+			Map<String, Object> map = new HashMap<>();
+			int result = fanBoardService.updateFbLikeAdd(param);
+			if (result == 1) {
+				map.put("msg", "좋아요를 1 증가 하였습니다.");
+				return new ResponseEntity<>(map, HttpStatus.OK);
+			} 
+			if (result == -1) {
+				map.put("msg", "이미 좋아요를 누르셨습니다.");
+				return new ResponseEntity<>(map, HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404를 넘김
+			}
+		} catch (Exception e) {
+			log.error("좋아요 증가에 실패하였습니다.", e);
+			throw e;
+		}
+	}
 }

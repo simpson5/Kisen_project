@@ -24,7 +24,7 @@ body, html {
 }
 .btn-group{
 	position:absolute;
-	left:32px;
+	left:80px;
 	bottom : 10px;
 }
 
@@ -238,12 +238,6 @@ button .write {
 	border-top: 1px solid #d4d8d9;
 }
 
-.btn-group {
-	float: right;
-	line-height: 50px;
-	padding-top: 5px;
-}
-
 .paging-area {
 	width: 100%;
 	height: 50px;
@@ -344,10 +338,7 @@ textarea.autosize {
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col" colspan="4" id="pd_name">${product.pdName}
-								<input type="hidden" name=pdN value="${product.pdNo}">
-								<input type="hidden" name=fanN value="${loginMember.fanNo}">
-							</th>
+							<th scope="col" colspan="4" id="pd_name">${product.pdName}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -370,18 +361,19 @@ textarea.autosize {
 						<c:if test="${not loop_flag}">	
 							<c:if test="${not empty pdOp.optionName}">	
 							<c:set var="loop_flag" value="true"/>
-							<tr>
-								<th>옵션</th>
-								<td colspan="3" style="border: 0; outline: 0;"><select
-									class="form-select" aria-label="Default select example"
-									name="option-select">
-									
-										<option selected disabled>- [필수] 옵션을 선택해 주세요 -</option>
-										<c:forEach items="${product.pdOptionList}" var="pdOp">
-											<option value="${pdOp.optionName}">${pdOp.optionName}</option>
-										</c:forEach>
-								</select></td>
-							</tr>
+							 <tr>
+		                        <th>옵션</th>
+		                        <td colspan="3" style="border: 0; outline: 0;"><select
+		                           class="form-select" aria-label="Default select example"
+		                           id="opSelc"
+		                           name="option-select">
+		                           
+		                              <option selected>- [필수] 옵션을 선택해 주세요 -</option>
+		                              <c:forEach items="${product.pdOptionList}" var="pdOp">
+		                                 <option value="${pdOp.optionName}" value2="${pdOp.optionNo}" data-no="${pdOp.optionNo}">${pdOp.optionName}</option>
+		                              </c:forEach>
+		                        </select></td>
+		                     </tr>
 							</c:if>
 						</c:if>
 						</c:forEach>
@@ -443,7 +435,8 @@ textarea.autosize {
 								<c:if test="${product.pdStock ne 0}">
 									<button type="button" class="btn btn-dark col-5 mx-2 py-2" onclick="buyNow(this);">구매하기</button>
 									<button type="button"
-										class="btn btn-outline-secondary col-5 mx-2 py-2">장바구니
+										class="btn btn-outline-secondary col-5 mx-2 py-2" 
+										name="cart">장바구니
 										담기</button>
 								</c:if>
 								<c:if test="${product.pdStock eq 0}">
@@ -508,9 +501,7 @@ textarea.autosize {
 			
 			<div class="btn-area">
 				<div class="btn-group" role="group" aria-label="Basic example">
-				<c:if test="${not empty loginMember}">
 					<button type="button" class="btn btn-dark write" name="reviewWrite"  onclick="location.href='${pageContext.request.contextPath}/review/reviewForm.do?no=${no}'">글 작성</button>
-				</c:if>
 				</div>
 			</div>
 			<div class="paging-area">
@@ -545,8 +536,7 @@ textarea.autosize {
 							                <span class="badge bg-dark">${product.pdCategory}</span>
 							              </p>
 							              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
-							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-							                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
+							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>         
 							              </div>
 							            </div>
 							        </div>
@@ -577,7 +567,6 @@ textarea.autosize {
 							              </p>
 							              <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
 							                <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-							                <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
 							              </div>
 							            </div>
 							        </div>
@@ -604,8 +593,6 @@ textarea.autosize {
 		</div>
 	</div>
 </div>
-<form action="${pageContext.request.contextPath}/basket/buyNow.do" method="POST" name=buyNowFrm>
- </form>
 <script>
 $(".pd-nav").click(function(e){
 	var id = $(e.target).attr('id');
@@ -651,6 +638,16 @@ $(".select-option").on("click", ".down", e => {
 	total();
 });
 
+$(".select-option").on("click", ".delete", e => {
+	var $delete = $(e.target).siblings();
+	$this = $delete.parent().parent().parent();
+	$this.remove();
+	total();
+	
+	var op = $(e.target).parent().parent().prev().find(".add-option").text();
+	console.log(op);
+	$("[name=option-select]").append("<option value="+op+">"+op+"</option>");
+});
 
 function total(){
 	var cnt = 0;
@@ -674,11 +671,22 @@ window.onload=total;
 
 
 $("[name=option-select]").change(function(e){
+	
+	if($(e.target).val() == $("[name=option-select] option:eq(0)").val()){
+		return;
+	}
+	
 	var $table = $("<table></table>");
-	console.log($(e.target).val());
+	//console.log($(e.target).val());
 	var option = $(e.target).val();
+	console.log(option);
+	var opNo = $("#opSelc option:selected").attr("value2");
+	console.log(opNo); // String
+		
 	$table
-		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option">`+option +`</span></p></td>
+		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option" data-no="`+opNo+`">`
+			+option +
+			`</span></p></td>
 			<td colspan="1" class="col-1"><span
 			style="position: relative; display: inline-block;"> <input
 				type="text" class="form-controller" name="stock" value="1" min="1" size="3"/>
@@ -696,11 +704,9 @@ $("[name=option-select]").change(function(e){
 	
 	$(".select-option").append($table);
 	total();
-	$(".delete").click(function(){
-		$this = $(this).parent().parent().parent();
-		$this.remove();
-		total();
-	});
+	
+	$("[name=option-select] option:selected").remove();
+	
 });
 
 
@@ -709,7 +715,7 @@ $("[name=option-select]").change(function(e){
 $(() => {
 	$("button[name=pdDetail]").click(e => {
 		//화살표함수안에서는 this는 e.target이 아니다.
-		console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
+		//console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
 		var $no = $(e.target).parent();
 		var no = $no.data("no");
 		console.log(no);
@@ -717,6 +723,8 @@ $(() => {
 		location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + no;
 	});
 });
+
+
 
 function buyNow(obj){
 	var $formId = $(document.buyNowFrm);
@@ -742,6 +750,50 @@ function buyNow(obj){
 	$from.submit;
 }
 
+$(() => {
+	$("button[name=cart]").click(e => {
+		
+		const $option = $(".add-option");
+		//console.log($option);
+		const optionList = [];
+		//console.log("option= "+ $option);
+		
+		$.each($option,  function(index, value){
+			var num = parseInt(value.dataset.no);
+			optionList.push(num);
+	       	console.log("value= "+value.dataset.no);
+	    });
+		var pdNo = "${product.pdNo}";
+		var pdAmount = $("[name=stock]").val();
+		var opNo = optionList;
+		
+		console.log("optionList= "+ optionList);
+		console.log(pdAmount);
+		
+		var data = new FormData();
+		data.append("pdNo",pdNo);
+		data.append("pdAmount",pdAmount);
+		data.append("opNo",opNo);
+		
+		
+		//console.log(json);
+		$.ajax({
+	        data: data,
+	        type: "POST",
+	        dataType: data,
+	        cache: false,
+	        processData: false,
+			contentType: false,
+	        url: '${pageContext.request.contextPath}/product/insertBasket',
+	        success: function(msg) {
+	      		alert(msg);
+	      		//confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
+	        }
+	      });
+		
+		//location.href = "${pageContext.request.contextPath}/basket/cart.do?no=" + no;
+	});
+});
 </script>
 
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

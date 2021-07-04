@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -17,11 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.simpson.kisen.fan.model.vo.Fan;
-import com.simpson.kisen.idol.controller.IdolController;
 import com.simpson.kisen.payment.model.service.PaymentService;
 import com.simpson.kisen.payment.model.vo.Payment;
 import com.simpson.kisen.payment.model.vo.PaymentProduct;
 import com.simpson.kisen.product.model.vo.Basket;
+import com.simpson.kisen.product.model.vo.ProductImgExt;
 
 import lombok.extern.slf4j.Slf4j;
 

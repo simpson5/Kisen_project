@@ -75,21 +75,21 @@
                 <option value="paran.com">paran.com</option>
             </select>
             <p id="chkNoticeEmail" class="chkNotice"></p>
-            <button type="submit" class="btn btn-block search-btn">아이디 찾기</button>
+            <button type="submit" class="btn btn-block search-btn">비밀번호 찾기</button>
         </form>
         <!-- 휴대폰으로 찾기 진행 입력 폼 -->
         <form  
         	  name="searchPhoneFrm"
+        	  method="post"
+        	  action="${pageContext.request.contextPath}/member/checkInfoPhoneForPwd.do"
         	  style="display: none;">
             <p class="fill-in-type">이름</p>
-            <input type="text" class="search-area" name="name" id="phoneName">
+            <input type="text" class="search-area" name="fanName" id="phoneName">
             <p id="chkNoticeNamePhone" class="chkNotice"></p>
             <p class="fill-in-type">휴대전화</p>
-            <input type="text" class="search-area searchPhone" name="phone1" id="phone1" maxlength="3">-
-            <input type="text" class="search-area searchPhone" name="phone2" id="phone2" maxlength="4">-
-            <input type="text" class="search-area searchPhone" name="phone3" id="phone3" maxlength="4">
+            <input type="text" class="search-area" name="phone" id="phone" maxlength="11" placeholder="-없이 입력">
             <p id="chkNoticePhone" class="chkNotice"></p>
-            <button type="submit" class="btn btn-block search-btn">아이디 찾기</button>
+            <button type="submit" class="btn btn-block search-btn">비밀번호 찾기</button>
         </form>
         <div class="text-right login-a">
         <a href="${pageContext.request.contextPath}/member/login.do">로그인하러 가기</a>
@@ -193,13 +193,11 @@ $("[name=searchEmailFrm]").submit(function(){
 <script>
 $("[name=searchPhoneFrm]").submit(function(){
 	console.log("여기 지나감!");
-	var name = $("#phoneName").val();
-	var phone = $("#phone1").val() + $("#phone2").val() + $("#phone3").val();
+	var fanName = $("#phoneName").val();
+	var phone = $("#phone").val();
 	var searchPhoneFrm = $("[name=searchPhoneFrm]");
-    var patternPhone = new RegExp("01[016789][^0][0-9]{2,3}[0-9]{3,4}");  
-   
   	// 1. 이름을 입력하지 않은 경우
-  	if(name == ''){
+  	if(fanName == ''){
 		$("#phoneName").focus();
 		$('#chkNoticeNamePhone').html('이름을 입력해주세요.');
 		return false;
@@ -210,33 +208,6 @@ $("[name=searchPhoneFrm]").submit(function(){
 		$('#chkNoticePhone').html('핸드폰 번호를 바르게 입력해주세요.');
 		return false;
   	}
-	// {id:id} -> {id}로 줄여쓸 수 있음 -> {id : "abcde"}
-	$.ajax({
-		url : "${pageContext.request.contextPath}/member/checkInfoPhoneForPwd.do",
-		data : {
-				name:name,
-				phone:phone},
-
-		success : data => {
-			console.log(data); 
-			const {available} = data;
-			const {tempPwd} = data;
-		    
-			// 사용가능한 경우
-			// if(data.available){
-			if(available) {
-				alert("고객님의 비밀번호를 [ " + tempPwd + " ] 로 임의로 변경하였습니다. 해당 비밀번호로 로그인 한 후 비밀번호를 변경하세요.");
-			}
-			// 사용불가한 경우
-			else {
-				alert("입력된 정보로 정확한 회원정보가 조회되지 않습니다. 정보를 다시 입력하거나 이메일로 찾기를 이용하세요.");
-				return false;
-			}
-		},
-		error : (xhr, stautsText, err) => {
-			console.log(xhr, statusText, err);
-		}
-	});
 });
 </script>
 <!-- section end -->

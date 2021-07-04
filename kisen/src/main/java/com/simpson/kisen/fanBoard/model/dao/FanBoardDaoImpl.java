@@ -82,12 +82,6 @@ public class FanBoardDaoImpl implements FanBoardDao {
 	}
 
 	@Override
-	public int chkLikeAvailable(String fbNo, String fanId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int insertfbReply(FbComment fbReply) {
 		return session.insert("fanboard.insertfbReply", fbReply);
 	}
@@ -130,5 +124,25 @@ public class FanBoardDaoImpl implements FanBoardDao {
 	@Override
 	public FanBoardExt selectOneFanBoard(int no) {
 		return session.selectOne("fanboard.selectOneFanBoard", no);
+	}
+
+	@Override
+	public int checkFbLike(Map<String, Object> param) {
+		return session.selectOne("fanboard.checkFbLike", param);
+	}
+
+	@Override
+	public int updateFanBoardLikeAdd(Map<String, Object> param) {
+		return session.update("fanboard.updateFanBoardLikeAdd", param);
+	}
+
+	@Override
+	public int updateFbLikePoint(Map<String, Object> param) {
+		return session.update("fanboard.updateFbLikePoint", param);
+	}
+
+	@Override
+	public int insertFbLikeAdd(Map<String, Object> param) {
+		return session.insert("fanboard.insertFbLikeAdd", param);
 	}
 }

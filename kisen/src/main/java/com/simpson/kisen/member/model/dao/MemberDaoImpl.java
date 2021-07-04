@@ -57,10 +57,10 @@ public class MemberDaoImpl implements MemberDao {
 		return session.selectList("member.selectOneAuthority", fanId);
 	}
 
-	@Override
-	public int insertAgencyAuthority(Fan member) {
-		return session.insert("member.insertAgencyAuthority", member);
-	}
+	/*
+	 * @Override public int insertAgencyAuthority(Fan member) { return
+	 * session.insert("member.insertAgencyAuthority", member); }
+	 */
 
 	@Override
 	public Fan searchOneMember(Map<String, Object> param) {
@@ -73,13 +73,18 @@ public class MemberDaoImpl implements MemberDao {
 	}
 
 	@Override
-	public Fan selectOneMemberByPhone(Map<String, Object> param) {
-		return session.selectOne("member.selectOneMemberByPhone", param);
+	public Fan selectOneMemberByPhone(Fan fan) {
+		return session.selectOne("member.selectOneMemberByPhone", fan);
 	}
 
 	@Override
 	public int updatePwdToTempPwd(Fan member) {
 		return session.update("member.updatePwdToTempPwd", member);
+	}
+
+	@Override
+	public Fan selectOneMemberByPhoneGet(Map<String, Object> param) {
+		return session.selectOne("member.selectOneMemberByPhoneGet", param);
 	}
 	
 }

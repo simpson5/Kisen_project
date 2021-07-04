@@ -413,6 +413,7 @@ var sum = 0;
 		
 		if(check==true){
 		var $total = $(".total");
+		var $totalO = $(".totalOne");
 		var price = $("[type=hidden]").val();
 		console.log(price);             
 		var total = 0;
@@ -428,9 +429,11 @@ var sum = 0;
 			sum = total;
 			 console.log("sum = "+ sum);
 	   	   $total  += $total.html("<strong>"+total+"</strong>");
+	   	  $totalO  += $totalO.html("<strong>"+total+"</strong>");
 	}
 	else{
 		var $total = $(".total");
+		var $totalO = $(".totalOne");
 		console.log($total);
 		var price = $("[type=hidden]").val();
 		console.log(price);             
@@ -439,6 +442,7 @@ var sum = 0;
 			/* total -=price; */
 		
 	   	   $total  += $total.html("<strong>"+total+"</strong>");
+	   	   $totalO  += $totalO.html("<strong>"+total+"</strong>");
 	}
 });
  
@@ -467,13 +471,15 @@ $("#checkboxDel").click(function(e){
 		   	   $totalO  += $totalO.html("<strong>"+total+"</strong>");
 		}else{
 			var $total = $(".total");
+			var $totalO = $(".totalOne");
 			console.log($total);
 			var price = $("[type=hidden]").val();
 			console.log(price);             
 		
 			var total =0;
 							
-		   	   $total  += $total.html("<strong>"+total+"</strong>");
+		   	$total  += $total.html("<strong>"+total+"</strong>");
+		   	$totalO  += $totalO.html("<strong>"+total+"</strong>");
 		}
 }); 
 

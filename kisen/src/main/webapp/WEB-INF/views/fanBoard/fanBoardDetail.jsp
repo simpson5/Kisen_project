@@ -63,7 +63,7 @@ window.onload = function () {
    </form>
        <button class="move-btn" name="list-board" onclick="location.href='${pageContext.request.contextPath}/fanBoard/fanBoardUpdate.do?fbNo=${fanBoard.fbNo}'">수정</button>
    </c:if>
-    <button class="move-btn" name="list-board" onclick="location.href='${pageContext.request.contextPath}/fanBoard/fanBoardListWithArtistInfo.do?artistNo=${fanBoard.idolNo}'">목록</button>
+    <button class="move-btn" name="list-board" onclick="location.href='${pageContext.request.contextPath}/artist/artistInfo.do?no=${fanBoard.idolNo}&fbActive=1'">목록</button>
 </div>
 <div class="board-container">
 <!-- 게시글 정보 -->
@@ -104,23 +104,17 @@ window.onload = function () {
     <div class="board-content col-11">
       ${fanBoard.fbContent}
     </div>
+    <div class="d-block" style="padding: 0 0 51px;">
     <div class="more col-11">
         <button type="button" id="share-btn" onClick="sendLinkDefault();" value="Default">
         <img style="width: 30px; transform: translateY(-2px);" src="${pageContext.request.contextPath}/resources/images/fanBoard/shareKakao.png"/>
         <span style="color: #3c1e1e;">카카오톡 공유하기</span>
         </button>
     </div>
+    </div>
 </div>
-<!--좋아요 버튼 -->
-<div class="d-inline like-container">
-<button type="button" class="btn_like d-inline">
-  <span class="img_emoti">좋아요</span>
-  <span class="ani_heart_m"></span>
-</button>
-  <span>좋아요 </span><span>${fanBoard.fbLike}</span>
-</div>
-<hr>
 <div class="board-footer">
+<hr>
     <div class="footer-ext col-11">
         <img id="comment-img" src="${pageContext.request.contextPath}/resources/images/fanBoard/comment.png" alt="댓글 이미지">
         <span class="lead comment-cnt-text">댓글 ${commentCnt} </span>
@@ -208,7 +202,7 @@ window.onload = function () {
 <div class="move-bottom">
     <button class="move-btn board-enroll-btn" name="prev-board" onclick="location.href='${pageContext.request.contextPath}/fanBoard/fanBoardEnroll.do?idolNo=' + ${fanBoard.idolNo}">글쓰기</button>
     <button class="move-btn" name="prev-board" id="topBtn">▲ TOP</button>
-    <button class="move-btn" name="list-board" onclick="location.href='${pageContext.request.contextPath}/fanBoard/fanBoardListWithArtistInfo.do?artistNo=${fanBoard.idolNo}'">목록</button>
+    <button class="move-btn" name="list-board" onclick="location.href='${pageContext.request.contextPath}/artist/artistInfo.do?no=${fanBoard.idolNo}&fbActive=1'">목록</button>
 </div>
 <div class="list-container">
     <p><span>${idolName}</span> 게시판 글</p>
@@ -245,7 +239,69 @@ window.onload = function () {
 </tbody>
 </table>
 </c:if>
-    
+</div>
+</div>
+<!--좋아요 버튼 -->
+<div class="d-inline like-container">
+<button type="button" class="btn_like d-inline">
+  <span class="img_emoti">좋아요</span>
+  <span class="ani_heart_m"></span>
+</button>
+  <span>좋아요 </span><span>${fanBoard.fbLike}</span>
+</div>
+
+
+<script>
+/**
+* 좋아요
+*/
+$(document).on('click', '.btn_like', function(){
+	
+
+
+      if($(this).hasClass('btn_unlike')){
+         
+       $(this).removeClass('btn_unlike');
+       $('.ani_heart_m').removeClass('hi');
+       $('.ani_heart_m').addClass('bye');
+
+     }
+     else{
+       // 좋아요 클릭
+       $(this).addClass('btn_unlike');
+       $('.ani_heart_m').addClass('hi');
+       $('.ani_heart_m').removeClass('bye');
+
+       var fanId = `${loginMember.fanId}`;
+       var fbNo = ${fanBoard.fbNo};
+       
+      console.log(fanId);
+      console.log(fbNo);
+      $.ajax({
+          url: '${pageContext.request.contextPath}/fanBoard/fanBoardLikeAdd.do',
+          method: "post",
+          data: {fanId, fbNo},
+          success(data){
+             console.log(data);
+             const {msg} = data;
+             alert(msg);
+          },
+          error(xhr, statusText, err){
+             const {status} = xhr;
+             switch(status){
+                case 404: alert("해당 게시글이 이미 존재하지 않습니다."); break;
+                default: alert("게시글 삭제에 실패하였습니다.");
+             }
+          },
+          complete(){
+             $(e.target)[0].reset();
+          }
+       });
+     }
+});
+
+</script>
+
 <script>
 /**
 * 상세보기
@@ -273,6 +329,20 @@ topEle.on('click', function() {
 * 댓글 추가
 */
 $("#fbCommentFrm").submit(e => {
+
+	// 로그인 검사
+	<c:if test="${empty loginMember}">
+		alert("로그인 후 댓글을 등록하실 수 있습니다.");
+		return false;
+	</c:if>
+
+	// 내용 검사
+	var content = $("[name=content]");
+	if(/^(.|\n)+$/.test(content.val()) == false){
+		alert("답글의 내용을 입력하세요.");
+		return false;
+	}
+	   
    e.preventDefault(); // 폼 제출 방지
    const $frm = $(e.target);
 
@@ -346,9 +416,19 @@ $(".button-reply").click(function(e){
 * 답글 추가
 */
 $(document).on('submit', '[name=fbReplyFrm]', function(e){
-   if(${empty loginMember}){
-      alert("로그인 후 사용하실 수 있습니다.");
-   }
+	
+	<c:if test="${empty loginMember}">
+	alert("로그인 후 댓글을 등록하실 수 있습니다.");
+	return false;
+	</c:if>
+
+	// 내용 검사
+	var content = $("[name=content]");
+	if(/^(.|\n)+$/.test(content.val()) == false){
+		alert("답글의 내용을 입력하세요.");
+		return false;
+	}
+	
 
    e.preventDefault(); // 폼 제출 방지
    const $frm = $(e.target);
@@ -403,7 +483,7 @@ $("#fbDeleteFrm").submit(e => {
          console.log(data);
          const {msg} = data;
          alert(msg);
-         location.href="${pageContext.request.contextPath}/fanBoard/fanBoardListWithArtistInfo.do?artistNo=${fanBoard.idolNo}";
+         location.href="${pageContext.request.contextPath}/artist/artistInfo?no=${fanBoard.idolNo}&fbActive=1";
       },
       error(xhr, statusText, err){
          const {status} = xhr;

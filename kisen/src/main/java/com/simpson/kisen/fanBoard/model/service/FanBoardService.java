@@ -32,8 +32,6 @@ public interface FanBoardService {
 
 	int deleteFanBoard(int fbNo);
 
-	int chkLikeAvailable(String fbNo, String fanId);
-
 	int insertfbReply(FbComment fbReply);
 
 	List<FanBoard> searchKeyword(String searchKeyword);
@@ -49,5 +47,7 @@ public interface FanBoardService {
 	int selectOneIdolNo(int no);
 
 	FanBoard selectOneFanBoard(int no);
+
+	int updateFbLikeAdd(Map<String, Object> param);
 
 }

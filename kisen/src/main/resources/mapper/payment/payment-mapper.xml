@@ -77,7 +77,10 @@
 	
 	<select id="selectBasketList" resultMap="basketMap">
 		 select
-            b.*,
+            b.fan_no,
+            b.product_no,
+            b.pd_amount,
+            b.option_no,
 			p.pd_name,
 			p.pd_content,
 			p.price,
@@ -86,46 +89,39 @@
 			po.option_name
 		from
 			basket b
-		left join
+	 join
 			product p
 		on
 			b.product_no = p.pd_no
-	left join 
+	 join 
 			pd_img pi
 		on
 			b.product_no = pi.pd_no
-   left join
+    join
 			pd_option po
 		on
 			b.option_no = po.option_no
 	<where> 
 			b.fan_no = #{fanNo}	
         and 
-       		pi.pd_category != 'R'
+       		pi.pd_category != 'D'
 	</where>	
 	</select>
 		<resultMap type="basket" id="basketMap">
-	 <id column="product_no" property="pdNo"/>  
-          <result column="idol_no" property="idolNo"/>
-          <result column="pd_category" property="pdCategory"/>
-          <result column="pd_name" property="pdName"/>
+         <id column="fan_no" property="fanNo"/>
+		 <result column="product_no" property="pdNo"/>  
           <result column="pd_amount" property="pdAmount"/>
-          <result column="pd_content" property="pdContent"/>
+          <result column="option_no" property="opNo"/> 
+          <result column="pd_name" property="pdName"/>
+          <result column="pd_content" property="pdContent"/>  
           <result column="price" property="price"/>
-          <result column="pd_stock" property="pdStock"/>
-          <result column="pd_sales" property="pdSales"/>
-          <result column="sales_date" property="salesDate"/>
-          <result column="option_no" property="opNo"/>
-          <result column="fan_no" property="fanNo"/>
-          
-      
+          <result column="pd_no" property="pdNo"/>
+   
      <collection property="productImg" ofType="ProductImg">
           <id column="pd_no" property="pdNo"/>
           <result column="pd_img_no" property="pdImgNo"/>
           <result column="pd_category" property="pdCategory"/>
-          <result column="original_filename" property="originalFilename"/>
           <result column="renamed_filename" property="renamedFilename"/>
-          <result column="upload_date" property="uploadDate"/>
       </collection>
       
        <collection property="productOption" ofType="ProductOption">

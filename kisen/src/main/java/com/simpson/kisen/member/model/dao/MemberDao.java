@@ -25,14 +25,16 @@ public interface MemberDao {
 
 	int insertOauthAgencyMember(Fan member);
 
-	int insertAgencyAuthority(Fan member);
+	// int insertAgencyAuthority(Fan member);
 
 	Fan searchOneMember(Map<String, Object> param);
 
 	Fan selectOneMemberByEmail(String email);
 
-	Fan selectOneMemberByPhone(Map<String, Object> param);
+	Fan selectOneMemberByPhone(Fan fan);
 
 	int updatePwdToTempPwd(Fan member);
+
+	Fan selectOneMemberByPhoneGet(Map<String, Object> param);
 
 }
