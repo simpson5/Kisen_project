@@ -90,6 +90,21 @@ p.album-singer{
    text-align: center;
 }
 
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #917d94;
+    border-color: #aba0ad;
+}
+
+.page-link {
+ color : #5e6063;
+}
+
+.page-link:hover {
+ color : #5d4961;
+}
+
 </style>
 <div id="wrap">
    <div class="container">
@@ -371,16 +386,6 @@ $(".artist-nav").click(function(e){
    }
 });
 
-//팬게시판
-if($("input[name=fbActive]").val() == 1){
-   $("#nav4").addClass('select');
-   $("#nav1").removeClass('select');
-   $('.artist-album').hide();
-   $('.artist-mv').hide();
-   $('.artist-goods').hide();
-   $('.artist-pan-board').show();
-}
-
 
 $(() => {
    $("button[name=pdDetail]").click(e => {
@@ -418,4 +423,15 @@ $(() => {
    </div>
 </div>
 
+<script>
+//팬게시판
+if($("input[name=fbActive]").val() == 1){
+   $("#nav4").addClass('select');
+   $("#nav1").removeClass('select');
+   $('.artist-album').hide();
+   $('.artist-mv').hide();
+   $('.artist-goods').hide();
+   $('.artist-pan-board').show();
+}
+</script>
 <jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>

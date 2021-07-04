@@ -467,4 +467,32 @@ public class FanBoardController {
 		}
 		return "redirect:/fanBoard/fanBoardDetail.do?no=" + fanBoard.getFbNo();
 	}
+	
+	@PostMapping("/fanBoardLikeAdd.do")
+	public ResponseEntity<?> updateFanBoardLikeAdd (
+					@RequestParam int fbNo, @RequestParam String fanId) {
+		try {
+			Map<String, Object> param = new HashMap<>();
+			param.put("fanId", fanId);
+			param.put("fbNo", fbNo);
+			log.info("fanId = {}", fanId);
+			
+			Map<String, Object> map = new HashMap<>();
+			int result = fanBoardService.updateFbLikeAdd(param);
+			if (result == 1) {
+				map.put("msg", "좋아요를 1 증가 하였습니다.");
+				return new ResponseEntity<>(map, HttpStatus.OK);
+			} 
+			if (result == -1) {
+				map.put("msg", "이미 좋아요를 누르셨습니다.");
+				return new ResponseEntity<>(map, HttpStatus.OK);
+			}
+			else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND); // 404를 넘김
+			}
+		} catch (Exception e) {
+			log.error("좋아요 증가에 실패하였습니다.", e);
+			throw e;
+		}
+	}
 }

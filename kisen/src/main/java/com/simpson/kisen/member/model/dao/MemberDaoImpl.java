@@ -57,10 +57,10 @@ public class MemberDaoImpl implements MemberDao {
 		return session.selectList("member.selectOneAuthority", fanId);
 	}
 
-	@Override
-	public int insertAgencyAuthority(Fan member) {
-		return session.insert("member.insertAgencyAuthority", member);
-	}
+	/*
+	 * @Override public int insertAgencyAuthority(Fan member) { return
+	 * session.insert("member.insertAgencyAuthority", member); }
+	 */
 
 	@Override
 	public Fan searchOneMember(Map<String, Object> param) {
