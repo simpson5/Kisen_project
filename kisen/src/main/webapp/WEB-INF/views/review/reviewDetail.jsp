@@ -45,10 +45,6 @@
 	                <th>조회수</th>
 	                <th>${review.readCnt}</th>
 	            </tr>
-	            <tr>
-	                <th>추천수</th>
-	                <th>${review.recoCnt}</th>
-	            </tr>
 	        </thead>
 	        <tbody>
 	            <tr>
@@ -78,10 +74,7 @@
 	                        </div>
 	                        </c:if>
 	                        <c:if test="${empty loginMember || loginMember.fanId ne review.fanId}">
-		                        <div class="col-6 d-grid">
-		                            <button type="button" class="btn btn-sm btn-secondary" style="width: 100%;" onclick="recom(${review.reviewNo},${loginMember.fanId});">추천하기</button>
-		                        </div>
-		                        <div class="col-6 d-grid">
+		                        <div class="col-12 d-grid">
 	                            	<button type="button" class="btn btn-sm btn-main" style="width: 100%;" onclick="location.href='${pageContext.request.contextPath}/product/productInfo?no=${review.pdNo}'">목록으로</button>
 	                        	</div>
 	                        </c:if>

@@ -499,7 +499,7 @@ textarea.autosize {
 			</table>
 			
 			<div class="btn-area">
-				<div class="btn-group" role="group" aria-label="Basic example">
+				<div role="group" aria-label="Basic example" style="text-align:right;">
 					<button type="button" class="btn btn-dark write" name="reviewWrite"  onclick="location.href='${pageContext.request.contextPath}/review/reviewForm.do?no=${no}'">글 작성</button>
 				</div>
 			</div>
@@ -592,8 +592,6 @@ textarea.autosize {
 		</div>
 	</div>
 </div>
-<form action="${pageContext.request.contextPath}/basket/buyNow.do" method="POST" name="buyNowFrm" id="buyNowFrm">
-</form>
 <script>
 $(".pd-nav").click(function(e){
 	var id = $(e.target).attr('id');
@@ -647,7 +645,9 @@ $(".select-option").on("click", ".delete", e => {
 	
 	var op = $(e.target).parent().parent().prev().find(".add-option").text();
 	console.log(op);
-	$("[name=option-select]").append("<option value="+op+">"+op+"</option>");
+	var opNo = $(e.target).parent().parent().prev().find(".add-option").data("no");
+	console.log(opNo);
+	$("[name=option-select]").append("<option value="+op+" value2="+opNo+">"+op+"</option>");
 });
 
 function total(){
@@ -666,7 +666,7 @@ function total(){
 	//console.log($total);
 	//console.log(total);
 
-	$total += $total.html("<span id='total'><strong>"+total+"</strong></span>"+"("+cnt+"개)");
+	$total += $total.html("<strong>"+total+"</strong>"+"("+cnt+"개)");
 }
 window.onload=total;
 
@@ -680,9 +680,14 @@ $("[name=option-select]").change(function(e){
 	var $table = $("<table></table>");
 	//console.log($(e.target).val());
 	var option = $(e.target).val();
-	var subValue = $(this).find("option:selected").data("no");	
+	console.log(option);
+	var opNo = $("#opSelc option:selected").attr("value2");
+	console.log(opNo); // String
+		
 	$table
-		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option" data-no="`+subValue+`">`+option +`</span></p></td>
+		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option" data-no="`+opNo+`">`
+			+option +
+			`</span></p></td>
 			<td colspan="1" class="col-1"><span
 			style="position: relative; display: inline-block;"> <input
 				type="text" class="form-controller" name="stock" value="1" min="1" size="3"/>
@@ -723,6 +728,11 @@ $(() => {
 
 
 function buyNow(obj){
+	if(${empty loginMember}){
+		   	alert("로그인 후 이용가능합니다.");
+		   	location.href = "${pageContext.request.contextPath}/member/login.do";
+		   	return;
+   		}
 	var $formId = $("#buyNowFrm");
 	console.log("formId= "+ $formId);
 
@@ -757,7 +767,11 @@ function buyNow(obj){
 
 $(() => {
 	$("button[name=cart]").click(e => {
-		
+		if(${empty loginMember}){
+		   	alert("로그인 후 이용가능합니다.");
+		   	location.href = "${pageContext.request.contextPath}/member/login.do";
+		   	return;
+   		}
 		const $option = $(".add-option");
 		//console.log($option);
 		const optionList = [];
@@ -771,32 +785,37 @@ $(() => {
 		var pdNo = "${product.pdNo}";
 		var pdAmount = $("[name=stock]").val();
 		var opNo = optionList;
-		
+		var opName = $(".add-option").text();
 		console.log("optionList= "+ optionList);
 		console.log(pdAmount);
 		
 		var data = new FormData();
 		data.append("pdNo",pdNo);
 		data.append("pdAmount",pdAmount);
-		data.append("opNo",opNo);
+		data.append("opName",opName);
+		if(opNo != null){
+			data.append("opNo",opNo);
+		}
 		
-		
-		//console.log(json);
 		$.ajax({
 	        data: data,
 	        type: "POST",
-	        dataType: data,
+	        dataType: 'text',
 	        cache: false,
 	        processData: false,
 			contentType: false,
 	        url: '${pageContext.request.contextPath}/product/insertBasket',
-	        success: function(msg) {
-	      		alert(msg);
-	      		//confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
-	        }
+	        success: function (data){
+				var con = confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
+				if(con){
+					location.href = "${pageContext.request.contextPath}/basket/cart.do";
+				}
+			},
+			error(request,status,error){
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+			}
 	      });
 		
-		//location.href = "${pageContext.request.contextPath}/basket/cart.do?no=" + no;
 	});
 });
 </script>

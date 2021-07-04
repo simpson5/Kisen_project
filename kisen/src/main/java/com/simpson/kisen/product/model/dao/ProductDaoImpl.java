@@ -69,6 +69,11 @@ public class ProductDaoImpl implements ProductDao {
 	public ProductOption selectOptionNo(int[] optionNo) {
 		return session.selectOne("product.selectOption", optionNo);
 	}
+
+	@Override
+	public ProductOption selectOptionNo(String opName) {
+		return session.selectOne("product.selectOpName", opName);
+	}
 	
 	
 }

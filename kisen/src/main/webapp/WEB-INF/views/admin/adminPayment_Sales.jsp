@@ -168,7 +168,7 @@
 
 
 							<c:if test="${not empty payment.waybill}">
-								<td><a href="${payment.waybill }"> ${payment.waybill }</a>
+								<td> <a href="https://tracker.delivery/#/kr.cjlogistics/${payment.waybill }" target="_blank"> ${payment.waybill }</a>
 								</td>
 							</c:if>
 						</tr>

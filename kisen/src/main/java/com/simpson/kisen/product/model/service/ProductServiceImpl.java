@@ -71,4 +71,9 @@ public class ProductServiceImpl implements ProductService {
 	public ProductOption selectOptionNo(int[] opNo) {
 		return productDao.selectOptionNo(opNo);
 	}
+
+	@Override
+	public ProductOption selectOptionNo(String opName) {
+		return productDao.selectOptionNo(opName);
+	}
 }

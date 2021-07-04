@@ -53,6 +53,8 @@ public class ProductController {
 		if(authentication != null) {
 			Fan loginMember = (Fan) authentication.getPrincipal();
 			model.addAttribute("loginMember", loginMember);		
+		}else {
+			model.addAttribute("loginMember", null);		
 		}
 		try {
 			log.debug("cpage = {}", cpage);
@@ -94,14 +96,17 @@ public class ProductController {
 			@RequestParam(name="pdNo") int pdNo,
 			@RequestParam(name="pdAmount") int pdAmount,
 			@RequestParam(name="opNo") int[] opNo,
+			@RequestParam(name="opName") String opName,
 			Authentication authentication,
 			@ModelAttribute ProductImgExt product,
 			Model model
 			) {
 		log.info("opNo = {}",opNo);
 		Fan loginMember = (Fan) authentication.getPrincipal();
-		product = productService.selectOneProduct(pdNo);		
-		//ProductOption productOption= productService.selectOptionNo(opNo);
+		product = productService.selectOneProduct(pdNo);
+		
+		ProductOption productOption= productService.selectOptionNo(opName);
+		log.info("productOption = {}",productOption);
 		
 		int result = 0;
 		Basket basket = new Basket();
@@ -110,23 +115,20 @@ public class ProductController {
 		basket.setPdAmount(pdAmount);
 		if(opNo != null) {
 			for (int i : opNo) {
+				System.out.println("opNo = "+ opNo);
 				basket.setOpNo(i);			
 				result = productService.insertBasket(basket);				
 			}
-		}else {
+		}
+		if(productOption == null) {
+			System.out.println("opNo = "+ opNo);
 			result = productService.insertBasketNoOption(basket);
 		}
-		String msg = "";
 		
-		if(result > 0) {
-			msg = "장바구니 담기 성공!";
-		}else {
-			msg = "장바구니 담기 실패!";
-		}
 		log.info("result={}",result);
 		log.info("product={}",product);
 		log.info("pdNo={}",pdNo);
 		
-		return msg;
-	}
+		return "장바구니 추가 성공!";
+	}	
 }
