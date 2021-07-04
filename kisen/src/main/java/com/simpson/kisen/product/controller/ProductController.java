@@ -53,6 +53,8 @@ public class ProductController {
 		if(authentication != null) {
 			Fan loginMember = (Fan) authentication.getPrincipal();
 			model.addAttribute("loginMember", loginMember);		
+		}else {
+			model.addAttribute("loginMember", null);		
 		}
 		try {
 			log.debug("cpage = {}", cpage);
