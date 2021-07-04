@@ -164,16 +164,7 @@
 
 
 
-      <div class="row">
-
-         <div class="col-lg-12">
-            <div class="form-group">
-               <input class="form-control" type="text" id="email" name="email"
-                  value="" placeholder="주문자 이메일주소">
-            </div>
-         </div>
-
-      </div>
+      
 
 		<div class="row">
 			<div class="col-lg-12">

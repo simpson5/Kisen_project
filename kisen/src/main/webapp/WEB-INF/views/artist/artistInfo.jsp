@@ -4,9 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<!-- 팬게시판 autocomplete 관련 -->
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 <!-- 팬게시판 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/fanBoard/fanBoardList.css" />
@@ -32,8 +30,8 @@ body, html {
 }
 .btn-group {
     position: absolute;
-    left: 24px;
-    bottom: 49px;
+    left: 80px;
+    bottom: 29px;
 }
 
 a{
@@ -162,7 +160,6 @@ p.album-singer{
                                    </p>
                                    <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
                                      <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-                                     <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
                                    </div>
                                  </div>
                              </div>
@@ -200,7 +197,6 @@ p.album-singer{
                                    </p>
                                    <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
                                      <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-                                     <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
                                    </div>
                                  </div>
                              </div>
@@ -247,14 +243,21 @@ p.album-singer{
       <c:forEach items="${idol}" var="idol" varStatus="status">
       <c:if test="${not loop}">
          <c:forEach items="${idol.idolMv}" var ="mv" varStatus="status">
+         <c:if test="${!empty mv.mvLink}">
          <c:set var="loop" value="true"/>
            <div class="col-md-3 mv">
               <iframe width="100%" src="https://www.youtube.com/embed/${mv.mvLink}"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
            </div>
-           </c:forEach>
-       </c:if>
-       </c:forEach>
-       </div>
+         </c:if>
+         <c:if test="${empty mv.mvLink}">
+         <c:set var="loop" value="true"/>
+         	<h5 style="margin: 0 auto;">조회된 정보가 없습니다.</h5>
+         </c:if>
+         </c:forEach>
+      </c:if>
+
+      </c:forEach>
+      </div>
        <div class="row artist-goods" style="display: none;">
           <c:if test="${empty idolProductList}">
             <h5 style="margin: 0 auto;">조회된 정보가 없습니다.</h5>
@@ -284,7 +287,6 @@ p.album-singer{
                                    </p>
                                    <div class="btn-group" role="group" aria-label="Basic example" data-no="${product.pdNo}">
                                      <button type="button" class="btn btn-sm btn-outline-main" name="pdDetail">상세보기</button>
-                                     <button type="button" class="btn btn-sm btn-outline-main">장바구니 담기</button>
                                    </div>
                                  </div>
                              </div>
@@ -396,18 +398,6 @@ $(() => {
       console.log(no);
       
       location.href = "${pageContext.request.contextPath}/product/productInfo?no=" + no;
-   });
-});
-
-$(() => {
-   $("button[name=cart]").click(e => {
-      //화살표함수안에서는 this는 e.target이 아니다.
-      //console.log(e.target); // td태그클릭 -> 부모tr로 이벤트전파(bubbling)
-      var $no = $(e.target).parent();
-      var no = $no.data("no");
-      console.log(no);
-      
-      location.href = "${pageContext.request.contextPath}/basket/cart}";
    });
 });
 

@@ -90,6 +90,7 @@
     border-radius: 97px;
     float: right;
 	margin-right: 43px;
+	transform: translateY(19px);
 }
 
 .move-btn {
@@ -393,7 +394,7 @@ tr:hover {
 }
 
 .like-container {
-	margin-left: 629px;
+	margin-left: 35px;
 }
 
 #share-btn {

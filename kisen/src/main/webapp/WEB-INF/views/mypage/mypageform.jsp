@@ -266,7 +266,7 @@ name="sendFrm">
 <form action="${pageContext.request.contextPath}/unofficial/demandformUpdate.do"
 method=GET 
 name= "formUpdate">
-<input type="hidden" name="demandNo" value="">
+<input type="hidden" name="demandNo" value="${demandNo}">
 </form>
 
 

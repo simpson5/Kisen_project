@@ -500,7 +500,7 @@ textarea.autosize {
 			</table>
 			
 			<div class="btn-area">
-				<div class="btn-group" role="group" aria-label="Basic example">
+				<div role="group" aria-label="Basic example" style="text-align:right;">
 					<button type="button" class="btn btn-dark write" name="reviewWrite"  onclick="location.href='${pageContext.request.contextPath}/review/reviewForm.do?no=${no}'">글 작성</button>
 				</div>
 			</div>
@@ -646,7 +646,9 @@ $(".select-option").on("click", ".delete", e => {
 	
 	var op = $(e.target).parent().parent().prev().find(".add-option").text();
 	console.log(op);
-	$("[name=option-select]").append("<option value="+op+">"+op+"</option>");
+	var opNo = $(e.target).parent().parent().prev().find(".add-option").data("no");
+	console.log(opNo);
+	$("[name=option-select]").append("<option value="+op+" value2="+opNo+">"+op+"</option>");
 });
 
 function total(){
@@ -727,6 +729,11 @@ $(() => {
 
 
 function buyNow(obj){
+	if(${empty loginMember}){
+		   	alert("로그인 후 이용가능합니다.");
+		   	location.href = "${pageContext.request.contextPath}/member/login.do";
+		   	return;
+   		}
 	var $formId = $(document.buyNowFrm);
 	 console.log("formId= "+ $formId);
 	 const fanNo = '<input type="hidden" name ="fanNo" value="'+ $("[name=fanN]").val()+'"/>';
@@ -752,7 +759,11 @@ function buyNow(obj){
 
 $(() => {
 	$("button[name=cart]").click(e => {
-		
+		if(${empty loginMember}){
+		   	alert("로그인 후 이용가능합니다.");
+		   	location.href = "${pageContext.request.contextPath}/member/login.do";
+		   	return;
+   		}
 		const $option = $(".add-option");
 		//console.log($option);
 		const optionList = [];
@@ -785,13 +796,13 @@ $(() => {
 	        processData: false,
 			contentType: false,
 	        url: '${pageContext.request.contextPath}/product/insertBasket',
-	        success: function(msg) {
-	      		alert(msg);
-	      		//confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
+	        success: function(data) {
+	      		alert(data);
+	      		confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
 	        }
 	      });
 		
-		//location.href = "${pageContext.request.contextPath}/basket/cart.do?no=" + no;
+		//location.href = "${pageContext.request.contextPath}/member/login.do;
 	});
 });
 </script>

@@ -50,4 +50,8 @@ public interface FanBoardService {
 
 	int updateFbLikeAdd(Map<String, Object> param);
 
+	int updateFbLikeCancel(Map<String, Object> param);
+
+	int selectFbLikePoint(Map<String, Object> likeParam);
+
 }
