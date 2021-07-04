@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
-@ToString(callSuper = true)
 @NoArgsConstructor
 public class ProductOption extends Product{
 	private int optionNo;

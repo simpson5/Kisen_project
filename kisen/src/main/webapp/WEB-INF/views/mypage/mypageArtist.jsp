@@ -290,11 +290,12 @@ $(".heartBtn").click (e => {
 			url: "${pageContext.request.contextPath}/mypage/dip",
 			data: JSON.stringify(dip),
 			contentType: "application/json; charset=utf-8",
-			method: "POST",
+			method: "PUT",
 	success(data) {
 			console.log(data);
 			const {msg} = data;
 			alert(msg);
+			location.reload();
 		},
 		error: console.log
 		});
@@ -311,6 +312,7 @@ $(".heartBtn").click (e => {
 					console.log(data);
 					const {msg} = data;
 					alert(msg);
+					location.reload();
 				},
 				error: console.log
 			});

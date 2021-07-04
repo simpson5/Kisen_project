@@ -181,8 +181,9 @@ color:  #9033b5;
 	 <tr>
      <th scope="row" class="border border-left-0 border-top-0  border-right-0 "> 
      	<input class="selectProduct" type="checkbox" id="checkboxOne" name="selectProduct" onclick="select(this);" />
- 		<input type="hidden"  name="productNo" value="${basketList.pdNo}"> 
-     	 <input type="hidden" name="opNooo" value="${basketList.pdNo}-${basketList.opNo}"> 
+ 		<input type="hidden"  name="productNo" value="${basketList.productImg.pdNo}"> 
+     	 <input type="hidden" name="opNooo" value="${basketList.opNo}"> 
+     	<input type="hidden" name="opNNooo" value="${basketList.productImg.pdNo}-${basketList.opNo}">  
      </th>
       <td class=" border border-left-0 border-top-0 ">
       	<div class="media">
@@ -386,7 +387,7 @@ function order(obj){
     
 	if($one.prop("checked") == true){
 
-		 var bNo = $one.next().next();
+		 var bNo = $one.next().next().next();
 		 console.log(bNo);
 		 
 		   $.each(bNo, function (index, value){

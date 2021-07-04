@@ -76,8 +76,47 @@
 	</resultMap>
 	
 	<select id="selectBasketList" resultMap="basketMap" >
+	select
+            b.pd_amount,
+			p.pd_name,
+			p.price,
+			p.pd_content,
+            pi.pd_no,
+			pi.pd_category,
+			pi.renamed_filename,
+			po.option_name,
+			po.option_no
+      from
+        pd_option po
+      left join
+         product p
+      on
+         po.pd_no = p.pd_no
+   left join 
+         pd_img pi
+      on
+         po.pd_no = pi.pd_no
+   left join
+         basket b
+      on
+         b.option_no = po.option_no
+    where
+        b.fan_no = #{fanNo}
+    and
+         po.option_name in (
+        select
+            option_name
+        from
+            basket b
+        where
+            b.fan_no = #{fanNo}
+       )
+           
+    and 
+          pi.pd_category  = 'R'
+   
 		
-<!-- 	select 
+	<!-- select 
     	*
 	from 
 		product p
@@ -100,26 +139,30 @@
 	)
 	and 
 		pi.pd_category ='R'	
-	</where>  -->
-	 select
-            b.*,
+	</where>   -->
+	<!--  select
+            
+            b.pd_amount,
 			p.pd_name,
-			p.pd_content,
 			p.price,
+			p.pd_content,
+            pi.pd_no,
 			pi.pd_category,
 			pi.renamed_filename,
-			po.option_name
+			po.option_name,
+			po.option_no
+			
 		from
 			basket b
-		 join
+		left  join
 			product p
 		on
 			b.product_no = p.pd_no
-	 join 
+	 left join 
 			pd_img pi
 		on
 			b.product_no = pi.pd_no
-    join
+   left  join
 			pd_option po
 		on
 			b.option_no = po.option_no
@@ -127,35 +170,46 @@
         b.fan_no = #{fanNo}
 			  
  	and 
-       	pi.pd_category  = 'R'   </where> 
-    	
+       	pi.pd_category  = 'R'   </where>  
+    	 -->
 	</select>
 		<resultMap type="basket" id="basketMap">
+		 <id column="product_no" property="pdNo" /> 
          <id column="fan_no" property="fanNo"/>
-          <result column="pd_no" property="pdNo"/>
-		 <result column="product_no" property="pdNo" /> 
+          <result column="price" property="price"/>
           <result column="pd_amount" property="pdAmount"  />
           <result column="option_no" property="opNo"/> 
+          <result column="pd_content" property="pdContent"/>  
           <result column="idol_no" property="idolNo"/>
           <result column="pd_category" property="pdCategory"/>  
-          <result column="pd_name" property="pdName" />
-          <result column="pd_content" property="pdContent"  />  
-          <result column="price" property="price"  />
+          <result column="pd_sales" property="pdSales"/>
+          <result column="pd_stock" property="pdStock"/>
+          <result column="pd_name" property="pdName"/>
+          <result column="sales_date" property="salesDate"/>
+
+        
+   
+     <collection property="productImg" ofType="productImg" >
+          <id column="pd_no" property="pdNo"/>
+          <id column="pd_img_no" property="pdImgNo"/>
+          <result column="renamed_filename" property="renamedFilename"/>
+          <result column="pd_category" property="pdCategory"/>
+          <result column="original_filename" property="originalFilename"/>
+          <result column="upload_date" property="uploadDate"/>
+      </collection>
+      
+       <collection property="productOption" ofType="productOption" >
+          <id column="option_no" property="optionNo"/>
+          <id column="pd_no" property="pdNo"/>
+          <result column="option_name" property="optionName"/>
+           <result column="pd_name" property="pdName"/>
+          <result column="idol_no" property="idolNo"/>
+          <result column="pd_category" property="pdCategory"/>  
+          <result column="pd_content" property="pdContent"/>  
+          <result column="price" property="price"/>
           <result column="pd_stock" property="pdStock"/>
           <result column="pd_sales" property="pdSales"/>
           <result column="sales_date" property="salesDate"/>
-   
-     <collection property="productImg" ofType="ProductImg">
-          <id column="pd_no" property="pdNo"/>
-          <result column="pd_img_no" property="pdImgNo"/>
-          <result column="pd_category" property="pdCategory"/>
-          <result column="renamed_filename" property="renamedFilename"/>
-      </collection>
-      
-       <collection property="productOption" ofType="ProductOption">
-          <id column="pd_no" property="pdNo"/>
-          <result column="option_no" property="optionNo"/>
-          <result column="option_name" property="optionName"/>
       </collection>
 	</resultMap>
 	
@@ -231,7 +285,15 @@
 	<select id="selectoptionProduct" resultMap="basketMap">
 	
  select 
-    	*
+    	p.pd_No,
+    	p.pd_name,
+    	p.pd_content,
+    	p.price,
+		pi.pd_category,
+		pi.renamed_filename,
+		po.option_name,
+		po.option_no
+    	
 	from 
 		product p
     left join 

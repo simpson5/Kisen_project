@@ -225,9 +225,9 @@ td{
       <td><div class="p-1">${paymentOptionList.pdAmount}</div>
       <input type="hidden" name="pdAmount" value="${paymentOptionList.pdAmount}">
       	
-      <input type="hidden" name="opNo" value="${paymentOptionList.pdNo}-${paymentOptionList.opNo}"> 
+      <input type="hidden" name="opNo" value="${paymentOptionList.productImg.pdNo}-${paymentOptionList.opNo}"> 
       
-      <input type="hidden" name="pdNo" value="${paymentOptionList.pdNo}"> 
+      <input type="hidden" name="pdNo" value="${paymentOptionList.productImg.pdNo}"> 
       </td>
       <td style="color:gray;">- 0원</td>
       <td><div class="p-1">${paymentOptionList.price}원</div>
@@ -540,7 +540,7 @@ $("#agreedAll").change(function(e){
 			pay_method : 'card',
 			merchant_uid : 'merchant_' + new Date().getTime(),
 			name : rslt1,
-			amount : 10,//amount,//테스트용 10원 설정,
+			amount : 10,//amount,//테스트용 10원 설정, 돈은 일단 10원으로...흑흑
 			buyer_name : userName,
 			buyer_email : uemail
 		}, function(rsp) {

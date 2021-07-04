@@ -43,8 +43,8 @@ public class PaymentController {
 			
 		List<Basket> basketList = paymentService.selectBasketList(principal.getFanNo());
 			
-			model.addAttribute("loginMember", principal);
-		model.addAttribute("basketList", basketList); //그냥 이렇게.. 팬 번호 랑 엮어서 조회햇습니당
+		model.addAttribute("loginMember", principal);
+		model.addAttribute("basketList", basketList); 
 			
 			
 			log.info("basketList = {}", basketList);
