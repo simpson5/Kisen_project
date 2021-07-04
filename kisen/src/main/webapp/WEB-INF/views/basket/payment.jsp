@@ -197,16 +197,17 @@ td{
     </tr>
   </thead>
   <tbody>
-    <c:forEach items="${PaymentList}" var ="PaymentList" >
+   <c:forEach items="${paymentOptionList}" var ="paymentOptionList" >
     <tr>
       <td colspan="2">
       	<div class="media">
-		  <img class="" src="${pageContext.request.contextPath}/resources/upload/product/${PaymentList.productImg}" style="width: 100px; height:100px;">
+		  <img class="" src="${pageContext.request.contextPath}/resources/upload/product/${paymentOptionList.productImg}" style="width: 100px; height:100px;">
 		  <div class="media-body my-3 ">
-		  	<input type="hidden" name="pdName" value="${PaymentList.pdName}">
-		  	<input type="hidden" name="fanNo" value="${PaymentList.fanNo}">
-		    <h6 class="mt-0 ">${PaymentList.pdName}</h6> 
-			  <div class="p-1" style="font-size: 12px;">${PaymentList.pdContent}</div>
+		  	<input type="hidden" name="pdName" value="${paymentOptionList.pdName}">
+		  	<input type="hidden" name="fanNo" value="${loginMember.fanNo}">
+		  	
+		    <h6 class="mt-0 ">${paymentOptionList.pdName}</h6> 
+			  <div class="p-1" style="font-size: 12px;">${paymentOptionList.pdContent} / ${paymentOptionList.productOption.optionName}</div>
 			</div>
 		  </div>
 		</div>
@@ -221,19 +222,20 @@ td{
 		   <div class="p-1 font-weight-bold" style="font-size:9px;color:#bc73d6">오늘 바로 발송</div>
 		 </div>
       </td>
-      <td><div class="p-1">${PaymentList.pdAmount}</div>
-      <input type="hidden" name="pdAmount" value="${PaymentList.pdAmount}">
+      <td><div class="p-1">${paymentOptionList.pdAmount}</div>
+      <input type="hidden" name="pdAmount" value="${paymentOptionList.pdAmount}">
       	
-      <input type="hidden" name="opNo" value="${PaymentList.pdNo}-${PaymentList.opNo}"> 
+      <input type="hidden" name="opNo" value="${paymentOptionList.pdNo}-${paymentOptionList.opNo}"> 
       
-      <input type="hidden" name="pdNo" value="${PaymentList.pdNo}"> 
+      <input type="hidden" name="pdNo" value="${paymentOptionList.pdNo}"> 
       </td>
       <td style="color:gray;">- 0원</td>
-      <td><div class="p-1">${PaymentList.price}원</div>
-      <input type="hidden" name="price" value="${PaymentList.price}">
+      <td><div class="p-1">${paymentOptionList.price}원</div>
+      <input type="hidden" name="price" value="${paymentOptionList.price}">
       </td>	
     </tr>
-   </c:forEach>
+</c:forEach>
+
     
   </tbody>
 </table>
@@ -574,7 +576,7 @@ $("#agreedAll").change(function(e){
 		const fanNoo = '<input type="hidden" name ="fanNo" value="'
 				+ $("[name=fanNo]").val() + '"/>';
 		const payType = '<input type="hidden" name ="ptype" value="'+"신용카드"+'"/>';
-		var on = $("[name=opNo]"); //이 두개 값을 그럼,, 흠 묶을 까요 []이렇게요? 이건 딱 하나의 값인가요? 넨 그걸 밑에서더 있으면 돌려서 배열을 만들어줘요
+		var on = $("[name=opNo]");
 		const pdAmount = $("[name=pdAmount]");
 		var pdNo = $("[name=pdNo]");
 		var pdNoOne = $("[name=pdNo]").val();
@@ -599,7 +601,7 @@ $("#agreedAll").change(function(e){
 
 			opNoHtml += '<input type="hidden" name ="opNoo" value="'
 					+ $(value).val() + '"/>';
-			//그럼 여기 value값에 해당 하는 pdNo를 같이 넣어줘야할거 같아요
+			//그럼 여기 value값에 해당 하는 pdNo를 같이 넣어줘야할거 같아요 pdNo-opNo[] 배열
 
 			console.log(opNoHtml);
 		});

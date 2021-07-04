@@ -122,8 +122,9 @@ function deleteB(obj){
 	    var oNoHtml='';
 	    const fanNoo = '<input type="hidden" name ="fanNo" value="'
 			+ $("[name=fanN]").val() + '"/>';
-			 const oppN = $("[name=opN]"); 
-	    //체크된 것의 bNo가져오기
+
+		 const oppN = $("[name=opN]"); 
+	  
 	    var one = $("[name=No]");
 		console.log(one);
 	   
@@ -131,19 +132,19 @@ function deleteB(obj){
 				    console.log(value);
 
 				    bNoHtml +='<input type="hidden" name ="bNo" value="'+$(value).val()+'"/>';
-
+				    console.log(bNoHtml);
 				    });
 
 			   $.each(oppN, function (index, value){
 				    console.log(value);
 
-				    bNoHtml +='<input type="hidden" name ="opNo" value="'+$(value).val()+'"/>';
+				    oNoHtml +='<input type="hidden" name ="opNo" value="'+$(value).val()+'"/>';
 
+					   console.log(oNoHtml);
 				  
 				    });
 			    
-				    console.log(bNoHtml);
-				    console.log(oNoHtml);
+				   
 				    console.log(fanNoo);
 
 	

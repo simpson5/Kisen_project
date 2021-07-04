@@ -3,6 +3,7 @@ package com.simpson.kisen.payment.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -54,30 +55,85 @@ public class PaymentController {
 	}
 	
 	@GetMapping("/payment.do")
-	public void payment(@RequestParam String[] bNo, @RequestParam int total,Authentication authentication, Model model ) {
+	public void payment(@RequestParam(value = "bNo") List<String> bNo, @RequestParam String fanNo,
+			@RequestParam int total, Authentication authentication, Model model) {
 		try {
 			Fan principal = (Fan) authentication.getPrincipal();
-			log.info("bNo = {}",bNo);
-			log.info("total = {}",total); //여기가 그 결제 부분인데 이부분에는 그 저 pdno가 필요해서 아마 아까 그부분에서 리다이렉트로 넘길때 pdno를 같이 보내야 할거 같..ㅅ비다
-			//장바구니 insert는 없나요?그거 지금 원영님이...하시는줄 알았는데 아니더라구요 제가 해야 한다고 해서 
-			
+
+			log.info("bNo = {}", bNo.toString());
+			log.info("total = {}", total);
+			// List<Basket> PaymentoptionList = new ArrayList<Basket>();
+			// List<Basket> PaymentList = new ArrayList<Basket>();
+
+			List<Basket> basketList = new ArrayList<Basket>();
+			for (int i = 0; i < bNo.size(); i++) {
+				Basket bb = new Basket();
+				String[] array = bNo.get(i).split("-");
+				String pdNo = array[0];			
+				String opNo = array[1];
+				bb.setPdNo(pdNo);
+				if (!opNo.equals("0")) {
+					bb.setOpNo(Integer.parseInt(opNo));
+				}
+				log.info("bb = {}", bb);
+				basketList.add(bb);
+			}
+
+			List<Integer> opNoList = new ArrayList<Integer>();
+			List<String> pdNoList = new ArrayList<String>();
+			int i=0;
+			for (Basket bs : basketList) {
+				log.info("bs.getOpNo() = {}", bs.getOpNo());
+				opNoList.add(bs.getOpNo());
+				pdNoList.add(bs.getPdNo());	
+				i++;
+			}
+			log.info("opNoList = {}", opNoList.toString());
+			log.info("pdNoList = {}", pdNoList.toString());
+
+
+
 			Map<String, Object> param = new HashMap<>();
-			param.put("bNo", bNo);
-			
-			List<Basket> PaymentList = paymentService.selectPaymentList(param);
-			
+			param.put("fanNo", fanNo);
+			if (opNoList.size()>0) {
+				param.put("opNo", opNoList);
+				param.put("pdNo", pdNoList);
+				boolean isNull = false;
+				for(int j=0 ; j< opNoList.size();j++) {
+					int opNo =opNoList.get(j);
+					if(opNo== 0)
+						isNull = true;
+				}
+				
+				if (isNull) {
+					param.put("isNull", true);
+				}
+				List<Basket> paymentOptionList = paymentService.selectoptionProduct(param);
+				model.addAttribute("paymentOptionList", paymentOptionList);
+				log.info("paymentOptionList = {}", paymentOptionList);
+
+			} else {
+				param.put("pdNo", pdNoList);
+				List<Basket> paymentList = paymentService.selectPaymentList(param);
+				model.addAttribute("paymentList", paymentList);
+				log.info("paymentList = {}", paymentList);
+			}
+
 			model.addAttribute("loginMember", principal);
-			model.addAttribute("PaymentList", PaymentList);
 			model.addAttribute("total", total);
-	
+
 			log.info("authentication = {}", authentication);
-			log.info("principal = {}", principal);
-			log.info("PaymentList = {}", PaymentList);
+			log.info("authentication = {}", authentication);
+
 		} catch (Exception e) {
 			log.error("장바구니 내역 불러오기 오류!", e);
 			throw e;
 		}
+		
+		
+		
 	}
+	
 	@GetMapping("/payComplet.do")
 	public void payComplet(Authentication authentication, Model model) {
 		try {
@@ -86,7 +142,7 @@ public class PaymentController {
 		List<PaymentProduct> historyList = paymentService.selectHistory(principal.getFanNo());
 			
 			model.addAttribute("loginMember", principal);
-		model.addAttribute("historyList",historyList ); //그냥 이렇게.. 팬 번호 랑 엮어서 조회햇습니당
+		model.addAttribute("historyList",historyList ); 
 			
 			
 			log.info("historyList = {}", historyList);
@@ -155,13 +211,14 @@ public class PaymentController {
 	@PostMapping("/delCart.do")
 	public String delCart(@RequestParam String [] bNo, @RequestParam String fanNo, @RequestParam int[] opNo, RedirectAttributes redirectAttr) {
 		
-		try {
+		try {	
 			log.info("bNo = {}",bNo);
-			
+			log.info("opNo = {}",opNo);
 			Map<String, Object> param = new HashMap<>();
+		
 			param.put("bNo", bNo);	
 			param.put("fanNo", fanNo);
-			param.put("opNo", opNo);
+			param.put("opNo",opNo);
 			//1. 업무로직
 			int result = paymentService.deleteCart(param);
 		
@@ -173,11 +230,13 @@ public class PaymentController {
 		}
 		return "redirect:/basket/cart.do";
 	}
+	
 	@PostMapping("delBasket.do")
 	public String delBasket(@RequestParam String[] bNo, @RequestParam String fanNo,@RequestParam int[] opNo) {
 		
 		try {
 			log.info("bNo = {}",bNo);
+			log.info("opNo = {}",opNo);
 			
 			Map<String, Object> param = new HashMap<>();
 			param.put("bNo", bNo);	
@@ -194,19 +253,52 @@ public class PaymentController {
 	}
 	
 	@PostMapping("/buyNow.do")
-	public String insertBasket(@RequestParam String fanNo, @RequestParam String pdNo,
-			@RequestParam int cnt, @RequestParam int opNo,RedirectAttributes redirectAttr
+	public String insertBasket(@RequestParam String fanNo, @RequestParam String pdNo, @RequestParam int total,
+			@RequestParam(value = "optionList", required = false) int[] optionList, RedirectAttributes redirectAttr
 			 ) { 
 			
+		log.info("optionList={}",Arrays.toString(optionList));
+		log.info("optionList null={}",optionList==null);
+		log.info("fanNo={}",fanNo);
+		log.info("pdNo={}",pdNo);
+		log.info("total={}",total);
+		List<Basket> basketList = new ArrayList<Basket>();
+		List<String> bNo = new ArrayList<String>();
+		
+		
+		if (optionList.length>0) {
+			for(int optionNo : optionList) {
+				Basket bs = new Basket();
+				bs.setFanNo(fanNo);
+				bs.setOpNo(optionNo);
+				bs.setPdNo(pdNo);
+				
+
+				String bNoStr = pdNo+ "-"+optionNo;
+				bNo.add(bNoStr);
+				basketList.add(bs);
+			}
+		}
+		else {
 			Basket bs = new Basket();
 			bs.setFanNo(fanNo);
-			bs.setOpNo(opNo);
 			bs.setPdNo(pdNo);
-			bs.setPdAmount(cnt);
+			String bNoStr = pdNo+ "-" +"0";
+			bNo.add(bNoStr);
+			log.info("bs={}",bs);
+			basketList.add(bs);
+		}
+
+		String[] bNoArr = new String[bNo.size()];		
+		int size=0;
+		for(String temp : bNo){
+			bNoArr[size++] = temp;
+		}
+		log.info("bNoArr={}", Arrays.toString(bNoArr));
+
 		
-			int bsket = paymentService.insertBasket(bs);
-		
-			redirectAttr.addFlashAttribute("msg", "선택상품 삭제 성공!");
-		return null;
+		int bsket = paymentService.insertBasket(basketList);
+		redirectAttr.addAttribute("bNo", bNoArr);
+		return "redirect:/basket/payment.do?total="+total;
 	}
 }

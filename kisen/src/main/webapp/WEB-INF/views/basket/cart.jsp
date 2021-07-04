@@ -181,7 +181,8 @@ color:  #9033b5;
 	 <tr>
      <th scope="row" class="border border-left-0 border-top-0  border-right-0 "> 
      	<input class="selectProduct" type="checkbox" id="checkboxOne" name="selectProduct" onclick="select(this);" />
-     	<input type="hidden"  name="productNo" value="${basketList.pdNo}">
+ 		<input type="hidden"  name="productNo" value="${basketList.pdNo}"> 
+     	 <input type="hidden" name="opNooo" value="${basketList.pdNo}-${basketList.opNo}"> 
      </th>
       <td class=" border border-left-0 border-top-0 ">
       	<div class="media">
@@ -296,6 +297,7 @@ color:  #9033b5;
 		  	<button class="btn btn-outline py-2 " id="cartOder" onclick="order(this);"> 주문하기</button>
 		  </div>
 		  <input type="hidden" name="fanN" value="${loginMember.fanNo}">
+		 
 <form 
 	name="orderFrm" 
 	method="GET" 
@@ -321,7 +323,7 @@ color:  #9033b5;
 	    var oNoHtml='';
 	    const fanNoo = '<input type="hidden" name ="fanNo" value="'
 			+ $("[name=fanN]").val() + '"/>';
-	    const oppN = $("[name=opN]")
+	   
 			
 	    //체크된 것의 bNo가져오기
 	    const $one = $(".selectProduct:checked");
@@ -340,20 +342,23 @@ color:  #9033b5;
 
 				    console.log(bNoHtml);
 				    });
+
+			   const oppN = $one.next().next();
+			   console.log(oppN);
 			    
 			   $.each(oppN, function (index, value){
 				    console.log(value);
 
 				    bNoHtml +='<input type="hidden" name ="opNo" value="'+$(value).val()+'"/>';
 
-				    console.log(bNoHtml);
+				    console.log(oNoHtml);
 				    });
 
 		}//if절 끝
 		 $formId.append(bNoHtml); 
 		 $formId.append(fanNoo); 
 		 $formId.append(oNoHtml); 
-			$formId.submit();
+		$formId.submit();
 		console.log("formId= "+ $formId);
 		
 	
@@ -367,7 +372,8 @@ function order(obj){
 	const total = Number($(".total").text());//전체 금액값
 	console.log(total);
 	const totalHtml ='<input type="hidden" name ="total" value="'+total+'"/>';
-
+	const fanNoo = '<input type="hidden" name ="fanNo" value="'
+		+ $("[name=fanN]").val() + '"/>';
 	var $formId = $(document.orderFrm);
 	 console.log("formId= "+ $formId);
 	
@@ -380,7 +386,7 @@ function order(obj){
     
 	if($one.prop("checked") == true){
 
-		 var bNo = $one.next();
+		 var bNo = $one.next().next();
 		 console.log(bNo);
 		 
 		   $.each(bNo, function (index, value){
@@ -394,6 +400,7 @@ function order(obj){
 	}//if절 끝
 	 $formId.append(bNoHtml);
 		$formId.append(totalHtml);                     
+		 $formId.append(fanNoo);                    
 		$formId.submit();
 	console.log("formId= "+ $formId);
 	
@@ -437,8 +444,10 @@ var sum = 0;
 		console.log($total);
 		var price = $("[type=hidden]").val();
 		console.log(price);             
-	
+
+
 		var total =0;
+		sum = total;
 			/* total -=price; */
 		
 	   	   $total  += $total.html("<strong>"+total+"</strong>");
@@ -477,7 +486,7 @@ $("#checkboxDel").click(function(e){
 			console.log(price);             
 		
 			var total =0;
-							
+			sum=total;				
 		   	$total  += $total.html("<strong>"+total+"</strong>");
 		   	$totalO  += $totalO.html("<strong>"+total+"</strong>");
 		}

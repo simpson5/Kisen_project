@@ -378,7 +378,7 @@ textarea.autosize {
 									
 										<option selected disabled>- [필수] 옵션을 선택해 주세요 -</option>
 										<c:forEach items="${product.pdOptionList}" var="pdOp">
-											<option value="${pdOp.optionName}">${pdOp.optionName}</option>
+											<option value="${pdOp.optionName}" data-no="${pdOp.optionNo}">${pdOp.optionName}</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -393,9 +393,10 @@ textarea.autosize {
 					<c:if test="${not loop_flag}">	
 						<c:if test="${not empty pdOp.optionName}">	
 							<c:set var="loop_flag" value="true"/> 
-				<p
-					style="font-size: 11px; color: #f76560; margin: 10px auto; text-align: center; padding-bottom: 5px; border-bottom: 1px solid #d4d8d9">
-					위 옵션선택 박스를 선택하시면 아래에 상품이 추가됩니다.</p>
+							<p
+							style="font-size: 11px; color: #f76560; margin: 10px auto; text-align: center; padding-bottom: 5px; border-bottom: 1px solid #d4d8d9">
+							위 옵션선택 박스를 선택하시면 아래에 상품이 추가됩니다.
+							</p>
 						</c:if>
 					</c:if>
 				</c:forEach>
@@ -403,7 +404,6 @@ textarea.autosize {
 				<c:set var="looop_flag" value="false"/>
 				<c:forEach items="${product.pdOptionList}" var="pdOp" varStatus="status" >
 				<c:if test="${!empty product}">
-									
 				</c:if>
 					<c:if test="${not looop_flag}">
 						<c:if test="${empty pdOp.optionName}">	
@@ -417,12 +417,12 @@ textarea.autosize {
 							style="position: relative; display: inline-block;"> 
 							<input
 								type="text" class="form-controller" name="stock" value="1" min="1" size="5" />
-							<img class="up"
+							<!-- <img class="up"
 									src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"
 									alt="수량증가">
 							<img class="down"
 									src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_down.gif"
-									alt="수량감소">
+									alt="수량감소"> -->
 							</span></td>
 						</tr>
 						</table>
@@ -604,8 +604,8 @@ textarea.autosize {
 		</div>
 	</div>
 </div>
-<form action="${pageContext.request.contextPath}/basket/buyNow.do" method="POST" name=buyNowFrm>
- </form>
+<form action="${pageContext.request.contextPath}/basket/buyNow.do" method="POST" name="buyNowFrm" id="buyNowFrm">
+</form>
 <script>
 $(".pd-nav").click(function(e){
 	var id = $(e.target).attr('id');
@@ -668,7 +668,7 @@ function total(){
 	//console.log($total);
 	//console.log(total);
 
-	$total += $total.html("<strong>"+total+"</strong>"+"("+cnt+"개)");
+	$total += $total.html("<span id='total'><strong>"+total+"</strong></span>"+"("+cnt+"개)");
 }
 window.onload=total;
 
@@ -677,15 +677,16 @@ $("[name=option-select]").change(function(e){
 	var $table = $("<table></table>");
 	console.log($(e.target).val());
 	var option = $(e.target).val();
+	var subValue = $(this).find("option:selected").data("no");	
 	$table
-		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option">`+option +`</span></p></td>
+		.append(`<tr><td><p class="pt-1">${product.pdName}<br /> <span class="add-option" data-no="`+subValue+`">`+option +`</span></p></td>
 			<td colspan="1" class="col-1"><span
 			style="position: relative; display: inline-block;"> <input
 				type="text" class="form-controller" name="stock" value="1" min="1" size="3"/>
 			<img class="up"
 					src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"
 					alt="수량증가">
-			<img class="down"
+// 			<img class="down"
 					src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_down.gif"
 					alt="수량감소">
 			<img class="delete"
@@ -719,27 +720,36 @@ $(() => {
 });
 
 function buyNow(obj){
-	var $formId = $(document.buyNowFrm);
-	 console.log("formId= "+ $formId);
-	 const fanNo = '<input type="hidden" name ="fanNo" value="'+ $("[name=fanN]").val()+'"/>';
-	 const pdNo = '<input type="hidden" name ="pdNo" value="'+ $("[name=pdN]").val()+'"/>';
-	 const opNo = '<input type="hidden" name ="opNo" value="'+ $("[name=opN]").val()+'"/>';
-	var cnt = 0; //수량
-	var get_input = $(".form-controller");
-	$.each(get_input, function (index, value) {
-		cnt +='<input type="hidden" name ="cnt" value="'+Number($(value).val())+'"/>';
-		
+	var $formId = $("#buyNowFrm");
+	console.log("formId= "+ $formId);
+
+	
+	const $option = $(".add-option");
+	const optionList = [];
+	console.log("option= "+ $option);
+	
+	console.log("no= "+ $option.data("no"));
+	$.each($option,  function(index, value){
+		optionList.push(value.dataset.no)
+		console.log("value= "+value.dataset.no);
 	});
 	
-	console.log(fanNo);
-	console.log(pdNo);
-	console.log(cnt);
-	console.log(opNo);
+	console.log("optionList= "+ optionList);
+	
+	if($("[name=fanN]").val()== ""){
+		alert("로그인 후 이용가능합니다.");
+		return;
+	}
+	const fanNo = '<input type="hidden" name ="fanNo" value="'+ $("[name=fanN]").val()+'"/>';
+	const pdNo = '<input type="hidden" name ="pdNo" value="'+ $("[name=pdN]").val()+'"/>';
+	const opNo = '<input type="hidden" name ="optionList" value="'+ optionList+'"/>';
+	const total = '<input type="hidden" name ="total" value="'+$("#total").text() +'"/>';
+	
 	$formId.append(fanNo);
 	$formId.append(pdNo);
 	$formId.append(opNo);
-	$formId.append(cnt);
-	$from.submit;
+	$formId.append(total);
+	$formId.submit();
 }
 
 </script>

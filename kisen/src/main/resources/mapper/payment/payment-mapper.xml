@@ -75,12 +75,34 @@
       </collection>
 	</resultMap>
 	
-	<select id="selectBasketList" resultMap="basketMap">
-		 select
-            b.fan_no,
-            b.product_no,
-            b.pd_amount,
-            b.option_no,
+	<select id="selectBasketList" resultMap="basketMap" >
+		
+<!-- 	select 
+    	*
+	from 
+		product p
+    left join 
+    	pd_option po
+    on 
+    	p.pd_no = po.pd_no
+    left join 
+    	pd_img pi
+    on 
+    	p.pd_no = pi.pd_no
+	where 
+		p.pd_no in (
+    select 
+    	product_no 
+    from 
+    	basket
+    <where>
+         fan_no = #{fanNo}
+	)
+	and 
+		pi.pd_category ='R'	
+	</where>  -->
+	 select
+            b.*,
 			p.pd_name,
 			p.pd_content,
 			p.price,
@@ -89,7 +111,7 @@
 			po.option_name
 		from
 			basket b
-	 join
+		 join
 			product p
 		on
 			b.product_no = p.pd_no
@@ -101,21 +123,27 @@
 			pd_option po
 		on
 			b.option_no = po.option_no
-	<where> 
-			b.fan_no = #{fanNo}	
-        and 
-       		pi.pd_category != 'D'
-	</where>	
+    <where>
+        b.fan_no = #{fanNo}
+			  
+ 	and 
+       	pi.pd_category  = 'R'   </where> 
+    	
 	</select>
 		<resultMap type="basket" id="basketMap">
          <id column="fan_no" property="fanNo"/>
-		 <result column="product_no" property="pdNo"/>  
-          <result column="pd_amount" property="pdAmount"/>
-          <result column="option_no" property="opNo"/> 
-          <result column="pd_name" property="pdName"/>
-          <result column="pd_content" property="pdContent"/>  
-          <result column="price" property="price"/>
           <result column="pd_no" property="pdNo"/>
+		 <result column="product_no" property="pdNo" /> 
+          <result column="pd_amount" property="pdAmount"  />
+          <result column="option_no" property="opNo"/> 
+          <result column="idol_no" property="idolNo"/>
+          <result column="pd_category" property="pdCategory"/>  
+          <result column="pd_name" property="pdName" />
+          <result column="pd_content" property="pdContent"  />  
+          <result column="price" property="price"  />
+          <result column="pd_stock" property="pdStock"/>
+          <result column="pd_sales" property="pdSales"/>
+          <result column="sales_date" property="salesDate"/>
    
      <collection property="productImg" ofType="ProductImg">
           <id column="pd_no" property="pdNo"/>
@@ -165,38 +193,83 @@
 		<result column="demand_end_date" property="demandendDate"/>
 	</resultMap>
 	
-	<select id="selectPaymentList" resultMap="basketMap" parameterType="map">
-			 select
-            b.*,
-			p.pd_name,
-			p.pd_content,
-			p.price,
-			pi.pd_category,
-			pi.renamed_filename,
-			po.option_name
-		from
-			basket b
-		left join
-			product p
-		on
-			b.product_no = p.pd_no
-	left join 
-			pd_img pi
-		on
-			b.product_no = pi.pd_no
-   left join
-			pd_option po
-		on
-			b.option_no = po.option_no
-	<where> 
-		<if test="bNo != nulll">
-			b.product_no in
-		<foreach  collection="bNo" item="b" open="(" close=")" separator=",">
-	 		#{b} 
+	<select id="selectPaymentList" resultMap="basketMap" >
+ 
+	select 
+    	*
+	from 
+		product p
+    left join 
+    	pd_option po
+    on 
+    	p.pd_no = po.pd_no
+    left join 
+    	pd_img pi
+    on 
+    	p.pd_no = pi.pd_no
+	where 
+		p.pd_no in (
+    select 
+    	product_no 
+    from 
+    	basket
+    <where>
+         fan_no = #{fanNo}
+	
+	and
+		product_no in
+		<foreach  collection="pdNo" item="pn" open="(" close=")" separator=",">
+	 		#{pn} 
 	 	</foreach>
-	 	</if>
-     
-	</where>
+	)
+	and 
+		pi.pd_category ='R'	
+	</where> 
+	  
+	</select>
+	
+	<select id="selectoptionProduct" resultMap="basketMap">
+	
+ select 
+    	*
+	from 
+		product p
+    left join 
+    	pd_option po
+    on 
+    	p.pd_no = po.pd_no
+    left join 
+    	pd_img pi
+    on 
+    	p.pd_no = pi.pd_no
+	where 
+		p.pd_no in (
+    select 
+   		product_no
+    from 
+    	basket
+    <where>
+         fan_no = #{fanNo}
+	
+	 and
+			product_no in
+		<foreach  collection="pdNo" item="pn" open="(" close=")" separator=",">
+	 		#{pn} 
+	 	</foreach>
+	)
+	and
+		(po.option_no in
+		<foreach  collection="opNo" item="on" open="(" close=")" separator=",">
+	 		#{on} 
+	 	</foreach>
+		<if test="isNull == true">
+		 or po.option_no is null 
+		</if>
+	 	)
+	and 
+		pi.pd_category ='R'	
+	</where> 
+	
 	</select>
 	
 	<delete id="deleteCart">
@@ -212,12 +285,13 @@
 	 	</foreach>
 	 	</if>
 	 	and
-		<if test="opNo != nulll">
-		option_no in
+	 	option_no in
+	 	
 		<foreach  collection="opNo" item="op" open="(" close=")" separator=",">
 	 		#{op} 
-	 	</foreach>	
-	 	</if>
+	 	</foreach>
+		
+
 	</where>
 	</delete>
 	
@@ -294,6 +368,8 @@
 
      <collection property="product" ofType="Product">
        	 <id column="pd_no" property="pdNo"/> 
+          <result column="idol_no" property="idolNo"/>
+          <result column="pd_category" property="pdCategory"/>  
           <result column="pd_name" property="pdName"/>
           <result column="pd_content" property="pdContent"/>  
           <result column="price" property="price"/>
@@ -302,6 +378,20 @@
           <result column="sales_date" property="salesDate"/>
       </collection>
       
-       
 	</resultMap>
+	
+	<insert id="insertBasket">
+		insert into basket
+		values(
+		#{fanNo},
+		#{pdNo},
+		default,
+		<if test="opNo != null">
+		#{opNo}
+		</if>
+		<if test="opNo == null">
+		default
+		</if>
+		)
+	</insert>
 </mapper>

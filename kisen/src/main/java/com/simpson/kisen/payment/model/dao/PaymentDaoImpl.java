@@ -45,7 +45,6 @@ public class PaymentDaoImpl implements PaymentDao{
 		return session.delete("payment.deleteCart",param);
 	}
 
-	
 
 	@Override
 	public int insertBasket(Basket bs) {
@@ -65,6 +64,11 @@ public class PaymentDaoImpl implements PaymentDao{
 	@Override
 	public List<PaymentProduct> selectHistory(String fanNo) {
 		return session.selectList("payment.selectHistory",fanNo);
+	}
+
+	@Override
+	public List<Basket> selectoptionProduct(Map<String, Object> param) {
+		return session.selectList("payment.selectoptionProduct",param);
 	}
 
 }
