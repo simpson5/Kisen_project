@@ -292,7 +292,7 @@
 	where
     	fb_no = #{fbNo}
 </update>
-<!-- =========================== [ 좋아요 - 좋아요 감소 ] =========================== -->
+<!-- =========================== [ 좋아요 취소 - 좋아요 감소 ] =========================== -->
 <update id="updateFanBoardLikeCancel">
 	update
     	fan_board
@@ -310,13 +310,26 @@
 		#{fanId}, 
 		1)
 </insert>
-<!-- =========================== [ 좋아요 - point 증가 ] =========================== -->
+<!-- =========================== [ 좋아요 - point 1 ] =========================== -->
 <update id="updateFbLikePoint">
 	update
-    	fan_board
+    	fb_like
 	set
-    	fb_like = fb_like - 1
+    	point = 1
 	where
     	fb_no = #{fbNo}
+    	and
+    	fan_id = #{fanId}
+</update>
+<!-- =========================== [ 좋아요 취소 - point -1 ] =========================== -->
+<update id="updateFbLikePointMinus">
+	update
+    	fb_like
+	set
+    	point = -1
+	where
+    	fb_no = #{fbNo}
+    	and
+    	fan_id = #{fanId}
 </update>
 </mapper>
