@@ -213,6 +213,7 @@ public class AgencyController_Artist {
 			@RequestParam(name="idolName") String idolName,
 			@RequestParam(name="idolImg", required = false ) MultipartFile idolImg,
 			@RequestParam(name="idolMv", required = false) String[] idolMvList,
+			@RequestParam(name="idolMvInsert", required = false) String[] idolMvInsert,
 			Authentication authentication,
 			RedirectAttributes redirectAttr,
 			Model model
@@ -220,7 +221,7 @@ public class AgencyController_Artist {
 		log.info("idolNo@update={}",idolNo);
 		log.info("idolName@update={}",idolName);
 		log.info("idolImg@update={}",idolImg);
-		log.info("idolMvList@update={}",idolMvList);
+		log.info("idolMvList@update={}",Arrays.toString(idolMvList));
 
 	    Fan loginMember = (Fan) authentication.getPrincipal();
 		Agency agency = agencyService.selectAgency(loginMember.getFanNo());
@@ -230,17 +231,38 @@ public class AgencyController_Artist {
 		idol.setIdolName(idolName);
 		idol.setAgencyNo(agency.getAgencyNo());
 		
-		
+		int result = 0;
 		//이미지 변경
-		if(idolImg!=null) {
+		if(!idolImg.isEmpty()) {
 			IdolImg idol_img = ImgUpload(idolImg);
 			idol.setIdolImg(idol_img);
 			if(idolMvList.length>0) {
-				List<IdolMv> mvList = idolMvUpload(idolMvList);
+				List<IdolMv> mvList =  new ArrayList<IdolMv>();;
+				for(String mv : idolMvList) {
+					if(!mv.equals("")) {
+						String[] arr = mv.split("-");
+						IdolMv idol_mv = new IdolMv();
+						idol_mv.setMvNo(Integer.parseInt(arr[0]));
+						idol_mv.setMvLink(arr[1]);
+						mvList.add(idol_mv);
+					}
+				}
 				log.info("mvList={}",mvList.toString());
 				idol.setIdolMv(mvList);
-			}
-			
+				agencyService.updateIdol(idol);
+			}	
+			if(idolMvInsert.length>0) {
+				List<IdolMv> idolMvInsertList = new ArrayList<IdolMv>();;
+				for(String mv : idolMvInsert) {
+					if(!mv.equals("")) {
+						IdolMv idol_mv = new IdolMv();
+						idol_mv.setMvLink(mv);
+						idol_mv.setIdolNo(idolNo);
+						idolMvInsertList.add(idol_mv);
+					}
+				}
+				agencyService.insertMvLink(idolMvInsertList);
+			}	
 		}
 		//이미지 변경 x
 		else {
@@ -248,11 +270,26 @@ public class AgencyController_Artist {
 				List<IdolMv> mvList = idolMvUpload(idolMvList);
 				log.info("mvList={}",mvList.toString());
 				idol.setIdolMv(mvList);
-			}
+				agencyService.updateIdol(idol);
+			}	
+			if(idolMvInsert.length>0) {
+				List<IdolMv> idolMvInsertList = new ArrayList<IdolMv>();;
+				for(String mv : idolMvInsert) {
+					if(!mv.equals("")) {
+						IdolMv idol_mv = new IdolMv();
+						idol_mv.setMvLink(mv);
+						idol_mv.setIdolNo(idolNo);
+						idolMvInsertList.add(idol_mv);
+					}
+				}
+				agencyService.insertMvLink(idolMvInsertList);
+			}	
 		}
 
 		log.info("idol@update={}",idol);
-		int result = agencyService.updateIdol(idol);
+		
+		
+		
 		redirectAttr.addFlashAttribute("msg", "수정 성공");
 		model.addAttribute("agency", agency);
 		return "redirect:agencyArtistDetail/"+idolNo;

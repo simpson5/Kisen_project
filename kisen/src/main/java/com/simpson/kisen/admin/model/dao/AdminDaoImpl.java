@@ -88,7 +88,7 @@ public class AdminDaoImpl implements AdminDao {
 //	공지
 	@Override
 	public int insertNotice(NoticeExt notice) {
-		return session.insert("noticet.insertNotice",notice);
+		return session.insert("notice.insertNotice",notice);
 	}
 
 	@Override

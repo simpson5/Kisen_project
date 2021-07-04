@@ -149,6 +149,9 @@
 			mv_link = #{mvLink}
 		where 
 			idol_no = #{idolNo}
+		and 
+			mv_no = #{mvNo}
+			
 	</update>
 	
 	

@@ -306,7 +306,6 @@ public class AdminController {
 			@RequestParam(name="formFile", required = false) MultipartFile formFile
 		) throws IllegalStateException, IOException { 
 		log.info("notice={}",n);
-		log.info("formFile={}",formFile.getOriginalFilename());
 		NoticeExt notice = n;
 		
 

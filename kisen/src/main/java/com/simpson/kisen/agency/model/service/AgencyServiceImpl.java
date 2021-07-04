@@ -401,6 +401,13 @@ public class AgencyServiceImpl implements AgencyService {
 		return newSalesList;
 	}
 
+	@Override
+	public void  insertMvLink(List<IdolMv> idolMvInsertList) {
+		for(IdolMv idolMv: idolMvInsertList) {
+			 agencyDao.insertIdolMv(idolMv);
+		}
+	}
+
 
 	
 	

@@ -16,10 +16,10 @@
     <h2 class="text-center m-4" style="font-weight: bold;">ARTIST 수정하기</h2>
 	<form:form 
 		name="artistFrm" 
+		id="artistFrm"
 		action="${pageContext.request.contextPath}/agency/agencyArtistUpdate"
 		enctype="multipart/form-data" 
-		method ="Post"
-		onsubmit="return formValidate();">
+		method ="Post">
 	    <div class="mb-4 row">
 	    	<input type="hidden" name="idolNo" value="${idol.idolNo}"/>
 	    	<input type="hidden" name="_method" value="put"/>
@@ -36,12 +36,12 @@
 	    <div class="mb-4 row">
 	        <label class="col-md-3 col-form-label" for="pdContent">MV 리스트</label>
 	        <div class="col-md-9">
-		        <c:forEach items="${idol.idolMv }" var="mv" begin="0"   end="4"  step="1"  varStatus="status">
-		            <input type="text" class="form-control" name="idolMv" value="${mv.mvLink}" data-count="${status.count}">
+		        <c:forEach items="${idol.idolMv}" var="mv" begin="0"   end="4"  step="1"  varStatus="status">
+		            <input type="text" class="form-control" name="idolMvupdate" value="${mv.mvLink}" data-count="${status.count}" data-no="${mv.mvNo}">
 		            <c:if test="${status.last}">
 		            	<c:if test="${status.count<4}">
 		            		<c:forEach  begin="1"   end="${4-status.count}"  step="1"  varStatus="status">
-		           				<input type="text" class="form-control" name="idolMv" >
+		           				<input type="text" class="form-control" name="idolMvInsert" >
 		            		</c:forEach>
 		            	</c:if>
 		            </c:if> 
@@ -80,13 +80,27 @@
 	                <button type="button" class="btn btn-lg btn-dark" style="width: 100%;" onclick="goBack();">취소하기</button>
 	            </div>
 	            <div class="col-6 d-grid p-1">
-	                <button type="submit" class="btn btn-lg btn-main" style="width: 100%;">수정하기</button>
+	                <button type="button" class="btn btn-lg btn-main" style="width: 100%;" onclick="frmSubmit();">수정하기</button>
 	            </div>
 	        </div>
 	    </div>
 	</form:form >
 </div>
 <script>
+function frmSubmit(){
+	var formId = $("#artistFrm");
+	var idolMvupdate = $("[name=idolMvupdate]");
+	var idolMv="";
+	$.each(idolMvupdate, function(index, value){
+		var idolMvNo = value.dataset.no;
+		var idolMvLink = value.value;
+		var idolMvLinkNO = idolMvNo+"-"+idolMvLink;
+		console.log(idolMvLink);
+		idolMv += ' <input type="hidden" name="idolMv" value="'+ (idolMvLinkNO)+'"/>'
+	});
+	formId.append(idolMv);
+	formId.submit();
+}
 function goBack(){
 	window.history.back();
 }
