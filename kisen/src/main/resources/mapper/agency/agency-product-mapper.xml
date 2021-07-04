@@ -18,7 +18,7 @@
 		    default
 		)
 		
-		<selectKey keyProperty="pdNo" resultType="_int" order="AFTER">
+		<selectKey keyProperty="pdNo" resultType="string" order="AFTER">
 			select 
 				seq_pd_no.currval
 			from

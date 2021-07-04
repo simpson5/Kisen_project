@@ -36,7 +36,7 @@ public class AgencyDaoImpl implements AgencyDao {
 			int offset = (int)param.get("offset");
 			int limit = (int)param.get("limit");
 			RowBounds rowBounds = new RowBounds(offset, limit);	
-			idolList = session.selectList("agency-artist.selectIdolList",fanNo,rowBounds);
+			idolList = session.selectList("agency-artist.selectIdolList",fanNo);
 		}
 		else {
 			idolList = session.selectList("agency-artist.selectIdolList",fanNo);
