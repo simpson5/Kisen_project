@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.simpson.kisen.admin.model.vo.SlideImg;
 import com.simpson.kisen.product.model.dao.ProductDao;
+import com.simpson.kisen.product.model.vo.Basket;
 import com.simpson.kisen.product.model.vo.ProductImgExt;
+import com.simpson.kisen.product.model.vo.ProductOption;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,5 +53,22 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductImgExt> selectIdolAlbumList(int no) {
 		return productDao.selectIdolAlbumList(no);
+	}
+
+	@Override
+	public int insertBasket(Basket basket) {
+		return productDao.insertBasket(basket);
+	}
+
+
+
+	@Override
+	public int insertBasketNoOption(Basket basket) {
+		return productDao.insertBasketNoOption(basket);
+	}
+
+	@Override
+	public ProductOption selectOptionNo(int[] opNo) {
+		return productDao.selectOptionNo(opNo);
 	}
 }

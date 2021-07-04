@@ -21,11 +21,6 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/member/signupTerm.css" />
 
 <script>
-//modal : bootstrap이 제공하는 디자인된 팝업창
-$(() => {
-	$("#enrollModal")
-		.modal() // modal이 튀어나오는 함수
-})
 
 // 전체 선택, 전체 해제
 $(document).ready(function(){
@@ -38,26 +33,6 @@ $(document).ready(function(){
     })
 })
 </script>
-<c:if test="${not empty msg}">
-  <div class="modal fade" id="enrollModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">회원가입</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ${msg}
-        </div>
-        <div class="modal-footer">
-          <button type="button" data-dismiss="modal" class="btn btn-outline-secondary">확인</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</c:if>
 <div class="term-container">
     <!-- 로고 -->
     <div id="kisen-logo">

@@ -94,11 +94,6 @@ public class FanBoardServiceImpl implements FanBoardService {
 	}
 
 	@Override
-	public int chkLikeAvailable(String fbNo, String fanId) {
-		return fanBoardDao.chkLikeAvailable(fbNo, fanId);
-	}
-
-	@Override
 	public int insertfbReply(FbComment fbReply) {
 		return fanBoardDao.insertfbReply(fbReply);
 	}
@@ -157,5 +152,41 @@ public class FanBoardServiceImpl implements FanBoardService {
 
 	public FanBoardExt selectOneFanBoard(int no) {
 		return fanBoardDao.selectOneFanBoard(no);
+	}
+
+	@Override
+	public int updateFbLikeAdd(Map<String, Object> param) {
+		int result = 0;
+		int likePoint = checkFbLike(param);
+		if(likePoint == 0) {
+			// 좋아요를 누른 적이 없는 경우
+			result = updateFbLike(param);
+			result = insertFbLikeAdd(param);
+		}
+		else if (likePoint < 0) {
+			// 좋아요를 눌렀다가 취소한 적이 있는 경우
+			result = updateFanBoardLikeAdd(param);
+			result = updateFbLike(param);
+		} else {
+			// 해당 게시글에 이미 좋아요를 누른 경우
+			result = -1;
+		}
+		return result;
+	}
+
+	private int insertFbLikeAdd(Map<String, Object> param) {
+		return fanBoardDao.insertFbLikeAdd(param);
+	}
+
+	private int updateFanBoardLikeAdd(Map<String, Object> param) {
+		return fanBoardDao.updateFanBoardLikeAdd(param);
+	}
+
+	private int checkFbLike(Map<String, Object> param) {
+		return fanBoardDao.checkFbLike(param);
+	}
+
+	private int updateFbLike(Map<String, Object> param) {
+		return fanBoardDao.updateFbLikePoint(param);
 	}
 }

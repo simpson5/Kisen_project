@@ -174,5 +174,10 @@ public class AdminDaoImpl implements AdminDao {
 		return session.selectList("admin-product.salesMonthPrice",strDate);
 	}
 
+	@Override
+	public int insertAuthority(String fanNo) {
+		return session.insert("admin-product.insertAuthority",fanNo);
+	}
+
 	
 }

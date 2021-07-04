@@ -117,11 +117,7 @@ tr:hover {
     display: inline;
 }
 
-.btn:not(:disabled):not(.disabled) {
-    cursor: pointer;
-    transform: translate(18px, -2px);
-    padding: 5px 10px;
-}
+
 
 .dropdown-item {
     display: block;

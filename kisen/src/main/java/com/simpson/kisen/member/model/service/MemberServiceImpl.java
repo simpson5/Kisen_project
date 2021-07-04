@@ -53,15 +53,16 @@ public class MemberServiceImpl implements MemberService {
 			result = memberDao.insertOauthAgencyMember(member);	
 		}
 		result = insertMemberAuthority(member);
-		result = insertAgencyAuthority(member);
+		// result = insertAgencyAuthority(member);
 		agency.setFanNo(member.getFanNo()); // agency fanNo
 		result = insertAgency(agency);
 		return result;
 	}
 
-	private int insertAgencyAuthority(Fan member) {
-		return memberDao.insertAgencyAuthority(member);
-	}
+	/*
+	 * private int insertAgencyAuthority(Fan member) { return
+	 * memberDao.insertAgencyAuthority(member); }
+	 */
 
 	private int insertAgency(Agency agency) {
 		return memberDao.insertAgency(agency);
@@ -88,12 +89,17 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Fan selectOneMemberByPhone(Map<String, Object> param) {
-		return memberDao.selectOneMemberByPhone(param);
+	public Fan selectOneMemberByPhone(Fan fan) {
+		return memberDao.selectOneMemberByPhone(fan);
 	}
 
 	@Override
 	public int updatePwdToTempPwd(Fan member) {
 		return memberDao.updatePwdToTempPwd(member);
+	}
+
+	@Override
+	public Fan selectOneMemberByPhoneGet(Map<String, Object> param) {
+		return memberDao.selectOneMemberByPhoneGet(param);
 	}
 }

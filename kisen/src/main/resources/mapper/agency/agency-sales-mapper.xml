@@ -109,7 +109,7 @@
 	            where pd_no in 
 	                (select pd_no from product where idol_no in(
 	                    select idol_no from idol where agency_no =(
-	                        select agency_no from fan where fan_no = #{fanNo}
+	                        select agency_no from agency where fan_no = #{fanNo}
 	                )))
 	    )
 		and pay_date between trunc(to_date(#{strDate},'YYYY-MM-DD'),'MM') and (last_day(to_date(#{strDate},'YYYY-MM-DD')))
@@ -131,7 +131,7 @@
 		        where pd_no in 
 		            (select pd_no from product where idol_no in(
 		                select idol_no from idol where agency_no =(
-		                    select agency_no from fan where fan_no = #{fanNo}
+		                    select agency_no from agency where fan_no = #{fanNo}
 		            )))
 		)
 		and ph.pay_date between trunc(to_date(#{strDate},'YYYY-MM-DD'),'MM') and (last_day(to_date(#{strDate},'YYYY-MM-DD')))

@@ -53,6 +53,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -164,15 +166,11 @@ public class MemberController {
 		// ResponseEntity객체를 만들어서 전달
 		return ResponseEntity.ok() // 응답헤더 200번
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE) // "application/json;charset=UTF-8"
-																							// -> header값으로 json이라는 것을
-																							// 알림
 				.body(map); // body에 map담기
 	}
 
 	/**
 	 * java.sql.Date, java.util.Date 필드에 값대입시 사용자 입력값이 ""인 경우, null로 처리될 수 있도록 설정
-	 * 
-	 * @param binder
 	 */
 	// initBinder - 커맨드 객체 관련 설정을 담당
 	@InitBinder
@@ -215,9 +213,7 @@ public class MemberController {
 			// 1. 업무로직
 			int result = memberService.insertMember(member);
 			// 2. 사용자피드백 및 리다이렉트
-			redirectAttr.addFlashAttribute("msg", "회원가입성공");
-			// redirect:/ - 인덱스페이지(welcome file)로 이동
-			// welcome file로 바로 찾게 되면 redirectAttr을 처리할 수 없음
+			redirectAttr.addFlashAttribute("msg", "회원가입이 완료되었습니다. 로그인 후 사용하실 수 있습니다.");
 		} catch (Exception e) {
 			log.error("회원가입 오류!", e);
 			throw e;
@@ -252,7 +248,7 @@ public class MemberController {
 			// 1.1. fan테이블에 세팅
 			int result = memberService.insertMemberAgency(member, agency);
 			// 2. 사용자피드백 및 리다이렉트
-			redirectAttr.addFlashAttribute("msg", "기획사 회원가입성공");
+			redirectAttr.addFlashAttribute("msg", "기획사 회원가입 신청이 완료되었습니다. 관리자가 승인 후 기획사 권한으로 이용하실 수 있습니다. 그 이전에는 일반 사용자 권한으로만 이용 가능합니다.");
 			// redirect:/ - 인덱스페이지(welcome file)로 이동
 			// welcome file로 바로 찾게 되면 redirectAttr을 처리할 수 없음
 		} catch (Exception e) {
@@ -266,11 +262,9 @@ public class MemberController {
 	 * 카카오 로그인
 	 */
 	@GetMapping("/kakao/callback")
-	public String kakaoCallback(@RequestParam String code, Model model, RedirectAttributes redirectAttr) { // data를
-																											// 리턴해주는
-																											// 컨트롤러 함수
-		// POST방식으로 key=value 데이터를 카카오쪽으로 요청
+	public String kakaoCallback(@RequestParam String code, Model model, RedirectAttributes redirectAttr) { // data를 리턴해주는 컨트롤러 함수
 
+		// POST방식으로 key=value 데이터를 카카오쪽으로 요청
 		// HttpHeader 오브젝트 생성
 		RestTemplate rt = new RestTemplate();
 		HttpHeaders headers = new HttpHeaders();
@@ -576,7 +570,7 @@ public class MemberController {
 		param.put("name", name);
 		param.put("phone", phone);
 		// 1. 업무로직
-		Fan member = memberService.selectOneMemberByPhone(param);
+		Fan member = memberService.selectOneMemberByPhoneGet(param);
 		boolean available = member != null;
 		log.info("available = {}", available);
 
@@ -664,18 +658,14 @@ public class MemberController {
 		return result;
 	}
 
-	@GetMapping("/checkInfoPhoneForPwd.do")
-	public ResponseEntity<Map<String, Object>> checkInfoPhoneForPwd(@RequestParam String name,
-			@RequestParam String phone) {
-		log.info("phone = {}", phone);
-		Map<String, Object> param = new HashMap<>();
-		param.put("name", name);
-		param.put("phone", phone);
+	@PostMapping("/checkInfoPhoneForPwd.do")
+	public String checkInfoPhoneForPwd(
+			@ModelAttribute Fan fan,
+			RedirectAttributes redirectAttr) {
 		// 1. 업무로직
-		Fan member = memberService.selectOneMemberByPhone(param);
-		boolean available = member != null;
-		log.info("available = {}", available);
+		Fan member = memberService.selectOneMemberByPhone(fan);
 
+		String msg = null;
 		String tempPwd = null;
 		if (member != null) {
 			tempPwd = excuteGenerate();
@@ -683,18 +673,16 @@ public class MemberController {
 			log.info(tempPwd);
 
 			updatePwdToTempPwd(member);
+			// 2. map에 요소 저장 후 리턴
+			// model필요 없음
+			log.info("tempPwd = {}", tempPwd);
+			msg = "고객님의 임시 비밀번호는 [ " + tempPwd + " ] 입니다. 해당 비밀번호로 로그인 한 뒤 비밀번호를 변경해주세요.";
+		} else {
+			msg = "입력된 정보로 정확한 회원정보가 조회되지 않습니다. 정보를 다시 입력하거나 이메일로 찾기를 이용하세요.";			
 		}
-		// 2. map에 요소 저장 후 리턴
-		// model필요 없음
-		log.info("tempPwd = {}", tempPwd);
-		Map<String, Object> map = new HashMap<>();
-		map.put("available", available);
-		map.put("tempPwd", tempPwd);
 
-		// ResponseEntity객체를 만들어서 전달
-		return ResponseEntity.ok() // 응답헤더 200번
-				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE) // "application/json;charset=UTF-8"
-				.body(map); // body에 map담기
+		redirectAttr.addFlashAttribute("msg", msg);
+		return "redirect:/member/searchPwd.do";
 	}
 	
 	@GetMapping("/sendSMS.do")
