@@ -84,4 +84,5 @@ public interface AgencyDao {
 
 	List<Sales> selectDaySales(Map<String, Object> param);
 
+
 }

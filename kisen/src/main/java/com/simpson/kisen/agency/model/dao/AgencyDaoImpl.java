@@ -207,7 +207,7 @@ public class AgencyDaoImpl implements AgencyDao {
 	public List<Sales> selectDaySales(Map<String, Object> param) {
 		return session.selectList("agency-sales.selectDaySales", param);
 	}
-	
+
 	
 	
 
