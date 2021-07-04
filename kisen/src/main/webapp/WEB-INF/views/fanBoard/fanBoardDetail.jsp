@@ -241,7 +241,67 @@ window.onload = function () {
 </c:if>
 </div>
 </div>
-    
+<!--좋아요 버튼 -->
+<div class="d-inline like-container">
+<button type="button" class="btn_like d-inline">
+  <span class="img_emoti">좋아요</span>
+  <span class="ani_heart_m"></span>
+</button>
+  <span>좋아요 </span><span>${fanBoard.fbLike}</span>
+</div>
+
+
+<script>
+/**
+* 좋아요
+*/
+$(document).on('click', '.btn_like', function(){
+	
+
+
+      if($(this).hasClass('btn_unlike')){
+         
+       $(this).removeClass('btn_unlike');
+       $('.ani_heart_m').removeClass('hi');
+       $('.ani_heart_m').addClass('bye');
+
+     }
+     else{
+       // 좋아요 클릭
+       $(this).addClass('btn_unlike');
+       $('.ani_heart_m').addClass('hi');
+       $('.ani_heart_m').removeClass('bye');
+
+       var fanId = `${loginMember.fanId}`;
+       var fbNo = ${fanBoard.fbNo};
+       
+      console.log(fanId);
+      console.log(fbNo);
+      $.ajax({
+          url: '${pageContext.request.contextPath}/fanBoard/fanBoardLikeAdd.do',
+          method: "post",
+          data: {fanId, fbNo},
+          success(data){
+             console.log(data);
+             const {msg} = data;
+             alert(msg);
+          },
+          error(xhr, statusText, err){
+             const {status} = xhr;
+             switch(status){
+                case 404: alert("해당 게시글이 이미 존재하지 않습니다."); break;
+                default: alert("게시글 삭제에 실패하였습니다.");
+             }
+          },
+          complete(){
+             $(e.target)[0].reset();
+          }
+       });
+     }
+});
+
+</script>
+
 <script>
 /**
 * 상세보기

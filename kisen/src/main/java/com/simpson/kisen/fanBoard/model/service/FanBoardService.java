@@ -48,4 +48,6 @@ public interface FanBoardService {
 
 	FanBoard selectOneFanBoard(int no);
 
+	int updateFbLikeAdd(Map<String, Object> param);
+
 }

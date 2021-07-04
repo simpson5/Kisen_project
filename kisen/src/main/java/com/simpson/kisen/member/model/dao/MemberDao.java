@@ -25,7 +25,7 @@ public interface MemberDao {
 
 	int insertOauthAgencyMember(Fan member);
 
-	int insertAgencyAuthority(Fan member);
+	// int insertAgencyAuthority(Fan member);
 
 	Fan searchOneMember(Map<String, Object> param);
 

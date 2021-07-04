@@ -48,4 +48,13 @@ public interface FanBoardDao {
 	int selectOneIdolNo(int no);
 
 	FanBoardExt selectOneFanBoard(int no);
+
+	int checkFbLike(Map<String, Object> param);
+
+	int updateFanBoardLikeAdd(Map<String, Object> param);
+
+	int insertFbLikeAdd(Map<String, Object> param);
+
+	int updateFbLikePoint(Map<String, Object> param);
+
 }
