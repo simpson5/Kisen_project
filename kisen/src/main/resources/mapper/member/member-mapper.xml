@@ -237,6 +237,7 @@
 		where
 			fan_no = #{fanNo}
 	</update>
+	
 	<delete id="deleteFan">
 		delete 
 		from 
