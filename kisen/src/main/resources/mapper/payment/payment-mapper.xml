@@ -448,17 +448,26 @@
 	</resultMap>
 	
 	<insert id="insertBasket">
-		insert into basket
+		insert into 
+			basket(
+				fan_no,
+				product_no,
+				pd_amount,
+				option_no,
+				basket_date
+			)
 		values(
-		#{fanNo},
-		#{pdNo},
-		default,
-		<if test="opNo != null">
-		#{opNo}
-		</if>
-		<if test="opNo == null">
-		default
-		</if>
+			#{fanNo},
+			#{pdNo},
+			default,
+			<if test="opNo != null">
+			#{opNo},
+			default
+			</if>
+			<if test="opNo == null">
+			default,
+			default
+			</if>
 		)
 	</insert>
 </mapper>
