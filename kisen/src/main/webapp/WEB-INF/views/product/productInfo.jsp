@@ -778,9 +778,10 @@ $(() => {
 		const optionList = [];
 		//console.log("option= "+ $option);
 		$.each($option,  function(index, value){
+			console.log(value);
 			var num = parseInt(value.dataset.no);
 			optionList.push(num);
-	       	console.log("value= "+value.dataset.no);
+		    console.log("value= "+value.dataset.no);
 	    });
 		var pdNo = "${product.pdNo}";
 		var pdAmount = $("[name=stock]").val();
@@ -788,14 +789,15 @@ $(() => {
 		var opName = $(".add-option").text();
 		console.log("optionList= "+ optionList);
 		console.log(pdAmount);
-		
+		console.log(opName);
 		var data = new FormData();
 		data.append("pdNo",pdNo);
 		data.append("pdAmount",pdAmount);
 		data.append("opName",opName);
+		console.log(data);
+		
 		if(opNo != null){
 			data.append("opNo",opNo);
-			
 		}
 		
 		$.ajax({

@@ -115,14 +115,15 @@ public class ProductController {
 		basket.setPdAmount(pdAmount);
 		if(opNo != null) {
 			for (int i : opNo) {
-				System.out.println("opNo = "+ opNo);
+				System.out.println(i);
 				basket.setOpNo(i);			
 				result = productService.insertBasket(basket);				
 			}
 		}
 		if(productOption == null) {
-			System.out.println("opNo = "+ opNo);
-			result = productService.insertBasketNoOption(basket);
+			if(result != 1) {
+				result = productService.insertBasketNoOption(basket);				
+			}
 		}
 		
 		log.info("result={}",result);

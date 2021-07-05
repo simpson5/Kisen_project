@@ -1,5 +1,7 @@
 package com.simpson.kisen.product.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,6 @@ public class Basket extends Product{
 	private ProductImg productImg;
 	private ProductOption productOption;
 	private int opNo;
-	//private Product product;
+	private Date basketDate;
 
 }
