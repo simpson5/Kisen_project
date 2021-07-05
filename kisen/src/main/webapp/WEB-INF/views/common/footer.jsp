@@ -5,11 +5,29 @@
 <div class="d-flex flex-row-reverse">
     <div class="sideBanner rounded">
         <!-- 톡(카카오 상담) -->
-
-        <img class="floating-img "  id="talk" src="${pageContext.request.contextPath}/resources/images/talk.png" />
-
+             <div class="kakao" style="transform: translate(-70px, 290px);">
+        <div 
+        id="kakao-talk-channel-chat-button" data-channel-public-id="_EMWws" data-title="consult" data-size="small"
+          data-color="mono" data-shape="pc" data-support-multiple-densities="true"></div>
+      </div>
     </div>
 </div> 
+     <script>
+        // 카카오톡 톡상담
+        window.kakaoAsyncInit = function () {
+          Kakao.Channel.createChatButton({
+            container: '#kakao-talk-channel-chat-button',
+          });
+        };
+
+        (function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = 'https://developers.kakao.com/sdk/js/kakao.channel.min.js';
+          fjs.parentNode.insertBefore(js, fjs);
+        })(document, 'script', 'kakao-js-sdk');
+      </script>
 <hr>
 <footer class="d-none d-lg-block ">
     <div class="footer-div d-flex justify-content-center">
