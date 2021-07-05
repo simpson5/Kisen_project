@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="상품 상세" name="title" />
+	<jsp:param value="상품 상세 페이지" name="title" />
 </jsp:include>
 <style>
 body, html {

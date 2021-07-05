@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-
    <jsp:param value="게시글 상세보기" name="title" />
 </jsp:include>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -34,28 +33,6 @@ function resize(obj) {
     obj.style.height = (12 + obj.scrollHeight) + 'px';
 }
 </script>
-<script>
-/**
-* 조회수 1 증가
-*/
-window.onload = function () {
-	var fbNo = ${fanBoard.fbNo};
-	$.ajax({
-		url: `${pageContext.request.contextPath}/fanBoard/updateFbReadCnt/\${fbNo}`,
-		method: "PUT",
-		contentType: "application/json; charset=utf-8",
-		success(data){
-			console.log(data);
-			const {msg} = data;
-			const {readCnt} = data;
-			console.log(msg);
-			console.log(readCnt);
-			$(".read-cnt").html(readCnt);
-		},
-		error: console.log,
-	});
-}
-</script>
 <div class="move col-10 move-top">
    <c:if test="${loginMember.fanId eq fanBoard.fbWriter}">
    <form id="fbDeleteFrm">
@@ -66,7 +43,7 @@ window.onload = function () {
     <button class="move-btn" name="list-board" onclick="location.href='${pageContext.request.contextPath}/artist/artistInfo.do?no=${fanBoard.idolNo}&fbActive=1'">목록</button>
 </div>
 <div class="board-container">
-<!-- 게시글 정보 -->
+<!-- 게시글 정보 --> 
 <div class="board-header">
     <div class="jumbotron-fluid">
         <div class="container">
@@ -96,7 +73,7 @@ window.onload = function () {
     <c:forEach items="${fanBoard.attachList}" var="attach">
    <!-- attachment의 pk번호를 가지고 가도록 -->
       <a href="${pageContext.request.contextPath}/fanBoard/fileDownload.do?no=${attach.fbAttachNo}">
-      <img class="text-center" style="max-width: 90%;" src="${pageContext.request.contextPath}/resources/upload/fanBoard/${attach.renamedFilename}"/>
+      <img class="text-center" style="max-width: 85%; margin-bottom: 10px;" src="${pageContext.request.contextPath}/resources/upload/fanBoard/${attach.renamedFilename}"/>
       </a>
    </c:forEach>
    </c:if>
@@ -145,7 +122,7 @@ window.onload = function () {
                       <input type="submit" class="comment-submit" value="등록">
                     </div>
                   </div>
-                </div>
+                </div> 
          </form>
            <div class="commented-section mt-2">
          <c:if test="${not empty commentList}">
@@ -622,6 +599,28 @@ try {
 }
 catch(e) {
 	window.kakaoDemoException && window.kakaoDemoException(e)
+}
+</script>
+<script>
+/**
+* 조회수 1 증가
+*/
+window.onload = function () {
+	var fbNo = ${fanBoard.fbNo};
+	$.ajax({
+		url: `${pageContext.request.contextPath}/fanBoard/updateFbReadCnt/\${fbNo}`,
+		method: "PUT",
+		contentType: "application/json; charset=utf-8",
+		success(data){
+			console.log(data);
+			const {msg} = data;
+			const {readCnt} = data;
+			console.log(msg);
+			console.log(readCnt);
+			$(".read-cnt").html(readCnt);
+		},
+		error: console.log,
+	});
 }
 </script>
 <script>

@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/fanBoard/fanBoardList.css" />
 
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-   <jsp:param value="" name="title" />
+   <jsp:param value="아티스트" name="title" />
 </jsp:include>
 <style>
 body, html {
