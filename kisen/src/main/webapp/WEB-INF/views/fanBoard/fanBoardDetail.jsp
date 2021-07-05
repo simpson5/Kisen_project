@@ -55,7 +55,7 @@ window.onload = function () {
 		error: console.log,
 	});
 }
-</script>
+</script> <!-- -->
 <div class="move col-10 move-top">
    <c:if test="${loginMember.fanId eq fanBoard.fbWriter}">
    <form id="fbDeleteFrm">
@@ -66,7 +66,7 @@ window.onload = function () {
     <button class="move-btn" name="list-board" onclick="location.href='${pageContext.request.contextPath}/artist/artistInfo.do?no=${fanBoard.idolNo}&fbActive=1'">목록</button>
 </div>
 <div class="board-container">
-<!-- 게시글 정보 -->
+<!-- 게시글 정보 --> 
 <div class="board-header">
     <div class="jumbotron-fluid">
         <div class="container">
@@ -96,7 +96,7 @@ window.onload = function () {
     <c:forEach items="${fanBoard.attachList}" var="attach">
    <!-- attachment의 pk번호를 가지고 가도록 -->
       <a href="${pageContext.request.contextPath}/fanBoard/fileDownload.do?no=${attach.fbAttachNo}">
-      <img class="text-center" style="max-width: 90%;" src="${pageContext.request.contextPath}/resources/upload/fanBoard/${attach.renamedFilename}"/>
+      <img class="text-center" style="max-width: 85%; margin-bottom: 10px;" src="${pageContext.request.contextPath}/resources/upload/fanBoard/${attach.renamedFilename}"/>
       </a>
    </c:forEach>
    </c:if>
@@ -145,7 +145,7 @@ window.onload = function () {
                       <input type="submit" class="comment-submit" value="등록">
                     </div>
                   </div>
-                </div>
+                </div> 
          </form>
            <div class="commented-section mt-2">
          <c:if test="${not empty commentList}">

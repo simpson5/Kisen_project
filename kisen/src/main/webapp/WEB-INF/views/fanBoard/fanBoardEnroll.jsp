@@ -73,7 +73,8 @@ $(() => {
 	<!-- 글쓰기 폼 -->
 	<form 
 		method="post" 
-		id="enroll-frm" 
+		id="enroll-frm"
+		name="enroll-frm" 
 		action="${pageContext.request.contextPath}/fanBoard/fanBoardEnroll.do"
 		enctype="multipart/form-data">
 		<input type="text" class="fill-in-area" name="fbWriter" value="${loginMember.fanId}" placeholder="작성자" readonly/><br>
@@ -131,6 +132,35 @@ $("[name=upFile]").change(function(e){
 	         });
 	         fileReader.readAsDataURL(f);
 	     }
+	}
+});
+</script>
+
+<script>
+$("[name=enroll-frm]").submit(function(){
+
+	var fbTitle = $("[name=fbTitle]");
+	var fbContent = $("[name=fbContent]");
+
+	var titleOffset = fbTitle.offset();
+	var contentOffset = fbContent.offset();
+	
+	if(fbTitle.val() == '' && fbContent.val() == '') {
+		alert("제목과 내용을 입력하세요.");
+		fbTitle.focus();
+		return false;
+	}
+	
+	if(fbTitle.val() == '') {
+		alert("제목을 입력하세요.");
+		fbTitle.focus();
+		return false;
+	}
+
+	if(fbContent.val() == '') {
+		alert("내용을 입력하세요.");
+		fbContent.focus();
+		return false;
 	}
 });
 </script>
