@@ -255,10 +255,13 @@ public class PaymentController {
 	}
 	
 	@PostMapping("/buyNow.do")
-	public String insertBasket(@RequestParam String fanNo, @RequestParam String pdNo, @RequestParam int total,
+	public String insertBasket(
+			@RequestParam(name="fanNo", required = false) String fanNo, 
+			@RequestParam(name="pdNo") String pdNo, 
+			@RequestParam(name="total") int total,
 			@RequestParam(value = "optionList", required = false) int[] optionList, RedirectAttributes redirectAttr
 			 ) { 
-			
+		
 		log.info("optionList={}",Arrays.toString(optionList));
 		log.info("optionList null={}",optionList==null);
 		log.info("fanNo={}",fanNo);
@@ -301,6 +304,6 @@ public class PaymentController {
 		
 		int bsket = paymentService.insertBasket(basketList);
 		redirectAttr.addAttribute("bNo", bNoArr);
-		return "redirect:/basket/payment.do?total="+total;
+		return "redirect:/basket/payment.do?total="+total+"&fanNo="+fanNo;
 	}
 }
