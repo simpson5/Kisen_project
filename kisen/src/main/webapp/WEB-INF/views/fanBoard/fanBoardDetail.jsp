@@ -4,7 +4,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-
    <jsp:param value="게시글 상세보기" name="title" />
 </jsp:include>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -34,28 +33,6 @@ function resize(obj) {
     obj.style.height = (12 + obj.scrollHeight) + 'px';
 }
 </script>
-<script>
-/**
-* 조회수 1 증가
-*/
-window.onload = function () {
-	var fbNo = ${fanBoard.fbNo};
-	$.ajax({
-		url: `${pageContext.request.contextPath}/fanBoard/updateFbReadCnt/\${fbNo}`,
-		method: "PUT",
-		contentType: "application/json; charset=utf-8",
-		success(data){
-			console.log(data);
-			const {msg} = data;
-			const {readCnt} = data;
-			console.log(msg);
-			console.log(readCnt);
-			$(".read-cnt").html(readCnt);
-		},
-		error: console.log,
-	});
-}
-</script> <!-- -->
 <div class="move col-10 move-top">
    <c:if test="${loginMember.fanId eq fanBoard.fbWriter}">
    <form id="fbDeleteFrm">
@@ -622,6 +599,28 @@ try {
 }
 catch(e) {
 	window.kakaoDemoException && window.kakaoDemoException(e)
+}
+</script>
+<script>
+/**
+* 조회수 1 증가
+*/
+window.onload = function () {
+	var fbNo = ${fanBoard.fbNo};
+	$.ajax({
+		url: `${pageContext.request.contextPath}/fanBoard/updateFbReadCnt/\${fbNo}`,
+		method: "PUT",
+		contentType: "application/json; charset=utf-8",
+		success(data){
+			console.log(data);
+			const {msg} = data;
+			const {readCnt} = data;
+			console.log(msg);
+			console.log(readCnt);
+			$(".read-cnt").html(readCnt);
+		},
+		error: console.log,
+	});
 }
 </script>
 <script>

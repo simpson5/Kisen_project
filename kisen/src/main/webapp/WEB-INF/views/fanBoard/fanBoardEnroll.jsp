@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="글등록" name="title" />
+	<jsp:param value="게시글 등록" name="title" />
 </jsp:include>
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
