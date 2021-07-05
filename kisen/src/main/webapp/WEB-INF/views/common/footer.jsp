@@ -5,7 +5,9 @@
 <div class="d-flex flex-row-reverse">
     <div class="sideBanner rounded">
         <!-- 톡(카카오 상담) -->
-        <img class="floating-img"  id="talk" src="${pageContext.request.contextPath}/resources/images/talk.png"/>
+
+        <img class="floating-img "  id="talk" src="${pageContext.request.contextPath}/resources/images/talk.png" />
+
     </div>
 </div> 
 <hr>

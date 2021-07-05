@@ -540,7 +540,7 @@ $("#agreedAll").change(function(e){
 			pay_method : 'card',
 			merchant_uid : 'merchant_' + new Date().getTime(),
 			name : rslt1,
-			amount : 10,//amount,//테스트용 10원 설정, 돈은 일단 10원으로...흑흑
+			amount : 100,//테10,스트용 10원 설정, 돈은 일단 10원으로...흑흑
 			buyer_name : userName,
 			buyer_email : uemail
 		}, function(rsp) {
@@ -626,9 +626,9 @@ $("#agreedAll").change(function(e){
 			} else {
 				var msg = '결제에 실패하였습니다.';
 				msg += '실패 사유 : ' + rsp.error_msg;
-				//실패시 이동할 페이지
-				location.href="${pageContext.request.contextPath}/mypage/payment.do";
 				alert(msg);
+				//실패시 이동할 페이지
+				location.reload();
 			}
 		});
 		
