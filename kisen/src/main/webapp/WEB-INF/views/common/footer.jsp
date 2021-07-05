@@ -2,24 +2,6 @@
     pageEncoding="UTF-8"%>
 </section>
 
-<style>
-.sideBanner {
-    position: absolute;
-    z-index: 3;
-    width: 80px;
-    top: 50px;
-    color: #ffffff;
-    margin: 1.5rem;
-}
-.floating-img{
-    width: 80px;
-    height: 80px;
-    padding: 0.7rem;
-}
-.floating-img:hover{
-    cursor: pointer;
-}
-</style>
 <div class="d-flex flex-row-reverse">
     <div class="sideBanner rounded">
         <!-- 톡(카카오 상담) -->
