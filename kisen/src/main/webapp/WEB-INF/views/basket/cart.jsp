@@ -293,8 +293,9 @@ color:  #9033b5;
 </table>
 
 		<div class="py-3 d-flex justify-content-around" >
+		  	<a href="${pageContext.request.contextPath}">
 		  	<button class="btn btn-outline py-2" id="cartAgain">쇼핑 계속하기</button>
-		  	<%-- <a href="${pageContext.request.contextPath}/basket/payment.do"> --%>
+		  	</a>
 		  	<button class="btn btn-outline py-2 " id="cartOder" onclick="order(this);"> 주문하기</button>
 		  </div>
 		  <input type="hidden" name="fanN" value="${loginMember.fanNo}">
