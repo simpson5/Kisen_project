@@ -32,7 +32,7 @@ window.onload = function() {
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
-  <%--   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sideBanner.css"> --%>
+   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sideBanner.css">
 </head>
 <body>
     <header>
