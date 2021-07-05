@@ -365,11 +365,12 @@ textarea.autosize {
 								<th>옵션</th>
 								<td colspan="3" style="border: 0; outline: 0;"><select
 									class="form-select" aria-label="Default select example"
+									id="opSelc"
 									name="option-select">
 									
-										<option selected disabled>- [필수] 옵션을 선택해 주세요 -</option>
+										<option selected>- [필수] 옵션을 선택해 주세요 -</option>
 										<c:forEach items="${product.pdOptionList}" var="pdOp">
-											<option value="${pdOp.optionName}" data-no="${pdOp.optionNo}">${pdOp.optionName}</option>
+											<option value="${pdOp.optionName}" value2="${pdOp.optionNo}" data-no="${pdOp.optionNo}">${pdOp.optionName}</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -408,12 +409,12 @@ textarea.autosize {
 							style="position: relative; display: inline-block;"> 
 							<input
 								type="text" class="form-controller" name="stock" value="1" min="1" size="5" />
-							<!-- <img class="up"
+							<img class="up"
 									src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"
 									alt="수량증가">
 							<img class="down"
 									src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_down.gif"
-									alt="수량감소"> -->
+									alt="수량감소">
 							</span></td>
 						</tr>
 						</table>
@@ -694,7 +695,7 @@ $("[name=option-select]").change(function(e){
 			<img class="up"
 					src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"
 					alt="수량증가">
-// 			<img class="down"
+ 			<img class="down"
 					src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_down.gif"
 					alt="수량감소">
 			<img class="delete"
@@ -776,7 +777,6 @@ $(() => {
 		//console.log($option);
 		const optionList = [];
 		//console.log("option= "+ $option);
-		
 		$.each($option,  function(index, value){
 			var num = parseInt(value.dataset.no);
 			optionList.push(num);
@@ -795,6 +795,7 @@ $(() => {
 		data.append("opName",opName);
 		if(opNo != null){
 			data.append("opNo",opNo);
+			
 		}
 		
 		$.ajax({
