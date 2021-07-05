@@ -5,7 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <jsp:include page="/WEB-INF/views/common/header.jsp">
-	<jsp:param value="Main" name="title"/>
+	<jsp:param value="소셜 회원가입" name="title"/>
 </jsp:include>
 <!-- section start -->
 
