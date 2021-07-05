@@ -247,6 +247,7 @@ public class UnofficialController {
 	public String depositDetail(HttpServletRequest req, @ModelAttribute Deposit deposit,
 			@RequestParam(name ="email") String email
 			) {
+		
 		log.info("email={}", email);
 		log.info("deposit={}",deposit);
 		mailService = new MailService(Config.gmailId, Config.gmailPw, Config.mailFrom, Config.mailFromName);
