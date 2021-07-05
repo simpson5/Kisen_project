@@ -42,6 +42,8 @@ public interface UnOfficialDao {
 
 	Fan selectOneMemberByEmail(String email);
 
+	
+
 
 	
 	
