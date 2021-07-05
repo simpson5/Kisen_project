@@ -338,7 +338,11 @@ textarea.autosize {
 				<table class="table">
 					<thead>
 						<tr>
-							<th scope="col" colspan="4" id="pd_name">${product.pdName}</th>
+							<th scope="col" colspan="4" id="pd_name">${product.pdName}
+								<input type="hidden" name="pdN" value="${product.pdNo}">
+								
+								<input type="hidden" name="fanN" value="${loginMember.fanNo}">
+							</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -592,6 +596,8 @@ textarea.autosize {
 		  	</c:if>
 		</div>
 	</div>
+<form action="${pageContext.request.contextPath}/basket/buyNow.do" method="POST" name="buyNowFrm" id="buyNowFrm">
+</form>
 </div>
 <script>
 $(".pd-nav").click(function(e){
@@ -667,7 +673,7 @@ function total(){
 	//console.log($total);
 	//console.log(total);
 
-	$total += $total.html("<strong>"+total+"</strong>"+"("+cnt+"개)");
+	$total += $total.html("<span id='total'><strong>"+total+"</strong></span>"+"("+cnt+"개)");
 }
 window.onload=total;
 
@@ -730,10 +736,10 @@ $(() => {
 
 function buyNow(obj){
 	if(${empty loginMember}){
-		   	alert("로그인 후 이용가능합니다.");
-		   	location.href = "${pageContext.request.contextPath}/member/login.do";
-		   	return;
-   		}
+	   	alert("로그인 후 이용가능합니다.");
+	   	location.href = "${pageContext.request.contextPath}/member/login.do";
+	   	return;
+   	}
 	var $formId = $("#buyNowFrm");
 	console.log("formId= "+ $formId);
 
@@ -750,10 +756,6 @@ function buyNow(obj){
 	
 	console.log("optionList= "+ optionList);
 	
-	if($("[name=fanN]").val()== ""){
-		alert("로그인 후 이용가능합니다.");
-		return;
-	}
 	const fanNo = '<input type="hidden" name ="fanNo" value="'+ $("[name=fanN]").val()+'"/>';
 	const pdNo = '<input type="hidden" name ="pdNo" value="'+ $("[name=pdN]").val()+'"/>';
 	const opNo = '<input type="hidden" name ="optionList" value="'+ optionList+'"/>';
@@ -778,9 +780,10 @@ $(() => {
 		const optionList = [];
 		//console.log("option= "+ $option);
 		$.each($option,  function(index, value){
+			console.log(value);
 			var num = parseInt(value.dataset.no);
 			optionList.push(num);
-	       	console.log("value= "+value.dataset.no);
+		    console.log("value= "+value.dataset.no);
 	    });
 		var pdNo = "${product.pdNo}";
 		var pdAmount = $("[name=stock]").val();
@@ -788,14 +791,15 @@ $(() => {
 		var opName = $(".add-option").text();
 		console.log("optionList= "+ optionList);
 		console.log(pdAmount);
-		
+		console.log(opName);
 		var data = new FormData();
 		data.append("pdNo",pdNo);
 		data.append("pdAmount",pdAmount);
 		data.append("opName",opName);
+		console.log(data);
+		
 		if(opNo != null){
 			data.append("opNo",opNo);
-			
 		}
 		
 		$.ajax({

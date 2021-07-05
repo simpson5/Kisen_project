@@ -127,7 +127,7 @@ window.onload = function() {
           
         </div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light  justify-content-center main-navbar">
-            <a class="navbar-brand" href="#"><img src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" alt="logo" id="logo"/></a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/"><img src="${pageContext.request.contextPath}/resources/images/kisen_logo.png" alt="logo" id="logo"/></a>
             <span id="name">KI-SEN</span>
         
             <div class="d-none d-sm-block" > 

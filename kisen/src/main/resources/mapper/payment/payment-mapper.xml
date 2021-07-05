@@ -80,6 +80,7 @@
 	<select id="selectBasketList" resultMap="basketMap" >
 	      select
             b.pd_amount,
+            b.basket_date,
 			p.pd_name,
 			p.price,
 			p.pd_content,
@@ -110,14 +111,14 @@
         select
             option_no
         from
-            basket b
+            basket
         where
-            b.fan_no =#{fanNo}
+           fan_no =#{fanNo}
        )
            
     and 
           pi.pd_category  = 'R'
-   
+    order by b.basket_date asc
 		
 	<!-- select 
     	*
@@ -179,6 +180,7 @@
 		<resultMap type="basket" id="basketMap">
 		 <id column="product_no" property="pdNo" /> 
          <id column="fan_no" property="fanNo"/>
+          <result column="basket_date" property="basketDate"/>
           <result column="price" property="price"/>
           <result column="pd_amount" property="pdAmount"  />
           <result column="option_no" property="opNo"/> 
@@ -446,17 +448,26 @@
 	</resultMap>
 	
 	<insert id="insertBasket">
-		insert into basket
+		insert into 
+			basket(
+				fan_no,
+				product_no,
+				pd_amount,
+				option_no,
+				basket_date
+			)
 		values(
-		#{fanNo},
-		#{pdNo},
-		default,
-		<if test="opNo != null">
-		#{opNo}
-		</if>
-		<if test="opNo == null">
-		default
-		</if>
+			#{fanNo},
+			#{pdNo},
+			default,
+			<if test="opNo != null">
+			#{opNo},
+			default
+			</if>
+			<if test="opNo == null">
+			default,
+			default
+			</if>
 		)
 	</insert>
 </mapper>
