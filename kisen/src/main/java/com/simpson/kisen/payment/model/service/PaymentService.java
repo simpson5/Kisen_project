@@ -22,9 +22,11 @@ public interface PaymentService {
 
 	int insertPayment(Map<String, Object> param);
 
-	int insertBasket(Basket bs);
-
 	List<PaymentProduct> selectHistory(String fanNo);
+
+	int insertBasket(List<Basket> basketList);
+
+	List<Basket> selectoptionProduct(Map<String, Object> param);
 
 
 

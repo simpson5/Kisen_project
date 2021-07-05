@@ -209,7 +209,7 @@ img#productImg{
 	
 	<c:forEach items="${payList}" var="payList">
 	  <li class="media border border-left-0 border-top-0 border-right-0">
-	    <img class="mr-3 mt-2" src="${pageContext.request.contextPath}/resources/upload/product/${payList.productImg.renamedFilename}" alt="상품 이미지" id="productImg" >
+	    <img class="mr-3 mt-2 mb-2" src="${pageContext.request.contextPath}/resources/upload/product/${payList.productImg.renamedFilename}" alt="상품 이미지" id="productImg" >
 	    <div class="media-body col-6 mb-3 ">
 	     <!--  <h5 class="mt-0 mb-1">Red Velvet 1st 앨범</h5> -->
 		      <div class="py-3">
@@ -230,10 +230,8 @@ img#productImg{
 		      </div>
 	    </div>
 	    <div class="col-2" id="payInfo">
-		      <div class="py-2">
-		      	<button type="submit" class="btn btn-outline-warning" >구매후기</button>
-		      </div>
-		      <div class="py-2">
+		     
+		      <div class="py-2 mt-3" >
 		      <a href="https://tracker.delivery/#/kr.cjlogistics/${payList.waybill}" target="_blank">
 		      <button type="submit" class="btn btn-outline-warning" >배송조회
 		      </button>

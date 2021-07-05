@@ -361,19 +361,19 @@ textarea.autosize {
 						<c:if test="${not loop_flag}">	
 							<c:if test="${not empty pdOp.optionName}">	
 							<c:set var="loop_flag" value="true"/>
-							 <tr>
-		                        <th>옵션</th>
-		                        <td colspan="3" style="border: 0; outline: 0;"><select
-		                           class="form-select" aria-label="Default select example"
-		                           id="opSelc"
-		                           name="option-select">
-		                           
-		                              <option selected>- [필수] 옵션을 선택해 주세요 -</option>
-		                              <c:forEach items="${product.pdOptionList}" var="pdOp">
-		                                 <option value="${pdOp.optionName}" value2="${pdOp.optionNo}" data-no="${pdOp.optionNo}">${pdOp.optionName}</option>
-		                              </c:forEach>
-		                        </select></td>
-		                     </tr>
+							<tr>
+								<th>옵션</th>
+								<td colspan="3" style="border: 0; outline: 0;"><select
+									class="form-select" aria-label="Default select example"
+									id="opSelc"
+									name="option-select">
+									
+										<option selected>- [필수] 옵션을 선택해 주세요 -</option>
+										<c:forEach items="${product.pdOptionList}" var="pdOp">
+											<option value="${pdOp.optionName}" value2="${pdOp.optionNo}" data-no="${pdOp.optionNo}">${pdOp.optionName}</option>
+										</c:forEach>
+								</select></td>
+							</tr>
 							</c:if>
 						</c:if>
 						</c:forEach>
@@ -385,9 +385,10 @@ textarea.autosize {
 					<c:if test="${not loop_flag}">	
 						<c:if test="${not empty pdOp.optionName}">	
 							<c:set var="loop_flag" value="true"/> 
-				<p
-					style="font-size: 11px; color: #f76560; margin: 10px auto; text-align: center; padding-bottom: 5px; border-bottom: 1px solid #d4d8d9">
-					위 옵션선택 박스를 선택하시면 아래에 상품이 추가됩니다.</p>
+							<p
+							style="font-size: 11px; color: #f76560; margin: 10px auto; text-align: center; padding-bottom: 5px; border-bottom: 1px solid #d4d8d9">
+							위 옵션선택 박스를 선택하시면 아래에 상품이 추가됩니다.
+							</p>
 						</c:if>
 					</c:if>
 				</c:forEach>
@@ -395,7 +396,6 @@ textarea.autosize {
 				<c:set var="looop_flag" value="false"/>
 				<c:forEach items="${product.pdOptionList}" var="pdOp" varStatus="status" >
 				<c:if test="${!empty product}">
-									
 				</c:if>
 					<c:if test="${not looop_flag}">
 						<c:if test="${empty pdOp.optionName}">	
@@ -695,7 +695,7 @@ $("[name=option-select]").change(function(e){
 			<img class="up"
 					src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_up.gif"
 					alt="수량증가">
-			<img class="down"
+ 			<img class="down"
 					src="//img.echosting.cafe24.com/design/skin/default/product/btn_count_down.gif"
 					alt="수량감소">
 			<img class="delete"
@@ -734,27 +734,36 @@ function buyNow(obj){
 		   	location.href = "${pageContext.request.contextPath}/member/login.do";
 		   	return;
    		}
-	var $formId = $(document.buyNowFrm);
-	 console.log("formId= "+ $formId);
-	 const fanNo = '<input type="hidden" name ="fanNo" value="'+ $("[name=fanN]").val()+'"/>';
-	 const pdNo = '<input type="hidden" name ="pdNo" value="'+ $("[name=pdN]").val()+'"/>';
-	 const opNo = '<input type="hidden" name ="opNo" value="'+ $("[name=opN]").val()+'"/>';
-	var cnt = 0; //수량
-	var get_input = $(".form-controller");
-	$.each(get_input, function (index, value) {
-		cnt +='<input type="hidden" name ="cnt" value="'+Number($(value).val())+'"/>';
-		
+	var $formId = $("#buyNowFrm");
+	console.log("formId= "+ $formId);
+
+	
+	const $option = $(".add-option");
+	const optionList = [];
+	console.log("option= "+ $option);
+	
+	console.log("no= "+ $option.data("no"));
+	$.each($option,  function(index, value){
+		optionList.push(value.dataset.no)
+		console.log("value= "+value.dataset.no);
 	});
 	
-	console.log(fanNo);
-	console.log(pdNo);
-	console.log(cnt);
-	console.log(opNo);
+	console.log("optionList= "+ optionList);
+	
+	if($("[name=fanN]").val()== ""){
+		alert("로그인 후 이용가능합니다.");
+		return;
+	}
+	const fanNo = '<input type="hidden" name ="fanNo" value="'+ $("[name=fanN]").val()+'"/>';
+	const pdNo = '<input type="hidden" name ="pdNo" value="'+ $("[name=pdN]").val()+'"/>';
+	const opNo = '<input type="hidden" name ="optionList" value="'+ optionList+'"/>';
+	const total = '<input type="hidden" name ="total" value="'+$("#total").text() +'"/>';
+	
 	$formId.append(fanNo);
 	$formId.append(pdNo);
 	$formId.append(opNo);
-	$formId.append(cnt);
-	$from.submit;
+	$formId.append(total);
+	$formId.submit();
 }
 
 $(() => {
@@ -768,7 +777,6 @@ $(() => {
 		//console.log($option);
 		const optionList = [];
 		//console.log("option= "+ $option);
-		
 		$.each($option,  function(index, value){
 			var num = parseInt(value.dataset.no);
 			optionList.push(num);
@@ -787,6 +795,7 @@ $(() => {
 		data.append("opName",opName);
 		if(opNo != null){
 			data.append("opNo",opNo);
+			
 		}
 		
 		$.ajax({
@@ -801,7 +810,7 @@ $(() => {
 				var con = confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
 				if(con){
 					location.href = "${pageContext.request.contextPath}/basket/cart.do";
-				}
+				}    
 			},
 			error(request,status,error){
 				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
