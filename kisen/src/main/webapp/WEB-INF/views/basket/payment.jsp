@@ -201,7 +201,7 @@ td{
     <tr>
       <td colspan="2">
       	<div class="media">
-		  <img class="" src="${pageContext.request.contextPath}/resources/upload/product/${paymentOptionList.productImg}" style="width: 100px; height:100px;">
+		  <img class="" src="${pageContext.request.contextPath}/resources/upload/product/${paymentOptionList.productImg.renamedFilename}" style="width: 100px; height:100px;">
 		  <div class="media-body my-3 ">
 		  	<input type="hidden" name="pdName" value="${paymentOptionList.pdName}">
 		  	<input type="hidden" name="fanNo" value="${loginMember.fanNo}">

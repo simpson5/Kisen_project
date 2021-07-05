@@ -34,6 +34,8 @@
 			pp.pd_no = p.pd_no
 		where
 			pp.fan_no = #{fanNo}
+		and
+			 pi.pd_category  = 'R'
          order by 
      		ph.pay_date desc
 			
@@ -76,7 +78,7 @@
 	</resultMap>
 	
 	<select id="selectBasketList" resultMap="basketMap" >
-	select
+	      select
             b.pd_amount,
 			p.pd_name,
 			p.price,
@@ -87,29 +89,30 @@
 			po.option_name,
 			po.option_no
       from
-        pd_option po
-      left join
+       
+        basket b 
+    left join
          product p
       on
-         po.pd_no = p.pd_no
+         b.product_no = p.pd_no
    left join 
          pd_img pi
       on
-         po.pd_no = pi.pd_no
+        product_no = pi.pd_no
    left join
-         basket b
+        pd_option po
       on
          b.option_no = po.option_no
     where
         b.fan_no = #{fanNo}
     and
-         po.option_name in (
+         po.option_no in (
         select
-            option_name
+            option_no
         from
             basket b
         where
-            b.fan_no = #{fanNo}
+            b.fan_no =#{fanNo}
        )
            
     and 
