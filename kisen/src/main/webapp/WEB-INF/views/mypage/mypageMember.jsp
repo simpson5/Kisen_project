@@ -135,7 +135,7 @@ div#mypage1{
    <div class="form-group col-md-7 mx-auto">
       <label for="myId">아이디</label>
       <input type="text" class="form-control" id="fanId" name="fanId"value="${loginMember.fanId}" readonly required >
-      <input type="hidden"  name="fanNo"value="${loginMember.fanNo}" >
+      <input type="hidden"  name="fanId"value="${loginMember.fanId}" >
 		     
    </div>
   <div class="form-group col-md-7 mx-auto">
@@ -198,17 +198,18 @@ div#mypage1{
    
         <p id="chkNoticeAddress" class="chkNotice "></p>
     </div>
-  <div class="d-flex justify-content-around">
-    <div class="col-3 mt-2 p-0">
-  	<button type="submit" class="btn btn-outline-success" >수정하기</button>
-    </div>
-    <div class="col-3 mt-2 p-0"></div>
-  	 </form:form>
-    <div class="col-3 col-lg-2 mt-2">
-     <button class="btn btn-outline-danger" onclick="deleteFan(this);" data-string="${loginMember.fanId}">탈퇴하기</button>
-    </div>
-  	</div>
- </div>
+  	<div class="d-flex justify-content-around">
+	    <div class="col-3 mt-2 p-0">
+	  	<button type="submit" class="btn btn-outline-success" >수정하기</button>
+	    </div>
+	    <div class="col-3 mt-2 p-0"></div>
+	  	 
+	    <div class="col-3 col-lg-2 mt-2">
+	     <button type="button" class="btn btn-outline-danger" onclick="deleteFan(this);" data-string="${loginMember.fanNo}">탈퇴하기</button>
+	    </div>
+	    </div>
+ </form:form>
+</div>
 
     <form:form
 	name="FanDelFrm" 
@@ -409,10 +410,12 @@ function sample6_execDaumPostcode() {
 		var no = $(document.MypageFrm);
 		const $fanId = no.find("[name=fanId]").val();
 		console.log($fanId);
+
 		
 		if(confirm("정말 탈퇴 하시겠습니까?")){
 			var $frm = $(document.FanDelFrm);
 			$frm.find("[name=fanId]").val($fanId);
+			console.log($frm.find("[name=fanId]").val());
 			$frm.submit();
 		}
 	}

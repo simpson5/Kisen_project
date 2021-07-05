@@ -2,10 +2,28 @@
     pageEncoding="UTF-8"%>
 </section>
 
+<style>
+.sideBanner {
+    position: absolute;
+    z-index: 3;
+    width: 80px;
+    top: 50px;
+    color: #ffffff;
+    margin: 1.5rem;
+}
+.floating-img{
+    width: 80px;
+    height: 80px;
+    padding: 0.7rem;
+}
+.floating-img:hover{
+    cursor: pointer;
+}
+</style>
 <div class="d-flex flex-row-reverse">
     <div class="sideBanner rounded">
         <!-- 톡(카카오 상담) -->
-        <img class="floating-img"  id="talk" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDUxMi4wMTIgNTEyLjAxMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEyIDUxMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgY2xhc3M9IiI+PGc+PGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtMzMzLjIwMSAxMTUuMDM4Yy0yOC45MDUtNTkuMDIxLTg5LjM3LTk4LjA0Mi0xNTcuMTkzLTk4LjA0Mi05Ny4wNDcgMC0xNzYgNzguNTA1LTE3NiAxNzUgMCAyNi4yMjQgNS42MyA1MS4zNTkgMTYuNzQyIDc0Ljc5NGwtMTYuNDUxIDgyLjI2NWMtMi4wOTQgMTAuNDcyIDcuMTQ0IDE5LjcyOCAxNy42MTggMTcuNjU2bDgzLjI3OS0xNi40NjVjMTEuMjEzIDUuMzE5IDIyLjgxMyA5LjM2NCAzNC43MzIgMTIuMTUxLTI2LjcxNy0xMjYuNTQxIDY5LjE5OS0yNDUuMzIxIDE5Ny4yNzMtMjQ3LjM1OXoiIGZpbGw9IiNmM2M1MTIiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIHN0eWxlPSIiIGNsYXNzPSIiPjwvcGF0aD48cGF0aCBkPSJtNDk1LjI2NiAzOTQuNzljMi44NzQtNi4wNjEgNS4zNzMtMTIuMjM3IDcuNTExLTE4LjUxNGgtLjU0OWMzNy40NDgtMTA5LjkxNy00MS4zMDUtMjI1LjQ0MS0xNTcuNTY3LTIzMS4wNjYtLjAwMi0uMDA2LS4wMDMtLjAxMi0uMDA1LS4wMTgtMTAwLjAzNi00LjYxLTE4My4xNDggNzUuNDg2LTE4My4xNDggMTc0LjgwNCAwIDk2LjQxNCA3OC4zNjEgMTc0Ljg1NyAxNzQuNzQzIDE3NC45OTcgMjYuMTQzLS4wMzUgNTEuMjAxLTUuNjYzIDc0LjU2OC0xNi43NDcgOTEuMjA3IDE4LjAzMiA4NC4wOTQgMTYuNzUgODYuMTg5IDE2Ljc1IDkuNDc5IDAgMTYuNTYtOC42ODYgMTQuNzA5LTE3Ljk0MXoiIGZpbGw9IiNmM2M1MTIiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIHN0eWxlPSIiIGNsYXNzPSIiPjwvcGF0aD48L2c+PC9nPjwvc3ZnPg==" />
+        <img class="floating-img "  id="talk" src="${pageContext.request.contextPath}/resources/images/talk.png" />
     </div>
 </div> 
 <hr>

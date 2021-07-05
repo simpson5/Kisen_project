@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/adminProduct.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sideBanner.css">
+  <%--  <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sideBanner.css"> --%>
     
 	<!-- include summernote css/js-->
 	<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
