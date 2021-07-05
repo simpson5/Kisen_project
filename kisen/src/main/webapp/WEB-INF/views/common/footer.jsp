@@ -4,7 +4,7 @@
 
 <div class="d-flex flex-row-reverse">
     <div class="sideBanner rounded">
-        <!-- 톡(카카오 상담) --> <!-- 잠시만요 이미지 잘못가져왓어ㅛㅋㅋ -->
+        <!-- 톡(카카오 상담) -->
              <div class="kakao" style="transform: translate(-70px, 290px);">
         <div 
         id="kakao-talk-channel-chat-button" data-channel-public-id="_EMWws" data-title="consult" data-size="small"
