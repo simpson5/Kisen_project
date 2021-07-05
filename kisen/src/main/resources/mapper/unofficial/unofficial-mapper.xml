@@ -267,5 +267,11 @@
 			demand_no = #{demandNo}
 	</update>
 	
+		
+	
+	
+	
+
+	
 
 	</mapper>
