@@ -810,7 +810,7 @@ $(() => {
 				var con = confirm("장바구니에 추가하였습니다. 장바구니로 이동하시겠습니까?");
 				if(con){
 					location.href = "${pageContext.request.contextPath}/basket/cart.do";
-				}
+				}    
 			},
 			error(request,status,error){
 				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
