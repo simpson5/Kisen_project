@@ -60,7 +60,12 @@ window.onload = function() {
                 </sec:authorize>
                 
                 <!-- 소셜로그인 -->
-                <!-- property : principal.username -> 인증한 객체의 아이디 -->
+                <!-- property : principal.username -> 인증한 객체의 아이디 
+                
+                안녕하세요 윤지님 저는 정문주 입니다 뭐라도 하나 수정해야 올라 갈거 같아서 써봤어용! 
+                항상 열심히 하는 윤지님 화이팅 머져머쩌 남윤지
+                저희 가장 열심히 했으니 공로상 줘야함
+                -->
                 <c:if test="${loginMember.oauth eq 'kakao' || loginMember.oauth eq 'google'}">
                 <li class="user-id">
                    ${loginMember.fanId}
