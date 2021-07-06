@@ -26,13 +26,13 @@ window.onload = function() {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+<!--     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"> -->
     
    <title>${param.title}</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sideBanner.css">
+   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sideBanner.css">
 </head>
 <body>
     <header>
@@ -60,7 +60,12 @@ window.onload = function() {
                 </sec:authorize>
                 
                 <!-- 소셜로그인 -->
-                <!-- property : principal.username -> 인증한 객체의 아이디 -->
+                <!-- property : principal.username -> 인증한 객체의 아이디 
+                
+                안녕하세요 윤지님 저는 정문주 입니다 뭐라도 하나 수정해야 올라 갈거 같아서 써봤어용! 
+                항상 열심히 하는 윤지님 화이팅 머져머쩌 남윤지
+                저희 가장 열심히 했으니 공로상 줘야함
+                -->
                 <c:if test="${loginMember.oauth eq 'kakao' || loginMember.oauth eq 'google'}">
                 <li class="user-id">
                    ${loginMember.fanId}
