@@ -79,7 +79,7 @@ window.onload = function() {
                   </li>          
                    </c:if>
                 </c:forEach>
-                    
+                 <!-- 일단 주워ㅓㅏ어라ㅓㅁㄴ이ㅏ럼ㅇㄴㄹ -->
                 <!-- security : 로그인하지 않은 경우 -->
                 <c:if test="${loginMember.oauth ne 'kakao' && loginMember.oauth ne 'google'}">
                 <sec:authorize access="isAnonymous()">
