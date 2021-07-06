@@ -27,6 +27,12 @@
             <li> <a href="${pageContext.request.contextPath}/about/aboutus.do"> 회사소개</a></li>
             <li> <a href="${pageContext.request.contextPath}/about/location.do"> 오시는길</a></li>
             <li> <a href="${pageContext.request.contextPath}/notice"> 공지사항</a></li>
+			<li>
+				<div class="kakao">
+        			<div id="kakao-talk-channel-chat-button" data-channel-public-id="_EMWws" data-title="consult" data-size="small"
+          				data-color="mono" data-shape="pc" data-support-multiple-densities="true"></div>
+      			</div>
+      		</li>
         </ul>
         
         <ul class="footer-ul">
@@ -44,11 +50,27 @@
             <li> <span>개인정보관리책임자</span>  KISEN(kisen@google.com)</li>
             <li> <span>쇼핑몰의 모든 제작물의 저작권은 </span> KISEN <span> 에 있으며, 무단복제나 도용은 저작권법(97조5항)에 의해 금지되어 있습니다.</span></li>
             <li>&lt;Copyright 2017. <strong>KI-SEN</strong>. All rights reserved.&gt; hosting by AWS</li>
+
         </ul>
     </div>
 
 </footer>
+     <script>
+        // 카카오톡 톡상담
+        window.kakaoAsyncInit = function () {
+          Kakao.Channel.createChatButton({
+            container: '#kakao-talk-channel-chat-button',
+          });
+        };
 
+        (function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = 'https://developers.kakao.com/sdk/js/kakao.channel.min.js';
+          fjs.parentNode.insertBefore(js, fjs);
+        })(document, 'script', 'kakao-js-sdk');
+      </script>
 <script src="${pageContext.request.contextPath}/resources/js/sideBanner.js"></script>
 </body>
 </html>
