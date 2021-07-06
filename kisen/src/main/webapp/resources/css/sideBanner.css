@@ -1,14 +1,14 @@
 .sideBanner {
     position: absolute;
     z-index: 3;
-    width: 60px;
+    width: 55px;
     height: 170px;
     top: 50px;
     color: #ffffff;
     margin: 1.5rem;
 }
 .floating-img{
-    width: 60px;
+    width: 55px;
     padding: 0.7rem;
 }
 .floating-img:hover{
