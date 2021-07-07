@@ -2,29 +2,7 @@
     pageEncoding="UTF-8"%>
 </section>
 
-<div class="d-flex flex-row-reverse">
-    <div class="sideBanner rounded">
-        <!-- 톡(카카오 상담) -->
-        <img class="floating-img"  id="talk" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDUxMi4wMTIgNTEyLjAxMiIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNTEyIDUxMiIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgY2xhc3M9IiI+PGc+PGcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtMzMzLjIwMSAxMTUuMDM4Yy0yOC45MDUtNTkuMDIxLTg5LjM3LTk4LjA0Mi0xNTcuMTkzLTk4LjA0Mi05Ny4wNDcgMC0xNzYgNzguNTA1LTE3NiAxNzUgMCAyNi4yMjQgNS42MyA1MS4zNTkgMTYuNzQyIDc0Ljc5NGwtMTYuNDUxIDgyLjI2NWMtMi4wOTQgMTAuNDcyIDcuMTQ0IDE5LjcyOCAxNy42MTggMTcuNjU2bDgzLjI3OS0xNi40NjVjMTEuMjEzIDUuMzE5IDIyLjgxMyA5LjM2NCAzNC43MzIgMTIuMTUxLTI2LjcxNy0xMjYuNTQxIDY5LjE5OS0yNDUuMzIxIDE5Ny4yNzMtMjQ3LjM1OXoiIGZpbGw9IiNmM2M1MTIiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIHN0eWxlPSIiIGNsYXNzPSIiPjwvcGF0aD48cGF0aCBkPSJtNDk1LjI2NiAzOTQuNzljMi44NzQtNi4wNjEgNS4zNzMtMTIuMjM3IDcuNTExLTE4LjUxNGgtLjU0OWMzNy40NDgtMTA5LjkxNy00MS4zMDUtMjI1LjQ0MS0xNTcuNTY3LTIzMS4wNjYtLjAwMi0uMDA2LS4wMDMtLjAxMi0uMDA1LS4wMTgtMTAwLjAzNi00LjYxLTE4My4xNDggNzUuNDg2LTE4My4xNDggMTc0LjgwNCAwIDk2LjQxNCA3OC4zNjEgMTc0Ljg1NyAxNzQuNzQzIDE3NC45OTcgMjYuMTQzLS4wMzUgNTEuMjAxLTUuNjYzIDc0LjU2OC0xNi43NDcgOTEuMjA3IDE4LjAzMiA4NC4wOTQgMTYuNzUgODYuMTg5IDE2Ljc1IDkuNDc5IDAgMTYuNTYtOC42ODYgMTQuNzA5LTE3Ljk0MXoiIGZpbGw9IiNmM2M1MTIiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIHN0eWxlPSIiIGNsYXNzPSIiPjwvcGF0aD48L2c+PC9nPjwvc3ZnPg==" />
 
-    </div>
-</div> 
-     <script>
-        // 카카오톡 톡상담
-        window.kakaoAsyncInit = function () {
-          Kakao.Channel.createChatButton({
-            container: '#kakao-talk-channel-chat-button',
-          });
-        };
-
-        (function (d, s, id) {
-          var js, fjs = d.getElementsByTagName(s)[0];
-          if (d.getElementById(id)) return;
-          js = d.createElement(s); js.id = id;
-          js.src = 'https://developers.kakao.com/sdk/js/kakao.channel.min.js';
-          fjs.parentNode.insertBefore(js, fjs);
-        })(document, 'script', 'kakao-js-sdk');
-      </script>
 <hr>
 <footer class="d-none d-lg-block ">
     <div class="footer-div d-flex justify-content-center">
@@ -46,6 +24,12 @@
             <li> <a href="${pageContext.request.contextPath}/about/aboutus.do"> 회사소개</a></li>
             <li> <a href="${pageContext.request.contextPath}/about/location.do"> 오시는길</a></li>
             <li> <a href="${pageContext.request.contextPath}/notice"> 공지사항</a></li>
+			<li>
+				<div class="kakao">
+        			<div id="kakao-talk-channel-chat-button" data-channel-public-id="_ixagws" data-title="consult" data-size="small"
+          				data-color="mono" data-shape="pc" data-support-multiple-densities="true"></div>
+      			</div>
+      		</li>
         </ul>
         
         <ul class="footer-ul">
@@ -63,12 +47,21 @@
             <li> <span>개인정보관리책임자</span>  KISEN(kisen@google.com)</li>
             <li> <span>쇼핑몰의 모든 제작물의 저작권은 </span> KISEN <span> 에 있으며, 무단복제나 도용은 저작권법(97조5항)에 의해 금지되어 있습니다.</span></li>
             <li>&lt;Copyright 2017. <strong>KI-SEN</strong>. All rights reserved.&gt; hosting by AWS</li>
+
         </ul>
     </div>
 
 </footer>
-<!-- 제에발 되라 이거 되야함 진짜 되야함 -->
 
+
+        (function (d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = 'https://developers.kakao.com/sdk/js/kakao.channel.min.js';
+          fjs.parentNode.insertBefore(js, fjs);
+        })(document, 'script', 'kakao-js-sdk');
+      </script>
 <script src="${pageContext.request.contextPath}/resources/js/sideBanner.js"></script>
 </body>
 </html>
