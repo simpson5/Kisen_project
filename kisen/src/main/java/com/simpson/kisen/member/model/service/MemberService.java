@@ -27,7 +27,5 @@ public interface MemberService {
 
 	int updatePwdToTempPwd(Fan member);
 
-	Fan selectOneMemberByPhoneGet(Map<String, Object> param);
-
 
 }

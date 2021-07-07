@@ -160,14 +160,13 @@ public class FanBoardServiceImpl implements FanBoardService {
 		int likePoint = checkFbLike(param);
 		if(likePoint == 0) {
 			// 좋아요를 누른 적이 없는 경우
-			result = updateFanBoardLikeAdd(param); // fan_board테이블에 fbLike 증가
 			result = insertFbLikeAdd(param); // fb_like테이블에 행 추가
 		}
 		else if (likePoint == -1) {
 			// 좋아요를 눌렀다가 취소한 적이 있는 경우
-			result = updateFanBoardLikeAdd(param); // fan_board테이블에 fbLike 증가
 			result = updateFbLikePoint(param); // point 1로 변경
 		} 
+		result = updateFanBoardLikeAdd(param); // fan_board테이블에 fbLike 증가
 		return result;
 	}
 	

@@ -236,6 +236,12 @@ function resize(obj) {
 */
 $(document).on('click', '.btn_like', function(){
 
+	// 로그인 검사
+	<c:if test="${empty loginMember}">
+		alert("로그인 후 이용하실 수 있습니다.");
+		return false;
+	</c:if>
+
       if($(this).hasClass('btn_unlike')){
          
        $(this).removeClass('btn_unlike');
@@ -347,7 +353,7 @@ $("#fbCommentFrm").submit(e => {
 	// 내용 검사
 	var content = $("[name=content]");
 	if(/^(.|\n)+$/.test(content.val()) == false){
-		alert("답글의 내용을 입력하세요.");
+		alert("댓글의 내용을 입력하세요.");
 		return false;
 	}
 	   
@@ -396,7 +402,7 @@ $(".button-reply").click(function(e){
    html += '<input type="hidden" name="commentLevel" value="2" />';
    html += '<input type="hidden" name="commentRef" value="' + $(this).val() + '" />';
    html += '<input  class="comment-writer" name="writer" value="${loginMember.fanId}"></input>';
-   html += '<textarea id="newTweetContent" name="content" placeholder="답글을 남겨보세요." onkeydown="resize(this)" onkeyup="resize(this)"></textarea>';
+   html += '<textarea id="newTweetContent" name="content" class="repl-content" placeholder="답글을 남겨보세요." onkeydown="resize(this)" onkeyup="resize(this)"></textarea>';
    html += '<div class="comment-submit-div">';
    html += '<input type="button" class="comment-submit" onclick="cancelEnrollComment2()" value="취소">';
    html += '<input type="submit" class="comment-submit" value="등록">';
@@ -431,7 +437,7 @@ $(document).on('submit', '[name=fbReplyFrm]', function(e){
 	</c:if>
 
 	// 내용 검사
-	var content = $("[name=content]");
+	var content = $(".repl-content");
 	if(/^(.|\n)+$/.test(content.val()) == false){
 		alert("답글의 내용을 입력하세요.");
 		return false;
@@ -511,14 +517,7 @@ $("#fbDeleteFrm").submit(e => {
 * 조회수 1 증가
 */
 window.onload = function () {
-	var fbLikePoint = ${fbLikePoint};
-	console.log(fbLikePoint);
 
-	if(fbLikePoint == 1){
-	       $('.btn_like').addClass('btn_unlike');
-	       $('.ani_heart_m').removeClass('bye');
-	}
-	
 	var fbNo = ${fanBoard.fbNo};
 	$.ajax({
 		url: `${pageContext.request.contextPath}/fanBoard/updateFbReadCnt/\${fbNo}`,
@@ -534,6 +533,14 @@ window.onload = function () {
 		},
 		error: console.log,
 	});
+
+	var fbLikePoint = ${fbLikePoint};
+	console.log(fbLikePoint);
+	
+	if(fbLikePoint == 1){
+	       $('.btn_like').addClass('btn_unlike');
+	       $('.ani_heart_m').removeClass('bye');
+	}
 }
 </script>
 <script>

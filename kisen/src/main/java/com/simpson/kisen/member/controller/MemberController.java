@@ -564,33 +564,20 @@ public class MemberController {
 	}
 
 	@GetMapping("/checkInfoPhone.do")
-	public ResponseEntity<Map<String, Object>> checkInfoPhone(@RequestParam String name, @RequestParam String phone) {
-		log.info("phone = {}", phone);
-		Map<String, Object> param = new HashMap<>();
-		param.put("name", name);
-		param.put("phone", phone);
+	public String checkInfoPhone(
+			@ModelAttribute Fan fan,
+			RedirectAttributes redirectAttr) {
 		// 1. 업무로직
-		Fan member = memberService.selectOneMemberByPhoneGet(param);
-		boolean available = member != null;
-		log.info("available = {}", available);
-
-		String fanId = null;
+		Fan member = memberService.selectOneMemberByPhone(fan);
+		String msg = null;
 		if (member != null) {
-			fanId = member.getFanId();
+			String fanId = member.getFanId();
+			msg = "고객님의 아이디는 [ " + fanId + " ] 입니다. 해당 아이디로 로그인하세요.";
+		} else {
+			msg = "입력된 정보로 정확한 회원정보가 조회되지 않습니다. 정보를 다시 입력하거나 이메일로 찾기를 이용하세요.";			
 		}
-		log.info(fanId);
-		// 2. map에 요소 저장 후 리턴
-		// model필요 없음
-		Map<String, Object> map = new HashMap<>();
-		map.put("available", available);
-		map.put("fanId", fanId);
-
-		// ResponseEntity객체를 만들어서 전달
-		return ResponseEntity.ok() // 응답헤더 200번
-				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE) // "application/json;charset=UTF-8"
-																							// -> header값으로 json이라는 것을
-																							// 알림
-				.body(map); // body에 map담기
+		redirectAttr.addFlashAttribute("msg", msg);
+		return "redirect:/member/searchId.do";
 	}
 
 	@GetMapping("/searchPwdSendMail.do")

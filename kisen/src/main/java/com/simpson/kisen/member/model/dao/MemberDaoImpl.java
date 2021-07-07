@@ -81,10 +81,5 @@ public class MemberDaoImpl implements MemberDao {
 	public int updatePwdToTempPwd(Fan member) {
 		return session.update("member.updatePwdToTempPwd", member);
 	}
-
-	@Override
-	public Fan selectOneMemberByPhoneGet(Map<String, Object> param) {
-		return session.selectOne("member.selectOneMemberByPhoneGet", param);
-	}
 	
 }
