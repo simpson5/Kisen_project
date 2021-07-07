@@ -10,12 +10,12 @@
 <html lang="en">
 <script>
 window.onload = function() {
-	$("#headerModal")
-		.modal() // modal이 튀어나오는 함수
+   $("#headerModal")
+      .modal() // modal이 튀어나오는 함수
 }
 </script>
 <head>
-	<link rel="icon" type="image/png"  href="${pageContext.request.contextPath}/resources/images/kisen_logo.png""/>
+   <link rel="icon" type="image/png"  href="${pageContext.request.contextPath}/resources/images/kisen_logo.png""/>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,13 +26,13 @@ window.onload = function() {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     
     <!-- bootstrap css -->
-<!--     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     
    <title>${param.title}</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/header.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/footer.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css">
-   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sideBanner.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sideBanner.css">
 </head>
 <body>
     <header>
@@ -46,13 +46,13 @@ window.onload = function() {
                    <sec:authentication property="principal.username"/>
                 <sec:authentication property="authorities" var="authority"/>
                 <c:if test="${fn:contains(authority , 'ROLE_AGENCY')}">
-	                <span class="divide">|</span>
+                   <span class="divide">|</span>
                    <li>
                      <a href="${pageContext.request.contextPath}/agency/agencyMain.do">기획사</a>
                   </li>
                 </c:if>
                 <c:if test="${fn:contains(authority , 'ROLE_ADMIN')}">
-	                <span class="divide">|</span>
+                   <span class="divide">|</span>
                    <li>
                       <a href="${pageContext.request.contextPath}/admin/adminMain.do">관리자</a>
                    </li>
@@ -60,12 +60,7 @@ window.onload = function() {
                 </sec:authorize>
                 
                 <!-- 소셜로그인 -->
-                <!-- property : principal.username -> 인증한 객체의 아이디 
-                
-                안녕하세요 윤지님 저는 정문주 입니다 뭐라도 하나 수정해야 올라 갈거 같아서 써봤어용! 
-                항상 열심히 하는 윤지님 화이팅 머져머쩌 남윤지
-                저희 가장 열심히 했으니 공로상 줘야함
-                -->
+                <!-- property : principal.username -> 인증한 객체의 아이디 -->
                 <c:if test="${loginMember.oauth eq 'kakao' || loginMember.oauth eq 'google'}">
                 <li class="user-id">
                    ${loginMember.fanId}
@@ -85,7 +80,7 @@ window.onload = function() {
                   </li>          
                    </c:if>
                 </c:forEach>
-                 <!-- 일단 주워ㅓㅏ어라ㅓㅁㄴ이ㅏ럼ㅇㄴㄹ -->
+                    
                 <!-- security : 로그인하지 않은 경우 -->
                 <c:if test="${loginMember.oauth ne 'kakao' && loginMember.oauth ne 'google'}">
                 <sec:authorize access="isAnonymous()">
@@ -220,7 +215,7 @@ window.onload = function() {
                   <li class="nav-item">
                     <div class="artistListDiv bg-light rounded text-start">
                         <ul id="list1" style="display: inline-block; margin: 0.3rem 2rem;">
-                        	<!-- 12개 -->
+                           <!-- 12개 -->
                         </ul>
                         <ul id="list2" style="display: inline-block; margin: 0.3rem 2rem;">
                         </ul>
