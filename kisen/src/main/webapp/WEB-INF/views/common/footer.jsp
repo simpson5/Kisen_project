@@ -14,8 +14,6 @@
             <li><span class="span-color rounded">점심시간</span> PM 12:00 ~ PM 14:00</li>
             <li>토요일 일요일 공휴일 휴무</li>
             <li> E-mail : kisen@google.com</li>
-            <!-- 원영님껄로 되돌려ㅆ습니다 -->
-            <input type="hidden" id="noooooone"/>
         </ul>
     
     
@@ -24,12 +22,12 @@
             <li> <a href="${pageContext.request.contextPath}/about/aboutus.do"> 회사소개</a></li>
             <li> <a href="${pageContext.request.contextPath}/about/location.do"> 오시는길</a></li>
             <li> <a href="${pageContext.request.contextPath}/notice"> 공지사항</a></li>
-			<li>
-				<div class="kakao">
-        			<div id="kakao-talk-channel-chat-button" data-channel-public-id="_ixagws" data-title="consult" data-size="small"
-          				data-color="mono" data-shape="pc" data-support-multiple-densities="true"></div>
-      			</div>
-      		</li>
+         <li>
+            <div class="kakao">
+                 <div id="kakao-talk-channel-chat-button" data-channel-public-id="_ixagws" data-title="consult" data-size="small"
+                      data-color="mono" data-shape="pc" data-support-multiple-densities="true"></div>
+               </div>
+            </li>
         </ul>
         
         <ul class="footer-ul">
@@ -52,7 +50,13 @@
     </div>
 
 </footer>
-
+     <script>
+        // 카카오톡 톡상담
+        window.kakaoAsyncInit = function () {
+          Kakao.Channel.createChatButton({
+            container: '#kakao-talk-channel-chat-button',
+          });
+        };
 
         (function (d, s, id) {
           var js, fjs = d.getElementsByTagName(s)[0];
