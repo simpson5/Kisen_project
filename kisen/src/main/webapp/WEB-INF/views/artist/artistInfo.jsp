@@ -239,23 +239,19 @@ p.album-singer{
        </div>
        
       <div class="row artist-mv" style="display: none;">
-      <c:set var="loop" value="false"/>
+      
       <c:forEach items="${idol}" var="idol" varStatus="status">
-      <c:if test="${not loop}">
          <c:forEach items="${idol.idolMv}" var ="mv" varStatus="status">
          <c:if test="${!empty mv.mvLink}">
-         <c:set var="loop" value="true"/>
            <div class="col-md-3 mv">
               <iframe width="100%" src="https://www.youtube.com/embed/${mv.mvLink}"  title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
            </div>
          </c:if>
          <c:if test="${empty mv.mvLink}">
-         <c:set var="loop" value="true"/>
+       
          	<h5 style="margin: 0 auto;">조회된 정보가 없습니다.</h5>
          </c:if>
          </c:forEach>
-      </c:if>
-
       </c:forEach>
       </div>
        <div class="row artist-goods" style="display: none;">
