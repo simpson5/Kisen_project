@@ -35,6 +35,5 @@ public interface MemberDao {
 
 	int updatePwdToTempPwd(Fan member);
 
-	Fan selectOneMemberByPhoneGet(Map<String, Object> param);
 
 }

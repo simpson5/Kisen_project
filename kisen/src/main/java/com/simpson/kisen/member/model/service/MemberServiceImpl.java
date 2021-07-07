@@ -98,8 +98,5 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.updatePwdToTempPwd(member);
 	}
 
-	@Override
-	public Fan selectOneMemberByPhoneGet(Map<String, Object> param) {
-		return memberDao.selectOneMemberByPhoneGet(param);
-	}
+
 }
